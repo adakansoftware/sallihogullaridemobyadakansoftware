@@ -11,7 +11,7 @@
 
 - Node.js version compatible with Next.js 16
 - Read/write access to `data/`
-- Read/write access to `public/uploads/`
+- Read/write access to `public/uploads/` or permission to create it on first upload
 - Stable origin configuration through `APP_ORIGIN` and `NEXT_PUBLIC_SITE_URL`
 
 ## Recommended Release Flow
@@ -24,6 +24,7 @@
 6. Deploy the application.
 7. Verify `/api/health`.
 8. Verify admin login and one sample content update.
+9. Confirm the first upload creates `public/uploads/` successfully if the folder was not pre-provisioned.
 
 ## Backup Guidance
 

@@ -54,10 +54,11 @@ NEXT_PUBLIC_SITE_URL=https://example.com
 
 - `APP_ORIGIN` and `NEXT_PUBLIC_SITE_URL` should match the live domain.
 - `data/` must be readable and writable in production.
-- `public/uploads/` must be readable and writable in production.
+- `public/uploads/` should be writable in production. The folder can be created automatically on the first successful upload.
 - This project uses file-based persistence and is best deployed to a single writable instance.
 - Keep `data/` and `public/uploads/` in backups together.
 - Use strong, client-specific admin credentials before handoff.
+- A healthy `/api/health` response may still report a missing uploads directory before the first upload, which is expected for a fresh demo deployment.
 
 ## Operations
 
