@@ -98,35 +98,42 @@ export function ProjectForm({ mode = 'create', project }: Props) {
     const url = mode === 'create' ? '/api/projects' : `/api/projects/${project?.id}`
     const method = mode === 'create' ? 'POST' : 'PATCH'
 
-    const res = await fetch(url, {
-      method,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, summary, description, location, category, coverImage, status, featured, tags }),
-    })
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, summary, description, location, category, coverImage, status, featured, tags }),
+      })
 
-    const data = await res.json().catch(() => ({}))
-    setLoading(false)
+      const data = await res.json().catch(() => ({}))
 
-    if (!res.ok) {
-      const nextMessage = data.message || 'Kayit basarisiz.'
+      if (!res.ok) {
+        const nextMessage = data.message || 'Kayit basarisiz.'
+        setError(nextMessage)
+        toast.error(nextMessage)
+        return
+      }
+
+      if (mode === 'create') {
+        toast.success('Proje olusturuldu.')
+        router.push(`/admin/projects/${data.id}`)
+        return
+      }
+
+      setMessage('Proje guncellendi.')
+      toast.success('Proje guncellendi.')
+      router.refresh()
+    } catch {
+      const nextMessage = 'Kayit sirasinda baglanti sorunu olustu. Lutfen tekrar deneyin.'
       setError(nextMessage)
       toast.error(nextMessage)
-      return
+    } finally {
+      setLoading(false)
     }
-
-    if (mode === 'create') {
-      toast.success('Proje olusturuldu.')
-      router.push(`/admin/projects/${data.id}`)
-      return
-    }
-
-    setMessage('Proje guncellendi.')
-    toast.success('Proje guncellendi.')
-    router.refresh()
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} aria-busy={loading} className="space-y-6">
       <div className="grid gap-5 xl:grid-cols-[1.08fr_0.92fr]">
         <div className="rounded-[28px] border border-white/10 bg-black/20 p-5">
           <FieldLabel title="Temel Bilgiler" description="Baslik, kategori, lokasyon ve kapak yolunu duzenleyin." />
@@ -223,8 +230,8 @@ export function ProjectForm({ mode = 'create', project }: Props) {
         <textarea className="textarea-premium min-h-[240px] w-full" placeholder="Detayli aciklama" value={description} onChange={(e) => setDescription(e.target.value)} />
       </div>
 
-      {error ? <p className="rounded-2xl border border-red-400/15 bg-red-400/8 px-4 py-3 text-sm text-red-300">{error}</p> : null}
-      {message ? <p className="rounded-2xl border border-emerald-400/15 bg-emerald-400/8 px-4 py-3 text-sm text-emerald-300">{message}</p> : null}
+      {error ? <p role="alert" aria-live="assertive" className="rounded-2xl border border-red-400/15 bg-red-400/8 px-4 py-3 text-sm text-red-300">{error}</p> : null}
+      {message ? <p role="status" aria-live="polite" className="rounded-2xl border border-emerald-400/15 bg-emerald-400/8 px-4 py-3 text-sm text-emerald-300">{message}</p> : null}
 
       <div className="flex flex-wrap items-center gap-3">
         <button type="submit" className="btn-premium h-12 px-6" disabled={loading}>

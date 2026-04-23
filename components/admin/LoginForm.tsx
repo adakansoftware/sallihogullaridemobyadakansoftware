@@ -18,25 +18,32 @@ export function LoginForm({ nextPath = '/admin' }: { nextPath?: string }) {
     setLoading(true)
     setError('')
 
-    const res = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    })
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      })
 
-    const data = await res.json().catch(() => ({}))
-    setLoading(false)
+      const data = await res.json().catch(() => ({}))
 
-    if (!res.ok) {
-      const message = data.message || 'Giris basarisiz.'
+      if (!res.ok) {
+        const message = data.message || 'Giris basarisiz.'
+        setError(message)
+        toast.error(message)
+        return
+      }
+
+      toast.success('Giris basarili.')
+      router.push(nextPath)
+      router.refresh()
+    } catch {
+      const message = 'Baglanti kurulurken bir sorun olustu. Lutfen tekrar deneyin.'
       setError(message)
       toast.error(message)
-      return
+    } finally {
+      setLoading(false)
     }
-
-    toast.success('Giris basarili.')
-    router.push(nextPath)
-    router.refresh()
   }
 
   return (
@@ -76,7 +83,7 @@ export function LoginForm({ nextPath = '/admin' }: { nextPath?: string }) {
         </div>
       </div>
 
-      {error ? <p role="alert" className="mt-4 rounded-2xl border border-red-400/15 bg-red-400/8 px-4 py-3 text-sm text-red-300">{error}</p> : null}
+      {error ? <p role="alert" aria-live="assertive" className="mt-4 rounded-2xl border border-red-400/15 bg-red-400/8 px-4 py-3 text-sm text-red-300">{error}</p> : null}
 
       <button type="submit" disabled={loading} className="btn-premium mt-6 h-12 w-full px-6">
         {loading ? 'Giris yapiliyor...' : 'Giris Yap'}

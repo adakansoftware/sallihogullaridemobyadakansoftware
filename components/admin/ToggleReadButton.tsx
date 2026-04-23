@@ -10,26 +10,35 @@ export function ToggleReadButton({ messageId, isRead }: { messageId: string; isR
   const [error, setError] = useState('')
 
   async function handleToggle() {
+    if (loading) return
+
     setLoading(true)
     setError('')
 
-    const res = await fetch(`/api/messages/${messageId}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ isRead: !isRead }),
-    })
-    const data = await res.json().catch(() => ({}))
-    setLoading(false)
+    try {
+      const res = await fetch(`/api/messages/${messageId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ isRead: !isRead }),
+      })
+      const data = await res.json().catch(() => ({}))
 
-    if (!res.ok) {
-      const message = data.message || 'Mesaj güncellenemedi.'
+      if (!res.ok) {
+        const message = data.message || 'Mesaj guncellenemedi.'
+        setError(message)
+        toast.error(message)
+        return
+      }
+
+      toast.success(isRead ? 'Mesaj tekrar yeni olarak isaretlendi.' : 'Mesaj okundu olarak isaretlendi.')
+      router.refresh()
+    } catch {
+      const message = 'Mesaj durumu guncellenirken baglanti sorunu olustu.'
       setError(message)
       toast.error(message)
-      return
+    } finally {
+      setLoading(false)
     }
-
-    toast.success(isRead ? 'Mesaj tekrar yeni olarak işaretlendi.' : 'Mesaj okundu olarak işaretlendi.')
-    router.refresh()
   }
 
   return (
@@ -37,7 +46,7 @@ export function ToggleReadButton({ messageId, isRead }: { messageId: string; isR
       <button onClick={handleToggle} disabled={loading} className="btn-ghost-premium h-10 px-4">
         {loading ? '...' : isRead ? 'Yeniden Yeni Yap' : 'Okundu Yap'}
       </button>
-      {error ? <div className="text-xs text-red-300">{error}</div> : null}
+      {error ? <div role="alert" aria-live="assertive" className="text-xs text-red-300">{error}</div> : null}
     </div>
   )
 }

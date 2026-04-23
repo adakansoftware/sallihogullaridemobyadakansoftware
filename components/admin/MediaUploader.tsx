@@ -116,7 +116,7 @@ export function MediaUploader({ projectId }: { projectId: string }) {
     } catch (uploadError) {
       const message = uploadError instanceof Error ? uploadError.message : 'Yukleme tamamlanamadi.'
       setError(message)
-      if (uploadedUrls.length > 1) {
+      if (uploadedUrls.length) {
         await cleanupUploadedFiles(uploadedUrls)
       }
       toast.error(message)
@@ -126,7 +126,7 @@ export function MediaUploader({ projectId }: { projectId: string }) {
   }
 
   return (
-    <form onSubmit={handleUpload} className="space-y-5">
+    <form onSubmit={handleUpload} aria-busy={loading} className="space-y-5">
       <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
         <input className="input-premium w-full" placeholder="Medya basligi" value={title} onChange={(e) => setTitle(e.target.value)} />
         <input
@@ -170,7 +170,7 @@ export function MediaUploader({ projectId }: { projectId: string }) {
         </div>
       ) : null}
 
-      {error ? <p className="text-sm text-red-400">{error}</p> : null}
+      {error ? <p role="alert" aria-live="assertive" className="text-sm text-red-400">{error}</p> : null}
 
       <button className="btn-premium h-12 px-6" type="submit" disabled={loading}>
         {loading ? 'Yukleniyor...' : 'Fotograf / Video Yukle'}
