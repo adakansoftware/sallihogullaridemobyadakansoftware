@@ -16,6 +16,12 @@ export function jsonOk<T>(data: T, init?: ResponseInit) {
   return NextResponse.json(data, init)
 }
 
+export function jsonNoStore<T>(data: T, init?: ResponseInit) {
+  const headers = new Headers(init?.headers)
+  headers.set('Cache-Control', 'no-store, max-age=0')
+  return NextResponse.json(data, { ...init, headers })
+}
+
 export function jsonError(status: number, message: string, init?: ResponseInit) {
   return NextResponse.json({ message }, { status, ...init })
 }
@@ -69,4 +75,3 @@ export function withErrorHandling(handler: () => Promise<NextResponse>) {
     return jsonError(500, 'İşlem şu anda tamamlanamadı.')
   })
 }
-

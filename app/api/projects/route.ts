@@ -1,4 +1,4 @@
-import { jsonOk, readJson, withErrorHandling } from '@/lib/http'
+import { jsonNoStore, jsonOk, readJson, withErrorHandling } from '@/lib/http'
 import { isAdminAuthenticated } from '@/lib/auth'
 import { projectInputSchema } from '@/lib/validation'
 import { assertAdminRequest, enforceRateLimit } from '@/lib/security'
@@ -8,10 +8,10 @@ import { createProject, listAdminProjects, listPublishedProjects } from '@/lib/p
 export async function GET() {
   return withErrorHandling(async () => {
     if (await isAdminAuthenticated()) {
-      return jsonOk(await listAdminProjects())
+      return jsonNoStore(await listAdminProjects())
     }
 
-    return jsonOk(await listPublishedProjects())
+    return jsonNoStore(await listPublishedProjects())
   })
 }
 
@@ -27,4 +27,3 @@ export async function POST(request: Request) {
     return jsonOk(project, { status: 201 })
   })
 }
-

@@ -1,4 +1,4 @@
-import { jsonOk, withErrorHandling, getClientIp } from '@/lib/http'
+import { jsonNoStore, withErrorHandling, getClientIp } from '@/lib/http'
 import { clearAdminSession } from '@/lib/auth'
 import { assertTrustedMutationRequest } from '@/lib/security'
 import { writeAuditLog } from '@/lib/audit'
@@ -13,6 +13,6 @@ export async function POST(request: Request) {
       ip: getClientIp(request),
     })
 
-    return jsonOk({ success: true })
+    return jsonNoStore({ success: true })
   })
 }

@@ -1,4 +1,4 @@
-import { jsonOk, readJson, withErrorHandling } from '@/lib/http'
+import { jsonNoStore, jsonOk, readJson, withErrorHandling } from '@/lib/http'
 import { settingsSchema } from '@/lib/validation'
 import { assertAdminRequest, enforceRateLimit } from '@/lib/security'
 import { writeAuditLog } from '@/lib/audit'
@@ -7,7 +7,7 @@ import { getSiteSettings, updateSiteSettings } from '@/lib/settings-service'
 export async function GET(request: Request) {
   return withErrorHandling(async () => {
     await assertAdminRequest(request)
-    return jsonOk(await getSiteSettings())
+    return jsonNoStore(await getSiteSettings())
   })
 }
 

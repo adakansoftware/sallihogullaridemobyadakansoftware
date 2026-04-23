@@ -44,6 +44,7 @@ npm run build
 ## Üretim Notları
 
 - `NEXT_PUBLIC_SITE_URL` veya `APP_ORIGIN` doğru production alan adına ayarlanmalıdır.
+- Her iki alanın da aynı production origin ile tanımlanması tavsiye edilir.
 - `ADMIN_SESSION_SECRET` rastgele ve güçlü bir değer olmalıdır.
 - `data/` ve `public/uploads/` yazılabilir olmalıdır.
 - Bu proje tek-instance dosya tabanlı persistence kullanır; yatay ölçekleme için veritabanı geçişi planlanmalıdır.

@@ -1,4 +1,4 @@
-import { readJson, jsonError, jsonOk, withErrorHandling } from '@/lib/http'
+import { readJson, jsonError, jsonNoStore, jsonOk, withErrorHandling } from '@/lib/http'
 import { loginSchema } from '@/lib/validation'
 import { setAdminSession, validateAdminCredentials } from '@/lib/auth'
 import { assertTrustedMutationRequest, enforceIdentifierRateLimit, enforceRateLimit, fingerprint } from '@/lib/security'
@@ -35,7 +35,6 @@ export async function POST(request: Request) {
       target: fingerprint(credentials.email),
     })
 
-    return jsonOk({ success: true })
+    return jsonNoStore({ success: true })
   })
 }
-

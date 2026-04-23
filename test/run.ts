@@ -1,12 +1,22 @@
 import assert from 'node:assert/strict'
-import { createSlug, ensureUniqueSlug, replaceTurkishLetters } from '../lib/slug.ts'
-import { hasAllowedUploadExtension, sanitizeUploadBaseName } from '../lib/upload-policy.ts'
-import { isAllowedFileSignature } from '../lib/upload-security.ts'
+import { mkdtemp, rm, writeFile } from 'node:fs/promises'
+import os from 'node:os'
+import path from 'node:path'
 
-function run() {
-  assert.equal(replaceTurkishLetters('Çığ ÖŞÜ çğışöü'), 'cig osu cgisou')
+async function run() {
+  process.env.ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@example.com'
+  process.env.ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'super-secure-password'
+  process.env.ADMIN_SESSION_SECRET = process.env.ADMIN_SESSION_SECRET || '12345678901234567890123456789012'
+  process.env.APP_ORIGIN = process.env.APP_ORIGIN || 'https://example.com'
+  process.env.NEXT_PUBLIC_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com'
 
-  assert.equal(createSlug('Başakşehir Metro Altyapı Projesi'), 'basaksehir-metro-altyapi-projesi')
+  const { normalizeAdminNextTarget } = await import('../lib/admin-redirect.ts')
+  const { readJsonFileWithBackup } = await import('../lib/file-storage.ts')
+  const { createSlug, ensureUniqueSlug } = await import('../lib/slug.ts')
+  const { hasAllowedUploadExtension, sanitizeUploadBaseName } = await import('../lib/upload-policy.ts')
+  const { isAllowedFileSignature } = await import('../lib/upload-security.ts')
+
+  assert.equal(createSlug('Demo Metro Projesi'), 'demo-metro-projesi')
   assert.equal(createSlug('  test   proje ###  '), 'test-proje')
 
   const projects = [
@@ -16,6 +26,12 @@ function run() {
 
   assert.equal(ensureUniqueSlug('demo proje', projects), 'demo-proje-3')
   assert.equal(ensureUniqueSlug('demo proje', projects, '1'), 'demo-proje')
+
+  assert.equal(normalizeAdminNextTarget('/admin'), '/admin')
+  assert.equal(normalizeAdminNextTarget('/admin/projects/new'), '/admin/projects/new')
+  assert.equal(normalizeAdminNextTarget('https://evil.example.com/admin'), '/admin')
+  assert.equal(normalizeAdminNextTarget('/contact'), '/admin')
+  assert.equal(normalizeAdminNextTarget('/admin/projects/../../settings'), '/admin')
 
   assert.equal(sanitizeUploadBaseName('../../../teklif formu!!.jpg'), 'teklif-formu')
   assert.equal(hasAllowedUploadExtension('photo.jpeg', 'jpg'), true)
@@ -28,6 +44,28 @@ function run() {
   assert.equal(isAllowedFileSignature('image/jpeg', jpegBuffer), true)
   assert.equal(isAllowedFileSignature('image/jpeg', fakeBuffer), false)
 
+  const tempDir = await mkdtemp(path.join(os.tmpdir(), 'sali-storage-test-'))
+  const primaryFile = path.join(tempDir, 'projects.json')
+  const backupFile = `${primaryFile}.bak`
+
+  await writeFile(primaryFile, '{"invalid"', 'utf8')
+  await writeFile(backupFile, JSON.stringify([{ id: 'backup-project' }], null, 2), 'utf8')
+
+  const parsed = await readJsonFileWithBackup(
+    primaryFile,
+    {
+      parse(value: unknown) {
+        assert.ok(Array.isArray(value))
+        return value as Array<{ id: string }>
+      },
+    },
+    [],
+  )
+
+  assert.equal(parsed.source, 'backup')
+  assert.equal(parsed.data[0]?.id, 'backup-project')
+
+  await rm(tempDir, { recursive: true, force: true })
   console.log('Lightweight verification passed.')
 }
 

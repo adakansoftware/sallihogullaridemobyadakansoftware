@@ -54,11 +54,31 @@ const fallbackGalleryPool = [
 ]
 
 function sortMedia(media: ProjectMedia[]) {
-  return [...media].sort((left, right) => left.sortOrder - right.sortOrder)
+  return [...media].sort((left, right) => {
+    if (left.sortOrder !== right.sortOrder) {
+      return left.sortOrder - right.sortOrder
+    }
+
+    const leftCreatedAt = new Date(left.createdAt).getTime()
+    const rightCreatedAt = new Date(right.createdAt).getTime()
+    if (leftCreatedAt !== rightCreatedAt) {
+      return leftCreatedAt - rightCreatedAt
+    }
+
+    return left.id.localeCompare(right.id, 'tr')
+  })
+}
+
+function normalizeMediaCollection(media: ProjectMedia[]) {
+  return sortMedia(media).map((item, index) => ({
+    ...item,
+    sortOrder: index,
+    thumbnailUrl: item.thumbnailUrl || item.fileUrl,
+  }))
 }
 
 function normalizeProjectMedia(project: Project) {
-  const sortedMedia = sortMedia(project.media)
+  const sortedMedia = normalizeMediaCollection(project.media)
   const coverMedia = sortedMedia.find((item) => item.isCover) || sortedMedia[0]
   const coverImage = coverMedia?.fileUrl || project.coverImage || ''
 
@@ -68,7 +88,6 @@ function normalizeProjectMedia(project: Project) {
     media: sortedMedia.map((item) => ({
       ...item,
       isCover: item.id === coverMedia?.id,
-      thumbnailUrl: item.thumbnailUrl || item.fileUrl,
     })),
   }
 }
@@ -176,6 +195,8 @@ export async function deleteProject(id: string) {
 
   const nextProjects = finalizeProjects(projects.filter((item) => item.id !== id))
 
+  await writeProjects(nextProjects)
+
   for (const media of project.media) {
     await safeDeleteManagedUploadIfOrphan(media.fileUrl, nextProjects)
     if (media.thumbnailUrl && media.thumbnailUrl !== media.fileUrl) {
@@ -184,7 +205,6 @@ export async function deleteProject(id: string) {
   }
 
   await safeDeleteManagedUploadIfOrphan(project.coverImage, nextProjects)
-  await writeProjects(nextProjects)
   return true
 }
 
