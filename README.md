@@ -53,6 +53,7 @@ NEXT_PUBLIC_SITE_URL=https://example.com
 ## Production Notes
 
 - `APP_ORIGIN` and `NEXT_PUBLIC_SITE_URL` should match the live domain.
+- In production, configure at least one of `APP_ORIGIN` or `NEXT_PUBLIC_SITE_URL`; if both are set, they must point to the same origin.
 - `data/` must be readable and writable in production.
 - `public/uploads/` should be writable in production. The folder can be created automatically on the first successful upload.
 - This project uses file-based persistence and is best deployed to a single writable instance.
@@ -66,6 +67,7 @@ NEXT_PUBLIC_SITE_URL=https://example.com
 - Sitemap: `/sitemap.xml`
 - Robots: `/robots.txt`
 - Web manifest: `/manifest.webmanifest`
+- KVKK page: `/kvkk-aydinlatma-metni`
 
 ## Handoff Documents
 

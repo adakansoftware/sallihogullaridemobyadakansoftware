@@ -51,6 +51,11 @@ export function Footer({ settings }: { settings: SiteSettings }) {
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link href="/kvkk-aydinlatma-metni" className="text-sm text-muted-foreground transition-colors hover:text-primary">
+                  KVKK Aydinlatma Metni
+                </Link>
+              </li>
             </ul>
           </div>
 

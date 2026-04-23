@@ -1,5 +1,6 @@
 "use client"
 
+import Link from 'next/link'
 import { useState } from 'react'
 import { Phone, Mail, MapPin, Clock, Send, ChevronRight } from 'lucide-react'
 import { toast } from 'sonner'
@@ -18,13 +19,14 @@ export function ContactSection({ settings }: { settings: SiteSettings }) {
   const [feedback, setFeedback] = useState('')
   const [error, setError] = useState('')
   const [reference, setReference] = useState('')
+  const [marketingConsent, setMarketingConsent] = useState(false)
 
   const [days, hours] = settings.workingHours.split('/').map((item) => item.trim())
   const contactInfo = [
     { icon: Phone, label: 'Telefon', value: settings.contactPhone, subValue: settings.contactPhoneSecondary },
     { icon: Mail, label: 'E-posta', value: settings.contactEmail, subValue: settings.contactEmailSecondary },
     { icon: MapPin, label: 'Adres', value: settings.address, subValue: settings.serviceArea },
-    { icon: Clock, label: 'Çalışma Saatleri', value: days || settings.workingHours, subValue: hours || '' },
+    { icon: Clock, label: 'Calisma Saatleri', value: days || settings.workingHours, subValue: hours || '' },
   ]
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -45,16 +47,16 @@ export function ContactSection({ settings }: { settings: SiteSettings }) {
       const data = await res.json().catch(() => ({}))
 
       if (!res.ok) {
-        const message = data.message || 'Talebiniz şu anda gönderilemedi.'
+        const message = data.message || 'Talebiniz su anda gonderilemedi.'
         setError(message)
         toast.error(message)
         return
       }
 
-      const message = data.message || 'Talebiniz başarıyla alındı.'
+      const message = data.message || 'Talebiniz basariyla alindi.'
       setFeedback(message)
       setReference(data.reference || '')
-      toast.success('Talebiniz alındı.')
+      toast.success('Talebiniz alindi.')
       setForm({
         name: '',
         phone: '',
@@ -62,6 +64,7 @@ export function ContactSection({ settings }: { settings: SiteSettings }) {
         subject: 'Teklif Talebi',
         message: '',
       })
+      setMarketingConsent(false)
     } finally {
       setLoading(false)
     }
@@ -73,11 +76,11 @@ export function ContactSection({ settings }: { settings: SiteSettings }) {
 
       <div className="relative z-10 mx-auto max-w-[1400px] px-6 lg:px-8">
         <div className="mx-auto mb-14 max-w-3xl text-center">
-          <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-primary">İletişim</span>
+          <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-primary">Iletisim</span>
           <h2 className="mb-6 text-3xl leading-tight font-black text-foreground sm:text-4xl lg:text-5xl">
-            Bizimle <span className="text-primary">İletişime Geçin</span>
+            Bizimle <span className="text-primary">Iletisime Gecin</span>
           </h2>
-          <p className="text-lg text-muted-foreground">Projeleriniz için teklif almak veya operasyon planlaması yapmak için bize ulaşın.</p>
+          <p className="text-lg text-muted-foreground">Projeleriniz icin teklif almak veya operasyon planlamasi yapmak icin bize ulasin.</p>
         </div>
 
         <div className="grid gap-8 lg:grid-cols-5">
@@ -92,7 +95,7 @@ export function ContactSection({ settings }: { settings: SiteSettings }) {
                   <input
                     id="contact-name"
                     type="text"
-                    placeholder="Adınız Soyadınız"
+                    placeholder="Adiniz Soyadiniz"
                     value={form.name}
                     onChange={(event) => setForm((prev) => ({ ...prev, name: event.target.value }))}
                     required
@@ -130,7 +133,7 @@ export function ContactSection({ settings }: { settings: SiteSettings }) {
                   />
                 </div>
                 <div>
-                <label htmlFor="contact-subject" className="mb-2 block text-sm font-semibold text-foreground">Konu</label>
+                  <label htmlFor="contact-subject" className="mb-2 block text-sm font-semibold text-foreground">Konu</label>
                   <input
                     id="contact-subject"
                     type="text"
@@ -144,11 +147,11 @@ export function ContactSection({ settings }: { settings: SiteSettings }) {
               </div>
 
               <div>
-                <label htmlFor="contact-message" className="mb-2 block text-sm font-semibold text-foreground">Proje Detayları</label>
+                <label htmlFor="contact-message" className="mb-2 block text-sm font-semibold text-foreground">Proje Detaylari</label>
                 <textarea
                   id="contact-message"
                   rows={4}
-                  placeholder="Saha, metraj, lokasyon ve ihtiyaç duyduğunuz operasyon hakkında kısa bilgi verin..."
+                  placeholder="Saha, metraj, lokasyon ve ihtiyac duydugunuz operasyon hakkinda kisa bilgi verin..."
                   value={form.message}
                   onChange={(event) => setForm((prev) => ({ ...prev, message: event.target.value }))}
                   required
@@ -158,11 +161,29 @@ export function ContactSection({ settings }: { settings: SiteSettings }) {
 
               {error ? <p className="text-sm text-red-400" role="alert" aria-live="assertive">{error}</p> : null}
               {feedback ? <p className="text-sm text-emerald-300" role="status" aria-live="polite">{feedback}</p> : null}
-              {reference ? <p className="text-sm text-white/55" role="status" aria-live="polite">Talep referansı: <span className="font-medium text-white">{reference}</span></p> : null}
+              {reference ? <p className="text-sm text-white/55" role="status" aria-live="polite">Talep referansi: <span className="font-medium text-white">{reference}</span></p> : null}
+
+              <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-4 text-sm leading-7 text-white/60">
+                Kisisel verileriniz, talebinizin degerlendirilmesi ve sizinle iletisime gecilmesi amaciyla islenmektedir. Detayli bilgi icin{' '}
+                <Link href="/kvkk-aydinlatma-metni" className="font-medium text-white underline decoration-white/20 underline-offset-4 transition hover:decoration-white">
+                  KVKK Aydinlatma Metni&apos;ni
+                </Link>{' '}
+                inceleyebilirsiniz.
+              </div>
+
+              <label className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.02] px-4 py-4 text-sm leading-6 text-white/65">
+                <input
+                  type="checkbox"
+                  checked={marketingConsent}
+                  onChange={(event) => setMarketingConsent(event.target.checked)}
+                  className="mt-1"
+                />
+                <span>Kampanya, tanitim, reklam ve bilgilendirme icerikli ticari elektronik iletilerin tarafima gonderilmesini kabul ediyorum.</span>
+              </label>
 
               <Button size="lg" disabled={loading} className="h-14 w-full gap-2 bg-primary text-sm font-bold uppercase tracking-wider text-primary-foreground hover:bg-primary/90">
                 <Send className="h-4 w-4" />
-                {loading ? 'Gönderiliyor...' : 'Teklif Talebi Gönder'}
+                {loading ? 'Gonderiliyor...' : 'Teklif Talebi Gonder'}
               </Button>
             </form>
           </div>
@@ -206,10 +227,10 @@ export function ContactSection({ settings }: { settings: SiteSettings }) {
             ))}
 
             <div className="bg-primary p-6">
-              <h4 className="mb-2 text-lg font-bold text-primary-foreground">Acil Operasyon Hattı</h4>
-              <p className="mb-4 text-sm text-primary-foreground/80">Hızlı yönlendirme ve saha planlaması için doğrudan bizimle görüşebilirsiniz.</p>
+              <h4 className="mb-2 text-lg font-bold text-primary-foreground">Acil Operasyon Hatti</h4>
+              <p className="mb-4 text-sm text-primary-foreground/80">Hizli yonlendirme ve saha planlamasi icin dogrudan bizimle gorusebilirsiniz.</p>
               <a href={settings.whatsappUrl} target="_blank" rel="noreferrer" className="group flex items-center justify-between font-bold text-primary-foreground">
-                <span>WhatsApp Üzerinden Ulaşın</span>
+                <span>WhatsApp Uzerinden Ulasin</span>
                 <ChevronRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
               </a>
             </div>

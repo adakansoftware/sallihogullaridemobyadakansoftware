@@ -21,6 +21,7 @@ import { isAllowedFileSignature } from '@/lib/upload-security'
 const uploadCleanupSchema = z.object({
   fileUrl: z.string().trim().min(1, 'Dosya adresi zorunludur.'),
 })
+const UPLOAD_CLEANUP_MAX_BYTES = 1024
 
 export async function POST(request: Request) {
   return withErrorHandling(async () => {
@@ -77,6 +78,8 @@ export async function DELETE(request: Request) {
   return withErrorHandling(async () => {
     const ip = await enforceRateLimit(request, 'admin:upload:cleanup', 30, 10 * 60 * 1000)
     await assertAdminRequest(request)
+    assertRequestContentType(request, ['application/json'])
+    assertRequestBodySize(request, UPLOAD_CLEANUP_MAX_BYTES)
 
     const { fileUrl } = await readJson(request, uploadCleanupSchema)
     if (!isManagedUploadUrl(fileUrl)) {

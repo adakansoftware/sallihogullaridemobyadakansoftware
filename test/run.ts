@@ -12,6 +12,8 @@ async function run() {
 
   const { normalizeAdminNextTarget } = await import('../lib/admin-redirect.ts')
   const { readJsonFileWithBackup } = await import('../lib/file-storage.ts')
+  const { getComparableOrigin, resolveAllowedOrigin } = await import('../lib/origin.ts')
+  const { isValidSignedAdminSessionToken } = await import('../lib/session-token.ts')
   const { createSlug, ensureUniqueSlug } = await import('../lib/slug.ts')
   const {
     isAllowedRequestContentType,
@@ -37,6 +39,39 @@ async function run() {
   assert.equal(normalizeAdminNextTarget('https://evil.example.com/admin'), '/admin')
   assert.equal(normalizeAdminNextTarget('/contact'), '/admin')
   assert.equal(normalizeAdminNextTarget('/admin/projects/../../settings'), '/admin')
+  assert.equal(isValidSignedAdminSessionToken(undefined, process.env.ADMIN_SESSION_SECRET), false)
+  assert.equal(isValidSignedAdminSessionToken('invalid.token.extra', process.env.ADMIN_SESSION_SECRET), false)
+  assert.equal(isValidSignedAdminSessionToken('eyJmb28iOiJiYXIifQ.invalid', process.env.ADMIN_SESSION_SECRET), false)
+
+  assert.equal(getComparableOrigin('https://example.com/path?q=1'), 'https://example.com')
+  assert.equal(getComparableOrigin('not-a-url'), null)
+  assert.equal(
+    resolveAllowedOrigin({
+      appOrigin: 'https://example.com/app',
+      publicSiteUrl: undefined,
+      nodeEnv: 'production',
+      hostHeader: 'evil.example.com',
+    }),
+    'https://example.com',
+  )
+  assert.equal(
+    resolveAllowedOrigin({
+      appOrigin: undefined,
+      publicSiteUrl: undefined,
+      nodeEnv: 'production',
+      hostHeader: 'preview.evil.example.com',
+    }),
+    null,
+  )
+  assert.equal(
+    resolveAllowedOrigin({
+      appOrigin: undefined,
+      publicSiteUrl: undefined,
+      nodeEnv: 'development',
+      hostHeader: 'localhost:3000',
+    }),
+    'http://localhost:3000',
+  )
 
   assert.equal(sanitizeUploadBaseName('../../../teklif formu!!.jpg'), 'teklif-formu')
   assert.equal(hasAllowedUploadExtension('photo.jpeg', 'jpg'), true)

@@ -3,19 +3,17 @@ import { isAdminAuthenticated } from '@/lib/auth'
 import { ApiError } from '@/lib/api-error'
 import { getClientIp } from '@/lib/http'
 import { env } from '@/lib/env'
+import { resolveAllowedOrigin } from '@/lib/origin'
 import { assertTrustedOriginHeaders } from '@/lib/request-guards'
 import { checkRateLimit } from '@/lib/rate-limit'
 
 function getAllowedOrigin(request: Request) {
-  const preferredOrigin = env.APP_ORIGIN || env.NEXT_PUBLIC_SITE_URL
-  if (preferredOrigin) {
-    return new URL(preferredOrigin).origin
-  }
-
-  const host = request.headers.get('host')
-  if (!host) return null
-  const protocol = env.NODE_ENV === 'production' ? 'https' : 'http'
-  return `${protocol}://${host}`
+  return resolveAllowedOrigin({
+    appOrigin: env.APP_ORIGIN,
+    publicSiteUrl: env.NEXT_PUBLIC_SITE_URL,
+    nodeEnv: env.NODE_ENV,
+    hostHeader: request.headers.get('host'),
+  })
 }
 
 function buildRateLimitIdentity(request: Request) {
