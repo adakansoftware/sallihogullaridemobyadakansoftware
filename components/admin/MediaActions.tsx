@@ -26,23 +26,30 @@ export function MediaActions({
 
     setSaving(true)
     setError('')
-    const res = await fetch(`/api/media/${mediaId}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    })
-    const data = await res.json().catch(() => ({}))
-    setSaving(false)
+    try {
+      const res = await fetch(`/api/media/${mediaId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      const data = await res.json().catch(() => ({}))
 
-    if (!res.ok) {
-      const message = data.message || 'Medya guncellenemedi.'
+      if (!res.ok) {
+        const message = data.message || 'Medya guncellenemedi.'
+        setError(message)
+        toast.error(message)
+        return
+      }
+
+      toast.success(successMessage)
+      router.refresh()
+    } catch {
+      const message = 'Medya kaydi guncellenirken baglanti sorunu olustu.'
       setError(message)
       toast.error(message)
-      return
+    } finally {
+      setSaving(false)
     }
-
-    toast.success(successMessage)
-    router.refresh()
   }
 
   return (
@@ -61,7 +68,7 @@ export function MediaActions({
           <span className="rounded-full border border-amber-400/25 px-3 py-2 text-xs text-amber-300">Kapak Gorseli</span>
         )}
       </div>
-      {error ? <p role="alert" className="text-xs text-red-400">{error}</p> : null}
+      {error ? <p role="alert" aria-live="assertive" className="text-xs text-red-400">{error}</p> : null}
     </div>
   )
 }

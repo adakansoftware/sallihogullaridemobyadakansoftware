@@ -28,7 +28,9 @@ export async function GET() {
     const uploadsDir = path.join(process.cwd(), 'public', 'uploads')
 
     const [dataState, uploadsState] = await Promise.all([checkPathState(dataDir), checkPathState(uploadsDir)])
-    const ready = dataState.exists && dataState.writable && uploadsState.exists && uploadsState.writable
+    const dataReady = dataState.exists && dataState.writable
+    const uploadsReady = (uploadsState.exists && uploadsState.writable) || uploadsState.type === 'missing'
+    const ready = dataReady && uploadsReady
 
     return jsonNoStore(
       {
@@ -43,6 +45,7 @@ export async function GET() {
           data: dataState,
           uploads: uploadsState,
         },
+        notes: uploadsState.type === 'missing' ? ['uploads directory will be created automatically on first successful upload'] : [],
       },
       { status: ready ? 200 : 503 },
     )
