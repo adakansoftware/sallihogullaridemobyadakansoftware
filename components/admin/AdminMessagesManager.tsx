@@ -53,13 +53,14 @@ export function AdminMessagesManager({ messages }: { messages: AdminMessage[] })
             placeholder="Referans, isim, konu veya iletişim bilgisi ara"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
+            aria-label="Mesajlarda ara"
           />
-          <select className="input-premium" value={state} onChange={(event) => setState(event.target.value as typeof state)}>
+          <select className="input-premium" value={state} onChange={(event) => setState(event.target.value as typeof state)} aria-label="Mesaj durumuna göre filtrele">
             <option value="all">Tüm mesajlar</option>
             <option value="unread">Sadece yeni</option>
             <option value="read">Sadece okunan</option>
           </select>
-          <select className="input-premium" value={sortKey} onChange={(event) => setSortKey(event.target.value as SortKey)}>
+          <select className="input-premium" value={sortKey} onChange={(event) => setSortKey(event.target.value as SortKey)} aria-label="Mesajları sırala">
             <option value="newest">En yeni</option>
             <option value="oldest">En eski</option>
             <option value="name">İsim A-Z</option>

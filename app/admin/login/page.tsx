@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
+import { redirect } from 'next/navigation'
 import { LoginForm } from '@/components/admin/LoginForm'
-import { normalizeAdminNextTarget } from '@/lib/auth'
+import { isAdminAuthenticated, normalizeAdminNextTarget } from '@/lib/auth'
 
 export const metadata: Metadata = {
   title: 'Admin Giriş',
@@ -17,6 +18,10 @@ export default async function AdminLoginPage({
 }) {
   const params = await searchParams
   const nextPath = normalizeAdminNextTarget(params.next)
+
+  if (await isAdminAuthenticated()) {
+    redirect(nextPath)
+  }
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-black px-6 py-16">
@@ -50,4 +55,3 @@ export default async function AdminLoginPage({
     </main>
   )
 }
-

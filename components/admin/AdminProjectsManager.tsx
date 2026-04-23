@@ -59,20 +59,21 @@ export function AdminProjectsManager({ projects }: { projects: Project[] }) {
             placeholder="Proje adı, konum veya etiket ara"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
+            aria-label="Projelerde ara"
           />
-          <select className="input-premium" value={status} onChange={(event) => setStatus(event.target.value as typeof status)}>
+          <select className="input-premium" value={status} onChange={(event) => setStatus(event.target.value as typeof status)} aria-label="Proje durumuna göre filtrele">
             <option value="all">Tüm durumlar</option>
             <option value="Yayında">Yayında</option>
             <option value="Taslak">Taslak</option>
           </select>
-          <select className="input-premium" value={sortKey} onChange={(event) => setSortKey(event.target.value as SortKey)}>
+          <select className="input-premium" value={sortKey} onChange={(event) => setSortKey(event.target.value as SortKey)} aria-label="Projeleri sırala">
             <option value="updated-desc">En yeni güncelleme</option>
             <option value="updated-asc">En eski güncelleme</option>
             <option value="title-asc">Başlık A-Z</option>
             <option value="title-desc">Başlık Z-A</option>
           </select>
           <label className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white/70">
-            <input type="checkbox" checked={featuredOnly} onChange={(event) => setFeaturedOnly(event.target.checked)} />
+            <input type="checkbox" checked={featuredOnly} onChange={(event) => setFeaturedOnly(event.target.checked)} aria-label="Sadece öne çıkan projeleri göster" />
             Öne çıkanlar
           </label>
           <div className="rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white/55">{filteredProjects.length} kayıt</div>
@@ -137,4 +138,3 @@ export function AdminProjectsManager({ projects }: { projects: Project[] }) {
     </div>
   )
 }
-

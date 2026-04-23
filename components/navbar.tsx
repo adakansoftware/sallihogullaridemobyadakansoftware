@@ -74,13 +74,21 @@ export function Navbar({ settings }: { settings: SiteSettings }) {
             </Button>
           </div>
 
-          <button onClick={() => setIsMobileMenuOpen((value) => !value)} className="p-2 text-foreground lg:hidden" aria-label="Menü">
+          <button
+            type="button"
+            onClick={() => setIsMobileMenuOpen((value) => !value)}
+            className="p-2 text-foreground lg:hidden"
+            aria-label="Menü"
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-navigation"
+          >
             {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </nav>
       </div>
 
       <div
+        id="mobile-navigation"
         className={`absolute top-full left-0 right-0 border-b border-border bg-background transition-all duration-300 lg:hidden ${
           isMobileMenuOpen ? 'visible opacity-100' : 'invisible pointer-events-none opacity-0'
         }`}

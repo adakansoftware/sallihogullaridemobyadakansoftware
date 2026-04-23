@@ -26,17 +26,19 @@ export function Footer({ settings }: { settings: SiteSettings }) {
 
             <p className="mb-6 max-w-sm text-sm leading-relaxed text-muted-foreground">{settings.heroDescription}</p>
 
-            <div className="flex gap-2">
-              <a
-                href={settings.instagramUrl}
-                aria-label="Instagram"
-                target="_blank"
-                rel="noreferrer"
-                className="group flex h-10 w-10 items-center justify-center bg-secondary transition-colors hover:bg-primary/20"
-              >
-                <Instagram className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-primary" />
-              </a>
-            </div>
+            {settings.instagramUrl ? (
+              <div className="flex gap-2">
+                <a
+                  href={settings.instagramUrl}
+                  aria-label="Instagram"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group flex h-10 w-10 items-center justify-center bg-secondary transition-colors hover:bg-primary/20"
+                >
+                  <Instagram className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-primary" />
+                </a>
+              </div>
+            ) : null}
           </div>
 
           <div>
@@ -71,15 +73,23 @@ export function Footer({ settings }: { settings: SiteSettings }) {
               <li className="flex items-start gap-3">
                 <Phone className="mt-1 h-4 w-4 shrink-0 text-primary" />
                 <div>
-                  <div className="text-sm font-medium text-foreground">{settings.contactPhone}</div>
-                  <div className="text-sm text-muted-foreground">{settings.contactPhoneSecondary}</div>
+                  <a href={`tel:${settings.contactPhone.replace(/\s+/g, '')}`} className="text-sm font-medium text-foreground transition-colors hover:text-primary">
+                    {settings.contactPhone}
+                  </a>
+                  <a href={`tel:${settings.contactPhoneSecondary.replace(/\s+/g, '')}`} className="block text-sm text-muted-foreground transition-colors hover:text-primary">
+                    {settings.contactPhoneSecondary}
+                  </a>
                 </div>
               </li>
               <li className="flex items-start gap-3">
                 <Mail className="mt-1 h-4 w-4 shrink-0 text-primary" />
                 <div>
-                  <div className="text-sm font-medium text-foreground">{settings.contactEmail}</div>
-                  <div className="text-sm text-muted-foreground">{settings.contactEmailSecondary}</div>
+                  <a href={`mailto:${settings.contactEmail}`} className="text-sm font-medium text-foreground transition-colors hover:text-primary">
+                    {settings.contactEmail}
+                  </a>
+                  <a href={`mailto:${settings.contactEmailSecondary}`} className="block text-sm text-muted-foreground transition-colors hover:text-primary">
+                    {settings.contactEmailSecondary}
+                  </a>
                 </div>
               </li>
               <li className="flex items-start gap-3">

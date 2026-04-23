@@ -29,6 +29,8 @@ export function ContactSection({ settings }: { settings: SiteSettings }) {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    if (loading) return
+
     setLoading(true)
     setFeedback('')
     setError('')
@@ -83,25 +85,31 @@ export function ContactSection({ settings }: { settings: SiteSettings }) {
             <h3 className="mb-2 text-xl font-bold text-foreground">Teklif Formu</h3>
             <p className="mb-8 text-muted-foreground">{settings.quoteNotice}</p>
 
-            <form className="space-y-5" onSubmit={handleSubmit}>
+            <form className="space-y-5" onSubmit={handleSubmit} aria-busy={loading}>
               <div className="grid gap-5 sm:grid-cols-2">
                 <div>
-                  <label className="mb-2 block text-sm font-semibold text-foreground">Ad Soyad</label>
+                  <label htmlFor="contact-name" className="mb-2 block text-sm font-semibold text-foreground">Ad Soyad</label>
                   <input
+                    id="contact-name"
                     type="text"
                     placeholder="Adınız Soyadınız"
                     value={form.name}
                     onChange={(event) => setForm((prev) => ({ ...prev, name: event.target.value }))}
+                    required
+                    autoComplete="name"
                     className="w-full border border-border/50 bg-input px-4 py-3.5 text-foreground transition-colors placeholder:text-muted-foreground focus:border-primary focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="mb-2 block text-sm font-semibold text-foreground">Telefon</label>
+                  <label htmlFor="contact-phone" className="mb-2 block text-sm font-semibold text-foreground">Telefon</label>
                   <input
+                    id="contact-phone"
                     type="tel"
                     placeholder="(5XX) XXX XX XX"
                     value={form.phone}
                     onChange={(event) => setForm((prev) => ({ ...prev, phone: event.target.value }))}
+                    required
+                    autoComplete="tel"
                     className="w-full border border-border/50 bg-input px-4 py-3.5 text-foreground transition-colors placeholder:text-muted-foreground focus:border-primary focus:outline-none"
                   />
                 </div>
@@ -109,41 +117,48 @@ export function ContactSection({ settings }: { settings: SiteSettings }) {
 
               <div className="grid gap-5 sm:grid-cols-2">
                 <div>
-                  <label className="mb-2 block text-sm font-semibold text-foreground">E-posta</label>
+                  <label htmlFor="contact-email" className="mb-2 block text-sm font-semibold text-foreground">E-posta</label>
                   <input
+                    id="contact-email"
                     type="email"
                     placeholder="ornek@email.com"
                     value={form.email}
                     onChange={(event) => setForm((prev) => ({ ...prev, email: event.target.value }))}
+                    required
+                    autoComplete="email"
                     className="w-full border border-border/50 bg-input px-4 py-3.5 text-foreground transition-colors placeholder:text-muted-foreground focus:border-primary focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="mb-2 block text-sm font-semibold text-foreground">Konu</label>
+                <label htmlFor="contact-subject" className="mb-2 block text-sm font-semibold text-foreground">Konu</label>
                   <input
+                    id="contact-subject"
                     type="text"
                     placeholder="Talep konusu"
                     value={form.subject}
                     onChange={(event) => setForm((prev) => ({ ...prev, subject: event.target.value }))}
+                    required
                     className="w-full border border-border/50 bg-input px-4 py-3.5 text-foreground transition-colors placeholder:text-muted-foreground focus:border-primary focus:outline-none"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-semibold text-foreground">Proje Detayları</label>
+                <label htmlFor="contact-message" className="mb-2 block text-sm font-semibold text-foreground">Proje Detayları</label>
                 <textarea
+                  id="contact-message"
                   rows={4}
                   placeholder="Saha, metraj, lokasyon ve ihtiyaç duyduğunuz operasyon hakkında kısa bilgi verin..."
                   value={form.message}
                   onChange={(event) => setForm((prev) => ({ ...prev, message: event.target.value }))}
+                  required
                   className="w-full resize-none border border-border/50 bg-input px-4 py-3.5 text-foreground transition-colors placeholder:text-muted-foreground focus:border-primary focus:outline-none"
                 />
               </div>
 
-              {error ? <p className="text-sm text-red-400">{error}</p> : null}
-              {feedback ? <p className="text-sm text-emerald-300">{feedback}</p> : null}
-              {reference ? <p className="text-sm text-white/55">Talep referansı: <span className="font-medium text-white">{reference}</span></p> : null}
+              {error ? <p className="text-sm text-red-400" role="alert" aria-live="assertive">{error}</p> : null}
+              {feedback ? <p className="text-sm text-emerald-300" role="status" aria-live="polite">{feedback}</p> : null}
+              {reference ? <p className="text-sm text-white/55" role="status" aria-live="polite">Talep referansı: <span className="font-medium text-white">{reference}</span></p> : null}
 
               <Button size="lg" disabled={loading} className="h-14 w-full gap-2 bg-primary text-sm font-bold uppercase tracking-wider text-primary-foreground hover:bg-primary/90">
                 <Send className="h-4 w-4" />
@@ -161,8 +176,30 @@ export function ContactSection({ settings }: { settings: SiteSettings }) {
                   </div>
                   <div>
                     <div className="mb-1 text-xs uppercase tracking-wider text-muted-foreground">{info.label}</div>
-                    <div className="font-semibold text-foreground">{info.value}</div>
-                    <div className="text-sm text-muted-foreground">{info.subValue}</div>
+                    {info.label === 'Telefon' ? (
+                      <>
+                        <a href={`tel:${String(info.value).replace(/\s+/g, '')}`} className="font-semibold text-foreground transition-colors hover:text-primary">
+                          {info.value}
+                        </a>
+                        <a href={`tel:${String(info.subValue).replace(/\s+/g, '')}`} className="block text-sm text-muted-foreground transition-colors hover:text-primary">
+                          {info.subValue}
+                        </a>
+                      </>
+                    ) : info.label === 'E-posta' ? (
+                      <>
+                        <a href={`mailto:${info.value}`} className="font-semibold text-foreground transition-colors hover:text-primary">
+                          {info.value}
+                        </a>
+                        <a href={`mailto:${info.subValue}`} className="block text-sm text-muted-foreground transition-colors hover:text-primary">
+                          {info.subValue}
+                        </a>
+                      </>
+                    ) : (
+                      <>
+                        <div className="font-semibold text-foreground">{info.value}</div>
+                        <div className="text-sm text-muted-foreground">{info.subValue}</div>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
