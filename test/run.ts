@@ -13,6 +13,11 @@ async function run() {
   const { normalizeAdminNextTarget } = await import('../lib/admin-redirect.ts')
   const { readJsonFileWithBackup } = await import('../lib/file-storage.ts')
   const { createSlug, ensureUniqueSlug } = await import('../lib/slug.ts')
+  const {
+    isAllowedRequestContentType,
+    isRequestBodyWithinLimit,
+    isTrustedOriginRequest,
+  } = await import('../lib/request-guards-core.ts')
   const { hasAllowedUploadExtension, sanitizeUploadBaseName } = await import('../lib/upload-policy.ts')
   const { isAllowedFileSignature } = await import('../lib/upload-security.ts')
 
@@ -43,6 +48,75 @@ async function run() {
 
   assert.equal(isAllowedFileSignature('image/jpeg', jpegBuffer), true)
   assert.equal(isAllowedFileSignature('image/jpeg', fakeBuffer), false)
+
+  assert.equal(
+    isAllowedRequestContentType(
+      new Request('https://example.com/api/messages', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json; charset=utf-8' },
+      }),
+      ['application/json'],
+    ),
+    true,
+  )
+  assert.equal(
+    isAllowedRequestContentType(
+      new Request('https://example.com/api/messages', {
+        method: 'POST',
+        headers: { 'content-type': 'text/plain' },
+      }),
+      ['application/json'],
+    ),
+    false,
+  )
+
+  assert.equal(
+    isRequestBodyWithinLimit(
+      new Request('https://example.com/api/messages', {
+        method: 'POST',
+        headers: { 'content-length': '128' },
+      }),
+      256,
+    ),
+    true,
+  )
+  assert.equal(
+    isRequestBodyWithinLimit(
+      new Request('https://example.com/api/messages', {
+        method: 'POST',
+        headers: { 'content-length': '1024' },
+      }),
+      256,
+    ),
+    false,
+  )
+
+  assert.equal(
+    isTrustedOriginRequest(
+      new Request('https://example.com/api/projects', {
+        method: 'POST',
+        headers: {
+          origin: 'https://example.com',
+          referer: 'https://example.com/admin/projects',
+        },
+      }),
+      'https://example.com',
+    ),
+    true,
+  )
+  assert.equal(
+    isTrustedOriginRequest(
+      new Request('https://example.com/api/projects', {
+        method: 'POST',
+        headers: {
+          origin: 'https://evil.example.com',
+          referer: 'https://evil.example.com/form',
+        },
+      }),
+      'https://example.com',
+    ),
+    false,
+  )
 
   const tempDir = await mkdtemp(path.join(os.tmpdir(), 'sali-storage-test-'))
   const primaryFile = path.join(tempDir, 'projects.json')

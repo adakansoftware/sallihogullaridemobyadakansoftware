@@ -1,7 +1,9 @@
 import { createHash } from 'crypto'
 import { isAdminAuthenticated } from '@/lib/auth'
-import { ApiError, getClientIp } from '@/lib/http'
+import { ApiError } from '@/lib/api-error'
+import { getClientIp } from '@/lib/http'
 import { env } from '@/lib/env'
+import { assertTrustedOriginHeaders } from '@/lib/request-guards'
 import { checkRateLimit } from '@/lib/rate-limit'
 
 function getAllowedOrigin(request: Request) {
@@ -16,20 +18,6 @@ function getAllowedOrigin(request: Request) {
   return `${protocol}://${host}`
 }
 
-function getComparableOrigin(value: string | null) {
-  if (!value) return null
-
-  try {
-    return new URL(value).origin
-  } catch {
-    return null
-  }
-}
-
-function hasMatchingOrigin(origin: string | null, allowedOrigin: string) {
-  return !origin || origin === allowedOrigin
-}
-
 function buildRateLimitIdentity(request: Request) {
   const ip = getClientIp(request)
   const userAgent = request.headers.get('user-agent')?.slice(0, 160) || 'unknown'
@@ -41,32 +29,7 @@ function buildRateLimitIdentity(request: Request) {
 
 export function assertTrustedMutationRequest(request: Request) {
   const allowedOrigin = getAllowedOrigin(request)
-  if (!allowedOrigin) return
-
-  const requestOrigin = getComparableOrigin(request.headers.get('origin'))
-  const refererOrigin = getComparableOrigin(request.headers.get('referer'))
-
-  if (!requestOrigin && !refererOrigin) {
-    throw new ApiError(403, 'Istek kaynagi dogrulanamadi.')
-  }
-
-  if (!hasMatchingOrigin(requestOrigin, allowedOrigin) || !hasMatchingOrigin(refererOrigin, allowedOrigin)) {
-    throw new ApiError(403, 'Istek kaynagi dogrulanamadi.')
-  }
-}
-
-export function assertRequestContentType(request: Request, allowedContentTypes: string[]) {
-  const contentType = request.headers.get('content-type')?.toLowerCase() || ''
-  if (!allowedContentTypes.some((value) => contentType.includes(value))) {
-    throw new ApiError(415, 'Istek icerigi beklenen formatta degil.')
-  }
-}
-
-export function assertRequestBodySize(request: Request, maxBytes: number) {
-  const contentLength = Number(request.headers.get('content-length'))
-  if (Number.isFinite(contentLength) && contentLength > maxBytes) {
-    throw new ApiError(413, 'Istek boyutu siniri asildi.')
-  }
+  assertTrustedOriginHeaders(request, allowedOrigin)
 }
 
 export async function assertAdminRequest(request: Request) {

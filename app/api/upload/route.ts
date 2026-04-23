@@ -6,10 +6,9 @@ import { writeAuditLog } from '@/lib/audit'
 import { jsonError, jsonOk, readJson, withErrorHandling } from '@/lib/http'
 import {
   assertAdminRequest,
-  assertRequestBodySize,
-  assertRequestContentType,
   enforceRateLimit,
 } from '@/lib/security'
+import { assertRequestBodySize, assertRequestContentType } from '@/lib/request-guards'
 import { isManagedUploadUrl, readProjects, safeDeleteManagedUploadIfOrphan } from '@/lib/store'
 import {
   ALLOWED_UPLOAD_TYPES,

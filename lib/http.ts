@@ -1,16 +1,6 @@
 import { NextResponse } from 'next/server'
 import { ZodError } from 'zod'
-
-export class ApiError extends Error {
-  status: number
-  exposeMessage: string
-
-  constructor(status: number, exposeMessage: string) {
-    super(exposeMessage)
-    this.status = status
-    this.exposeMessage = exposeMessage
-  }
-}
+import { ApiError } from '@/lib/api-error'
 
 export function jsonOk<T>(data: T, init?: ResponseInit) {
   return NextResponse.json(data, init)
@@ -75,3 +65,5 @@ export function withErrorHandling(handler: () => Promise<NextResponse>) {
     return jsonError(500, 'İşlem şu anda tamamlanamadı.')
   })
 }
+
+export { ApiError }

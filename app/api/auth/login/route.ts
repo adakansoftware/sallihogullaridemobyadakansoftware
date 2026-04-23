@@ -2,15 +2,19 @@ import { readJson, jsonError, jsonNoStore, jsonOk, withErrorHandling } from '@/l
 import { loginSchema } from '@/lib/validation'
 import { setAdminSession, validateAdminCredentials } from '@/lib/auth'
 import { assertTrustedMutationRequest, enforceIdentifierRateLimit, enforceRateLimit, fingerprint } from '@/lib/security'
+import { assertRequestBodySize, assertRequestContentType } from '@/lib/request-guards'
 import { writeAuditLog } from '@/lib/audit'
 
 const LOGIN_WINDOW_MS = 10 * 60 * 1000
 const LOGIN_LIMIT = 5
 const LOGIN_IDENTITY_LIMIT = 8
+const LOGIN_REQUEST_MAX_BYTES = 2 * 1024
 
 export async function POST(request: Request) {
   return withErrorHandling(async () => {
     assertTrustedMutationRequest(request)
+    assertRequestContentType(request, ['application/json'])
+    assertRequestBodySize(request, LOGIN_REQUEST_MAX_BYTES)
     const ip = await enforceRateLimit(request, 'login', LOGIN_LIMIT, LOGIN_WINDOW_MS)
     const credentials = await readJson(request, loginSchema)
     await enforceIdentifierRateLimit(credentials.email, 'login:email', LOGIN_IDENTITY_LIMIT, LOGIN_WINDOW_MS)
