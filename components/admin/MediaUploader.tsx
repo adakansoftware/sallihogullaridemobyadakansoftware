@@ -63,6 +63,7 @@ export function MediaUploader({ projectId }: { projectId: string }) {
 
   async function handleUpload(e: React.FormEvent) {
     e.preventDefault()
+    if (loading) return
     if (!selectedFiles.length) {
       const message = 'En az bir dosya secin.'
       setError(message)

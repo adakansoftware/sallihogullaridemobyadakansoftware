@@ -2,6 +2,7 @@ import { promises as fs } from 'fs'
 import path from 'path'
 import crypto from 'crypto'
 import { z } from 'zod'
+import { readJsonFileWithBackup, restorePrimaryJsonFile, writeJsonFileAtomic } from '@/lib/file-storage'
 import { storedMessagesSchema, storedProjectsSchema, storedSettingsSchema } from '@/lib/validation'
 
 export type ProjectMedia = {
@@ -69,8 +70,6 @@ const uploadsDir = path.join(publicDir, 'uploads')
 const projectsFile = path.join(dataDir, 'projects.json')
 const messagesFile = path.join(dataDir, 'messages.json')
 const settingsFile = path.join(dataDir, 'settings.json')
-
-const writeQueues = new Map<string, Promise<void>>()
 
 const defaultSettings: SiteSettings = {
   companyName: 'Salihoğulları Hafriyat',
@@ -337,97 +336,8 @@ const defaultProjects: Project[] = [
   },
 ]
 
-async function ensureFile(filePath: string, defaultValue: string) {
-  await fs.mkdir(dataDir, { recursive: true })
-
-  try {
-    await fs.access(filePath)
-  } catch {
-    await fs.writeFile(filePath, defaultValue, 'utf8')
-  }
-}
-
-async function parseJsonFile<T>(
-  filePath: string,
-  schema: { parse: (value: unknown) => T },
-  defaultValue: T,
-): Promise<{ data: T; source: 'primary' | 'backup' | 'default' }> {
-  await ensureFile(filePath, JSON.stringify(defaultValue, null, 2))
-
-  const candidates = [
-    { path: filePath, source: 'primary' as const },
-    { path: `${filePath}.bak`, source: 'backup' as const },
-  ]
-
-  for (const candidate of candidates) {
-    try {
-      const raw = await fs.readFile(candidate.path, 'utf8')
-      const parsed = JSON.parse(raw)
-      return { data: schema.parse(parsed), source: candidate.source }
-    } catch {
-      // Try next candidate.
-    }
-  }
-
-  return { data: defaultValue, source: 'default' }
-}
-
-async function restorePrimaryFile<T>(filePath: string, value: T) {
-  await fs.writeFile(filePath, JSON.stringify(value, null, 2), 'utf8')
-}
-
-async function runSerializedWrite(filePath: string, writer: () => Promise<void>) {
-  const previous = writeQueues.get(filePath) || Promise.resolve()
-  const next = previous
-    .catch(() => undefined)
-    .then(writer)
-    .finally(() => {
-      if (writeQueues.get(filePath) === next) {
-        writeQueues.delete(filePath)
-      }
-    })
-
-  writeQueues.set(filePath, next)
-  return next
-}
-
-async function writeJsonFile<T>(filePath: string, value: T) {
-  await runSerializedWrite(filePath, async () => {
-    await ensureFile(filePath, JSON.stringify(value, null, 2))
-
-    const serialized = JSON.stringify(value, null, 2)
-    const tempPath = `${filePath}.tmp`
-    const backupPath = `${filePath}.bak`
-
-    try {
-      await fs.copyFile(filePath, backupPath)
-    } catch {
-      // Backup may not exist on the first write.
-    }
-
-    await fs.writeFile(tempPath, serialized, 'utf8')
-    await fs.rename(tempPath, filePath)
-  })
-}
-
 function normalizeMessageReference(id: string) {
   return id.split('-').at(0)?.toUpperCase() || id.slice(0, 8).toUpperCase()
-}
-
-function replaceTurkishLetters(value: string) {
-  return value
-    .replaceAll('ı', 'i')
-    .replaceAll('İ', 'i')
-    .replaceAll('ğ', 'g')
-    .replaceAll('Ğ', 'g')
-    .replaceAll('ü', 'u')
-    .replaceAll('Ü', 'u')
-    .replaceAll('ş', 's')
-    .replaceAll('Ş', 's')
-    .replaceAll('ö', 'o')
-    .replaceAll('Ö', 'o')
-    .replaceAll('ç', 'c')
-    .replaceAll('Ç', 'c')
 }
 
 function normalizeMessages(messages: z.infer<typeof storedMessagesSchema>): AdminMessage[] {
@@ -438,15 +348,15 @@ function normalizeMessages(messages: z.infer<typeof storedMessagesSchema>): Admi
 }
 
 export async function readProjects(): Promise<Project[]> {
-  const parsed = await parseJsonFile(projectsFile, storedProjectsSchema, defaultProjects)
+  const parsed = await readJsonFileWithBackup(projectsFile, storedProjectsSchema, defaultProjects)
   if (parsed.source !== 'primary') {
-    await restorePrimaryFile(projectsFile, parsed.data)
+    await restorePrimaryJsonFile(projectsFile, parsed.data)
   }
   return parsed.data
 }
 
 export async function writeProjects(projects: Project[]) {
-  await writeJsonFile(projectsFile, storedProjectsSchema.parse(projects))
+  await writeJsonFileAtomic(projectsFile, storedProjectsSchema.parse(projects))
 }
 
 export async function getProjectById(id: string) {
@@ -460,51 +370,29 @@ export async function getProjectBySlug(slug: string) {
 }
 
 export async function readMessages(): Promise<AdminMessage[]> {
-  const parsed = await parseJsonFile(messagesFile, storedMessagesSchema, [])
+  const parsed = await readJsonFileWithBackup(messagesFile, storedMessagesSchema, [])
   const normalized = normalizeMessages(parsed.data)
   if (parsed.source !== 'primary' || JSON.stringify(parsed.data) !== JSON.stringify(normalized)) {
-    await restorePrimaryFile(messagesFile, normalized)
+    await restorePrimaryJsonFile(messagesFile, normalized)
   }
   return normalized
 }
 
 export async function writeMessages(messages: AdminMessage[]) {
-  await writeJsonFile(messagesFile, storedMessagesSchema.parse(messages))
+  await writeJsonFileAtomic(messagesFile, storedMessagesSchema.parse(messages))
 }
 
 export async function readSettings(): Promise<SiteSettings> {
-  const parsed = await parseJsonFile(settingsFile, storedSettingsSchema, defaultSettings)
+  const parsed = await readJsonFileWithBackup(settingsFile, storedSettingsSchema, defaultSettings)
   const normalized = { ...defaultSettings, ...parsed.data }
   if (parsed.source !== 'primary' || JSON.stringify(parsed.data) !== JSON.stringify(normalized)) {
-    await restorePrimaryFile(settingsFile, normalized)
+    await restorePrimaryJsonFile(settingsFile, normalized)
   }
   return normalized
 }
 
 export async function writeSettings(settings: SiteSettings) {
-  await writeJsonFile(settingsFile, storedSettingsSchema.parse(settings))
-}
-
-export function createSlug(value: string) {
-  return replaceTurkishLetters(value)
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-}
-
-export function ensureUniqueSlug(slug: string, projects: Project[], excludeId?: string) {
-  const normalized = createSlug(slug) || createSlug(`proje-${Date.now()}`)
-  let candidate = normalized
-  let suffix = 2
-
-  while (projects.some((project) => project.id !== excludeId && project.slug === candidate)) {
-    candidate = `${normalized}-${suffix}`
-    suffix += 1
-  }
-
-  return candidate
+  await writeJsonFileAtomic(settingsFile, storedSettingsSchema.parse(settings))
 }
 
 export function makeId() {

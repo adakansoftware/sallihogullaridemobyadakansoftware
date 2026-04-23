@@ -1,8 +1,6 @@
 import {
   assertManagedUploadExists,
   assertPublicAssetExists,
-  createSlug,
-  ensureUniqueSlug,
   getProjectById,
   getProjectBySlug,
   isPublicAssetUrl,
@@ -13,6 +11,7 @@ import {
   type Project,
   type ProjectMedia,
 } from '@/lib/store'
+import { createSlug, ensureUniqueSlug } from '@/lib/slug'
 
 type ProjectInput = {
   title: string

@@ -22,6 +22,8 @@ export function MediaActions({
   const [error, setError] = useState('')
 
   async function save(payload: Record<string, unknown>, successMessage: string) {
+    if (saving) return
+
     setSaving(true)
     setError('')
     const res = await fetch(`/api/media/${mediaId}`, {
@@ -33,7 +35,7 @@ export function MediaActions({
     setSaving(false)
 
     if (!res.ok) {
-      const message = data.message || 'Medya güncellenemedi.'
+      const message = data.message || 'Medya guncellenemedi.'
       setError(message)
       toast.error(message)
       return
@@ -45,21 +47,21 @@ export function MediaActions({
 
   return (
     <div className="space-y-3 rounded-2xl border border-white/10 bg-black/20 p-3">
-      <input className="input-premium h-11 w-full" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Medya başlığı" />
+      <input className="input-premium h-11 w-full" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Medya basligi" />
       <div className="flex flex-wrap items-center gap-3">
         <input type="number" className="input-premium h-11 w-28" value={sortOrder} onChange={(e) => setSortOrder(Number(e.target.value))} />
-        <button onClick={() => save({ title, sortOrder }, 'Medya düzenlendi.')} type="button" className="btn-ghost-premium h-11 px-4">
+        <button onClick={() => save({ title, sortOrder }, 'Medya duzenlendi.')} type="button" className="btn-ghost-premium h-11 px-4">
           {saving ? 'Kaydediliyor...' : 'Kaydet'}
         </button>
         {!initialIsCover ? (
-          <button onClick={() => save({ isCover: true }, 'Kapak görseli güncellendi.')} type="button" className="btn-premium h-11 px-4">
-            Kapağa Al
+          <button onClick={() => save({ isCover: true }, 'Kapak gorseli guncellendi.')} type="button" className="btn-premium h-11 px-4">
+            Kapaga Al
           </button>
         ) : (
-          <span className="rounded-full border border-amber-400/25 px-3 py-2 text-xs text-amber-300">Kapak Görseli</span>
+          <span className="rounded-full border border-amber-400/25 px-3 py-2 text-xs text-amber-300">Kapak Gorseli</span>
         )}
       </div>
-      {error ? <p className="text-xs text-red-400">{error}</p> : null}
+      {error ? <p role="alert" className="text-xs text-red-400">{error}</p> : null}
     </div>
   )
 }

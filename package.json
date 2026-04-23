@@ -6,7 +6,8 @@
     "dev": "next dev --webpack",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "node --no-warnings --experimental-strip-types test/run.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",

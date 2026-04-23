@@ -90,6 +90,7 @@ export function ProjectForm({ mode = 'create', project }: Props) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+    if (loading) return
     setLoading(true)
     setMessage('')
     setError('')

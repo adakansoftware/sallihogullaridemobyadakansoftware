@@ -1,5 +1,5 @@
-import { promises as fs } from 'fs'
 import path from 'path'
+import { ensureTextFile, readJsonFileWithBackup, writeJsonFileAtomic } from '@/lib/file-storage'
 
 type RateLimitOptions = {
   limit: number
@@ -14,28 +14,45 @@ type Bucket = {
 type RateLimitState = Record<string, Bucket>
 
 const rateLimitFile = path.join(process.cwd(), 'data', 'rate-limit.json')
+const emptyRateLimitState: RateLimitState = {}
 const buckets = new Map<string, Bucket>()
-let fileSyncPromise: Promise<void> = Promise.resolve()
+const MAX_PERSISTED_BUCKETS = 5000
 
-async function ensureRateLimitFile() {
-  await fs.mkdir(path.dirname(rateLimitFile), { recursive: true })
+function isValidBucket(value: unknown): value is Bucket {
+  if (!value || typeof value !== 'object') return false
+  const bucket = value as Bucket
+  return Number.isFinite(bucket.count) && bucket.count >= 0 && Number.isFinite(bucket.resetAt) && bucket.resetAt > 0
+}
 
-  try {
-    await fs.access(rateLimitFile)
-  } catch {
-    await fs.writeFile(rateLimitFile, '{}', 'utf8')
+function pruneExpiredBuckets(now = Date.now()) {
+  for (const [key, bucket] of buckets.entries()) {
+    if (bucket.resetAt <= now) {
+      buckets.delete(key)
+    }
   }
 }
 
 async function loadPersistedBuckets() {
-  await ensureRateLimitFile()
-
   try {
-    const raw = await fs.readFile(rateLimitFile, 'utf8')
-    const parsed = JSON.parse(raw) as RateLimitState
+    const parsed = await readJsonFileWithBackup(rateLimitFile, {
+      parse(value: unknown) {
+        if (!value || typeof value !== 'object' || Array.isArray(value)) {
+          throw new Error('invalid_rate_limit_state')
+        }
+
+        const nextState: RateLimitState = {}
+        for (const [key, bucket] of Object.entries(value)) {
+          if (isValidBucket(bucket)) {
+            nextState[key] = bucket
+          }
+        }
+
+        return nextState
+      },
+    }, emptyRateLimitState)
     const now = Date.now()
 
-    for (const [key, bucket] of Object.entries(parsed)) {
+    for (const [key, bucket] of Object.entries(parsed.data)) {
       if (bucket.resetAt > now) {
         buckets.set(key, bucket)
       }
@@ -46,23 +63,18 @@ async function loadPersistedBuckets() {
 }
 
 async function persistBuckets() {
-  const now = Date.now()
+  pruneExpiredBuckets()
   const payload: RateLimitState = {}
+  const retainedBuckets = [...buckets.entries()]
+    .sort((left, right) => right[1].resetAt - left[1].resetAt)
+    .slice(0, MAX_PERSISTED_BUCKETS)
 
-  for (const [key, bucket] of buckets.entries()) {
-    if (bucket.resetAt > now) {
-      payload[key] = bucket
-    }
+  for (const [key, bucket] of retainedBuckets) {
+    payload[key] = bucket
   }
 
-  fileSyncPromise = fileSyncPromise
-    .catch(() => undefined)
-    .then(async () => {
-      await ensureRateLimitFile()
-      await fs.writeFile(rateLimitFile, JSON.stringify(payload, null, 2), 'utf8')
-    })
-
-  await fileSyncPromise
+  await ensureTextFile(rateLimitFile, '{}')
+  await writeJsonFileAtomic(rateLimitFile, payload)
 }
 
 let hydrated = false
@@ -75,6 +87,7 @@ async function hydrateRateLimitBuckets() {
 
 export async function checkRateLimit(key: string, options: RateLimitOptions) {
   await hydrateRateLimitBuckets()
+  pruneExpiredBuckets()
 
   const now = Date.now()
   const current = buckets.get(key)

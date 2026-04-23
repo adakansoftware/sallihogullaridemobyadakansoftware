@@ -37,15 +37,17 @@ export function AdminDangerAction({
 
   async function handleConfirm(event: MouseEvent<HTMLButtonElement>) {
     event.preventDefault()
+    if (loading) return
+
     setLoading(true)
     setError('')
 
     try {
       await onConfirm()
       setOpen(false)
-      toast.success('İşlem tamamlandı.')
+      toast.success('Islem tamamlandi.')
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'İşlem tamamlanamadı.'
+      const message = err instanceof Error ? err.message : 'Islem tamamlanamadi.'
       setError(message)
       toast.error(message)
     } finally {
@@ -71,20 +73,21 @@ export function AdminDangerAction({
           </AlertDialogHeader>
 
           {error ? (
-            <div className="mt-5 rounded-2xl border border-red-400/15 bg-red-400/8 px-4 py-3 text-sm text-red-300">
+            <div role="alert" className="mt-5 rounded-2xl border border-red-400/15 bg-red-400/8 px-4 py-3 text-sm text-red-300">
               {error}
             </div>
           ) : null}
 
           <AlertDialogFooter className="mt-7">
             <AlertDialogCancel className="h-11 rounded-2xl border-white/10 bg-white/[0.03] text-white hover:bg-white/[0.06]">
-              Vazgeç
+              Vazgec
             </AlertDialogCancel>
             <AlertDialogAction
               className="btn-premium h-11 rounded-2xl border-amber-300/30 bg-[linear-gradient(135deg,rgba(245,158,11,0.92),rgba(217,119,6,0.94))] px-5 text-[0.75rem] text-black hover:brightness-110"
               onClick={handleConfirm}
+              disabled={loading}
             >
-              {loading ? 'İşleniyor...' : confirmLabel}
+              {loading ? 'Isleniyor...' : confirmLabel}
             </AlertDialogAction>
           </AlertDialogFooter>
         </div>
@@ -92,4 +95,3 @@ export function AdminDangerAction({
     </AlertDialog>
   )
 }
-
