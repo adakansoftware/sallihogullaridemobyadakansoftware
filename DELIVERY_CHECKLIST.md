@@ -1,33 +1,38 @@
 # Delivery Checklist
 
-## Before client handoff
+## Technical Verification
 
-- Confirm `.env` values are set for production domain and strong admin credentials.
-- Run `npm run test`.
-- Run `npm run lint`.
-- Run `npm run build`.
-- Verify `data/` is writable in the deployment environment.
-- Verify `public/uploads/` is writable in the deployment environment.
-- Confirm admin login works on the live domain.
-- Confirm contact form creates records in `data/messages.json`.
-- Confirm project create/update/delete works from `/admin/projects`.
-- Confirm upload, cover image assignment, and media deletion work from the admin panel.
-- Confirm sitemap and robots endpoints respond: `/sitemap.xml`, `/robots.txt`.
+- Run `npm run test`
+- Run `npm run lint`
+- Run `npm run build`
+- Confirm `/api/health` returns `ok` or the expected storage warnings for the target environment
+- Confirm `/sitemap.xml`, `/robots.txt`, and `/manifest.webmanifest` respond correctly
 
-## Content review
+## Production Environment
 
-- Replace demo admin credentials with client credentials.
-- Review company name, phone, email, address, and service area in admin settings.
-- Review all public project entries for final client-approved text and media.
-- Remove any unused uploaded files if the dashboard reports orphan uploads.
+- Set `APP_ORIGIN` to the live domain
+- Set `NEXT_PUBLIC_SITE_URL` to the live domain
+- Set a strong `ADMIN_PASSWORD`
+- Set a long random `ADMIN_SESSION_SECRET`
+- Confirm `data/` is writable
+- Confirm `public/uploads/` is writable
 
-## Backup / recovery
+## Content Review
 
-- Back up `data/` before major edits or deployments.
-- Back up `public/uploads/` together with `data/`.
-- If a primary JSON file is corrupted, the app can recover from `.bak` files when available.
+- Confirm company name, phone, email, address, and service area
+- Confirm all public projects and media are client-approved
+- Remove or archive any unneeded uploaded files
+- Confirm contact form submissions are received under `/admin/messages`
 
-## Operational notes
+## Admin Review
 
-- This product uses file-based persistence, so it is best suited to a single writable deployment target.
-- For horizontal scaling or very high write concurrency, migrate persistence to a database-backed store.
+- Confirm login/logout works on the live domain
+- Confirm project create, update, publish, and delete flows
+- Confirm upload, cover assignment, reorder, and media delete flows
+- Confirm settings updates persist correctly
+
+## Backup and Recovery
+
+- Back up `data/` before release
+- Back up `public/uploads/` together with `data/`
+- Preserve `.bak` files for recovery support

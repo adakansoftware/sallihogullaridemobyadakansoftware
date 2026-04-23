@@ -6,11 +6,12 @@ import { ArrowLeft, ArrowUpRight, Calendar, CheckCircle2, Layers3, MapPin, Tags 
 import { CTASection } from '@/components/cta-section'
 import { SiteFrame } from '@/components/site-frame'
 import { buildProjectGallery, buildProjectHighlights, buildProjectScopes, findPublishedProjectBySlug } from '@/lib/project-service'
+import { getCanonicalUrl } from '@/lib/seo'
 import { getSiteSettings } from '@/lib/settings-service'
 
 function formatProjectDate(value: string) {
   const date = new Date(value)
-  if (Number.isNaN(date.getTime())) return 'Güncel operasyon'
+  if (Number.isNaN(date.getTime())) return 'Guncel operasyon'
 
   return new Intl.DateTimeFormat('tr-TR', {
     year: 'numeric',
@@ -28,7 +29,7 @@ export async function generateMetadata({
 
   if (!project) {
     return {
-      title: 'Proje Bulunamadı',
+      title: 'Proje Bulunamadi',
     }
   }
 
@@ -37,10 +38,14 @@ export async function generateMetadata({
   return {
     title: project.title,
     description,
+    alternates: {
+      canonical: getCanonicalUrl(`/projects/${project.slug}`),
+    },
     openGraph: {
       title: project.title,
       description,
       type: 'article',
+      url: getCanonicalUrl(`/projects/${project.slug}`),
       images: [
         {
           url: project.coverImage || '/images/project-1.jpg',
@@ -91,12 +96,12 @@ export default async function ProjectDetailPage({
         <div className="relative z-10 mx-auto max-w-[1400px] px-6 lg:px-8">
           <Link href="/projects" className="glass-surface mb-8 inline-flex h-12 items-center gap-3 px-5 text-sm font-semibold text-foreground">
             <ArrowLeft className="h-4 w-4 text-primary" />
-            Tüm Projelere Dön
+            Tum Projelere Don
           </Link>
 
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_380px] lg:items-end">
             <div className="max-w-4xl">
-              <div className="section-eyebrow mb-6">Proje Detayı</div>
+              <div className="section-eyebrow mb-6">Proje Detayi</div>
               <h1 className="text-4xl leading-[0.95] font-black tracking-[-0.03em] text-foreground sm:text-5xl lg:text-6xl xl:text-[5rem]">
                 {project.title}
               </h1>
@@ -107,7 +112,7 @@ export default async function ProjectDetailPage({
               <div className="mt-8 flex flex-wrap gap-3 text-sm text-muted-foreground">
                 <span className="glass-surface inline-flex items-center gap-2 px-4 py-3">
                   <MapPin className="h-4 w-4 text-primary" />
-                  {project.location || 'Türkiye'}
+                  {project.location || 'Turkiye'}
                 </span>
                 <span className="glass-surface inline-flex items-center gap-2 px-4 py-3">
                   <Calendar className="h-4 w-4 text-primary" />
@@ -121,7 +126,7 @@ export default async function ProjectDetailPage({
             </div>
 
             <div className="glass-card p-7 lg:p-8">
-              <div className="data-label text-white/45">Proje Özeti</div>
+              <div className="data-label text-white/45">Proje Ozeti</div>
               <div className="mt-5 grid grid-cols-2 gap-4">
                 <div className="rounded-[24px] border border-white/10 bg-white/[0.03] p-4">
                   <div className="stat-value text-3xl text-white">{Math.max(gallery.length, 1)}</div>
@@ -129,11 +134,11 @@ export default async function ProjectDetailPage({
                 </div>
                 <div className="rounded-[24px] border border-white/10 bg-white/[0.03] p-4">
                   <div className="stat-value text-3xl text-white">{scopes.length}</div>
-                  <div className="mt-2 text-xs uppercase tracking-[0.18em] text-white/48">Operasyon Başlığı</div>
+                  <div className="mt-2 text-xs uppercase tracking-[0.18em] text-white/48">Operasyon Basligi</div>
                 </div>
               </div>
               <p className="mt-5 text-sm leading-7 text-white/58">
-                Saha görselleri, kapsam başlıkları ve uygulama detayları birlikte sunulur.
+                Saha gorselleri, kapsam basliklari ve uygulama detaylari birlikte sunulur.
               </p>
             </div>
           </div>
@@ -154,7 +159,7 @@ export default async function ProjectDetailPage({
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
                 <div className="absolute right-6 bottom-6 left-6 flex items-end justify-between gap-4">
                   <div>
-                    <div className="section-eyebrow mb-3">Ana Görünüm</div>
+                    <div className="section-eyebrow mb-3">Ana Gorunum</div>
                     <div className="text-2xl font-black text-white lg:text-3xl">{featureMedia.title || project.title}</div>
                   </div>
                   <div className="hidden h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-background/50 text-white backdrop-blur sm:flex">
@@ -166,13 +171,13 @@ export default async function ProjectDetailPage({
 
             <div className="space-y-6">
               <div className="glass-card p-8">
-                <div className="section-eyebrow mb-5">Operasyon Özeti</div>
-                <h2 className="text-3xl font-black text-foreground lg:text-4xl">Sahadaki ritim, ekipman yoğunluğu ve teslim disiplini öne çıkar.</h2>
+                <div className="section-eyebrow mb-5">Operasyon Ozeti</div>
+                <h2 className="text-3xl font-black text-foreground lg:text-4xl">Sahadaki ritim, ekipman yogunlugu ve teslim disiplini one cikar.</h2>
                 <p className="mt-6 text-base leading-8 text-muted-foreground">{project.description || project.summary}</p>
               </div>
 
               <div className="glass-card p-8">
-                <div className="section-eyebrow mb-5">Servis Kapsamı</div>
+                <div className="section-eyebrow mb-5">Servis Kapsami</div>
                 <div className="grid gap-3">
                   {scopes.map((scope) => (
                     <div key={scope} className="flex items-start gap-3 rounded-[22px] border border-white/8 bg-white/[0.03] px-4 py-4">
@@ -191,8 +196,8 @@ export default async function ProjectDetailPage({
         <div className="mx-auto max-w-[1400px] px-6 lg:px-8">
           <div className="mb-10 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <div className="section-eyebrow mb-4">Görsel Derinlik</div>
-              <h2 className="text-3xl font-black text-foreground lg:text-4xl">Proje özelinde ilerleyen galeri kurgusu</h2>
+              <div className="section-eyebrow mb-4">Gorsel Derinlik</div>
+              <h2 className="text-3xl font-black text-foreground lg:text-4xl">Proje ozelinde ilerleyen galeri kurgusu</h2>
             </div>
           </div>
 
@@ -214,7 +219,7 @@ export default async function ProjectDetailPage({
                 </div>
                 <div className="p-5 lg:p-6">
                   <div className="text-lg font-semibold text-white">{media.title || `${project.title} detay karesi`}</div>
-                  <div className="mt-2 text-sm leading-7 text-white/55">{media.resourceType === 'video' ? 'Saha videosu' : 'Destekleyici saha görseli'}</div>
+                  <div className="mt-2 text-sm leading-7 text-white/55">{media.resourceType === 'video' ? 'Saha videosu' : 'Destekleyici saha gorseli'}</div>
                 </div>
               </div>
             ))}
@@ -226,8 +231,8 @@ export default async function ProjectDetailPage({
         <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/10 to-background" />
         <div className="relative z-10 mx-auto max-w-[1400px] px-6 lg:px-8">
           <div className="mb-10">
-            <div className="section-eyebrow mb-4">Proje Katmanları</div>
-            <h2 className="text-3xl font-black text-foreground lg:text-4xl">Uygulamanın kapsamını görünür kılan bilgi blokları</h2>
+            <div className="section-eyebrow mb-4">Proje Katmanlari</div>
+            <h2 className="text-3xl font-black text-foreground lg:text-4xl">Uygulamanin kapsamini gorunur kilan bilgi bloklari</h2>
           </div>
 
           <div className="grid gap-6 lg:grid-cols-3">

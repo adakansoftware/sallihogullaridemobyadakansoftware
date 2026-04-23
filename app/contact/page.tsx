@@ -3,11 +3,18 @@ import { ContactSection } from '@/components/contact-section'
 import { CTASection } from '@/components/cta-section'
 import { PageHero } from '@/components/page-hero'
 import { SiteFrame } from '@/components/site-frame'
+import { getCanonicalUrl } from '@/lib/seo'
 import { readSettings } from '@/lib/store'
 
 export const metadata: Metadata = {
-  title: 'İletişim',
-  description: 'Teklif, saha planlaması ve operasyon görüşmeleri için bizimle iletişime geçin.',
+  title: 'Iletisim',
+  description: 'Teklif, saha planlamasi ve operasyon gorusmeleri icin bizimle iletisime gecin.',
+  alternates: {
+    canonical: getCanonicalUrl('/contact'),
+  },
+  openGraph: {
+    url: getCanonicalUrl('/contact'),
+  },
 }
 
 export default async function ContactPage() {
@@ -16,11 +23,11 @@ export default async function ContactPage() {
   return (
     <SiteFrame settings={settings}>
       <PageHero
-        eyebrow="İletişim"
-        title="Teklif, planlama ve operasyon görüşmeleri için bize ulaşın"
-        description="Projenizin lokasyonunu, kapsamını ve saha ihtiyaçlarını paylaşın; size uygun operasyon planı ve teklif yapısını birlikte oluşturalım."
+        eyebrow="Iletisim"
+        title="Teklif, planlama ve operasyon gorusmeleri icin bize ulasin"
+        description="Projenizin lokasyonunu, kapsamini ve saha ihtiyaclarini paylasin; size uygun operasyon plani ve teklif yapisini birlikte olusturalim."
         image="/images/lowbed.jpg"
-        primaryCta={{ href: settings.whatsappUrl, label: 'WhatsApp ile Ulaşın' }}
+        primaryCta={{ href: settings.whatsappUrl, label: 'WhatsApp ile Ulasin' }}
       />
       <ContactSection settings={settings} />
       <CTASection />

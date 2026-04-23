@@ -1,71 +1,39 @@
-# Salihogullari Hafriyat - Delivery Notes
+# Admin Operations Guide
 
-Bu proje, premium public web deneyimi ile ayri kimlik dogrulama akisina sahip admin panelini ayni icerik omurgasi uzerinde calistirir.
+This project includes a protected admin panel for content management and operational follow-up.
 
-## Mimari Ozet
+## Admin Areas
 
-- Public rotalar: `/`, `/about`, `/services`, `/projects`, `/projects/[slug]`, `/fleet`, `/contact`
-- Ayri admin girisi: `/admin/login`
-- Korunan admin paneli: `/admin`, `/admin/projects`, `/admin/messages`, `/admin/settings`
-- Veri kaynaklari: `data/projects.json`, `data/messages.json`, `data/settings.json`
-- Yuklenen dosyalar: `public/uploads`
-- Dosya tabanli yardimcilar: `lib/file-storage.ts`, `lib/store.ts`, `lib/rate-limit.ts`
+- `/admin/login`: secure login screen
+- `/admin`: overview dashboard
+- `/admin/projects`: project and media management
+- `/admin/messages`: contact form inbox
+- `/admin/settings`: company profile and site-wide content
 
-## Guvenlik Beklentileri
+## Daily Usage
 
-- Admin erisimi yalnizca `.env` icindeki `ADMIN_EMAIL` ve `ADMIN_PASSWORD` ile yapilir.
-- `ADMIN_SESSION_SECRET` zorunludur ve en az 32 karakter olmalidir.
-- `APP_ORIGIN` canli alan adinizi tanimlamak icin onerilir.
-- Zayif sifre veya kod icine sabitlenmis credential kullanmayin.
-- Mutasyon rotalari ayni-origin dogrulamasi ve rate limit korumasi altindadir.
+1. Log in with the environment-based admin credentials.
+2. Update company-wide information from `/admin/settings`.
+3. Create or edit projects from `/admin/projects`.
+4. Upload gallery media only from the admin panel.
+5. Review incoming contact requests from `/admin/messages`.
 
-## Kurulum
+## Safe Editing Expectations
 
-```bash
-npm install
-copy .env.example .env
-npm run lint
-npm run test
-npm run build
-npm run dev
-```
+- Project cover images should point to `/images/...` or managed `/uploads/...` paths.
+- Uploaded files are validated before they are saved.
+- Deleting a project also evaluates whether related uploaded files are still referenced elsewhere.
+- Draft content stays out of the public project listing until published.
 
-## Gerekli Ortam Degiskenleri
+## Before Production Handoff
 
-```env
-ADMIN_EMAIL=admin@salihogullari.com
-ADMIN_PASSWORD=use-a-strong-password-here
-ADMIN_SESSION_SECRET=use-a-long-random-secret-here
-APP_ORIGIN=http://localhost:3000
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
-```
+- Replace the default admin password.
+- Confirm the live domain is configured in both `APP_ORIGIN` and `NEXT_PUBLIC_SITE_URL`.
+- Confirm `data/` and `public/uploads/` are writable on the target host.
+- Run `npm run test`, `npm run lint`, and `npm run build`.
 
-## Auth Akisi
+## Support Notes
 
-1. Kullanici `/admin/login` sayfasina gelir.
-2. Gecerli e-posta ve sifre ile giris dogrulanir.
-3. Session cookie olusturulur.
-4. Kullanici korunan admin paneline yonlendirilir.
-5. Yetkisiz erisimler temiz sekilde `/admin/login` sayfasina doner.
-
-## Medya Akisi
-
-- Dosyalar once guvenli upload katmanindan gecer.
-- MIME, uzanti ve imza dogrulamalari birlikte uygulanir.
-- Projeye baglanamayan yuklemeler temizlenir.
-- Yonetilen medya yalnizca `/uploads/` altindan servis edilir.
-- Kapak gorseli ve galeri kayitlari proje verisiyle birlikte takip edilir.
-- Silinen kayitlarin dosyalari yalnizca baska bir referans kalmadiginda temizlenir.
-
-## Uretim Notlari
-
-- `data/` klasoru yazilabilir olmali ve yedek dosyalar (`.bak`) korunmalidir.
-- `public/uploads/` klasoru yazilabilir olmali; ters proxy veya platform katmaninda dosya boyutu limitleri proje limitiyle uyumlu tutulmalidir.
-- `APP_ORIGIN` ve `NEXT_PUBLIC_SITE_URL` canli alan adiyla eslesmelidir, aksi halde mutasyon istekleri origin kontrolune takilabilir.
-- File-based rate limit yuk altinda temel koruma saglar; yatay olceklenmis dagitim gerekiyorsa kalici ortak store dusunulmelidir.
-
-## Notlar
-
-- Public proje sayfalari admin tarafinda yonetilen proje verilerinden beslenir.
-- Upload endpoint'i yalnizca admin oturumu altinda calisir.
-- Uretim oncesinde `APP_ORIGIN`, `NEXT_PUBLIC_SITE_URL`, `ADMIN_PASSWORD` ve `ADMIN_SESSION_SECRET` degerlerini canli ortama uygun sekilde ayarlayin.
+- This is a file-backed operational CMS for a corporate website.
+- It is suitable for moderate editorial/admin activity on a single writable deployment target.
+- If the client later needs multiple concurrent editors or multi-instance hosting, plan a database migration.

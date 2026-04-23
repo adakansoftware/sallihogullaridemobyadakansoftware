@@ -1,58 +1,74 @@
 # Salihogullari Corporate Platform
 
-Kurumsal web sitesi ve yönetim paneli içeren, Next.js 16 tabanlı teslimata hazır proje.
+Production-ready corporate website and admin panel built with Next.js 16.
 
-## Özet
+## Project Scope
 
-- Public rotalar: `/`, `/about`, `/services`, `/projects`, `/projects/[slug]`, `/fleet`, `/contact`
-- Admin rotaları: `/admin/login`, `/admin`, `/admin/projects`, `/admin/messages`, `/admin/settings`
-- Veri katmanı: `data/` altında JSON dosyaları
-- Medya: `public/uploads`
-- Kimlik doğrulama: ortam değişkeni tabanlı admin oturumu ve güvenli cookie
+- Public routes: `/`, `/about`, `/services`, `/projects`, `/projects/[slug]`, `/fleet`, `/contact`
+- Admin routes: `/admin/login`, `/admin`, `/admin/projects`, `/admin/messages`, `/admin/settings`
+- Content storage: JSON files under `data/`
+- Upload storage: `public/uploads`
+- Auth model: environment-based admin credentials with secure session cookie
 
-## Kurulum
+## Quick Start
 
-1. Bağımlılıkları yükleyin:
+1. Install dependencies:
 
 ```powershell
 npm install
 ```
 
-2. Ortam değişkenlerini hazırlayın:
+2. Create the local environment file:
 
 ```powershell
 Copy-Item .env.example .env
 ```
 
-3. `.env` içindeki admin ve site değerlerini güncelleyin.
+3. Update `.env` with the real production-safe values.
 
-4. Geliştirme sunucusunu başlatın:
-
-```powershell
-npm run dev
-```
-
-## Komutlar
+4. Run verification:
 
 ```powershell
-npm run dev
 npm run test
 npm run lint
 npm run build
 ```
 
-## Üretim Notları
+5. Start local development:
 
-- `NEXT_PUBLIC_SITE_URL` veya `APP_ORIGIN` doğru production alan adına ayarlanmalıdır.
-- Her iki alanın da aynı production origin ile tanımlanması tavsiye edilir.
-- `ADMIN_SESSION_SECRET` rastgele ve güçlü bir değer olmalıdır.
-- `data/` ve `public/uploads/` yazılabilir olmalıdır.
-- Bu proje tek-instance dosya tabanlı persistence kullanır; yatay ölçekleme için veritabanı geçişi planlanmalıdır.
+```powershell
+npm run dev
+```
 
-## Handoff
+## Required Environment
 
-Detaylı operasyon ve teslim notları için şu dosyalara bakın:
+```env
+ADMIN_EMAIL=admin@example.com
+ADMIN_PASSWORD=use-a-strong-password
+ADMIN_SESSION_SECRET=use-a-long-random-secret
+APP_ORIGIN=https://example.com
+NEXT_PUBLIC_SITE_URL=https://example.com
+```
+
+## Production Notes
+
+- `APP_ORIGIN` and `NEXT_PUBLIC_SITE_URL` should match the live domain.
+- `data/` must be readable and writable in production.
+- `public/uploads/` must be readable and writable in production.
+- This project uses file-based persistence and is best deployed to a single writable instance.
+- Keep `data/` and `public/uploads/` in backups together.
+- Use strong, client-specific admin credentials before handoff.
+
+## Operations
+
+- Health endpoint: `/api/health`
+- Sitemap: `/sitemap.xml`
+- Robots: `/robots.txt`
+- Web manifest: `/manifest.webmanifest`
+
+## Handoff Documents
 
 - [README_ADMIN.md](C:\Users\adaka\Desktop\sali_admin_full\README_ADMIN.md)
 - [CLIENT_HANDOFF.md](C:\Users\adaka\Desktop\sali_admin_full\CLIENT_HANDOFF.md)
 - [DELIVERY_CHECKLIST.md](C:\Users\adaka\Desktop\sali_admin_full\DELIVERY_CHECKLIST.md)
+- [DEPLOYMENT.md](C:\Users\adaka\Desktop\sali_admin_full\DEPLOYMENT.md)

@@ -1,14 +1,21 @@
 import type { Metadata } from 'next'
-import { FleetSection } from '@/components/fleet-section'
-import { WhyUsSection } from '@/components/why-us-section'
 import { CTASection } from '@/components/cta-section'
+import { FleetSection } from '@/components/fleet-section'
 import { PageHero } from '@/components/page-hero'
 import { SiteFrame } from '@/components/site-frame'
+import { WhyUsSection } from '@/components/why-us-section'
+import { getCanonicalUrl } from '@/lib/seo'
 import { readSettings } from '@/lib/store'
 
 export const metadata: Metadata = {
   title: 'Filo',
-  description: 'Ekskavatör, damperli kamyon, lowbed ve saha destek araçlarından oluşan makine parkımızı inceleyin.',
+  description: 'Ekskavator, damperli kamyon, lowbed ve saha destek araclarindan olusan makine parkimizi inceleyin.',
+  alternates: {
+    canonical: getCanonicalUrl('/fleet'),
+  },
+  openGraph: {
+    url: getCanonicalUrl('/fleet'),
+  },
 }
 
 export default async function FleetPage() {
@@ -17,11 +24,11 @@ export default async function FleetPage() {
   return (
     <SiteFrame settings={settings}>
       <PageHero
-        eyebrow="Makine Parkı"
-        title="Operasyonu taşıyan güçlü araç ve ekipman altyapısı"
-        description="Ekskavatörlerden damperli kamyonlara, lowbed çözümlerinden saha destek araçlarına kadar işin temposunu kaldıran filomuzu inceleyin."
+        eyebrow="Makine Parki"
+        title="Operasyonu tasiyan guclu arac ve ekipman altyapisi"
+        description="Ekskavatorlerden damperli kamyonlara, lowbed cozumlerinden saha destek araclarina kadar isin temposunu kaldiran filomuzu inceleyin."
         image="/images/dump-truck.jpg"
-        primaryCta={{ href: '/services', label: 'Hizmet Alanlarını Görün' }}
+        primaryCta={{ href: '/services', label: 'Hizmet Alanlarini Gorun' }}
       />
       <FleetSection />
       <WhyUsSection />
