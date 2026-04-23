@@ -1,0 +1,18 @@
+{
+  "login:::1:1667ff80f9c32f8f": {
+    "count": 4,
+    "resetAt": 1776949634188
+  },
+  "login:email:24a333ab663ed3184f6fb210ae7d5985f676b8569fa103ba4049912a4222f7c6": {
+    "count": 2,
+    "resetAt": 1776949634191
+  },
+  "login:email:f17462ca8841dd5e3bb65c0e7ad2768db865dd2eba8d51437dc4ae69a828fe4e": {
+    "count": 2,
+    "resetAt": 1776949868329
+  },
+  "admin:settings:update:::1:1667ff80f9c32f8f": {
+    "count": 1,
+    "resetAt": 1776949991851
+  }
+}

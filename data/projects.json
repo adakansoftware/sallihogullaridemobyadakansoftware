@@ -1,0 +1,262 @@
+[
+  {
+    "id": "proj-basaksehir-metro",
+    "title": "Ba\u015fak\u015fehir Metro Altyap\u0131 Projesi",
+    "slug": "basaksehir-metro-altyapi-projesi",
+    "summary": "Metro hatt\u0131 g\u00fczergah\u0131nda disiplinli hafriyat, temel kaz\u0131 ve kontroll\u00fc saha lojisti\u011fi operasyonu.",
+    "description": "Ba\u015fak\u015fehir metro hatt\u0131 boyunca y\u00fcr\u00fct\u00fclen bu operasyon, kademeli saha planlamas\u0131, g\u00fcvenli sevkiyat ve \u00e7oklu ekipman koordinasyonu ile teslim edildi.",
+    "location": "\u0130stanbul",
+    "category": "Altyap\u0131 Kaz\u0131s\u0131",
+    "coverImage": "/images/project-1.jpg",
+    "status": "Yay\u0131nda",
+    "featured": true,
+    "tags": [
+      "Metro",
+      "Altyap\u0131",
+      "Kaz\u0131"
+    ],
+    "createdAt": "2026-01-10T09:00:00.000Z",
+    "updatedAt": "2026-01-10T09:00:00.000Z",
+    "media": [
+      {
+        "id": "media-basaksehir-1",
+        "title": "Saha genel g\u00f6r\u00fcn\u00fcm\u00fc",
+        "fileUrl": "/images/project-1.jpg",
+        "fileType": "image/jpeg",
+        "resourceType": "image",
+        "thumbnailUrl": "/images/project-1.jpg",
+        "isCover": true,
+        "sortOrder": 0,
+        "createdAt": "2026-01-10T09:00:00.000Z"
+      },
+      {
+        "id": "media-basaksehir-2",
+        "title": "Kaz\u0131 aks\u0131 ve ekipman yerle\u015fimi",
+        "fileUrl": "/images/gallery-1.jpg",
+        "fileType": "image/jpeg",
+        "resourceType": "image",
+        "thumbnailUrl": "/images/gallery-1.jpg",
+        "isCover": false,
+        "sortOrder": 1,
+        "createdAt": "2026-01-10T09:05:00.000Z"
+      },
+      {
+        "id": "media-basaksehir-3",
+        "title": "Saha lojistik ge\u00e7i\u015f koridoru",
+        "fileUrl": "/images/excavator.jpg",
+        "fileType": "image/jpeg",
+        "resourceType": "image",
+        "thumbnailUrl": "/images/excavator.jpg",
+        "isCover": false,
+        "sortOrder": 2,
+        "createdAt": "2026-01-10T09:10:00.000Z"
+      },
+      {
+        "id": "media-basaksehir-4",
+        "title": "Kontrollu sevkiyat ritmi",
+        "fileUrl": "/images/gallery-2.jpg",
+        "fileType": "image/jpeg",
+        "resourceType": "image",
+        "thumbnailUrl": "/images/gallery-2.jpg",
+        "isCover": false,
+        "sortOrder": 3,
+        "createdAt": "2026-01-10T09:15:00.000Z"
+      }
+    ]
+  },
+  {
+    "id": "proj-organize-sanayi",
+    "title": "Organize Sanayi Geni\u015fleme Operasyonu",
+    "slug": "organize-sanayi-genisleme-operasyonu",
+    "summary": "Tesviye, dolgu ve altyap\u0131 haz\u0131rl\u0131k ak\u0131\u015flar\u0131n\u0131 kapsayan geni\u015f \u00f6l\u00e7ekli saha d\u00fczenleme operasyonu.",
+    "description": "Sanayi b\u00f6lgesi geni\u015fleme sahas\u0131nda zemin haz\u0131rl\u0131\u011f\u0131, malzeme y\u00f6netimi ve operasyon temposu ayn\u0131 takvim i\u00e7inde birle\u015ftirildi.",
+    "location": "Kocaeli",
+    "category": "Saha Haz\u0131rl\u0131\u011f\u0131",
+    "coverImage": "/images/project-2.jpg",
+    "status": "Yay\u0131nda",
+    "featured": false,
+    "tags": [
+      "Sanayi",
+      "Dolgu",
+      "Tesviye"
+    ],
+    "createdAt": "2026-01-08T09:00:00.000Z",
+    "updatedAt": "2026-01-08T09:00:00.000Z",
+    "media": [
+      {
+        "id": "media-organize-1",
+        "title": "Haz\u0131rl\u0131k sahas\u0131",
+        "fileUrl": "/images/project-2.jpg",
+        "fileType": "image/jpeg",
+        "resourceType": "image",
+        "thumbnailUrl": "/images/project-2.jpg",
+        "isCover": true,
+        "sortOrder": 0,
+        "createdAt": "2026-01-08T09:00:00.000Z"
+      },
+      {
+        "id": "media-organize-2",
+        "title": "Dolgu planlama katmani",
+        "fileUrl": "/images/gallery-3.jpg",
+        "fileType": "image/jpeg",
+        "resourceType": "image",
+        "thumbnailUrl": "/images/gallery-3.jpg",
+        "isCover": false,
+        "sortOrder": 1,
+        "createdAt": "2026-01-08T09:05:00.000Z"
+      },
+      {
+        "id": "media-organize-3",
+        "title": "Saha acilis parcasi",
+        "fileUrl": "/images/dump-truck.jpg",
+        "fileType": "image/jpeg",
+        "resourceType": "image",
+        "thumbnailUrl": "/images/dump-truck.jpg",
+        "isCover": false,
+        "sortOrder": 2,
+        "createdAt": "2026-01-08T09:10:00.000Z"
+      },
+      {
+        "id": "media-organize-4",
+        "title": "Tesviye akis gorunumu",
+        "fileUrl": "/images/gallery-4.jpg",
+        "fileType": "image/jpeg",
+        "resourceType": "image",
+        "thumbnailUrl": "/images/gallery-4.jpg",
+        "isCover": false,
+        "sortOrder": 3,
+        "createdAt": "2026-01-08T09:15:00.000Z"
+      }
+    ]
+  },
+  {
+    "id": "proj-lojistik-merkezi",
+    "title": "Lojistik Merkezi Temel Kaz\u0131s\u0131",
+    "slug": "lojistik-merkezi-temel-kazisi",
+    "summary": "Derin temel kaz\u0131s\u0131, hafriyat nakliyesi ve s\u0131k\u0131 saha temposunu bir araya getiren teslim odakl\u0131 proje.",
+    "description": "Lojistik merkezinin temel kaz\u0131s\u0131 s\u00fcrecinde s\u0131n\u0131rl\u0131 eri\u015fim alanlar\u0131na ra\u011fmen makine park\u0131 ve damperli nakliyat senkronize edildi.",
+    "location": "Ankara",
+    "category": "Temel Kaz\u0131s\u0131",
+    "coverImage": "/images/project-3.jpg",
+    "status": "Yay\u0131nda",
+    "featured": false,
+    "tags": [
+      "Temel Kaz\u0131s\u0131",
+      "Lojistik",
+      "Nakliyat"
+    ],
+    "createdAt": "2026-01-06T09:00:00.000Z",
+    "updatedAt": "2026-01-06T09:00:00.000Z",
+    "media": [
+      {
+        "id": "media-lojistik-1",
+        "title": "Kaz\u0131 alan\u0131",
+        "fileUrl": "/images/project-3.jpg",
+        "fileType": "image/jpeg",
+        "resourceType": "image",
+        "thumbnailUrl": "/images/project-3.jpg",
+        "isCover": true,
+        "sortOrder": 0,
+        "createdAt": "2026-01-06T09:00:00.000Z"
+      },
+      {
+        "id": "media-lojistik-2",
+        "title": "Derin kazida ekipman ritmi",
+        "fileUrl": "/images/lowbed.jpg",
+        "fileType": "image/jpeg",
+        "resourceType": "image",
+        "thumbnailUrl": "/images/lowbed.jpg",
+        "isCover": false,
+        "sortOrder": 1,
+        "createdAt": "2026-01-06T09:05:00.000Z"
+      },
+      {
+        "id": "media-lojistik-3",
+        "title": "Nakliye ve saha destek akisi",
+        "fileUrl": "/images/gallery-2.jpg",
+        "fileType": "image/jpeg",
+        "resourceType": "image",
+        "thumbnailUrl": "/images/gallery-2.jpg",
+        "isCover": false,
+        "sortOrder": 2,
+        "createdAt": "2026-01-06T09:10:00.000Z"
+      },
+      {
+        "id": "media-lojistik-4",
+        "title": "Operasyon yogunlugu panoramasi",
+        "fileUrl": "/images/gallery-1.jpg",
+        "fileType": "image/jpeg",
+        "resourceType": "image",
+        "thumbnailUrl": "/images/gallery-1.jpg",
+        "isCover": false,
+        "sortOrder": 3,
+        "createdAt": "2026-01-06T09:15:00.000Z"
+      }
+    ]
+  },
+  {
+    "id": "proj-otoyol-baglanti",
+    "title": "Otoyol Ba\u011flant\u0131 Yolu Dolgu \u00c7al\u0131\u015fmas\u0131",
+    "slug": "otoyol-baglanti-yolu-dolgu-calismasi",
+    "summary": "Yol altyap\u0131s\u0131 i\u00e7in dolgu, tesviye ve malzeme ak\u0131\u015f\u0131n\u0131 kapsayan uzun soluklu saha operasyonu.",
+    "description": "Ba\u011flant\u0131 yolu projesinde dolgu planlamas\u0131, kamyon sevkiyat ritmi ve saha dengeleme i\u015fleri birlikte ele al\u0131nd\u0131.",
+    "location": "Bursa",
+    "category": "Yol Yap\u0131m\u0131",
+    "coverImage": "/images/project-4.jpg",
+    "status": "Yay\u0131nda",
+    "featured": false,
+    "tags": [
+      "Yol",
+      "Dolgu",
+      "Saha Operasyonu"
+    ],
+    "createdAt": "2026-01-04T09:00:00.000Z",
+    "updatedAt": "2026-01-04T09:00:00.000Z",
+    "media": [
+      {
+        "id": "media-otoyol-1",
+        "title": "Ba\u011flant\u0131 yolu sahas\u0131",
+        "fileUrl": "/images/project-4.jpg",
+        "fileType": "image/jpeg",
+        "resourceType": "image",
+        "thumbnailUrl": "/images/project-4.jpg",
+        "isCover": true,
+        "sortOrder": 0,
+        "createdAt": "2026-01-04T09:00:00.000Z"
+      },
+      {
+        "id": "media-otoyol-2",
+        "title": "Dolgu hattinda sevkiyat temposu",
+        "fileUrl": "/images/dump-truck.jpg",
+        "fileType": "image/jpeg",
+        "resourceType": "image",
+        "thumbnailUrl": "/images/dump-truck.jpg",
+        "isCover": false,
+        "sortOrder": 1,
+        "createdAt": "2026-01-04T09:05:00.000Z"
+      },
+      {
+        "id": "media-otoyol-3",
+        "title": "Yol platformu saha yayilimi",
+        "fileUrl": "/images/gallery-4.jpg",
+        "fileType": "image/jpeg",
+        "resourceType": "image",
+        "thumbnailUrl": "/images/gallery-4.jpg",
+        "isCover": false,
+        "sortOrder": 2,
+        "createdAt": "2026-01-04T09:10:00.000Z"
+      },
+      {
+        "id": "media-otoyol-4",
+        "title": "Makine ve dolgu koordinasyonu",
+        "fileUrl": "/images/backhoe.jpg",
+        "fileType": "image/jpeg",
+        "resourceType": "image",
+        "thumbnailUrl": "/images/backhoe.jpg",
+        "isCover": false,
+        "sortOrder": 3,
+        "createdAt": "2026-01-04T09:15:00.000Z"
+      }
+    ]
+  }
+]
