@@ -111,7 +111,7 @@ export function MediaUploader({ projectId }: { projectId: string }) {
       setSortOrder(0)
       setIsCover(false)
       setFiles([])
-      toast.success(selectedFiles.length > 1 ? 'Medya galerisi guncellendi.' : 'Medya eklendi.')
+      toast.success(selectedFiles.length > 1 ? 'Medya galerisi güncellendi.' : 'Medya eklendi.')
       router.refresh()
     } catch (uploadError) {
       const message = uploadError instanceof Error ? uploadError.message : 'Yukleme tamamlanamadi.'
@@ -140,7 +140,7 @@ export function MediaUploader({ projectId }: { projectId: string }) {
 
       <label className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-4 text-sm text-white/70">
         <input type="checkbox" checked={isCover} onChange={(e) => setIsCover(e.target.checked)} />
-        Ilk dosyayi kapak gorseli yap
+        İlk dosyayı kapak görseli yap
       </label>
 
       <input
@@ -152,7 +152,7 @@ export function MediaUploader({ projectId }: { projectId: string }) {
       />
 
       <div className="rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm text-white/55">
-        Birden fazla gorsel veya video yukleyebilirsiniz. Dosya basina en fazla 25 MB desteklenir.
+        Birden fazla görsel veya video yükleyebilirsiniz. Dosya başına en fazla 25 MB desteklenir.
         {selectedFiles.length ? <div className="mt-2 text-white/70">{selectedFiles.length} dosya • toplam {totalSelectedSizeMb.toFixed(1)} MB</div> : null}
       </div>
 

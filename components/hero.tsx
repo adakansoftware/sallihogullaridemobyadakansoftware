@@ -7,9 +7,9 @@ import { Button } from '@/components/ui/button'
 import type { SiteSettings } from '@/lib/store'
 
 const heroStats = [
-  { value: '25+', label: 'Yıllık Tecrübe' },
-  { value: '1.200+', label: 'Tamamlanan Operasyon' },
-  { value: '85+', label: 'Araç Filosu' },
+  { value: '25+', label: 'Yıllık Saha Deneyimi' },
+  { value: '7/24', label: 'Operasyon Takibi' },
+  { value: '85+', label: 'Araç ve Makine' },
 ]
 
 export function Hero({ settings }: { settings: SiteSettings }) {
@@ -58,7 +58,7 @@ export function Hero({ settings }: { settings: SiteSettings }) {
           <div className="mb-20 flex flex-col gap-4 sm:flex-row">
             <Button asChild size="lg" className="glow-amber h-16 gap-3 bg-primary px-10 text-sm font-bold uppercase tracking-[0.1em] text-primary-foreground transition-all duration-300 hover:scale-[1.02] hover:bg-primary/90">
               <Link href="/contact">
-                Ücretsiz Teklif Alın
+                Teklif Talebi Oluştur
                 <ChevronRight className="h-5 w-5" />
               </Link>
             </Button>

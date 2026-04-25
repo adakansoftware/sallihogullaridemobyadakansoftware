@@ -9,7 +9,7 @@ import { readSettings } from '@/lib/store'
 
 export const metadata: Metadata = {
   title: 'Filo',
-  description: 'Ekskavator, damperli kamyon, lowbed ve saha destek araclarindan olusan makine parkimizi inceleyin.',
+  description: 'Ekskavatör, damperli kamyon, lowbed ve saha destek araçlarından oluşan makine parkını inceleyin.',
   alternates: {
     canonical: getCanonicalUrl('/fleet'),
   },
@@ -24,11 +24,11 @@ export default async function FleetPage() {
   return (
     <SiteFrame settings={settings}>
       <PageHero
-        eyebrow="Makine Parki"
-        title="Operasyonu tasiyan guclu arac ve ekipman altyapisi"
-        description="Ekskavatorlerden damperli kamyonlara, lowbed cozumlerinden saha destek araclarina kadar isin temposunu kaldiran filomuzu inceleyin."
+        eyebrow="Makine Parkı"
+        title="Operasyonu taşıyan güçlü araç ve ekipman altyapısı"
+        description="Ekskavatörlerden damperli kamyonlara, lowbed çözümlerinden saha destek araçlarına kadar işin temposunu taşıyan filomuzu inceleyin."
         image="/images/dump-truck.jpg"
-        primaryCta={{ href: '/services', label: 'Hizmet Alanlarini Gorun' }}
+        primaryCta={{ href: '/services', label: 'Hizmet Alanlarını Görün' }}
       />
       <FleetSection />
       <WhyUsSection />

@@ -61,11 +61,11 @@ export function MediaActions({
           {saving ? 'Kaydediliyor...' : 'Kaydet'}
         </button>
         {!initialIsCover ? (
-          <button onClick={() => save({ isCover: true }, 'Kapak gorseli guncellendi.')} type="button" className="btn-premium h-11 px-4">
+          <button onClick={() => save({ isCover: true }, 'Kapak görseli güncellendi.')} type="button" className="btn-premium h-11 px-4">
             Kapaga Al
           </button>
         ) : (
-          <span className="rounded-full border border-amber-400/25 px-3 py-2 text-xs text-amber-300">Kapak Gorseli</span>
+          <span className="rounded-full border border-amber-400/25 px-3 py-2 text-xs text-amber-300">Kapak Görseli</span>
         )}
       </div>
       {error ? <p role="alert" aria-live="assertive" className="text-xs text-red-400">{error}</p> : null}

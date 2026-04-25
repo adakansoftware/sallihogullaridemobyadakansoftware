@@ -13,7 +13,7 @@ import { readProjects, readSettings } from '@/lib/store'
 
 export const metadata: Metadata = {
   title: 'Ana Sayfa',
-  description: 'Premium hafriyat, damperli nakliyat ve saha operasyon cozumlerimizi guclu gorseller ve referans projelerle kesfedin.',
+  description: 'Sallıhoğulları Hafriyat’ın hafriyat, damperli nakliyat, dolgu ve saha operasyon hizmetlerini inceleyin.',
   alternates: {
     canonical: getCanonicalUrl('/'),
   },

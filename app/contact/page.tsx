@@ -7,8 +7,8 @@ import { getCanonicalUrl } from '@/lib/seo'
 import { readSettings } from '@/lib/store'
 
 export const metadata: Metadata = {
-  title: 'Iletisim',
-  description: 'Teklif, saha planlamasi ve operasyon gorusmeleri icin bizimle iletisime gecin.',
+  title: 'İletişim',
+  description: 'Teklif, saha keşfi, hafriyat, damperli nakliyat ve operasyon planlaması için Sallıhoğulları ile iletişime geçin.',
   alternates: {
     canonical: getCanonicalUrl('/contact'),
   },
@@ -23,11 +23,11 @@ export default async function ContactPage() {
   return (
     <SiteFrame settings={settings}>
       <PageHero
-        eyebrow="Iletisim"
-        title="Teklif, planlama ve operasyon gorusmeleri icin bize ulasin"
-        description="Projenizin lokasyonunu, kapsamini ve saha ihtiyaclarini paylasin; size uygun operasyon plani ve teklif yapisini birlikte olusturalim."
+        eyebrow="İletişim"
+        title="Teklif, planlama ve saha görüşmeleri için bize ulaşın"
+        description="Projenizin lokasyonunu, kapsamını ve saha ihtiyaçlarını paylaşın; uygun ekipman, sevkiyat ve teklif yapısını birlikte netleştirelim."
         image="/images/lowbed.jpg"
-        primaryCta={{ href: settings.whatsappUrl, label: 'WhatsApp ile Ulasin' }}
+        primaryCta={{ href: settings.whatsappUrl, label: 'WhatsApp ile Ulaşın' }}
       />
       <ContactSection settings={settings} />
       <CTASection />

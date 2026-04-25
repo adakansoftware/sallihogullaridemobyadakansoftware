@@ -15,13 +15,13 @@ export function WhyUsSection() {
         <div className="grid items-center gap-12 lg:grid-cols-5 lg:gap-16">
           <div className="relative lg:col-span-2">
             <div className="relative aspect-[4/5] overflow-hidden">
-              <Image src="/images/about.jpg" alt="Salihoğulları Hafriyat ekibi" fill className="object-cover" />
+              <Image src="/images/about.jpg" alt="Sallıhoğulları Hafriyat ekibi" fill className="object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
             </div>
 
             <div className="absolute -right-6 -bottom-6 max-w-xs border border-border/50 bg-card p-6 lg:-left-6 lg:right-auto">
               <div className="mb-2 text-4xl font-black text-primary">25+</div>
-              <div className="text-sm text-muted-foreground">Yıllık Sektör Tecrübesi</div>
+              <div className="text-sm text-muted-foreground">Yıllık Saha Deneyimi</div>
               <div className="mt-4 border-t border-border/50 pt-4">
                 {certifications.slice(0, 2).map((cert) => (
                   <div key={cert} className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
@@ -36,10 +36,10 @@ export function WhyUsSection() {
           <div className="lg:col-span-3">
             <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-primary">Neden Biz?</span>
             <h2 className="mb-6 text-3xl font-black leading-tight text-foreground sm:text-4xl lg:text-5xl">
-              Operasyonun <span className="text-primary">neden daha kontrollü ilerlediğini</span> görün
+              Saha işinin <span className="text-primary">kontrollü ilerlemesi</span> için net çalışma düzeni
             </h2>
             <p className="mb-10 max-w-xl text-lg leading-relaxed text-muted-foreground">
-              Ekipman, sevkiyat ve saha koordinasyonunu aynı operasyon mantığı içinde yöneterek teslim riskini azaltan bir çalışma yapısı kuruyoruz.
+              Makine, sevkiyat ve saha koordinasyonunu aynı operasyon planında birleştirerek işin temposunu daha öngörülebilir hale getiriyoruz.
             </p>
 
             <div className="grid gap-5 sm:grid-cols-2">

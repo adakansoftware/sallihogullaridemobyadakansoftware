@@ -9,7 +9,7 @@ import { readSettings } from '@/lib/store'
 
 export const metadata: Metadata = {
   title: 'Hizmetler',
-  description: 'Hafriyat, damperli nakliyat, lowbed tasimacilik ve saha operasyon cozumlerimizi inceleyin.',
+  description: 'Hafriyat, kazı, dolgu, damperli nakliyat, lowbed taşımacılık ve şantiye lojistiği hizmetlerini inceleyin.',
   alternates: {
     canonical: getCanonicalUrl('/services'),
   },
@@ -24,11 +24,11 @@ export default async function ServicesPage() {
   return (
     <SiteFrame settings={settings}>
       <PageHero
-        eyebrow="Hizmet Alanlari"
-        title="Hafriyat, tasima ve saha operasyonlarinda kapsamli cozumler"
-        description="Temel kazisi, damperli nakliyat, lowbed sevkiyat ve is makinesi operasyonlarini tek cati altinda, planli ve kontrollu sekilde yurutuyoruz."
+        eyebrow="Hizmet Alanları"
+        title="Hafriyat, taşıma ve saha operasyonlarında kapsamlı çözümler"
+        description="Temel kazısı, dolgu, damperli nakliyat, lowbed sevkiyat ve iş makinesi operasyonlarını tek plan içinde, kontrollü şekilde yürütüyoruz."
         image="/images/excavator.jpg"
-        primaryCta={{ href: '/projects', label: 'Referans Projeleri Inceleyin' }}
+        primaryCta={{ href: '/projects', label: 'Referans Projeleri İnceleyin' }}
       />
       <ServicesSection />
       <WhyUsSection />

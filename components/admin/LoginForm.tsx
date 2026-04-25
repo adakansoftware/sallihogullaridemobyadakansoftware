@@ -28,13 +28,13 @@ export function LoginForm({ nextPath = '/admin' }: { nextPath?: string }) {
       const data = await res.json().catch(() => ({}))
 
       if (!res.ok) {
-        const message = data.message || 'Giris basarisiz.'
+        const message = data.message || 'Giriş başarısız.'
         setError(message)
         toast.error(message)
         return
       }
 
-      toast.success('Giris basarili.')
+      toast.success('Giriş başarılı.')
       router.push(nextPath)
       router.refresh()
     } catch {

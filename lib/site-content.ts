@@ -8,42 +8,42 @@ export const siteQuickLinks = [
 ]
 
 export const siteStats = [
-  { value: '1.200+', label: 'Proje', sublabel: 'Tamamlandı' },
-  { value: '85+', label: 'Araç', sublabel: 'Aktif Filo' },
-  { value: '50K+', label: 'Ton', sublabel: 'Aylık Kapasite' },
-  { value: '81', label: 'İl', sublabel: 'Operasyon Alanı' },
-  { value: '25+', label: 'Yıl', sublabel: 'Saha Tecrübesi' },
+  { value: '25+', label: 'Yıl', sublabel: 'Saha Deneyimi' },
+  { value: '85+', label: 'Araç', sublabel: 'Makine ve Nakliye' },
+  { value: '7/24', label: 'Planlama', sublabel: 'Operasyon Takibi' },
+  { value: 'TR', label: 'Geneli', sublabel: 'Proje Bazlı Hizmet' },
+  { value: '1999', label: 'Kuruluş', sublabel: 'Yerel Tecrübe' },
 ]
 
 export const serviceCards = [
   {
-    title: 'Hafriyat Operasyonları',
-    description: 'Temel kazısı, kanal açma, saha temizliği ve kontrollü hafriyat süreçlerinde planlı ekipman yönetimi.',
+    title: 'Hafriyat ve Kazı İşleri',
+    description: 'Temel kazısı, kanal açma, saha temizliği ve kontrollü hafriyat süreçlerinde doğru ekipman ve net iş programı.',
     image: '/images/project-1.jpg',
   },
   {
-    title: 'Ekskavatör Çözümleri',
-    description: 'Farklı tonajlardaki ekskavatör parkıyla hassas kazı, yükleme ve zemin hazırlık süreçleri.',
+    title: 'Ekskavatör Çalışmaları',
+    description: 'Farklı zemin ve saha koşullarına uygun ekskavatör desteğiyle kazı, yükleme, kırma ve zemin hazırlığı.',
     image: '/images/excavator.jpg',
   },
   {
     title: 'Beko Loder Desteği',
-    description: 'Şantiye içi yükleme, boşaltma ve saha düzenleme işlerinde hızlı ve esnek makine desteği.',
+    description: 'Şantiye içi yükleme, boşaltma, kanal desteği ve dar alan düzenleme işlerinde hızlı makine çözümü.',
     image: '/images/backhoe.jpg',
   },
   {
     title: 'Damperli Nakliyat',
-    description: 'Toprak, moloz, dolgu ve benzeri malzeme taşımasında programlı sevkiyat ve sahaya uyumlu lojistik akış.',
+    description: 'Toprak, moloz, dolgu, taş, kum ve mıcır taşımalarında sahaya göre planlanan güvenilir sevkiyat akışı.',
     image: '/images/dump-truck.jpg',
   },
   {
     title: 'Lowbed Taşımacılık',
-    description: 'İş makineleri ve ağır yüklerin kontrollü yükleme, taşıma ve teslim planıyla sevk edilmesi.',
+    description: 'İş makineleri ve ağır ekipmanların yükleme, rota planlama ve teslim süreciyle kontrollü şekilde sevk edilmesi.',
     image: '/images/lowbed.jpg',
   },
   {
-    title: 'Altyapı Hazırlığı',
-    description: 'Yol, temel ve altyapı işlerinde kazı öncesi hazırlık, tesviye ve saha organizasyonu.',
+    title: 'Dolgu ve Zemin Hazırlığı',
+    description: 'Yol, altyapı ve şantiye kurulumlarında dolgu, tesviye, malzeme serimi ve saha lojistiği desteği.',
     image: '/images/project-2.jpg',
   },
 ]
@@ -51,8 +51,8 @@ export const serviceCards = [
 export const fleetStats = [
   { value: '85+', label: 'Toplam Araç' },
   { value: '45', label: 'İş Makinesi' },
-  { value: '%98', label: 'Hazırlık Oranı' },
-  { value: '7/24', label: 'Operasyon Sürekliliği' },
+  { value: 'Planlı', label: 'Bakım Takibi' },
+  { value: '7/24', label: 'Operasyon Hazırlığı' },
 ]
 
 export const fleetItems = [
@@ -60,7 +60,7 @@ export const fleetItems = [
     name: 'Ekskavatör',
     count: '12',
     capacity: '20-50 Ton',
-    description: 'Farklı saha tiplerinde kazı, yükleme ve zemin hazırlığı için kullanılan paletli ekipman grubu.',
+    description: 'Temel kazısı, yükleme, kanal açma ve zemin hazırlığı için farklı saha koşullarına göre görevlendirilen paletli ekipman grubu.',
     specs: ['CAT 320', 'Volvo EC380', 'Komatsu PC450'],
     image: '/images/excavator.jpg',
   },
@@ -68,7 +68,7 @@ export const fleetItems = [
     name: 'Beko Loder',
     count: '8',
     capacity: '7-12 Ton',
-    description: 'Dar alanlarda yükleme, boşaltma ve düzenleme ihtiyaçlarına cevap veren çok yönlü saha makineleri.',
+    description: 'Dar çalışma alanlarında yükleme, düzenleme, geri dolgu ve saha destek işlerine cevap veren çok yönlü makine grubu.',
     specs: ['JCB 3CX', 'CAT 428F', 'Hidromek HMK 102'],
     image: '/images/backhoe.jpg',
   },
@@ -76,7 +76,7 @@ export const fleetItems = [
     name: 'Damperli Kamyon',
     count: '45',
     capacity: '15-25 m³',
-    description: 'Kısa ve orta mesafeli malzeme hareketlerinde süreklilik sağlayan taşıma filosu.',
+    description: 'Hafriyat, dolgu malzemesi, kum, taş, mıcır ve toprak sevkiyatında şantiye temposunu taşıyan nakliye filosu.',
     specs: ['Ford Cargo', 'Mercedes Axor', 'BMC Pro'],
     image: '/images/dump-truck.jpg',
   },
@@ -84,7 +84,7 @@ export const fleetItems = [
     name: 'Lowbed Tır',
     count: '15',
     capacity: '80 Ton',
-    description: 'Ağır iş makineleri ve özel yükler için kontrollü rota ve emniyet odaklı taşıma altyapısı.',
+    description: 'İş makineleri ve ağır ekipmanlar için rota, yükleme ve teslim koordinasyonu yapılan özel taşıma altyapısı.',
     specs: ['Goldhofer', 'Nooteboom', 'Faymonville'],
     image: '/images/lowbed.jpg',
   },
@@ -92,42 +92,42 @@ export const fleetItems = [
 
 export const whyChooseUsReasons = [
   {
-    title: 'Saha Güvenliği',
-    description: 'İSG süreçlerine uyumlu planlama, kontrollü operasyon akışı ve sahaya uygun ekipman kullanımı.',
-    stat: 'Disiplinli Süreç',
+    title: 'Saha Disiplini',
+    description: 'İşe başlamadan önce erişim, yükleme noktası, sevkiyat yönü ve günlük çalışma temposu netleştirilir.',
+    stat: 'Net Plan',
   },
   {
-    title: 'Operasyon Kapasitesi',
-    description: 'Yoğun takvimli işlerde ekipman, taşıma ve saha koordinasyonunu aynı yapı altında topluyoruz.',
-    stat: '85+ Araç',
+    title: 'Ekipman Uygunluğu',
+    description: 'Kazı, dolgu, nakliye ve zemin hazırlığı için saha koşuluna uygun makine kombinasyonu oluşturulur.',
+    stat: 'Doğru Ekipman',
   },
   {
-    title: 'Planlı Teslim',
-    description: 'Program, sevkiyat ve şantiye temposu aynı takvim içinde yönetilerek teslim riski azaltılır.',
-    stat: 'Net Takvim',
+    title: 'Zamanında Teslim',
+    description: 'Makine, kamyon ve saha ekibi aynı takvimde yürütülerek bekleme ve aksama riski azaltılır.',
+    stat: 'Takvim Takibi',
   },
   {
-    title: 'Uzman Ekip',
-    description: 'Tecrübeli operatörler, saha sorumluları ve koordinasyon ekibiyle iş akışı kesintisiz ilerler.',
-    stat: '25+ Yıl',
+    title: 'Sorumlu İletişim',
+    description: 'Şantiye ekibiyle düzenli temas kurulur; iş akışı, ihtiyaç ve değişiklikler hızlıca paylaşılır.',
+    stat: 'Tek Muhatap',
   },
   {
-    title: 'Esnek Çözüm Yapısı',
-    description: 'İşin kapsamına göre ekipman kombinasyonu, sevkiyat sırası ve saha planı yeniden şekillendirilebilir.',
-    stat: 'Proje Bazlı',
+    title: 'Proje Bazlı Çözüm',
+    description: 'Küçük ölçekli kazıdan yoğun şantiye lojistiğine kadar kapsam işe göre şekillendirilir.',
+    stat: 'Esnek Kapsam',
   },
   {
     title: 'Maliyet Kontrolü',
-    description: 'Gereksiz bekleme ve dağınık ekipman kullanımını azaltan daha kontrollü bir operasyon modeli sunar.',
-    stat: 'Verimli Akış',
+    description: 'Gereksiz bekleme, boş sefer ve dağınık ekipman kullanımını azaltan daha kontrollü bir akış kurulur.',
+    stat: 'Verimli Sevk',
   },
 ]
 
 export const certifications = [
-  'Operasyon öncesi saha planlama kontrolü',
-  'Makine ve sevkiyat takibi',
-  'Ekipman hazır bulunuş protokolü',
-  'Saha giriş-çıkış koordinasyonu',
+  'Operasyon öncesi saha keşfi',
+  'Makine ve sevkiyat koordinasyonu',
+  'Planlı bakım ve ekipman hazırlığı',
+  'Saha giriş-çıkış takibi',
 ]
 
 export const collaborationPrinciples = [
@@ -160,7 +160,7 @@ export const mediaGalleryItems = [
   },
   {
     type: 'image',
-    title: 'Operasyon merkezi görünümü',
+    title: 'Operasyon sahası görünümü',
     category: 'Saha Organizasyonu',
     image: '/images/hero-main.jpg',
   },
@@ -192,10 +192,10 @@ export const mediaGalleryItems = [
 ]
 
 export const footerServiceLinks = [
-  'Hafriyat Operasyonları',
+  'Hafriyat ve Kazı İşleri',
   'Damperli Nakliyat',
-  'Lowbed Taşımacılık',
+  'Dolgu ve Zemin Hazırlığı',
   'İş Makinesi Yönetimi',
-  'Saha Hazırlığı',
+  'Şantiye Lojistiği',
   'Altyapı Çalışmaları',
 ]

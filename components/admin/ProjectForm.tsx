@@ -70,7 +70,7 @@ export function ProjectForm({ mode = 'create', project }: Props) {
   const editorialStats = useMemo(
     () => [
       { label: 'Etiket', value: tags.split(',').map((item) => item.trim()).filter(Boolean).length },
-      { label: 'Ozet', value: summary.trim().length },
+      { label: 'Özet', value: summary.trim().length },
       { label: 'Detay', value: description.trim().length },
     ],
     [description, summary, tags],
@@ -79,10 +79,10 @@ export function ProjectForm({ mode = 'create', project }: Props) {
   const generatedSlug = useMemo(() => createPreviewSlug(title), [title])
   const checklist = useMemo(
     () => [
-      { label: 'Baslik', complete: title.trim().length >= 3 },
-      { label: 'Ozet', complete: summary.trim().length >= 20 },
+      { label: 'Başlık', complete: title.trim().length >= 3 },
+      { label: 'Özet', complete: summary.trim().length >= 20 },
       { label: 'Detay', complete: description.trim().length >= 40 },
-      { label: 'Kapak gorseli', complete: coverImage.trim().length > 0 || Boolean(project?.media?.length) },
+      { label: 'Kapak görseli', complete: coverImage.trim().length > 0 || Boolean(project?.media?.length) },
     ],
     [coverImage, description, project?.media?.length, summary, title],
   )
@@ -108,7 +108,7 @@ export function ProjectForm({ mode = 'create', project }: Props) {
       const data = await res.json().catch(() => ({}))
 
       if (!res.ok) {
-        const nextMessage = data.message || 'Kayit basarisiz.'
+        const nextMessage = data.message || 'Kayıt başarısız.'
         setError(nextMessage)
         toast.error(nextMessage)
         return
@@ -120,11 +120,11 @@ export function ProjectForm({ mode = 'create', project }: Props) {
         return
       }
 
-      setMessage('Proje guncellendi.')
-      toast.success('Proje guncellendi.')
+      setMessage('Proje güncellendi.')
+      toast.success('Proje güncellendi.')
       router.refresh()
     } catch {
-      const nextMessage = 'Kayit sirasinda baglanti sorunu olustu. Lutfen tekrar deneyin.'
+      const nextMessage = 'Kayıt sirasinda baglanti sorunu olustu. Lutfen tekrar deneyin.'
       setError(nextMessage)
       toast.error(nextMessage)
     } finally {
@@ -136,7 +136,7 @@ export function ProjectForm({ mode = 'create', project }: Props) {
     <form onSubmit={handleSubmit} aria-busy={loading} className="space-y-6">
       <div className="grid gap-5 xl:grid-cols-[1.08fr_0.92fr]">
         <div className="rounded-[28px] border border-white/10 bg-black/20 p-5">
-          <FieldLabel title="Temel Bilgiler" description="Baslik, kategori, lokasyon ve kapak yolunu duzenleyin." />
+          <FieldLabel title="Temel Bilgiler" description="Başlık, kategori, lokasyon ve kapak yolunu düzenleyin." />
           <div className="grid gap-4 md:grid-cols-2">
             <input className="input-premium w-full" placeholder="Proje basligi" value={title} onChange={(e) => setTitle(e.target.value)} required />
             <input className="input-premium w-full" placeholder="Lokasyon" value={location} onChange={(e) => setLocation(e.target.value)} />
@@ -146,10 +146,10 @@ export function ProjectForm({ mode = 'create', project }: Props) {
             <input className="input-premium w-full" placeholder="Etiketler (virgulle)" value={tags} onChange={(e) => setTags(e.target.value)} />
           </div>
           <div className="mt-4">
-            <input className="input-premium w-full" placeholder="Kapak gorseli yolu: /images/... veya /uploads/..." value={coverImage} onChange={(e) => setCoverImage(e.target.value)} />
+            <input className="input-premium w-full" placeholder="Kapak görseli yolu: /images/... veya /uploads/..." value={coverImage} onChange={(e) => setCoverImage(e.target.value)} />
           </div>
           <div className="mt-3 rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white/55">
-            Tip: Kapak secimini en guvenli sekilde medya yukleyip o kaydi kapak olarak isaretleyerek yapabilirsiniz.
+            Tip: Kapak secimini en guvenli şekilde medya yukleyip o kaydi kapak olarak isaretleyerek yapabilirsiniz.
           </div>
         </div>
 
@@ -162,7 +162,7 @@ export function ProjectForm({ mode = 'create', project }: Props) {
                 One cikan proje olarak isaretle
               </label>
               <select className="input-premium w-full" value={status} onChange={(e) => setStatus(e.target.value as 'Taslak' | 'Yayında')}>
-                <option value="Yayında">Yayinda</option>
+                <option value="Yayında">Yayında</option>
                 <option value="Taslak">Taslak</option>
               </select>
               <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-4 text-sm leading-7 text-white/55">
@@ -172,7 +172,7 @@ export function ProjectForm({ mode = 'create', project }: Props) {
           </div>
 
           <div className="rounded-[28px] border border-white/10 bg-black/20 p-5">
-            <div className="section-eyebrow mb-4">Icerik Ozeti</div>
+            <div className="section-eyebrow mb-4">Icerik Özeti</div>
             <div className="grid grid-cols-3 gap-3">
               {editorialStats.map((item) => (
                 <div key={item.label} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
@@ -221,7 +221,7 @@ export function ProjectForm({ mode = 'create', project }: Props) {
       </div>
 
       <div className="rounded-[28px] border border-white/10 bg-black/20 p-5">
-        <FieldLabel title="Kisa Ozet" description="Kartlarda ve one cikan alanlarda gorunen kisa metin." />
+        <FieldLabel title="Kisa Özet" description="Kartlarda ve öne çıkan alanlarda görünen kisa metin." />
         <textarea className="textarea-premium w-full" placeholder="Kisa ozet" value={summary} onChange={(e) => setSummary(e.target.value)} />
       </div>
 

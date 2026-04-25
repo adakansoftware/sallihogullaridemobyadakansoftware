@@ -10,7 +10,7 @@ import { getSiteSettings } from '@/lib/settings-service'
 
 export const metadata: Metadata = {
   title: 'Projeler',
-  description: 'Tamamlanan hafriyat, kazi, tasima ve saha operasyon projelerimizi detaylariyla inceleyin.',
+  description: 'Hafriyat, kazı, dolgu, nakliye ve saha operasyonu örneklerini görselleri ve kapsam bilgileriyle inceleyin.',
   alternates: {
     canonical: getCanonicalUrl('/projects'),
   },
@@ -26,10 +26,10 @@ export default async function ProjectsPage() {
     <SiteFrame settings={settings}>
       <PageHero
         eyebrow="Referans Projeler"
-        title="Sahada teslim edilmis operasyon kayitlari"
-        description="Kazi, nakliye ve zemin hazirligi projelerimizi gorselleri ve saha detaylariyla inceleyin."
+        title="Sahada yürütülen operasyon örnekleri"
+        description="Kazı, nakliye ve zemin hazırlığı işlerini görselleri, lokasyonları ve saha kapsamlarıyla inceleyin."
         image="/images/project-1.jpg"
-        primaryCta={{ href: '/contact', label: 'Benzer Bir Operasyon Planlayin' }}
+        primaryCta={{ href: '/contact', label: 'Benzer Bir Operasyon Planlayın' }}
       />
       <ProjectsSection projects={projects} />
       <MediaSection />

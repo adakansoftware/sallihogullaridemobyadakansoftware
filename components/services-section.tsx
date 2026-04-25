@@ -14,11 +14,11 @@ export function ServicesSection() {
           <div className="max-w-2xl">
             <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-primary">Hizmetlerimiz</span>
             <h2 className="text-3xl leading-tight font-black text-foreground sm:text-4xl lg:text-5xl">
-              Kapsamlı Hafriyat ve <span className="text-primary">Taşımacılık Çözümleri</span>
+              Hafriyat, Nakliye ve <span className="text-primary">Şantiye Lojistiği</span>
             </h2>
           </div>
           <p className="max-w-md text-muted-foreground lg:text-right">
-            Hafriyat, kazı, taşıma ve lojistik ihtiyaçlarını tek operasyon planı içinde yönetebilen hizmet yapımızı inceleyin.
+            Kazıdan dolguya, damperli nakliyattan iş makinesi desteğine kadar saha ihtiyacını tek plan içinde ele alıyoruz.
           </p>
         </div>
 

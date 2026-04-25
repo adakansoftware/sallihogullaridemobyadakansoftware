@@ -9,8 +9,8 @@ import { getCanonicalUrl } from '@/lib/seo'
 import { readSettings } from '@/lib/store'
 
 export const metadata: Metadata = {
-  title: 'Hakkimizda',
-  description: 'Kurumsal yaklasimimizi, saha disiplinimizi ve operasyon gucumuzu daha yakindan inceleyin.',
+  title: 'Hakkımızda',
+  description: 'Sallıhoğulları Hafriyat’ın saha disiplini, çalışma yaklaşımı ve hafriyat-nakliyat operasyon gücünü inceleyin.',
   alternates: {
     canonical: getCanonicalUrl('/about'),
   },
@@ -26,10 +26,10 @@ export default async function AboutPage() {
     <SiteFrame settings={settings}>
       <PageHero
         eyebrow="Kurumsal Profil"
-        title={`${settings.companyName} hakkinda`}
-        description="Kurulus hikayemiz, saha disiplinimiz ve operasyon yaklasimimizla projelere nasil deger kattigimizi daha yakindan inceleyin."
+        title={`${settings.companyName} hakkında`}
+        description="Saha deneyimimiz, planlama disiplinimiz ve işin temposuna göre kurduğumuz operasyon yaklaşımını yakından inceleyin."
         image="/images/project-2.jpg"
-        primaryCta={{ href: '/contact', label: 'Bizimle Iletisime Gecin' }}
+        primaryCta={{ href: '/contact', label: 'Bizimle İletişime Geçin' }}
       />
       <StatsSection />
       <AboutSection settings={settings} />

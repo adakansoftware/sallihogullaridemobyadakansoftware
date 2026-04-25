@@ -11,18 +11,18 @@ export function AboutSection({ settings }: { settings: SiteSettings }) {
           <div>
             <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-primary">Hakkımızda</span>
             <h2 className="mb-6 text-3xl leading-tight font-black text-foreground sm:text-4xl lg:text-5xl">
-              Türkiye&apos;nin <span className="text-primary">Güvenilir Gücü</span>
+              Sahada <span className="text-primary">güven veren iş disiplini</span>
             </h2>
 
             <div className="space-y-5 leading-relaxed text-muted-foreground">
               <p className="text-lg">
-                {settings.foundedYear} yılında kurulan {settings.companyName}, güçlü makine parkı ve disiplinli saha organizasyonuyla hafriyat, damperli nakliyat ve ağır taşıma operasyonlarında güvenilir çözüm ortağıdır.
+                {settings.foundedYear} yılından bu yana {settings.companyName}, hafriyat, kazı, dolgu ve damperli nakliyat işlerinde planlı saha yönetimiyle çalışan bir çözüm ortağıdır.
               </p>
               <p>
-                {settings.serviceArea}. Operasyon planlamasından sevkiyata kadar her aşamada kontrollü, zamanında ve sahaya uygun bir iş akışı yürütüyoruz.
+                {settings.serviceArea}. İşin kapsamına göre makine, kamyon ve ekip koordinasyonunu aynı takvim içinde kurarak sahadaki akışı netleştiriyoruz.
               </p>
               <p>
-                Müteahhitlik firmaları, sanayi bölgeleri ve özel sektör yatırımcıları için altyapı kazısından malzeme nakliyesine kadar uzanan kapsamlı bir hizmet çerçevesi sunuyoruz.
+                Müteahhitlik firmaları, sanayi sahaları, altyapı ekipleri ve özel sektör yatırımları için zemin hazırlığından malzeme sevkiyatına kadar kontrollü bir operasyon çerçevesi sunuyoruz.
               </p>
             </div>
 
@@ -31,22 +31,22 @@ export function AboutSection({ settings }: { settings: SiteSettings }) {
                 <div className="mb-4 flex h-12 w-12 items-center justify-center bg-primary/10">
                   <Target className="h-6 w-6 text-primary" />
                 </div>
-                <h4 className="mb-1 font-bold text-foreground">Vizyonumuz</h4>
-                <p className="text-xs text-muted-foreground">Sahada güven veren lider çözüm ortağı olmak</p>
+                <h4 className="mb-1 font-bold text-foreground">Yaklaşımımız</h4>
+                <p className="text-xs text-muted-foreground">İşe başlamadan önce net saha planı</p>
               </div>
               <div>
                 <div className="mb-4 flex h-12 w-12 items-center justify-center bg-primary/10">
                   <Award className="h-6 w-6 text-primary" />
                 </div>
-                <h4 className="mb-1 font-bold text-foreground">Misyonumuz</h4>
-                <p className="text-xs text-muted-foreground">Kaliteli, kontrollü ve sürdürülebilir operasyon sunmak</p>
+                <h4 className="mb-1 font-bold text-foreground">Çalışma Tarzı</h4>
+                <p className="text-xs text-muted-foreground">Kontrollü, zamanında ve takip edilebilir iş akışı</p>
               </div>
               <div>
                 <div className="mb-4 flex h-12 w-12 items-center justify-center bg-primary/10">
                   <Users className="h-6 w-6 text-primary" />
                 </div>
                 <h4 className="mb-1 font-bold text-foreground">Değerlerimiz</h4>
-                <p className="text-xs text-muted-foreground">Güven, disiplin, süreklilik</p>
+                <p className="text-xs text-muted-foreground">Güven, disiplin, açık iletişim</p>
               </div>
             </div>
           </div>
@@ -54,24 +54,24 @@ export function AboutSection({ settings }: { settings: SiteSettings }) {
           <div className="grid grid-cols-2 gap-4">
             <div className="col-span-2 border border-border/40 bg-card p-8">
               <div className="mb-2 text-6xl font-black text-primary lg:text-7xl">25+</div>
-              <div className="text-lg font-semibold text-foreground">Yıllık Sektör Tecrübesi</div>
-              <p className="mt-2 text-sm text-muted-foreground">{settings.foundedYear}&apos;dan bu yana farklı ölçeklerde saha ve taşımacılık operasyonları yönetiyoruz.</p>
+              <div className="text-lg font-semibold text-foreground">Yıllık Saha Deneyimi</div>
+              <p className="mt-2 text-sm text-muted-foreground">{settings.foundedYear}&apos;dan bu yana farklı ölçeklerde hafriyat, nakliye ve şantiye lojistiği işleri yürütüyoruz.</p>
             </div>
             <div className="border border-border/40 bg-card p-6">
-              <div className="mb-1 text-4xl font-black text-primary">1.200+</div>
-              <div className="text-sm text-muted-foreground">Tamamlanan İş</div>
+              <div className="mb-1 text-4xl font-black text-primary">85+</div>
+              <div className="text-sm text-muted-foreground">Araç ve Makine</div>
             </div>
             <div className="border border-border/40 bg-card p-6">
-              <div className="mb-1 text-4xl font-black text-primary">150+</div>
-              <div className="text-sm text-muted-foreground">Uzman Personel</div>
+              <div className="mb-1 text-4xl font-black text-primary">7/24</div>
+              <div className="text-sm text-muted-foreground">Operasyon Takibi</div>
             </div>
             <div className="border border-border/40 bg-card p-6">
-              <div className="mb-1 text-4xl font-black text-primary">81</div>
-              <div className="text-sm text-muted-foreground">İl Kapsama</div>
+              <div className="mb-1 text-4xl font-black text-primary">TR</div>
+              <div className="text-sm text-muted-foreground">Proje Bazlı Hizmet</div>
             </div>
             <div className="border border-border/40 bg-card p-6">
               <div className="mb-1 text-4xl font-black text-primary">%100</div>
-              <div className="text-sm text-muted-foreground">Operasyon Takibi</div>
+              <div className="text-sm text-muted-foreground">Saha Planı Odağı</div>
             </div>
           </div>
         </div>

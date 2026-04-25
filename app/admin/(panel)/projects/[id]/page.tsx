@@ -100,7 +100,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
               </div>
               <div className="mt-4 space-y-3">
                 <div>
-                  <div className="text-base font-medium text-white">{item.title || 'Basliksiz medya'}</div>
+                  <div className="text-base font-medium text-white">{item.title || 'Başlıksız medya'}</div>
                   <div className="data-label mt-2 text-white/45">
                     {item.resourceType} • sira {item.sortOrder} {item.isCover ? '• kapak' : ''}
                   </div>

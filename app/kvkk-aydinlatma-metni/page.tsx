@@ -4,8 +4,8 @@ import { getCanonicalUrl } from '@/lib/seo'
 import { readSettings } from '@/lib/store'
 
 export const metadata: Metadata = {
-  title: 'KVKK Aydinlatma Metni',
-  description: 'Iletisim ve teklif formlari kapsaminda islenen kisisel verilere iliskin aydinlatma metni.',
+  title: 'KVKK Aydınlatma Metni',
+  description: 'İletişim ve teklif formları kapsaminda işlenen kişisel verilere ilişkin aydinlatma metni.',
   alternates: {
     canonical: getCanonicalUrl('/kvkk-aydinlatma-metni'),
   },
@@ -24,10 +24,10 @@ export default async function KvkkPage() {
         <div className="relative z-10 mx-auto max-w-[1000px] px-6 lg:px-8">
           <div className="glass-card p-8 md:p-10 lg:p-12">
             <div className="section-eyebrow mb-4">KVKK</div>
-            <h1 className="font-display text-4xl text-white md:text-5xl">Kisisel Verilerin Korunmasi Aydinlatma Metni</h1>
+            <h1 className="font-display text-4xl text-white md:text-5xl">Kisisel Verilerin Korunmasi Aydınlatma Metni</h1>
             <div className="mt-8 space-y-8 text-sm leading-8 text-white/72 md:text-base">
               <p>
-                6698 sayili Kisisel Verilerin Korunmasi Kanunu (“KVKK”) uyarinca, kisisel verileriniz veri sorumlusu sifatiyla{' '}
+                6698 sayili Kisisel Verilerin Korunmasi Kanunu (“KVKK”) uyarinca, kişisel verileriniz veri sorumlusu sifatiyla{' '}
                 <span className="font-semibold text-white">{settings.companyName || '[SIRKET UNVANI]'}</span> tarafindan islenebilecektir.
               </p>
 
@@ -39,16 +39,16 @@ export default async function KvkkPage() {
               <div>
                 <h2 className="text-lg font-semibold text-white">Isleme amaclari</h2>
                 <p className="mt-2">
-                  Iletisim taleplerinin alinmasi ve cevaplanmasi, teklif/hizmet taleplerinin degerlendirilmesi, musteri iliskileri sureclerinin
-                  yurutulmesi, bilgi guvenligi sureclerinin yurutulmesi, hukuki yukumluluklerin yerine getirilmesi, olasi uyusmazliklarda ispat
-                  sureclerinin yurutulmesi.
+                  İletişim taleplerinin alınması ve cevaplanmasi, teklif/hizmet taleplerinin değerlendirilmesi, müşteri iliskileri süreçlerinin
+                  yurutulmesi, bilgi guvenligi süreçlerinin yurutulmesi, hukuki yukumluluklerin yerine getirilmesi, olasi uyusmazliklarda ispat
+                  süreçlerinin yurutulmesi.
                 </p>
               </div>
 
               <div>
                 <h2 className="text-lg font-semibold text-white">Toplama yontemi ve hukuki sebep</h2>
                 <p className="mt-2">
-                  Veriler; internet sitesi formlari ve elektronik iletisim kanallari uzerinden elektronik ortamda toplanir. KVKK m.5 kapsaminda
+                  Veriler; internet sitesi formları ve elektronik iletisim kanallari uzerinden elektronik ortamda toplanir. KVKK m.5 kapsaminda
                   sozlesmenin kurulmasi/ifasi, hukuki yukumluluklerin yerine getirilmesi, bir hakkin tesisi/kullanilmasi/korunmasi ve veri
                   sorumlusunun mesru menfaati hukuki sebeplerine dayanilarak islenebilir.
                 </p>

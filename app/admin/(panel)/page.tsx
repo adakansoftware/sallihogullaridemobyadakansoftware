@@ -23,7 +23,7 @@ export default async function AdminDashboardPage() {
     <div className="space-y-10">
       <div className="flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between">
         <div>
-          <div className="section-eyebrow mb-4">Yonetim Ozeti</div>
+          <div className="section-eyebrow mb-4">Yönetim Özeti</div>
           <h1 className="font-display text-6xl text-white md:text-7xl">Operasyon Dashboard</h1>
           <p className="mt-3 max-w-3xl text-white/60">
             {settings.companyName} icin guncel icerik, medya ve iletisim akisini tek bir merkezden takip edin.
@@ -64,7 +64,7 @@ export default async function AdminDashboardPage() {
 
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             <div className="rounded-[24px] border border-white/10 bg-black/20 p-4">
-              <div className="data-label text-white/40">Yayinda</div>
+              <div className="data-label text-white/40">Yayında</div>
               <div className="mt-3 text-3xl text-white">{publishedCount}</div>
             </div>
             <div className="rounded-[24px] border border-white/10 bg-black/20 p-4">
@@ -134,7 +134,7 @@ export default async function AdminDashboardPage() {
         </div>
 
         <div className="industrial-border rounded-[32px] bg-white/[0.04] p-6">
-          <div className="data-label text-white/45">Operasyon Ozeti</div>
+          <div className="data-label text-white/45">Operasyon Özeti</div>
           <div className="mt-3 text-2xl text-white">{settings.heroTitle}</div>
           <p className="mt-3 text-white/60">{settings.quoteNotice}</p>
           <div className="mt-6 grid gap-3">
@@ -145,7 +145,7 @@ export default async function AdminDashboardPage() {
               Projeler sayfasini kontrol et
             </Link>
             <Link href="/contact" className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white/75 transition hover:bg-white/[0.05]">
-              Iletisim akisina git
+              İletişim akışına git
             </Link>
           </div>
         </div>
@@ -155,7 +155,7 @@ export default async function AdminDashboardPage() {
         <div className="industrial-border rounded-[32px] bg-white/[0.04] p-6">
           <div className="mb-5 flex items-center justify-between">
             <h2 className="font-display text-4xl text-white">Son Projeler</h2>
-            <Link href="/admin/projects" className="text-amber-300 hover:text-amber-200">Tumunu Gor</Link>
+            <Link href="/admin/projects" className="text-amber-300 hover:text-amber-200">Tümünü Gör</Link>
           </div>
           <div className="space-y-4">
             {projects.slice(0, 5).map((project) => (
@@ -164,7 +164,7 @@ export default async function AdminDashboardPage() {
                   <div className="text-lg font-medium text-white">{project.title}</div>
                   <div className="data-label mt-1 text-white/45">{project.category || 'Kategori yok'} • {project.media.length} medya • {project.status}</div>
                 </div>
-                <Link href={`/admin/projects/${project.id}`} className="btn-ghost-premium inline-flex h-10 items-center px-4">Duzenle</Link>
+                <Link href={`/admin/projects/${project.id}`} className="btn-ghost-premium inline-flex h-10 items-center px-4">Düzenle</Link>
               </div>
             ))}
             {projects.length === 0 ? <div className="rounded-[24px] border border-dashed border-white/10 p-8 text-white/50">Henuz proje yok.</div> : null}
@@ -175,7 +175,7 @@ export default async function AdminDashboardPage() {
           <div className="industrial-border rounded-[32px] bg-white/[0.04] p-6">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="font-display text-4xl text-white">Son Mesajlar</h2>
-              <Link href="/admin/messages" className="text-amber-300 hover:text-amber-200">Tumunu Gor</Link>
+              <Link href="/admin/messages" className="text-amber-300 hover:text-amber-200">Tümünü Gör</Link>
             </div>
             <div className="space-y-4">
               {messages.slice(0, 4).map((message) => (
