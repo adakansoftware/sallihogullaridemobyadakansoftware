@@ -15,13 +15,13 @@ export default async function manifest(): Promise<MetadataRoute.Manifest> {
     lang: 'tr-TR',
     icons: [
       {
-        src: '/icon-light-32x32.png',
-        sizes: '32x32',
+        src: '/images/sallihogullari-logo.png',
+        sizes: 'any',
         type: 'image/png',
       },
       {
-        src: '/apple-icon.png',
-        sizes: '180x180',
+        src: '/images/sallihogullari-logo.png',
+        sizes: 'any',
         type: 'image/png',
       },
     ],

@@ -74,11 +74,9 @@ export function buildDefaultMetadata(settings: SiteSettings): Metadata {
     },
     icons: {
       icon: [
-        { url: '/icon-light-32x32.png', media: '(prefers-color-scheme: light)' },
-        { url: '/icon-dark-32x32.png', media: '(prefers-color-scheme: dark)' },
-        { url: '/icon.svg', type: 'image/svg+xml' },
+        { url: '/images/sallihogullari-logo.png', type: 'image/png' },
       ],
-      apple: '/apple-icon.png',
+      apple: '/images/sallihogullari-logo.png',
     },
   }
 }
@@ -90,7 +88,7 @@ export function buildOrganizationJsonLd(settings: SiteSettings) {
     name: settings.companyName,
     alternateName: settings.companyShortName,
     url: getMetadataBase().toString(),
-    logo: getCanonicalUrl('/icon-light-32x32.png'),
+    logo: getCanonicalUrl('/images/sallihogullari-logo.png'),
     image: getCanonicalUrl('/images/hero-main.jpg'),
     telephone: settings.contactPhone,
     email: settings.contactEmail,
