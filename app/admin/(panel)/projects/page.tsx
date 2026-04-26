@@ -12,10 +12,10 @@ export default async function AdminProjectsPage() {
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
           <div className="section-eyebrow mb-4">Proje Yönetimi</div>
-          <h1 className="font-display text-6xl text-white">Projeler</h1>
+          <h1 className="font-display text-4xl text-white sm:text-5xl md:text-6xl">Projeler</h1>
           <p className="mt-3 max-w-3xl text-white/60">Projeleri ekleyin, düzenleyin ve öne çıkan referansları yönetin.</p>
         </div>
-        <Link href="/admin/projects/new" className="btn-premium inline-flex h-12 items-center px-6">Yeni Proje Ekle</Link>
+        <Link href="/admin/projects/new" className="btn-premium inline-flex h-12 items-center justify-center px-6">Yeni Proje Ekle</Link>
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">

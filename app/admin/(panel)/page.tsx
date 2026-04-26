@@ -24,7 +24,7 @@ export default async function AdminDashboardPage() {
       <div className="flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between">
         <div>
           <div className="section-eyebrow mb-4">Yönetim Özeti</div>
-          <h1 className="font-display text-6xl text-white md:text-7xl">Operasyon Dashboard</h1>
+          <h1 className="font-display text-4xl text-white sm:text-5xl md:text-7xl">Operasyon Dashboard</h1>
           <p className="mt-3 max-w-3xl text-white/60">
             {settings.companyName} icin guncel icerik, medya ve iletisim akisini tek bir merkezden takip edin.
           </p>

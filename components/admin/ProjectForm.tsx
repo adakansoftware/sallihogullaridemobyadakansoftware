@@ -173,7 +173,7 @@ export function ProjectForm({ mode = 'create', project }: Props) {
 
           <div className="rounded-[28px] border border-white/10 bg-black/20 p-5">
             <div className="section-eyebrow mb-4">Icerik Özeti</div>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 gap-3 min-[380px]:grid-cols-3">
               {editorialStats.map((item) => (
                 <div key={item.label} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
                   <div className="text-[11px] uppercase tracking-[0.18em] text-white/35">{item.label}</div>
@@ -204,14 +204,14 @@ export function ProjectForm({ mode = 'create', project }: Props) {
               ))}
             </div>
             <div className="mt-4 rounded-2xl border border-white/10 bg-white/[0.02] px-4 py-3 text-sm text-white/55">
-              Slug onizlemesi: <span className="text-white/80">/projects/{project?.slug || generatedSlug || 'proje-basligi'}</span>
+              Slug onizlemesi: <span className="break-all text-white/80">/projects/{project?.slug || generatedSlug || 'proje-basligi'}</span>
             </div>
             {mode === 'edit' && status === 'Yayında' ? (
               <a
                 href={`/projects/${project?.slug || generatedSlug}`}
                 target="_blank"
                 rel="noreferrer"
-                className="mt-4 inline-flex h-11 items-center rounded-2xl border border-white/10 bg-white/[0.03] px-4 text-sm text-white/80 transition hover:bg-white/[0.05]"
+                className="mt-4 inline-flex h-11 max-w-full items-center rounded-2xl border border-white/10 bg-white/[0.03] px-4 text-sm text-white/80 transition hover:bg-white/[0.05]"
               >
                 Public sayfayi ac
               </a>

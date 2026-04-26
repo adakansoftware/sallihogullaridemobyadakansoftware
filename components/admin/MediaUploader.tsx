@@ -161,8 +161,8 @@ export function MediaUploader({ projectId }: { projectId: string }) {
           <div className="mb-3 text-xs uppercase tracking-[0.18em] text-white/40">Secilen dosyalar</div>
           <div className="space-y-2">
             {selectedFiles.map((file) => (
-              <div key={`${file.name}-${file.size}`} className="flex items-center justify-between gap-4 text-sm text-white/70">
-                <span className="truncate">{file.name}</span>
+              <div key={`${file.name}-${file.size}`} className="flex min-w-0 items-center justify-between gap-4 text-sm text-white/70">
+                <span className="min-w-0 truncate">{file.name}</span>
                 <span className="shrink-0 text-white/45">{(file.size / (1024 * 1024)).toFixed(1)} MB</span>
               </div>
             ))}

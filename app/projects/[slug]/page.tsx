@@ -102,23 +102,23 @@ export default async function ProjectDetailPage({
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_380px] lg:items-end">
             <div className="max-w-4xl">
               <div className="section-eyebrow mb-6">Proje Detayi</div>
-              <h1 className="text-4xl leading-[0.95] font-black tracking-[-0.03em] text-foreground sm:text-5xl lg:text-6xl xl:text-[5rem]">
+              <h1 className="break-words text-4xl leading-[0.95] font-black tracking-[-0.03em] text-foreground sm:text-5xl lg:text-6xl xl:text-[5rem]">
                 {project.title}
               </h1>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-muted-foreground lg:text-xl">
+              <p className="mt-6 max-w-2xl break-words text-lg leading-8 text-muted-foreground lg:text-xl">
                 {project.summary || project.description}
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3 text-sm text-muted-foreground">
-                <span className="glass-surface inline-flex items-center gap-2 px-4 py-3">
+                <span className="glass-surface inline-flex max-w-full items-center gap-2 px-4 py-3">
                   <MapPin className="h-4 w-4 text-primary" />
                   {project.location || 'Türkiye'}
                 </span>
-                <span className="glass-surface inline-flex items-center gap-2 px-4 py-3">
+                <span className="glass-surface inline-flex max-w-full items-center gap-2 px-4 py-3">
                   <Calendar className="h-4 w-4 text-primary" />
                   {formatProjectDate(project.updatedAt)}
                 </span>
-                <span className="glass-surface inline-flex items-center gap-2 px-4 py-3">
+                <span className="glass-surface inline-flex max-w-full items-center gap-2 px-4 py-3">
                   <Tags className="h-4 w-4 text-primary" />
                   {project.category || 'Operasyon'}
                 </span>
@@ -160,7 +160,7 @@ export default async function ProjectDetailPage({
                 <div className="absolute right-6 bottom-6 left-6 flex items-end justify-between gap-4">
                   <div>
                     <div className="section-eyebrow mb-3">Ana Görünüm</div>
-                    <div className="text-2xl font-black text-white lg:text-3xl">{featureMedia.title || project.title}</div>
+                    <div className="break-words text-2xl font-black text-white lg:text-3xl">{featureMedia.title || project.title}</div>
                   </div>
                   <div className="hidden h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-background/50 text-white backdrop-blur sm:flex">
                     <ArrowUpRight className="h-5 w-5 text-primary" />
@@ -172,8 +172,8 @@ export default async function ProjectDetailPage({
             <div className="space-y-6">
               <div className="glass-card p-8">
                 <div className="section-eyebrow mb-5">Operasyon Özeti</div>
-                <h2 className="text-3xl font-black text-foreground lg:text-4xl">Sahadaki ritim, ekipman yogunlugu ve teslim disiplini one cikar.</h2>
-                <p className="mt-6 text-base leading-8 text-muted-foreground">{project.description || project.summary}</p>
+                <h2 className="break-words text-3xl font-black text-foreground lg:text-4xl">Sahadaki ritim, ekipman yogunlugu ve teslim disiplini one cikar.</h2>
+                <p className="mt-6 break-words text-base leading-8 text-muted-foreground">{project.description || project.summary}</p>
               </div>
 
               <div className="glass-card p-8">
@@ -218,7 +218,7 @@ export default async function ProjectDetailPage({
                   <div className="absolute inset-0 bg-gradient-to-t from-background/78 via-transparent to-transparent" />
                 </div>
                 <div className="p-5 lg:p-6">
-                  <div className="text-lg font-semibold text-white">{media.title || `${project.title} detay karesi`}</div>
+                  <div className="break-words text-lg font-semibold text-white">{media.title || `${project.title} detay karesi`}</div>
                   <div className="mt-2 text-sm leading-7 text-white/55">{media.resourceType === 'video' ? 'Saha videosu' : 'Destekleyici saha görseli'}</div>
                 </div>
               </div>
@@ -251,7 +251,7 @@ export default async function ProjectDetailPage({
           {project.tags.length ? (
             <div className="mt-10 flex flex-wrap gap-2">
               {project.tags.map((tag) => (
-                <span key={tag} className="rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-white/70">
+                <span key={tag} className="max-w-full break-words rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-white/70">
                   {tag}
                 </span>
               ))}

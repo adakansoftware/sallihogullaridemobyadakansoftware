@@ -20,8 +20,8 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
           <div className="section-eyebrow mb-4">Proje Detayi</div>
-          <h1 className="font-display text-6xl text-white">{project.title}</h1>
-          <div className="data-label mt-3 text-white/45">{project.status} • {project.media.length} medya • {project.location || 'Lokasyon yok'}</div>
+          <h1 className="break-words font-display text-4xl text-white sm:text-5xl md:text-6xl">{project.title}</h1>
+          <div className="data-label mt-3 break-words text-white/45">{project.status} • {project.media.length} medya • {project.location || 'Lokasyon yok'}</div>
         </div>
         <DeleteProjectButton projectId={project.id} />
       </div>
@@ -66,24 +66,24 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
       </div>
 
       <div className="grid gap-8 xl:grid-cols-[1.1fr_0.9fr]">
-        <div className="industrial-border rounded-[32px] bg-white/[0.04] p-6">
-          <h2 className="font-display text-4xl text-white">Proje Bilgileri</h2>
+        <div className="industrial-border rounded-[28px] bg-white/[0.04] p-4 sm:p-6 md:rounded-[32px]">
+          <h2 className="font-display text-3xl text-white sm:text-4xl">Proje Bilgileri</h2>
           <div className="mt-6">
             <ProjectForm mode="edit" project={project} />
           </div>
         </div>
 
-        <div className="industrial-border rounded-[32px] bg-white/[0.04] p-6">
-          <h2 className="font-display text-4xl text-white">Medya Yukle</h2>
+        <div className="industrial-border rounded-[28px] bg-white/[0.04] p-4 sm:p-6 md:rounded-[32px]">
+          <h2 className="font-display text-3xl text-white sm:text-4xl">Medya Yukle</h2>
           <div className="mt-6">
             <MediaUploader projectId={project.id} />
           </div>
         </div>
       </div>
 
-      <div className="industrial-border rounded-[32px] bg-white/[0.04] p-6">
+      <div className="industrial-border rounded-[28px] bg-white/[0.04] p-4 sm:p-6 md:rounded-[32px]">
         <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <h2 className="font-display text-4xl text-white">Yuklu Medyalar</h2>
+          <h2 className="font-display text-3xl text-white sm:text-4xl">Yuklu Medyalar</h2>
           <div className="data-label text-white/45">Kapak secimi ve siralama buradan yonetilir</div>
         </div>
         <div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-3">

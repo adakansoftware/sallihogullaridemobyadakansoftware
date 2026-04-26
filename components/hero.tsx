@@ -17,7 +17,7 @@ export function Hero({ settings }: { settings: SiteSettings }) {
   const heroAccent = heroRest.join(',').trim() || settings.companyShortName
 
   return (
-    <section className="relative flex min-h-screen items-center overflow-hidden">
+    <section className="relative flex min-h-[100svh] items-center overflow-hidden lg:min-h-screen">
       <div className="absolute inset-0">
         <Image src="/images/hero-main.jpg" alt={`${settings.companyName} saha operasyonu`} fill className="scale-105 object-cover" priority quality={95} />
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/40" />
@@ -56,7 +56,7 @@ export function Hero({ settings }: { settings: SiteSettings }) {
           </p>
 
           <div className="mb-20 flex flex-col gap-4 sm:flex-row">
-            <Button asChild size="lg" className="glow-amber h-16 gap-3 bg-primary px-10 text-sm font-bold uppercase tracking-[0.1em] text-primary-foreground transition-all duration-300 hover:scale-[1.02] hover:bg-primary/90">
+            <Button asChild size="lg" className="glow-amber h-16 w-full gap-3 bg-primary px-6 text-sm font-bold uppercase tracking-[0.1em] text-primary-foreground transition-all duration-300 hover:scale-[1.02] hover:bg-primary/90 sm:w-auto sm:px-10">
               <Link href="/contact">
                 Teklif Talebi Oluştur
                 <ChevronRight className="h-5 w-5" />
@@ -66,7 +66,7 @@ export function Hero({ settings }: { settings: SiteSettings }) {
               asChild
               variant="outline"
               size="lg"
-              className="h-16 gap-3 border-border/30 bg-card/30 px-10 text-sm font-bold uppercase tracking-[0.1em] text-foreground backdrop-blur-sm transition-all duration-300 hover:border-primary/30 hover:bg-card/50"
+              className="h-16 w-full gap-3 border-border/30 bg-card/30 px-6 text-sm font-bold uppercase tracking-[0.1em] text-foreground backdrop-blur-sm transition-all duration-300 hover:border-primary/30 hover:bg-card/50 sm:w-auto sm:px-10"
             >
               <a href={`tel:${settings.contactPhone.replace(/\s+/g, '')}`}>
                 <Phone className="h-4 w-4" />

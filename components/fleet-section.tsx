@@ -19,7 +19,7 @@ export function FleetSection() {
           </p>
         </div>
 
-        <div className="mb-14 grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <div className="mb-14 grid grid-cols-1 gap-4 min-[380px]:grid-cols-2 lg:grid-cols-4">
           {fleetStats.map((stat) => (
             <div key={stat.label} className="border border-border/40 bg-card p-6 text-center">
               <div className="mb-1 text-3xl font-black text-primary lg:text-4xl">{stat.value}</div>
@@ -44,7 +44,7 @@ export function FleetSection() {
                 </div>
 
                 <div className="flex flex-col justify-center p-6 lg:p-8">
-                  <div className="mb-3 flex items-center gap-3">
+                  <div className="mb-3 flex flex-wrap items-center gap-3">
                     <h3 className="text-xl font-black text-foreground lg:text-2xl">{item.name}</h3>
                     <span className="bg-primary/10 px-2.5 py-1 text-xs font-bold text-primary">{item.capacity}</span>
                   </div>

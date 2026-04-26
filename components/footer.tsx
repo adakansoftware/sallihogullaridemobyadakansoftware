@@ -14,13 +14,13 @@ export function Footer({ settings }: { settings: SiteSettings }) {
       <div className="mx-auto max-w-[1400px] px-6 py-16 lg:px-8 lg:py-20">
         <div className="relative z-10 grid gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-12">
           <div className="lg:col-span-1">
-            <Link href="/" className="mb-6 flex items-center gap-3">
+            <Link href="/" className="mb-6 flex min-w-0 items-center gap-3">
               <div className="glow-amber-sm flex h-11 w-11 items-center justify-center bg-primary">
                 <span className="text-lg font-black text-primary-foreground">{settings.companyShortName.slice(0, 2).toUpperCase()}</span>
               </div>
-              <div className="flex flex-col leading-tight">
-                <span className="text-lg font-bold uppercase text-foreground">{settings.companyName}</span>
-                <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">{settings.serviceArea}</span>
+              <div className="flex min-w-0 flex-col leading-tight">
+                <span className="break-words text-lg font-bold uppercase text-foreground">{settings.companyName}</span>
+                <span className="break-words text-[10px] font-medium uppercase tracking-wider text-muted-foreground">{settings.serviceArea}</span>
               </div>
             </Link>
 
@@ -77,31 +77,31 @@ export function Footer({ settings }: { settings: SiteSettings }) {
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <Phone className="mt-1 h-4 w-4 shrink-0 text-primary" />
-                <div>
-                  <a href={`tel:${settings.contactPhone.replace(/\s+/g, '')}`} className="text-sm font-medium text-foreground transition-colors hover:text-primary">
+                <div className="min-w-0">
+                  <a href={`tel:${settings.contactPhone.replace(/\s+/g, '')}`} className="break-all text-sm font-medium text-foreground transition-colors hover:text-primary">
                     {settings.contactPhone}
                   </a>
-                  <a href={`tel:${settings.contactPhoneSecondary.replace(/\s+/g, '')}`} className="block text-sm text-muted-foreground transition-colors hover:text-primary">
+                  <a href={`tel:${settings.contactPhoneSecondary.replace(/\s+/g, '')}`} className="block break-all text-sm text-muted-foreground transition-colors hover:text-primary">
                     {settings.contactPhoneSecondary}
                   </a>
                 </div>
               </li>
               <li className="flex items-start gap-3">
                 <Mail className="mt-1 h-4 w-4 shrink-0 text-primary" />
-                <div>
-                  <a href={`mailto:${settings.contactEmail}`} className="text-sm font-medium text-foreground transition-colors hover:text-primary">
+                <div className="min-w-0">
+                  <a href={`mailto:${settings.contactEmail}`} className="break-all text-sm font-medium text-foreground transition-colors hover:text-primary">
                     {settings.contactEmail}
                   </a>
-                  <a href={`mailto:${settings.contactEmailSecondary}`} className="block text-sm text-muted-foreground transition-colors hover:text-primary">
+                  <a href={`mailto:${settings.contactEmailSecondary}`} className="block break-all text-sm text-muted-foreground transition-colors hover:text-primary">
                     {settings.contactEmailSecondary}
                   </a>
                 </div>
               </li>
               <li className="flex items-start gap-3">
                 <MapPin className="mt-1 h-4 w-4 shrink-0 text-primary" />
-                <div>
-                  <div className="text-sm font-medium text-foreground">{settings.address}</div>
-                  <div className="text-sm text-muted-foreground">{settings.serviceArea}</div>
+                <div className="min-w-0">
+                  <div className="break-words text-sm font-medium text-foreground">{settings.address}</div>
+                  <div className="break-words text-sm text-muted-foreground">{settings.serviceArea}</div>
                 </div>
               </li>
             </ul>
@@ -112,7 +112,7 @@ export function Footer({ settings }: { settings: SiteSettings }) {
       <div className="relative z-10 border-t border-border/30">
         <div className="mx-auto flex max-w-[1400px] flex-col gap-4 px-6 py-6 md:flex-row md:items-center md:justify-between lg:px-8">
           <div className="text-xs text-muted-foreground">© {new Date().getFullYear()} {settings.companyName}. Tüm hakları saklıdır.</div>
-          <div className="text-xs text-muted-foreground">
+          <div className="break-words text-xs text-muted-foreground">
             Design by{' '}
             <a
               href="https://www.instagram.com/adakansoftware"

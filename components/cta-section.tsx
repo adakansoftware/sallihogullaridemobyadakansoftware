@@ -32,13 +32,13 @@ export function CTASection() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-14 px-8 text-sm uppercase tracking-wider gap-2">
+              <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-14 w-full px-8 text-sm uppercase tracking-wider gap-2 sm:w-auto">
                 <a href="tel:+905555555555">
                   <Phone className="w-5 h-5" />
                   Hemen Ara
                 </a>
               </Button>
-              <Button asChild size="lg" variant="outline" className="border-border/50 bg-secondary/30 hover:bg-secondary/50 text-foreground font-bold h-14 px-8 text-sm uppercase tracking-wider gap-2">
+              <Button asChild size="lg" variant="outline" className="border-border/50 bg-secondary/30 hover:bg-secondary/50 text-foreground font-bold h-14 w-full px-8 text-sm uppercase tracking-wider gap-2 sm:w-auto">
                 <Link href="/contact">
                   Teklif Formu
                   <ChevronRight className="w-5 h-5" />
@@ -47,7 +47,7 @@ export function CTASection() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 min-[380px]:grid-cols-2">
             <div className="bg-card/80 backdrop-blur border border-border/40 p-8 text-center">
               <div className="text-4xl lg:text-5xl font-black text-primary mb-2">25+</div>
               <div className="text-sm text-muted-foreground">Yıllık Deneyim</div>

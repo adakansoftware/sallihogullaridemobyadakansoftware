@@ -26,7 +26,7 @@ export function AboutSection({ settings }: { settings: SiteSettings }) {
               </p>
             </div>
 
-            <div className="mt-10 grid grid-cols-3 gap-6 border-t border-border/30 pt-10">
+            <div className="mt-10 grid gap-6 border-t border-border/30 pt-10 sm:grid-cols-3">
               <div>
                 <div className="mb-4 flex h-12 w-12 items-center justify-center bg-primary/10">
                   <Target className="h-6 w-6 text-primary" />
@@ -51,7 +51,7 @@ export function AboutSection({ settings }: { settings: SiteSettings }) {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 min-[380px]:grid-cols-2">
             <div className="col-span-2 border border-border/40 bg-card p-8">
               <div className="mb-2 text-6xl font-black text-primary lg:text-7xl">25+</div>
               <div className="text-lg font-semibold text-foreground">Yıllık Saha Deneyimi</div>

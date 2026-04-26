@@ -9,7 +9,7 @@ export default async function AdminMessagesPage() {
     <div className="space-y-8">
       <div>
         <div className="section-eyebrow mb-4">Talep Yönetimi</div>
-        <h1 className="font-display text-6xl text-white">Mesajlar</h1>
+        <h1 className="font-display text-4xl text-white sm:text-5xl md:text-6xl">Mesajlar</h1>
         <p className="mt-3 max-w-3xl text-white/60">Teklif taleplerini ve iletişim mesajlarını buradan takip edin.</p>
       </div>
 

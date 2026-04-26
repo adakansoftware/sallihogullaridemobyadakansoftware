@@ -99,13 +99,13 @@ export function AdminProjectsManager({ projects }: { projects: Project[] }) {
           {filteredProjects.map((project) => (
             <div key={project.id} className="rounded-[24px] border border-white/10 bg-white/[0.03] p-5 transition hover:border-amber-400/20">
               <div className="grid gap-4 lg:grid-cols-[minmax(0,1.4fr)_0.8fr_0.7fr_0.8fr_auto] lg:items-center">
-                <div>
+                <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-3">
-                    <h2 className="text-xl font-medium text-white">{project.title}</h2>
+                    <h2 className="break-words text-xl font-medium text-white">{project.title}</h2>
                     {project.featured ? <span className="rounded-full bg-amber-400/10 px-3 py-1 text-xs text-amber-300">Öne Çıkan</span> : null}
                   </div>
-                  <div className="mt-2 text-sm text-white/45">{project.category || 'Kategori yok'} • {project.location || 'Lokasyon yok'}</div>
-                  {project.summary ? <p className="mt-3 max-w-3xl text-white/65">{project.summary}</p> : null}
+                  <div className="mt-2 break-words text-sm text-white/45">{project.category || 'Kategori yok'} • {project.location || 'Lokasyon yok'}</div>
+                  {project.summary ? <p className="mt-3 max-w-3xl break-words text-white/65">{project.summary}</p> : null}
                   {project.tags.length ? <div className="mt-3 flex flex-wrap gap-2">{project.tags.map((tag) => <span key={tag} className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/65">{tag}</span>)}</div> : null}
                 </div>
 

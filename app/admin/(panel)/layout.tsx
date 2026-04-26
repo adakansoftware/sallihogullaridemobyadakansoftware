@@ -30,10 +30,10 @@ export default async function AdminPanelLayout({ children }: Readonly<{ children
         <aside className="border-r border-white/10 bg-black/55 p-6 lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto">
           <Link href="/admin" className="block rounded-[30px] border border-white/10 bg-white/[0.035] p-5 transition hover:border-amber-400/15 hover:bg-white/[0.05]">
             <div className="section-eyebrow mb-3">Yönetim Merkezi</div>
-            <div className="font-display text-[clamp(0.96rem,0.92rem+0.34vw,1.08rem)] leading-[1.1] tracking-[0.04em] text-white">
+            <div className="break-words font-display text-[clamp(0.96rem,0.92rem+0.34vw,1.08rem)] leading-[1.1] tracking-[0.04em] text-white">
               {settings.companyShortName.toUpperCase()}
             </div>
-            <div className="mt-3 text-sm text-white/55">{settings.companyName}</div>
+            <div className="mt-3 break-words text-sm text-white/55">{settings.companyName}</div>
           </Link>
 
           <nav className="mt-8 space-y-2">
@@ -49,10 +49,10 @@ export default async function AdminPanelLayout({ children }: Readonly<{ children
           <div className="mt-8 rounded-[24px] border border-white/10 bg-white/[0.03] p-5">
             <div className="data-label text-white/40">İletişim</div>
             <div className="mt-3 text-2xl text-white">Hazır</div>
-            <p className="mt-2 text-sm text-white/55">{settings.serviceArea}</p>
+            <p className="mt-2 break-words text-sm text-white/55">{settings.serviceArea}</p>
             <div className="mt-4 flex flex-wrap gap-2 text-xs text-white/55">
-              <span className="rounded-full border border-white/10 px-3 py-1">{settings.contactPhone}</span>
-              <span className="rounded-full border border-white/10 px-3 py-1">{settings.contactEmail}</span>
+              <span className="max-w-full break-all rounded-full border border-white/10 px-3 py-1">{settings.contactPhone}</span>
+              <span className="max-w-full break-all rounded-full border border-white/10 px-3 py-1">{settings.contactEmail}</span>
             </div>
           </div>
 
@@ -61,10 +61,10 @@ export default async function AdminPanelLayout({ children }: Readonly<{ children
           </div>
         </aside>
 
-        <main className="flex min-h-screen flex-col p-6 md:p-8">
+        <main className="flex min-h-screen min-w-0 flex-col p-4 md:p-8">
           <AdminTopbar settings={settings} unreadCount={unreadCount} />
           <div className="flex-1 pt-6">
-            <div className="rounded-[34px] border border-white/8 bg-white/[0.025] p-5 md:p-7">
+            <div className="rounded-[28px] border border-white/8 bg-white/[0.025] p-4 md:rounded-[34px] md:p-7">
               {children}
             </div>
           </div>
@@ -74,4 +74,3 @@ export default async function AdminPanelLayout({ children }: Readonly<{ children
     </div>
   )
 }
-

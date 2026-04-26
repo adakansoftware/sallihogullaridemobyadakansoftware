@@ -147,22 +147,22 @@ export function ContactSection({ settings }: { settings: SiteSettings }) {
                   <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-primary/10">
                     <info.icon className="h-5 w-5 text-primary" />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <div className="mb-1 text-xs uppercase tracking-wider text-muted-foreground">{info.label}</div>
                     {info.label === 'Telefon' ? (
                       <>
-                        <a href={`tel:${String(info.value).replace(/\s+/g, '')}`} className="font-semibold text-foreground transition-colors hover:text-primary">{info.value}</a>
-                        <a href={`tel:${String(info.subValue).replace(/\s+/g, '')}`} className="block text-sm text-muted-foreground transition-colors hover:text-primary">{info.subValue}</a>
+                        <a href={`tel:${String(info.value).replace(/\s+/g, '')}`} className="break-all font-semibold text-foreground transition-colors hover:text-primary">{info.value}</a>
+                        <a href={`tel:${String(info.subValue).replace(/\s+/g, '')}`} className="block break-all text-sm text-muted-foreground transition-colors hover:text-primary">{info.subValue}</a>
                       </>
                     ) : info.label === 'E-posta' ? (
                       <>
-                        <a href={`mailto:${info.value}`} className="font-semibold text-foreground transition-colors hover:text-primary">{info.value}</a>
-                        <a href={`mailto:${info.subValue}`} className="block text-sm text-muted-foreground transition-colors hover:text-primary">{info.subValue}</a>
+                        <a href={`mailto:${info.value}`} className="break-all font-semibold text-foreground transition-colors hover:text-primary">{info.value}</a>
+                        <a href={`mailto:${info.subValue}`} className="block break-all text-sm text-muted-foreground transition-colors hover:text-primary">{info.subValue}</a>
                       </>
                     ) : (
                       <>
-                        <div className="font-semibold text-foreground">{info.value}</div>
-                        <div className="text-sm text-muted-foreground">{info.subValue}</div>
+                        <div className="break-words font-semibold text-foreground">{info.value}</div>
+                        <div className="break-words text-sm text-muted-foreground">{info.subValue}</div>
                       </>
                     )}
                   </div>

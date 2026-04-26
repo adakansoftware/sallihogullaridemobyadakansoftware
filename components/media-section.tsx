@@ -19,7 +19,7 @@ export function MediaSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-3 lg:gap-5">
+        <div className="grid grid-cols-1 gap-4 min-[380px]:grid-cols-2 lg:grid-cols-3 lg:gap-5">
           {mediaGalleryItems.map((item) => (
             <div key={item.title} className={`group relative cursor-pointer overflow-hidden ${item.tall ? 'row-span-2' : ''}`}>
               <div className={`relative w-full ${item.tall ? 'h-full min-h-[400px] lg:min-h-[500px]' : 'h-48 lg:h-64'}`}>

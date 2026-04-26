@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ChevronRight, Menu, Phone, X } from 'lucide-react'
@@ -64,8 +65,15 @@ export function Navbar({ settings }: { settings: SiteSettings }) {
         <div className="mx-auto max-w-[1400px] px-6 lg:px-8">
           <nav className="flex h-20 items-center justify-between lg:h-24">
             <Link href="/" className="group flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center bg-primary">
-                <span className="text-lg font-black tracking-tighter text-primary-foreground">{settings.companyShortName.slice(0, 2).toUpperCase()}</span>
+              <div className="relative flex h-11 w-14 items-center justify-center overflow-hidden bg-black">
+                <Image
+                  src="/images/sallihogullari-logo.png"
+                  alt={`${settings.companyName} logo`}
+                  fill
+                  sizes="56px"
+                  className="object-contain"
+                  priority
+                />
               </div>
               <div className="hidden flex-col leading-tight sm:flex">
                 <span className="text-lg font-bold uppercase tracking-tight text-foreground">{settings.companyName}</span>

@@ -46,7 +46,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
         {featuredProject ? (
           <div className="grid gap-5 lg:grid-cols-5">
             <Link href={`/projects/${featuredProject.slug}`} className="group relative cursor-pointer overflow-hidden lg:col-span-3 lg:row-span-2">
-              <div className="deep-shadow relative h-full min-h-[550px] lg:min-h-full">
+              <div className="deep-shadow relative h-full min-h-[680px] sm:min-h-[550px] lg:min-h-full">
                 <Image src={featuredProject.coverImage || '/images/project-1.jpg'} alt={featuredProject.title} fill className="object-cover transition-transform duration-1000 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
                 <div className="absolute inset-0 bg-gradient-to-r from-background/60 via-transparent to-transparent" />
@@ -54,7 +54,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                 <div className="absolute top-0 left-0 h-24 w-24 bg-primary/10" style={{ clipPath: 'polygon(0 0, 100% 0, 0 100%)' }} />
               </div>
 
-              <div className="absolute right-0 bottom-0 left-0 p-8 lg:p-12">
+              <div className="absolute right-0 bottom-0 left-0 p-5 sm:p-8 lg:p-12">
                 <div className="mb-5 flex flex-wrap items-center gap-3">
                   <span className="bg-primary px-4 py-2 text-[11px] font-bold uppercase tracking-wider text-primary-foreground">{featuredProject.category || 'Proje'}</span>
                   <span className="glass-surface px-4 py-2 text-[11px] font-bold uppercase tracking-wider text-foreground">{featuredProject.location || 'Türkiye'}</span>
@@ -75,7 +75,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                       <span>{formatProjectDate(featuredProject.updatedAt)}</span>
                     </span>
                   </div>
-                  <div className="glass-surface flex h-12 w-12 translate-x-4 items-center justify-center opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
+                  <div className="glass-surface hidden h-12 w-12 translate-x-4 items-center justify-center opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 sm:flex">
                     <ArrowUpRight className="h-5 w-5 text-primary" />
                   </div>
                 </div>
