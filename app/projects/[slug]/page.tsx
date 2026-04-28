@@ -6,7 +6,7 @@ import { ArrowLeft, ArrowUpRight, Calendar, CheckCircle2, Layers3, MapPin, Tags 
 import { CTASection } from '@/components/cta-section'
 import { SiteFrame } from '@/components/site-frame'
 import { buildProjectGallery, buildProjectHighlights, buildProjectScopes, findPublishedProjectBySlug } from '@/lib/project-service'
-import { getCanonicalUrl } from '@/lib/seo'
+import { buildShareMetadata, getCanonicalUrl } from '@/lib/seo'
 import { getSiteSettings } from '@/lib/settings-service'
 
 function formatProjectDate(value: string) {
@@ -41,24 +41,13 @@ export async function generateMetadata({
     alternates: {
       canonical: getCanonicalUrl(`/projects/${project.slug}`),
     },
-    openGraph: {
+    ...buildShareMetadata({
       title: project.title,
       description,
+      pathname: `/projects/${project.slug}`,
+      image: project.coverImage || '/images/project-1.jpg',
       type: 'article',
-      url: getCanonicalUrl(`/projects/${project.slug}`),
-      images: [
-        {
-          url: project.coverImage || '/images/project-1.jpg',
-          alt: project.title,
-        },
-      ],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: project.title,
-      description,
-      images: [project.coverImage || '/images/project-1.jpg'],
-    },
+    }),
   }
 }
 

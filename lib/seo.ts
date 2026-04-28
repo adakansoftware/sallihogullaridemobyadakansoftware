@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import type { SiteSettings } from '@/lib/store'
 
+export const DEFAULT_SHARE_IMAGE = '/images/hero-main.jpg'
+
 export function getMetadataBase() {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || process.env.APP_ORIGIN?.trim()
   if (!siteUrl) {
@@ -11,6 +13,49 @@ export function getMetadataBase() {
     return new URL(siteUrl)
   } catch {
     return new URL('http://localhost:3000')
+  }
+}
+
+export function buildShareMetadata({
+  title,
+  description,
+  pathname,
+  image = DEFAULT_SHARE_IMAGE,
+  type = 'website',
+  siteName,
+}: {
+  title: string
+  description: string
+  pathname: string
+  image?: string
+  type?: 'website' | 'article'
+  siteName?: string
+}): Pick<Metadata, 'openGraph' | 'twitter'> {
+  const imageUrl = getCanonicalUrl(image)
+
+  return {
+    openGraph: {
+      title,
+      description,
+      type,
+      locale: 'tr_TR',
+      siteName,
+      url: getCanonicalUrl(pathname),
+      images: [
+        {
+          url: imageUrl,
+          width: 1600,
+          height: 900,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [imageUrl],
+    },
   }
 }
 
@@ -46,28 +91,7 @@ export function buildDefaultMetadata(settings: SiteSettings): Metadata {
       'şantiye operasyonu',
       settings.serviceArea,
     ],
-    openGraph: {
-      title,
-      description,
-      type: 'website',
-      locale: 'tr_TR',
-      siteName: settings.companyName,
-      url: metadataBase.toString(),
-      images: [
-        {
-          url: '/images/hero-main.jpg',
-          width: 1600,
-          height: 900,
-          alt: settings.companyName,
-        },
-      ],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      images: ['/images/hero-main.jpg'],
-    },
+    ...buildShareMetadata({ title, description, pathname: '/', siteName: settings.companyName }),
     robots: {
       index: true,
       follow: true,
@@ -89,7 +113,7 @@ export function buildOrganizationJsonLd(settings: SiteSettings) {
     alternateName: settings.companyShortName,
     url: getMetadataBase().toString(),
     logo: getCanonicalUrl('/images/sallihogullari-logo-small.png'),
-    image: getCanonicalUrl('/images/hero-main.jpg'),
+    image: getCanonicalUrl(DEFAULT_SHARE_IMAGE),
     telephone: settings.contactPhone,
     email: settings.contactEmail,
     address: {

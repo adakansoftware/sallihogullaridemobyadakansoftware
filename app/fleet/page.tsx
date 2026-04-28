@@ -4,7 +4,7 @@ import { FleetSection } from '@/components/fleet-section'
 import { PageHero } from '@/components/page-hero'
 import { SiteFrame } from '@/components/site-frame'
 import { WhyUsSection } from '@/components/why-us-section'
-import { getCanonicalUrl } from '@/lib/seo'
+import { buildShareMetadata, getCanonicalUrl } from '@/lib/seo'
 import { readSettings } from '@/lib/store'
 
 export const metadata: Metadata = {
@@ -13,9 +13,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: getCanonicalUrl('/fleet'),
   },
-  openGraph: {
-    url: getCanonicalUrl('/fleet'),
-  },
+  ...buildShareMetadata({
+    title: 'Filo | Sallıhoğulları',
+    description: 'Ekskavatör, damperli kamyon, lowbed ve saha destek araçlarından oluşan makine parkını inceleyin.',
+    pathname: '/fleet',
+  }),
 }
 
 export default async function FleetPage() {

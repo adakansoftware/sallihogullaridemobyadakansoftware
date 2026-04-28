@@ -5,7 +5,7 @@ import { PageHero } from '@/components/page-hero'
 import { SiteFrame } from '@/components/site-frame'
 import { StatsSection } from '@/components/stats-section'
 import { TestimonialsSection } from '@/components/testimonials-section'
-import { getCanonicalUrl } from '@/lib/seo'
+import { buildShareMetadata, getCanonicalUrl } from '@/lib/seo'
 import { readSettings } from '@/lib/store'
 
 export const metadata: Metadata = {
@@ -14,9 +14,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: getCanonicalUrl('/about'),
   },
-  openGraph: {
-    url: getCanonicalUrl('/about'),
-  },
+  ...buildShareMetadata({
+    title: 'Hakkımızda | Sallıhoğulları',
+    description: 'Sallıhoğulları Hafriyat’ın saha disiplini, çalışma yaklaşımı ve hafriyat-nakliyat operasyon gücünü inceleyin.',
+    pathname: '/about',
+  }),
 }
 
 export default async function AboutPage() {

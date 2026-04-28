@@ -4,7 +4,7 @@ import { PageHero } from '@/components/page-hero'
 import { ServicesSection } from '@/components/services-section'
 import { SiteFrame } from '@/components/site-frame'
 import { WhyUsSection } from '@/components/why-us-section'
-import { getCanonicalUrl } from '@/lib/seo'
+import { buildShareMetadata, getCanonicalUrl } from '@/lib/seo'
 import { readSettings } from '@/lib/store'
 
 export const metadata: Metadata = {
@@ -13,9 +13,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: getCanonicalUrl('/services'),
   },
-  openGraph: {
-    url: getCanonicalUrl('/services'),
-  },
+  ...buildShareMetadata({
+    title: 'Hizmetler | Sallıhoğulları',
+    description: 'Hafriyat, kazı, dolgu, damperli nakliyat, lowbed taşımacılık ve şantiye lojistiği hizmetlerini inceleyin.',
+    pathname: '/services',
+  }),
 }
 
 export default async function ServicesPage() {

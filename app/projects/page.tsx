@@ -5,7 +5,7 @@ import { PageHero } from '@/components/page-hero'
 import { ProjectsSection } from '@/components/projects-section'
 import { SiteFrame } from '@/components/site-frame'
 import { listPublishedProjects } from '@/lib/project-service'
-import { getCanonicalUrl } from '@/lib/seo'
+import { buildShareMetadata, getCanonicalUrl } from '@/lib/seo'
 import { getSiteSettings } from '@/lib/settings-service'
 
 export const metadata: Metadata = {
@@ -14,9 +14,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: getCanonicalUrl('/projects'),
   },
-  openGraph: {
-    url: getCanonicalUrl('/projects'),
-  },
+  ...buildShareMetadata({
+    title: 'Projeler | Sallıhoğulları',
+    description: 'Hafriyat, kazı, dolgu, nakliye ve saha operasyonu örneklerini görselleri ve kapsam bilgileriyle inceleyin.',
+    pathname: '/projects',
+  }),
 }
 
 export default async function ProjectsPage() {

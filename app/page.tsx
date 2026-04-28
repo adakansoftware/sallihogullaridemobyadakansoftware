@@ -7,7 +7,7 @@ import { ProjectsSection } from '@/components/projects-section'
 import { ServicesSection } from '@/components/services-section'
 import { StatsSection } from '@/components/stats-section'
 import { WhyUsSection } from '@/components/why-us-section'
-import { getCanonicalUrl } from '@/lib/seo'
+import { buildShareMetadata, getCanonicalUrl } from '@/lib/seo'
 import { readProjects, readSettings } from '@/lib/store'
 
 export const metadata: Metadata = {
@@ -16,9 +16,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: getCanonicalUrl('/'),
   },
-  openGraph: {
-    url: getCanonicalUrl('/'),
-  },
+  ...buildShareMetadata({
+    title: 'Ana Sayfa | Sallıhoğulları',
+    description: 'Sallıhoğulları Hafriyat’ın hafriyat, damperli nakliyat, dolgu ve saha operasyon hizmetlerini inceleyin.',
+    pathname: '/',
+  }),
 }
 
 export default async function Home() {

@@ -3,7 +3,7 @@ import { ContactSection } from '@/components/contact-section'
 import { CTASection } from '@/components/cta-section'
 import { PageHero } from '@/components/page-hero'
 import { SiteFrame } from '@/components/site-frame'
-import { getCanonicalUrl } from '@/lib/seo'
+import { buildShareMetadata, getCanonicalUrl } from '@/lib/seo'
 import { readSettings } from '@/lib/store'
 
 export const metadata: Metadata = {
@@ -12,9 +12,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: getCanonicalUrl('/contact'),
   },
-  openGraph: {
-    url: getCanonicalUrl('/contact'),
-  },
+  ...buildShareMetadata({
+    title: 'İletişim | Sallıhoğulları',
+    description: 'Teklif, saha keşfi, hafriyat, damperli nakliyat ve operasyon planlaması için Sallıhoğulları ile iletişime geçin.',
+    pathname: '/contact',
+  }),
 }
 
 export default async function ContactPage() {
