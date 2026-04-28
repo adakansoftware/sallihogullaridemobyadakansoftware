@@ -1,5 +1,3 @@
-"use client"
-
 import Image from 'next/image'
 import { Shield, Clock, Users, Target, Wrench, TrendingUp, Check } from 'lucide-react'
 import { certifications, whyChooseUsReasons } from '@/lib/site-content'
@@ -15,7 +13,13 @@ export function WhyUsSection() {
         <div className="grid items-center gap-12 lg:grid-cols-5 lg:gap-16">
           <div className="relative lg:col-span-2">
             <div className="relative aspect-[4/5] overflow-hidden">
-              <Image src="/images/about.jpg" alt="Sallıhoğulları Hafriyat ekibi" fill className="object-cover" />
+              <Image
+                src="/images/about.jpg"
+                alt="Sallıhoğulları Hafriyat ekibi"
+                fill
+                className="object-cover"
+                sizes="(min-width: 1024px) 40vw, 100vw"
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
             </div>
 

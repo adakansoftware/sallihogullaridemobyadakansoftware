@@ -301,8 +301,11 @@
     margin-inline: auto;
   }
   .page-transition-shell {
-    animation: page-enter 560ms cubic-bezier(0.16, 1, 0.3, 1);
+    animation: page-enter 280ms cubic-bezier(0.16, 1, 0.3, 1);
     transform-origin: center top;
+  }
+  .brand-logo-pulse {
+    animation: brand-logo-pulse 1400ms ease-in-out infinite;
   }
   ::-webkit-scrollbar { width: 5px; }
   ::-webkit-scrollbar-track { background: oklch(0.07 0.004 255); }
@@ -313,18 +316,30 @@
 @keyframes page-enter {
   0% {
     opacity: 0;
-    transform: translateY(20px) scale(0.992);
-    filter: blur(10px);
+    transform: translateY(10px);
   }
   100% {
     opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes brand-logo-pulse {
+  0%, 100% {
+    opacity: 0.72;
+    transform: scale(0.985);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .page-transition-shell {
+    animation: none;
+  }
+  .brand-logo-pulse {
     animation: none;
   }
 }

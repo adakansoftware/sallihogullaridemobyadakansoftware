@@ -1,8 +1,15 @@
 "use client";
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
+
+const MIN_LOGIN_LOADING_MS = 1000
+
+function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
 
 export function LoginForm({ nextPath = '/admin' }: { nextPath?: string }) {
   const router = useRouter()
@@ -17,6 +24,7 @@ export function LoginForm({ nextPath = '/admin' }: { nextPath?: string }) {
 
     setLoading(true)
     setError('')
+    const startedAt = Date.now()
 
     try {
       const res = await fetch('/api/auth/login', {
@@ -34,6 +42,11 @@ export function LoginForm({ nextPath = '/admin' }: { nextPath?: string }) {
         return
       }
 
+      const elapsed = Date.now() - startedAt
+      if (elapsed < MIN_LOGIN_LOADING_MS) {
+        await wait(MIN_LOGIN_LOADING_MS - elapsed)
+      }
+
       toast.success('Giriş başarılı.')
       router.push(nextPath)
       router.refresh()
@@ -48,6 +61,15 @@ export function LoginForm({ nextPath = '/admin' }: { nextPath?: string }) {
 
   return (
     <form onSubmit={handleSubmit} aria-busy={loading} className="industrial-border premium-shadow w-full max-w-md rounded-[30px] bg-white/[0.045] p-8 md:p-9">
+      <div className="brand-logo-pulse relative mb-6 h-14 w-20 overflow-hidden bg-black">
+        <Image
+          src="/images/sallihogullari-logo-small.png"
+          alt="Sallıhoğulları logo"
+          fill
+          sizes="80px"
+          className="object-contain"
+        />
+      </div>
       <div className="section-eyebrow mb-4">Admin girisi</div>
       <h1 className="font-display text-5xl text-white">Yonetim Paneli</h1>
       <p className="mt-3 text-white/60">Yalnizca yetkili kullanicilar icin guvenli giris alani.</p>

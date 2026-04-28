@@ -67,12 +67,11 @@ export function Navbar({ settings }: { settings: SiteSettings }) {
             <Link href="/" className="group flex items-center gap-3">
               <div className="relative flex h-11 w-14 items-center justify-center overflow-hidden bg-black">
                 <Image
-                  src="/images/sallihogullari-logo.png"
+                  src="/images/sallihogullari-logo-small.png"
                   alt={`${settings.companyName} logo`}
                   fill
                   sizes="56px"
                   className="object-contain"
-                  priority
                 />
               </div>
               <div className="hidden flex-col leading-tight sm:flex">

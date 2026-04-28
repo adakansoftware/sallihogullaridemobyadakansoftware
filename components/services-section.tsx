@@ -1,5 +1,3 @@
-"use client"
-
 import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
 import { serviceCards } from '@/lib/site-content'
@@ -31,7 +29,13 @@ export function ServicesSection() {
               }`}
             >
               <div className={`relative w-full ${index === 0 ? 'h-full min-h-[400px] lg:min-h-[500px]' : 'h-56 lg:h-64'}`}>
-                <Image src={service.image} alt={service.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                <Image
+                  src={service.image}
+                  alt={service.title}
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes={index === 0 ? '(min-width: 1024px) 66vw, 100vw' : '(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw'}
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
               </div>
 

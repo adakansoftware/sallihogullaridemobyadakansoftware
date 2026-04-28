@@ -74,9 +74,9 @@ export function buildDefaultMetadata(settings: SiteSettings): Metadata {
     },
     icons: {
       icon: [
-        { url: '/images/sallihogullari-logo.png', type: 'image/png' },
+        { url: '/images/sallihogullari-logo-small.png', type: 'image/png' },
       ],
-      apple: '/images/sallihogullari-logo.png',
+      apple: '/images/sallihogullari-logo-small.png',
     },
   }
 }
@@ -88,7 +88,7 @@ export function buildOrganizationJsonLd(settings: SiteSettings) {
     name: settings.companyName,
     alternateName: settings.companyShortName,
     url: getMetadataBase().toString(),
-    logo: getCanonicalUrl('/images/sallihogullari-logo.png'),
+    logo: getCanonicalUrl('/images/sallihogullari-logo-small.png'),
     image: getCanonicalUrl('/images/hero-main.jpg'),
     telephone: settings.contactPhone,
     email: settings.contactEmail,

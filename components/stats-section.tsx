@@ -1,5 +1,3 @@
-"use client"
-
 import { siteStats } from '@/lib/site-content'
 
 export function StatsSection() {

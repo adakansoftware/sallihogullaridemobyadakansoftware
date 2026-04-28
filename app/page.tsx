@@ -3,7 +3,6 @@ import { CTASection } from '@/components/cta-section'
 import { Footer } from '@/components/footer'
 import { Hero } from '@/components/hero'
 import { Navbar } from '@/components/navbar'
-import { PageTransition } from '@/components/page-transition'
 import { ProjectsSection } from '@/components/projects-section'
 import { ServicesSection } from '@/components/services-section'
 import { StatsSection } from '@/components/stats-section'
@@ -28,14 +27,12 @@ export default async function Home() {
   return (
     <main className="min-h-screen">
       <Navbar settings={settings} />
-      <PageTransition>
-        <Hero settings={settings} />
-        <StatsSection />
-        <ServicesSection />
-        <ProjectsSection projects={projects} />
-        <WhyUsSection />
-        <CTASection />
-      </PageTransition>
+      <Hero settings={settings} />
+      <StatsSection />
+      <ServicesSection />
+      <ProjectsSection projects={projects} />
+      <WhyUsSection />
+      <CTASection />
       <Footer settings={settings} />
     </main>
   )

@@ -1,5 +1,3 @@
-"use client"
-
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, ArrowUpRight, Calendar, MapPin } from 'lucide-react'
@@ -47,7 +45,13 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
           <div className="grid gap-5 lg:grid-cols-5">
             <Link href={`/projects/${featuredProject.slug}`} className="group relative cursor-pointer overflow-hidden lg:col-span-3 lg:row-span-2">
               <div className="deep-shadow relative h-full min-h-[680px] sm:min-h-[550px] lg:min-h-full">
-                <Image src={featuredProject.coverImage || '/images/project-1.jpg'} alt={featuredProject.title} fill className="object-cover transition-transform duration-1000 group-hover:scale-105" />
+                <Image
+                  src={featuredProject.coverImage || '/images/project-1.jpg'}
+                  alt={featuredProject.title}
+                  fill
+                  className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                  sizes="(min-width: 1024px) 60vw, 100vw"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
                 <div className="absolute inset-0 bg-gradient-to-r from-background/60 via-transparent to-transparent" />
                 <div className="absolute inset-0 bg-primary/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
@@ -87,7 +91,13 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                 <Link key={project.id} href={`/projects/${project.slug}`} className="group hover-lift relative cursor-pointer overflow-hidden">
                   <div className="flex h-full flex-col border border-border/30 bg-card sm:flex-row">
                     <div className="relative h-48 w-full shrink-0 overflow-hidden sm:h-auto sm:w-44 lg:w-48">
-                      <Image src={project.coverImage || '/images/project-2.jpg'} alt={project.title} fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
+                      <Image
+                        src={project.coverImage || '/images/project-2.jpg'}
+                        alt={project.title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                        sizes="(min-width: 1024px) 192px, (min-width: 640px) 176px, 100vw"
+                      />
                       <div className="absolute inset-0 hidden bg-gradient-to-r from-transparent to-card/90 sm:block" />
                       <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent sm:hidden" />
                       <span className="absolute top-3 left-3 bg-primary/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-primary-foreground">{project.category || 'Proje'}</span>

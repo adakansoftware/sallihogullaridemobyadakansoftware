@@ -1,5 +1,3 @@
-"use client"
-
 import Image from 'next/image'
 import Link from 'next/link'
 import { ChevronRight, Phone } from 'lucide-react'
@@ -19,7 +17,15 @@ export function Hero({ settings }: { settings: SiteSettings }) {
   return (
     <section className="relative flex min-h-[100svh] items-center overflow-hidden lg:min-h-screen">
       <div className="absolute inset-0">
-        <Image src="/images/hero-main.jpg" alt={`${settings.companyName} saha operasyonu`} fill className="scale-105 object-cover" priority quality={95} />
+        <Image
+          src="/images/hero-main.jpg"
+          alt={`${settings.companyName} saha operasyonu`}
+          fill
+          className="scale-105 object-cover"
+          priority
+          quality={82}
+          sizes="100vw"
+        />
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/40" />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-background/60" />
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent" />

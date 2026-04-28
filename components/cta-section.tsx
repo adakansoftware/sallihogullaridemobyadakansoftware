@@ -1,5 +1,3 @@
-"use client"
-
 import Image from "next/image"
 import Link from "next/link"
 import { Phone, ChevronRight } from "lucide-react"
@@ -9,7 +7,13 @@ export function CTASection() {
   return (
     <section className="relative py-24 lg:py-32 overflow-hidden">
       <div className="absolute inset-0">
-        <Image src="/images/cta-bg.jpg" alt="Hafriyat operasyonu" fill className="object-cover" />
+        <Image
+          src="/images/cta-bg.jpg"
+          alt="Hafriyat operasyonu"
+          fill
+          className="object-cover"
+          sizes="100vw"
+        />
         <div className="absolute inset-0 bg-background/85" />
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-background/60" />
       </div>

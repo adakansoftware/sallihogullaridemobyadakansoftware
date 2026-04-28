@@ -1,5 +1,3 @@
-"use client"
-
 import Link from 'next/link'
 import { Instagram, Mail, MapPin, Phone } from 'lucide-react'
 import type { SiteSettings } from '@/lib/store'
