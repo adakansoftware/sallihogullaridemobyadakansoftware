@@ -9,13 +9,13 @@ import { readSettings } from '@/lib/store'
 
 export const metadata: Metadata = {
   title: 'Makine Parkı ve Filo',
-  description: 'Sumitomo ekskavatör, Hidromek beko loder, Mercedes Arocs/Axor damperli kamyon, low-bed ve saha destek araçlarından oluşan filoyu inceleyin.',
+  description: 'Sumitomo ekskavatör, Hidromek beko loder, Mercedes Arocs/Axor damperli kamyon, lowbed, Ford 2524 arazöz / su tankeri ve saha destek araçlarından oluşan filoyu inceleyin.',
   alternates: {
     canonical: getCanonicalUrl('/fleet'),
   },
   ...buildShareMetadata({
     title: 'Makine Parkı ve Filo | Sallıhoğulları',
-    description: 'Sumitomo ekskavatör, Hidromek beko loder, Mercedes Arocs/Axor damperli kamyon, low-bed ve saha destek araçlarından oluşan filoyu inceleyin.',
+    description: 'Sumitomo ekskavatör, Hidromek beko loder, Mercedes Arocs/Axor damperli kamyon, lowbed, Ford 2524 arazöz / su tankeri ve saha destek araçlarından oluşan filoyu inceleyin.',
     pathname: '/fleet',
   }),
 }
@@ -28,7 +28,7 @@ export default async function FleetPage() {
       <PageHero
         eyebrow="Makine Parkı"
         title="Saha ihtiyacına göre yönlendirilen makine ve kamyon altyapısı"
-        description="Ekskavatör, beko loder, damperli kamyon ve lowbed desteğiyle kazı, yükleme, taşıma ve saha düzenleme işlerini aynı operasyon planında ele alıyoruz."
+        description="Ekskavatör, beko loder, damperli kamyon, lowbed ve arazöz / su tankeri desteğiyle kazı, yükleme, taşıma ve saha düzenleme işlerini aynı operasyon planında ele alıyoruz."
         image="/images/dump-truck.jpg"
         primaryCta={{ href: '/services', label: 'Hizmet Kapsamını Görün' }}
       />

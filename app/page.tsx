@@ -13,13 +13,13 @@ import { readProjects, readSettings } from '@/lib/store'
 
 export const metadata: Metadata = {
   title: 'Adana Hafriyat ve Damperli Nakliyat',
-  description: 'Adana merkezli Sallıhoğulları Hafriyat ile temel kazısı, dolgu, damperli nakliyat, malzeme taşıma ve hafriyat nakliyesi hizmetlerini inceleyin.',
+  description: 'Adana merkezli Sallıhoğulları Hafriyat ile temel kazısı, dolgu, damperli nakliyat, lowbed nakliyat, arazöz / su tankeri ve hafriyat nakliyesi hizmetlerini inceleyin.',
   alternates: {
     canonical: getCanonicalUrl('/'),
   },
   ...buildShareMetadata({
     title: 'Adana Hafriyat ve Damperli Nakliyat | Sallıhoğulları',
-    description: 'Adana merkezli Sallıhoğulları Hafriyat ile temel kazısı, dolgu, damperli nakliyat, malzeme taşıma ve hafriyat nakliyesi hizmetlerini inceleyin.',
+    description: 'Adana merkezli Sallıhoğulları Hafriyat ile temel kazısı, dolgu, damperli nakliyat, lowbed nakliyat, arazöz / su tankeri ve hafriyat nakliyesi hizmetlerini inceleyin.',
     pathname: '/',
   }),
 }

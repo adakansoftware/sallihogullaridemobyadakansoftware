@@ -3,7 +3,7 @@ import type { SiteSettings } from '@/lib/store'
 import { env } from '@/lib/env'
 
 export const DEFAULT_SHARE_IMAGE = '/images/hero-main.jpg'
-const DEFAULT_DESCRIPTION = 'Adana merkezli Sallıhoğulları Hafriyat; hafriyat, dolgu, temel kazısı, damperli nakliyat, low-bed, hafriyat nakliyesi ve malzeme taşıma işleri için saha odaklı çözüm sunar.'
+const DEFAULT_DESCRIPTION = 'Adana merkezli Sallıhoğulları Hafriyat; hafriyat, dolgu, temel kazısı, damperli nakliyat, lowbed nakliyat, arazöz / su tankeri desteği ve malzeme taşıma işleri için saha odaklı çözüm sunar.'
 
 export function getMetadataBase() {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || process.env.APP_ORIGIN?.trim()
@@ -90,14 +90,22 @@ export function buildDefaultMetadata(settings: SiteSettings): Metadata {
       settings.companyShortName,
       'Adana hafriyat',
       'Adana damperli nakliyat',
+      'Adana lowbed nakliyat',
+      'Adana arazöz',
+      'Adana su tankeri',
+      'Adana hafriyat nakliyesi',
       'Adana temel kazısı',
       'Adana dolgu işleri',
       'hafriyat',
+      'hafriyat nakliyesi',
       'temel kazısı',
       'altyapı kazıları',
       'dolgu',
       'damperli nakliyat',
-      'low-bed taşımacılık',
+      'lowbed nakliyat',
+      'lowbed taşıma',
+      'arazöz',
+      'su tankeri',
       'mıcır taşıma',
       'kum taşıma',
       'toprak taşıma',
@@ -199,9 +207,10 @@ export function buildServicesJsonLd(settings: SiteSettings) {
     'Dolgu işleri',
     'Altyapı kazıları',
     'Damperli nakliyat',
-    'Malzeme sevkiyatı',
-    'Low-bed taşımacılık',
-    'Saha içi taşıma',
+    'Hafriyat nakliyesi',
+    'Lowbed nakliyat',
+    'Arazöz ve su tankeri desteği',
+    'Malzeme taşıma',
   ]
 
   return {

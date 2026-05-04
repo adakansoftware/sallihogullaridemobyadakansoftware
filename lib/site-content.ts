@@ -37,8 +37,8 @@ export const serviceCards = [
     image: '/images/dump-truck.jpg',
   },
   {
-    title: 'Lowbed Taşımacılık',
-    description: 'İş makineleri ve ağır ekipmanlar için yükleme güvenliği, güzergah ve teslim saatini dikkate alan lowbed taşıma hizmeti veririz.',
+    title: 'Lowbed Nakliyat',
+    description: 'İş makineleri ve ağır ekipmanlar için yükleme güvenliği, güzergah ve teslim saatini dikkate alan lowbed nakliyat hizmeti veririz.',
     image: '/images/lowbed.jpg',
   },
   {
@@ -83,17 +83,17 @@ export const fleetItems = [
   {
     name: 'Çekici ve Dorse',
     count: '5',
-    capacity: 'Damperli Dorse / Low-bed',
-    description: 'Malzeme sevkiyatı, ekipman taşıma ve saha lojistiğinde kullanılan Axor 1840 çekici, damperli dorse ve low-bed taşıma altyapısı.',
-    specs: ['Axor 1840 x2', 'Damperli Dorse x2', 'Low-bed x1'],
+    capacity: 'Damperli Dorse / Lowbed',
+    description: 'Malzeme sevkiyatı, ekipman taşıma ve lowbed nakliyat işlerinde kullanılan Axor 1840 çekici, damperli dorse ve lowbed taşıma altyapısı.',
+    specs: ['Axor 1840 x2', 'Damperli Dorse x2', 'Lowbed x1'],
     image: '/images/lowbed.jpg',
   },
   {
     name: 'Arazöz',
     count: '1',
-    capacity: 'Saha Destek',
-    description: 'Şantiye içi sulama, yol temizliği, toz kontrolü ve saha destek ihtiyaçları için kullanılan Ford 2524 arazöz.',
-    specs: ['Ford 2524 x1', 'Toz Kontrolü', 'Saha Sulama'],
+    capacity: 'Su Tankeri / Arazöz',
+    description: 'Şantiye içi sulama, yol temizliği, toz kontrolü ve saha destek ihtiyaçları için kullanılan Ford 2524 su tankeri / arazöz.',
+    specs: ['Ford 2524 x1', 'Su Tankeri / Arazöz', 'Toz Kontrolü'],
     image: '/images/dump-truck.jpg',
   },
 ]
@@ -121,7 +121,7 @@ export const whyChooseUsReasons = [
   },
   {
     title: 'İşin Kapsamına Göre Hizmet',
-    description: 'Küçük ölçekli kazıdan yoğun saha içi taşımane kadar hizmet kapsamı işin gerçek ihtiyacına göre şekillendirilir.',
+    description: 'Küçük ölçekli kazıdan yoğun saha içi taşımaya kadar hizmet kapsamı işin gerçek ihtiyacına göre şekillendirilir.',
     stat: 'Esnek Plan',
   },
   {
@@ -193,7 +193,7 @@ export const mediaGalleryItems = [
   },
   {
     type: 'image',
-    title: 'Lowbed sevk hazırlığı',
+    title: 'Lowbed nakliyat hazırlığı',
     category: 'Ağır Taşıma',
     image: '/images/lowbed.jpg',
   },
@@ -204,6 +204,7 @@ export const footerServiceLinks = [
   'Damperli Nakliyat',
   'Dolgu ve Zemin Hazırlığı',
   'İş Makinesi Desteği',
-  'Saha İçi Taşıma',
+  'Lowbed Nakliyat',
+  'Arazöz / Su Tankeri',
   'Altyapı Kazıları',
 ]
