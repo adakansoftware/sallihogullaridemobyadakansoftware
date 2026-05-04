@@ -10,12 +10,12 @@ export function FleetSection() {
 
       <div className="relative z-10 mx-auto max-w-[1400px] px-6 lg:px-8">
         <div className="mx-auto mb-16 max-w-3xl text-center">
-          <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-primary">Araç Filomuz</span>
+          <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-primary">Makine ve Nakliye Altyapısı</span>
           <h2 className="mb-6 text-3xl leading-tight font-black text-foreground sm:text-4xl lg:text-5xl">
-            Güçlü <span className="text-primary">Makine Parkı</span>
+            Sahaya göre yönlendirilen <span className="text-primary">makine ve kamyon gücü</span>
           </h2>
           <p className="text-lg text-muted-foreground">
-            Saha tipine göre konumlanan iş makineleri ve taşıma altyapısıyla operasyon temposunu kesintiye uğratmadan ilerletiyoruz.
+            Saha koşuluna, zemin durumuna ve sevkiyat ihtiyacına göre doğru makine-kamyon kombinasyonunu kurarak işin akışını koruyoruz.
           </p>
         </div>
 

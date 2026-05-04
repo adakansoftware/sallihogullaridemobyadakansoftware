@@ -9,7 +9,7 @@ const nextConfig = {
   poweredByHeader: false,
   images: {
     unoptimized: true,
-    qualities: [75, 95],
+    qualities: [75, 82, 95],
   },
   turbopack: {
     root: workspaceRoot,

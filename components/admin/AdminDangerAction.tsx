@@ -45,9 +45,9 @@ export function AdminDangerAction({
     try {
       await onConfirm()
       setOpen(false)
-      toast.success('Islem tamamlandi.')
+      toast.success('İşlem tamamlandı.')
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Islem tamamlanamadi.'
+      const message = err instanceof Error ? err.message : 'İşlem tamamlanamadı.'
       setError(message)
       toast.error(message)
     } finally {
@@ -80,14 +80,14 @@ export function AdminDangerAction({
 
           <AlertDialogFooter className="mt-7">
             <AlertDialogCancel className="h-11 rounded-2xl border-white/10 bg-white/[0.03] text-white hover:bg-white/[0.06]">
-              Vazgec
+              Vazgeç
             </AlertDialogCancel>
             <AlertDialogAction
               className="btn-premium h-11 rounded-2xl border-amber-300/30 bg-[linear-gradient(135deg,rgba(245,158,11,0.92),rgba(217,119,6,0.94))] px-5 text-[0.75rem] text-black hover:brightness-110"
               onClick={handleConfirm}
               disabled={loading}
             >
-              {loading ? 'Isleniyor...' : confirmLabel}
+              {loading ? 'İşleniyor...' : confirmLabel}
             </AlertDialogAction>
           </AlertDialogFooter>
         </div>

@@ -8,14 +8,14 @@ import { buildShareMetadata, getCanonicalUrl } from '@/lib/seo'
 import { readSettings } from '@/lib/store'
 
 export const metadata: Metadata = {
-  title: 'Hizmetler',
-  description: 'Hafriyat, kazı, dolgu, damperli nakliyat, lowbed taşımacılık ve şantiye lojistiği hizmetlerini inceleyin.',
+  title: 'Hafriyat ve Nakliyat Hizmetleri',
+  description: 'Gaziantep’te hafriyat, temel kazısı, altyapı kazıları, dolgu, damperli nakliyat, low-bed taşıma ve şantiye lojistiği hizmetlerini inceleyin.',
   alternates: {
     canonical: getCanonicalUrl('/services'),
   },
   ...buildShareMetadata({
-    title: 'Hizmetler | Sallıhoğulları',
-    description: 'Hafriyat, kazı, dolgu, damperli nakliyat, lowbed taşımacılık ve şantiye lojistiği hizmetlerini inceleyin.',
+    title: 'Hafriyat ve Nakliyat Hizmetleri | Sallıhoğulları',
+    description: 'Gaziantep’te hafriyat, temel kazısı, altyapı kazıları, dolgu, damperli nakliyat, low-bed taşıma ve şantiye lojistiği hizmetlerini inceleyin.',
     pathname: '/services',
   }),
 }
@@ -27,14 +27,14 @@ export default async function ServicesPage() {
     <SiteFrame settings={settings}>
       <PageHero
         eyebrow="Hizmet Alanları"
-        title="Hafriyat, taşıma ve saha operasyonlarında kapsamlı çözümler"
-        description="Temel kazısı, dolgu, damperli nakliyat, lowbed sevkiyat ve iş makinesi operasyonlarını tek plan içinde, kontrollü şekilde yürütüyoruz."
+        title="Kazıdan sevkiyata kadar sahada işleyen net operasyon düzeni"
+        description="Temel kazısı, hafriyat nakliyesi, dolgu, malzeme sevkiyatı ve iş makinesi desteğini sahanın erişim, zemin ve zaman ihtiyacına göre planlıyoruz."
         image="/images/excavator.jpg"
-        primaryCta={{ href: '/projects', label: 'Referans Projeleri İnceleyin' }}
+        primaryCta={{ href: '/projects', label: 'Saha Çalışmalarını İnceleyin' }}
       />
       <ServicesSection />
       <WhyUsSection />
-      <CTASection />
+      <CTASection settings={settings} />
     </SiteFrame>
   )
 }

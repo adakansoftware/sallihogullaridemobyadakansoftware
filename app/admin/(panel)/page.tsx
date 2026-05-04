@@ -24,14 +24,14 @@ export default async function AdminDashboardPage() {
       <div className="flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between">
         <div>
           <div className="section-eyebrow mb-4">Yönetim Özeti</div>
-          <h1 className="font-display text-4xl text-white sm:text-5xl md:text-7xl">Operasyon Dashboard</h1>
+          <h1 className="font-display text-4xl text-white sm:text-5xl md:text-7xl">Operasyon Paneli</h1>
           <p className="mt-3 max-w-3xl text-white/60">
-            {settings.companyName} icin guncel icerik, medya ve iletisim akisini tek bir merkezden takip edin.
+            {settings.companyName} için güncel içerik, medya ve iletişim akışını tek bir merkezden takip edin.
           </p>
         </div>
         <div className="flex flex-wrap gap-3">
           <Link href="/admin/projects/new" className="btn-premium inline-flex h-12 items-center px-6">Yeni Proje</Link>
-          <Link href="/admin/projects" className="btn-ghost-premium inline-flex h-12 items-center px-6">Icerik Akisi</Link>
+          <Link href="/admin/projects" className="btn-ghost-premium inline-flex h-12 items-center px-6">İçerik Akışı</Link>
           <Link href="/admin/settings" className="btn-ghost-premium inline-flex h-12 items-center px-6">Ayarlar</Link>
         </div>
       </div>
@@ -46,11 +46,11 @@ export default async function AdminDashboardPage() {
           <div className="stat-value mt-3 text-5xl text-white">{mediaCount}</div>
         </div>
         <div className="industrial-border hover-lift rounded-[28px] bg-white/[0.04] p-6">
-          <div className="data-label text-white/45">Okunmamis Mesaj</div>
+          <div className="data-label text-white/45">Okunmamış Mesaj</div>
           <div className="stat-value mt-3 text-5xl text-white">{unreadCount}</div>
         </div>
         <div className="industrial-border hover-lift rounded-[28px] bg-white/[0.04] p-6">
-          <div className="data-label text-white/45">One Cikan Proje</div>
+          <div className="data-label text-white/45">Öne Çıkan Proje</div>
           <div className="stat-value mt-3 text-5xl text-white">{featuredCount}</div>
         </div>
       </div>
@@ -58,7 +58,7 @@ export default async function AdminDashboardPage() {
       <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
         <div className="industrial-border rounded-[32px] bg-white/[0.04] p-6">
           <div className="mb-5 flex items-center justify-between">
-            <h2 className="font-display text-4xl text-white">Icerik Sagligi</h2>
+            <h2 className="font-display text-4xl text-white">İçerik Sağlığı</h2>
             <Link href="/admin/projects" className="text-amber-300 hover:text-amber-200">Projelere Git</Link>
           </div>
 
@@ -72,11 +72,11 @@ export default async function AdminDashboardPage() {
               <div className="mt-3 text-3xl text-white">{draftCount}</div>
             </div>
             <div className="rounded-[24px] border border-white/10 bg-black/20 p-4">
-              <div className="data-label text-white/40">Medyasiz Proje</div>
+              <div className="data-label text-white/40">Medyasız Proje</div>
               <div className="mt-3 text-3xl text-white">{projectsWithoutMedia}</div>
             </div>
             <div className="rounded-[24px] border border-white/10 bg-black/20 p-4">
-              <div className="data-label text-white/40">Bozuk Referans</div>
+              <div className="data-label text-white/40">Medya Uyarısı</div>
               <div className={`mt-3 text-3xl ${missingAssetCount || orphanUploadCount ? 'text-amber-300' : 'text-emerald-300'}`}>
                 {missingAssetCount + orphanUploadCount}
               </div>
@@ -86,7 +86,7 @@ export default async function AdminDashboardPage() {
           <div className="mt-5 grid gap-4 lg:grid-cols-2">
             <div className="rounded-[24px] border border-white/10 bg-white/[0.03] p-5">
               <div className="mb-3 flex items-center justify-between">
-                <div className="text-lg font-medium text-white">Eksik medya kayitlari</div>
+                <div className="text-lg font-medium text-white">Eksik medya kayıtları</div>
                 <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/55">{missingAssetCount}</span>
               </div>
               {assetHealth.missingAssets.length ? (
@@ -98,19 +98,19 @@ export default async function AdminDashboardPage() {
                     </div>
                   ))}
                   {assetHealth.missingAssets.length > 5 ? (
-                    <div className="text-sm text-white/45">Toplam {assetHealth.missingAssets.length} bozuk medya referansi bulundu.</div>
+                    <div className="text-sm text-white/45">Toplam {assetHealth.missingAssets.length} bozuk medya referansı bulundu.</div>
                   ) : null}
                 </div>
               ) : (
                 <div className="rounded-2xl border border-emerald-400/15 bg-emerald-400/8 px-4 py-4 text-sm text-emerald-200">
-                  Public tarafta kirik `/images` veya `/uploads` referansi bulunmadi.
+                  Yayın tarafında kırık `/images` veya `/uploads` referansı bulunmadı.
                 </div>
               )}
             </div>
 
             <div className="rounded-[24px] border border-white/10 bg-white/[0.03] p-5">
               <div className="mb-3 flex items-center justify-between">
-                <div className="text-lg font-medium text-white">Orphan upload dosyalari</div>
+                <div className="text-lg font-medium text-white">Kullanılmayan upload dosyaları</div>
                 <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/55">{orphanUploadCount}</span>
               </div>
               {assetHealth.orphanUploads.length ? (
@@ -121,12 +121,12 @@ export default async function AdminDashboardPage() {
                     </div>
                   ))}
                   {assetHealth.orphanUploads.length > 5 ? (
-                    <div className="text-sm text-white/45">Toplam {assetHealth.orphanUploads.length} kullanilmayan upload dosyasi var.</div>
+                    <div className="text-sm text-white/45">Toplam {assetHealth.orphanUploads.length} kullanılmayan upload dosyası var.</div>
                   ) : null}
                 </div>
               ) : (
                 <div className="rounded-2xl border border-emerald-400/15 bg-emerald-400/8 px-4 py-4 text-sm text-emerald-200">
-                  Yukleme klasorunde projelerden kopmus dosya gorunmuyor.
+                  Yükleme klasöründe projelerden kopmuş dosya görünmüyor.
                 </div>
               )}
             </div>
@@ -139,10 +139,10 @@ export default async function AdminDashboardPage() {
           <p className="mt-3 text-white/60">{settings.quoteNotice}</p>
           <div className="mt-6 grid gap-3">
             <Link href="/" className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white/75 transition hover:bg-white/[0.05]">
-              Public anasayfayi ac
+              Anasayfayı aç
             </Link>
             <Link href="/projects" className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white/75 transition hover:bg-white/[0.05]">
-              Projeler sayfasini kontrol et
+              Projeler sayfasını kontrol et
             </Link>
             <Link href="/contact" className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white/75 transition hover:bg-white/[0.05]">
               İletişim akışına git
@@ -167,7 +167,7 @@ export default async function AdminDashboardPage() {
                 <Link href={`/admin/projects/${project.id}`} className="btn-ghost-premium inline-flex h-10 items-center px-4">Düzenle</Link>
               </div>
             ))}
-            {projects.length === 0 ? <div className="rounded-[24px] border border-dashed border-white/10 p-8 text-white/50">Henuz proje yok.</div> : null}
+            {projects.length === 0 ? <div className="rounded-[24px] border border-dashed border-white/10 p-8 text-white/50">Henüz proje yok.</div> : null}
           </div>
         </div>
 
@@ -190,7 +190,7 @@ export default async function AdminDashboardPage() {
                   <p className="mt-3 line-clamp-2 text-sm text-white/60">{message.message}</p>
                 </div>
               ))}
-              {messages.length === 0 ? <div className="rounded-[24px] border border-dashed border-white/10 p-6 text-white/50">Henuz mesaj yok.</div> : null}
+              {messages.length === 0 ? <div className="rounded-[24px] border border-dashed border-white/10 p-6 text-white/50">Henüz mesaj yok.</div> : null}
             </div>
           </div>
         </div>

@@ -10,13 +10,13 @@ export function ServicesSection() {
       <div className="relative z-10 mx-auto max-w-[1400px] px-6 lg:px-8">
         <div className="mb-16 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
-            <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-primary">Hizmetlerimiz</span>
+            <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-primary">Hizmet Kapsamı</span>
             <h2 className="text-3xl leading-tight font-black text-foreground sm:text-4xl lg:text-5xl">
-              Hafriyat, Nakliye ve <span className="text-primary">Şantiye Lojistiği</span>
+              Hafriyat, Nakliye ve <span className="text-primary">Saha Hazırlığı</span>
             </h2>
           </div>
           <p className="max-w-md text-muted-foreground lg:text-right">
-            Kazıdan dolguya, damperli nakliyattan iş makinesi desteğine kadar saha ihtiyacını tek plan içinde ele alıyoruz.
+            Kazı, yükleme, dolgu, malzeme sevkiyatı ve damperli nakliyat işlerini aynı saha planı içinde, işin temposuna göre yürütüyoruz.
           </p>
         </div>
 
@@ -43,7 +43,7 @@ export function ServicesSection() {
                 <h3 className={`mb-2 font-bold text-foreground ${index === 0 ? 'text-2xl lg:text-3xl' : 'text-lg lg:text-xl'}`}>{service.title}</h3>
                 <p className={`mb-4 leading-relaxed text-muted-foreground ${index === 0 ? 'max-w-lg text-base' : 'text-sm'}`}>{service.description}</p>
                 <div className="flex translate-y-2 items-center gap-2 text-sm font-semibold text-primary opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-                  <span>Detaylı Bilgi</span>
+                  <span>Hizmeti İncele</span>
                   <ArrowRight className="h-4 w-4" />
                 </div>
               </div>

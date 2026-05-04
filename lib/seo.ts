@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import type { SiteSettings } from '@/lib/store'
+import { env } from '@/lib/env'
 
 export const DEFAULT_SHARE_IMAGE = '/images/hero-main.jpg'
+const DEFAULT_DESCRIPTION = 'Gaziantep merkezli Sallıhoğulları Hafriyat; hafriyat, dolgu, temel kazısı, damperli nakliyat, low-bed ve şantiye lojistiği işleri için saha odaklı çözüm sunar.'
 
 export function getMetadataBase() {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || process.env.APP_ORIGIN?.trim()
@@ -65,8 +67,8 @@ export function getCanonicalUrl(pathname = '/') {
 
 export function buildDefaultMetadata(settings: SiteSettings): Metadata {
   const metadataBase = getMetadataBase()
-  const title = settings.companyName
-  const description = settings.heroDescription
+  const title = `${settings.companyName} | Gaziantep Hafriyat ve Damperli Nakliyat`
+  const description = DEFAULT_DESCRIPTION
 
   return {
     metadataBase,
@@ -76,6 +78,9 @@ export function buildDefaultMetadata(settings: SiteSettings): Metadata {
     },
     description,
     applicationName: settings.companyName,
+    authors: [{ name: settings.companyName }],
+    creator: settings.companyName,
+    publisher: settings.companyName,
     alternates: {
       canonical: '/',
     },
@@ -83,19 +88,41 @@ export function buildDefaultMetadata(settings: SiteSettings): Metadata {
     keywords: [
       settings.companyName,
       settings.companyShortName,
+      'Gaziantep hafriyat',
+      'Gaziantep damperli nakliyat',
+      'Gaziantep temel kazısı',
+      'Gaziantep dolgu işleri',
       'hafriyat',
-      'kazı',
+      'temel kazısı',
+      'altyapı kazıları',
+      'dolgu',
       'damperli nakliyat',
-      'lowbed taşımacılık',
+      'low-bed taşımacılık',
+      'mıcır taşıma',
+      'kum taşıma',
+      'toprak taşıma',
       'iş makinesi',
       'şantiye operasyonu',
       settings.serviceArea,
     ],
+    formatDetection: {
+      telephone: false,
+      email: false,
+      address: false,
+    },
     ...buildShareMetadata({ title, description, pathname: '/', siteName: settings.companyName }),
     robots: {
       index: true,
       follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+        'max-video-preview': -1,
+      },
     },
+    verification: env.GOOGLE_SITE_VERIFICATION ? { google: env.GOOGLE_SITE_VERIFICATION } : undefined,
     icons: {
       icon: [
         { url: '/images/sallihogullari-logo-small.png', type: 'image/png' },
@@ -108,10 +135,12 @@ export function buildDefaultMetadata(settings: SiteSettings): Metadata {
 export function buildOrganizationJsonLd(settings: SiteSettings) {
   return {
     '@context': 'https://schema.org',
-    '@type': 'Organization',
+    '@type': ['Organization', 'LocalBusiness'],
+    '@id': getCanonicalUrl('/#organization'),
     name: settings.companyName,
     alternateName: settings.companyShortName,
     url: getMetadataBase().toString(),
+    description: DEFAULT_DESCRIPTION,
     logo: getCanonicalUrl('/images/sallihogullari-logo-small.png'),
     image: getCanonicalUrl(DEFAULT_SHARE_IMAGE),
     telephone: settings.contactPhone,
@@ -119,10 +148,19 @@ export function buildOrganizationJsonLd(settings: SiteSettings) {
     address: {
       '@type': 'PostalAddress',
       streetAddress: settings.address,
+      addressLocality: 'Gaziantep',
       addressCountry: 'TR',
     },
-    areaServed: settings.serviceArea,
-    sameAs: [settings.instagramUrl].filter(Boolean),
+    areaServed: [
+      {
+        '@type': 'AdministrativeArea',
+        name: 'Gaziantep',
+      },
+      settings.serviceArea,
+    ],
+    openingHours: 'Mo-Sa 07:00-19:00',
+    priceRange: 'Teklif ile',
+    sameAs: [settings.instagramUrl, settings.whatsappUrl].filter(Boolean),
     contactPoint: [
       {
         '@type': 'ContactPoint',
@@ -139,8 +177,46 @@ export function buildWebsiteJsonLd(settings: SiteSettings) {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
+    '@id': getCanonicalUrl('/#website'),
     name: settings.companyName,
     url: getMetadataBase().toString(),
     inLanguage: 'tr-TR',
+    publisher: {
+      '@id': getCanonicalUrl('/#organization'),
+    },
+    potentialAction: {
+      '@type': 'ContactAction',
+      target: getCanonicalUrl('/contact'),
+      name: 'Teklif ve saha keşfi talebi',
+    },
+  }
+}
+
+export function buildServicesJsonLd(settings: SiteSettings) {
+  const services = [
+    'Hafriyat',
+    'Temel kazısı',
+    'Dolgu işleri',
+    'Altyapı kazıları',
+    'Damperli nakliyat',
+    'Malzeme sevkiyatı',
+    'Low-bed taşımacılık',
+    'Şantiye lojistiği',
+  ]
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    '@id': getCanonicalUrl('/services#services'),
+    name: `${settings.companyShortName} hizmetleri`,
+    itemListElement: services.map((service, index) => ({
+      '@type': 'Service',
+      position: index + 1,
+      name: service,
+      areaServed: 'Gaziantep',
+      provider: {
+        '@id': getCanonicalUrl('/#organization'),
+      },
+    })),
   }
 }

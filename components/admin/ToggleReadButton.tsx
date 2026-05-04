@@ -24,16 +24,16 @@ export function ToggleReadButton({ messageId, isRead }: { messageId: string; isR
       const data = await res.json().catch(() => ({}))
 
       if (!res.ok) {
-        const message = data.message || 'Mesaj guncellenemedi.'
+        const message = data.message || 'Mesaj güncellenemedi.'
         setError(message)
         toast.error(message)
         return
       }
 
-      toast.success(isRead ? 'Mesaj tekrar yeni olarak isaretlendi.' : 'Mesaj okundu olarak isaretlendi.')
+      toast.success(isRead ? 'Mesaj tekrar yeni olarak işaretlendi.' : 'Mesaj okundu olarak işaretlendi.')
       router.refresh()
     } catch {
-      const message = 'Mesaj durumu guncellenirken baglanti sorunu olustu.'
+      const message = 'Mesaj durumu güncellenirken bağlantı sorunu oluştu.'
       setError(message)
       toast.error(message)
     } finally {

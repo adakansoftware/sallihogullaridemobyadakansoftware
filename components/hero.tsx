@@ -2,17 +2,19 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ChevronRight, Phone } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { isRealPhoneValue } from '@/lib/contact-utils'
 import type { SiteSettings } from '@/lib/store'
 
 const heroStats = [
   { value: '25+', label: 'Yıllık Saha Deneyimi' },
   { value: '7/24', label: 'Operasyon Takibi' },
-  { value: '85+', label: 'Araç ve Makine' },
+  { value: '30+', label: 'Araç ve Makine' },
 ]
 
 export function Hero({ settings }: { settings: SiteSettings }) {
   const [heroLead, ...heroRest] = settings.heroTitle.split(',')
   const heroAccent = heroRest.join(',').trim() || settings.companyShortName
+  const hasPhone = isRealPhoneValue(settings.contactPhone)
 
   return (
     <section className="relative flex min-h-[100svh] items-center overflow-hidden lg:min-h-screen">
@@ -43,14 +45,6 @@ export function Hero({ settings }: { settings: SiteSettings }) {
 
       <div className="relative z-10 mx-auto max-w-[1400px] px-6 pt-32 pb-24 lg:px-8 lg:pt-44 lg:pb-36">
         <div className="max-w-3xl">
-          <div className="glass-surface mb-10 inline-flex items-center gap-4 px-5 py-3">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
-              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-primary" />
-            </span>
-            <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">{settings.serviceArea}</span>
-          </div>
-
           <h1 className="mb-8 text-[2.75rem] leading-[0.95] font-black tracking-[-0.02em] text-foreground sm:text-5xl lg:text-6xl xl:text-[5.25rem]">
             <span className="block">{heroLead}</span>
             <span className="text-gradient mt-2 block">{heroAccent}</span>
@@ -68,17 +62,19 @@ export function Hero({ settings }: { settings: SiteSettings }) {
                 <ChevronRight className="h-5 w-5" />
               </Link>
             </Button>
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="h-16 w-full gap-3 border-border/30 bg-card/30 px-6 text-sm font-bold uppercase tracking-[0.1em] text-foreground backdrop-blur-sm transition-all duration-300 hover:border-primary/30 hover:bg-card/50 sm:w-auto sm:px-10"
-            >
-              <a href={`tel:${settings.contactPhone.replace(/\s+/g, '')}`}>
-                <Phone className="h-4 w-4" />
-                Hemen Arayın
-              </a>
-            </Button>
+            {hasPhone ? (
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="h-16 w-full gap-3 border-border/30 bg-card/30 px-6 text-sm font-bold uppercase tracking-[0.1em] text-foreground backdrop-blur-sm transition-all duration-300 hover:border-primary/30 hover:bg-card/50 sm:w-auto sm:px-10"
+              >
+                <a href={`tel:${settings.contactPhone.replace(/\s+/g, '')}`}>
+                  <Phone className="h-4 w-4" />
+                  Hemen Arayın
+                </a>
+              </Button>
+            ) : null}
           </div>
 
           <div className="flex flex-wrap gap-8 lg:gap-0">

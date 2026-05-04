@@ -1,9 +1,13 @@
 import Link from 'next/link'
 import { Instagram, Mail, MapPin, Phone } from 'lucide-react'
+import { isRealPhoneValue } from '@/lib/contact-utils'
 import type { SiteSettings } from '@/lib/store'
 import { footerServiceLinks, siteQuickLinks } from '@/lib/site-content'
 
 export function Footer({ settings }: { settings: SiteSettings }) {
+  const hasPhone = isRealPhoneValue(settings.contactPhone)
+  const hasSecondaryPhone = isRealPhoneValue(settings.contactPhoneSecondary)
+
   return (
     <footer className="relative overflow-hidden border-t border-border/30 bg-card">
       <div className="pointer-events-none absolute inset-0 cinematic-gradient opacity-70" />
@@ -51,7 +55,7 @@ export function Footer({ settings }: { settings: SiteSettings }) {
               ))}
               <li>
                 <Link href="/kvkk-aydinlatma-metni" className="text-sm text-muted-foreground transition-colors hover:text-primary">
-                  KVKK Aydinlatma Metni
+                  KVKK Aydınlatma Metni
                 </Link>
               </li>
             </ul>
@@ -73,17 +77,21 @@ export function Footer({ settings }: { settings: SiteSettings }) {
           <div>
             <h4 className="mb-6 text-sm font-bold uppercase tracking-wider text-foreground">İletişim</h4>
             <ul className="space-y-4">
-              <li className="flex items-start gap-3">
-                <Phone className="mt-1 h-4 w-4 shrink-0 text-primary" />
-                <div className="min-w-0">
-                  <a href={`tel:${settings.contactPhone.replace(/\s+/g, '')}`} className="break-all text-sm font-medium text-foreground transition-colors hover:text-primary">
-                    {settings.contactPhone}
-                  </a>
-                  <a href={`tel:${settings.contactPhoneSecondary.replace(/\s+/g, '')}`} className="block break-all text-sm text-muted-foreground transition-colors hover:text-primary">
-                    {settings.contactPhoneSecondary}
-                  </a>
-                </div>
-              </li>
+              {hasPhone ? (
+                <li className="flex items-start gap-3">
+                  <Phone className="mt-1 h-4 w-4 shrink-0 text-primary" />
+                  <div className="min-w-0">
+                    <a href={`tel:${settings.contactPhone.replace(/\s+/g, '')}`} className="break-all text-sm font-medium text-foreground transition-colors hover:text-primary">
+                      {settings.contactPhone}
+                    </a>
+                    {hasSecondaryPhone ? (
+                      <a href={`tel:${settings.contactPhoneSecondary.replace(/\s+/g, '')}`} className="block break-all text-sm text-muted-foreground transition-colors hover:text-primary">
+                        {settings.contactPhoneSecondary}
+                      </a>
+                    ) : null}
+                  </div>
+                </li>
+              ) : null}
               <li className="flex items-start gap-3">
                 <Mail className="mt-1 h-4 w-4 shrink-0 text-primary" />
                 <div className="min-w-0">

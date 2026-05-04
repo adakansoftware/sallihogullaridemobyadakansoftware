@@ -19,7 +19,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
     <div className="space-y-8">
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
-          <div className="section-eyebrow mb-4">Proje Detayi</div>
+          <div className="section-eyebrow mb-4">Proje Detayı</div>
           <h1 className="break-words font-display text-4xl text-white sm:text-5xl md:text-6xl">{project.title}</h1>
           <div className="data-label mt-3 break-words text-white/45">{project.status} • {project.media.length} medya • {project.location || 'Lokasyon yok'}</div>
         </div>
@@ -33,10 +33,10 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         </div>
         <div className="industrial-border rounded-[24px] bg-white/[0.04] p-5">
           <div className="data-label text-white/40">Kapak Medya</div>
-          <div className="mt-3 text-xl text-white">{project.coverImage ? 'Hazir' : 'Yok'}</div>
+          <div className="mt-3 text-xl text-white">{project.coverImage ? 'Hazır' : 'Yok'}</div>
         </div>
         <div className="industrial-border rounded-[24px] bg-white/[0.04] p-5">
-          <div className="data-label text-white/40">Etiket Sayisi</div>
+          <div className="data-label text-white/40">Etiket Sayısı</div>
           <div className="mt-3 text-xl text-white">{project.tags.length}</div>
         </div>
       </div>
@@ -44,7 +44,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
       <div className="grid gap-4 xl:grid-cols-[1fr_auto]">
         <div className={`rounded-[24px] border px-5 py-4 ${assetIssues.length ? 'border-amber-400/20 bg-amber-400/8 text-amber-100' : 'border-emerald-400/20 bg-emerald-400/8 text-emerald-100'}`}>
           <div className="text-sm font-medium">
-            {assetIssues.length ? 'Bu projede public tarafta kirilabilecek medya referanslari var.' : 'Bu proje icin public medya referanslari saglikli gorunuyor.'}
+            {assetIssues.length ? 'Bu projede yayın tarafında kırılabilecek medya referansları var.' : 'Bu proje için yayın medya referansları sağlıklı görünüyor.'}
           </div>
           {assetIssues.length ? (
             <div className="mt-2 space-y-1 text-sm text-white/70">
@@ -61,7 +61,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
           rel="noreferrer"
           className="btn-ghost-premium inline-flex h-12 items-center justify-center px-6"
         >
-          Public Onizleme
+          Yayın Önizleme
         </a>
       </div>
 
@@ -74,7 +74,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         </div>
 
         <div className="industrial-border rounded-[28px] bg-white/[0.04] p-4 sm:p-6 md:rounded-[32px]">
-          <h2 className="font-display text-3xl text-white sm:text-4xl">Medya Yukle</h2>
+          <h2 className="font-display text-3xl text-white sm:text-4xl">Medya Yükle</h2>
           <div className="mt-6">
             <MediaUploader projectId={project.id} />
           </div>
@@ -83,8 +83,8 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
 
       <div className="industrial-border rounded-[28px] bg-white/[0.04] p-4 sm:p-6 md:rounded-[32px]">
         <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <h2 className="font-display text-3xl text-white sm:text-4xl">Yuklu Medyalar</h2>
-          <div className="data-label text-white/45">Kapak secimi ve siralama buradan yonetilir</div>
+          <h2 className="font-display text-3xl text-white sm:text-4xl">Yüklü Medyalar</h2>
+          <div className="data-label text-white/45">Kapak seçimi ve sıralama buradan yönetilir</div>
         </div>
         <div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {project.media.map((item) => (
@@ -102,20 +102,20 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                 <div>
                   <div className="text-base font-medium text-white">{item.title || 'Başlıksız medya'}</div>
                   <div className="data-label mt-2 text-white/45">
-                    {item.resourceType} • sira {item.sortOrder} {item.isCover ? '• kapak' : ''}
+                    {item.resourceType} • sıra {item.sortOrder} {item.isCover ? '• kapak' : ''}
                   </div>
                 </div>
                 <MediaActions mediaId={item.id} initialTitle={item.title || ''} initialSortOrder={item.sortOrder} initialIsCover={item.isCover} />
               </div>
               <div className="mt-4 flex items-center justify-between">
                 <a href={item.fileUrl} target="_blank" rel="noreferrer" className="text-sm text-amber-300 hover:text-amber-200">
-                  Ac
+                  Aç
                 </a>
                 <DeleteMediaButton mediaId={item.id} />
               </div>
             </div>
           ))}
-          {project.media.length === 0 ? <div className="rounded-[24px] border border-dashed border-white/10 p-8 text-white/50">Bu projede henuz medya yok.</div> : null}
+          {project.media.length === 0 ? <div className="rounded-[24px] border border-dashed border-white/10 p-8 text-white/50">Bu projede henüz medya yok.</div> : null}
         </div>
       </div>
     </div>

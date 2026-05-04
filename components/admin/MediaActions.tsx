@@ -35,7 +35,7 @@ export function MediaActions({
       const data = await res.json().catch(() => ({}))
 
       if (!res.ok) {
-        const message = data.message || 'Medya guncellenemedi.'
+        const message = data.message || 'Medya güncellenemedi.'
         setError(message)
         toast.error(message)
         return
@@ -44,7 +44,7 @@ export function MediaActions({
       toast.success(successMessage)
       router.refresh()
     } catch {
-      const message = 'Medya kaydi guncellenirken baglanti sorunu olustu.'
+      const message = 'Medya kaydı güncellenirken bağlantı sorunu oluştu.'
       setError(message)
       toast.error(message)
     } finally {
@@ -54,15 +54,15 @@ export function MediaActions({
 
   return (
     <div className="space-y-3 rounded-2xl border border-white/10 bg-black/20 p-3">
-      <input className="input-premium h-11 w-full" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Medya basligi" />
+      <input className="input-premium h-11 w-full" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Medya başlığı" />
       <div className="flex flex-wrap items-center gap-3">
         <input type="number" className="input-premium h-11 w-28" value={sortOrder} onChange={(e) => setSortOrder(Number(e.target.value))} />
-        <button onClick={() => save({ title, sortOrder }, 'Medya duzenlendi.')} type="button" className="btn-ghost-premium h-11 px-4">
+        <button onClick={() => save({ title, sortOrder }, 'Medya düzenlendi.')} type="button" className="btn-ghost-premium h-11 px-4">
           {saving ? 'Kaydediliyor...' : 'Kaydet'}
         </button>
         {!initialIsCover ? (
           <button onClick={() => save({ isCover: true }, 'Kapak görseli güncellendi.')} type="button" className="btn-premium h-11 px-4">
-            Kapaga Al
+            Kapağa Al
           </button>
         ) : (
           <span className="rounded-full border border-amber-400/25 px-3 py-2 text-xs text-amber-300">Kapak Görseli</span>

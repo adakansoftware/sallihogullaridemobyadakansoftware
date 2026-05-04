@@ -9,13 +9,13 @@ export function MediaSection() {
       <div className="relative z-10 mx-auto max-w-[1400px] px-6 lg:px-8">
         <div className="mb-14 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-xl">
-            <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-primary">Operasyon Galerisi</span>
+            <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-primary">Saha Galerisi</span>
             <h2 className="text-3xl font-black leading-tight text-foreground sm:text-4xl lg:text-5xl">
-              Saha <span className="text-primary">akışından kareler</span>
+              Sahadan <span className="text-primary">çalışma kareleri</span>
             </h2>
           </div>
           <p className="max-w-md text-muted-foreground lg:text-right">
-            Ekipman kullanımı, taşıma hazırlığı ve saha organizasyonundan seçilen operasyon görüntüleri
+            Kazı, yükleme, dolgu ve sevkiyat akışını anlatan gerçek saha çalışma düzeninden seçilen kareler.
           </p>
         </div>
 

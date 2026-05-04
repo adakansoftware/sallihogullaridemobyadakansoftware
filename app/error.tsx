@@ -11,10 +11,10 @@ export default function RootError({ reset }: ErrorProps) {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(245,158,11,0.12),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(245,158,11,0.08),transparent_32%)]" />
       <div className="container-shell relative z-10 flex min-h-[80vh] items-center justify-center">
         <div className="w-full max-w-3xl rounded-[36px] border border-white/10 bg-white/[0.025] p-8 text-center md:p-12">
-          <div className="section-eyebrow mb-4">Gecici sorun</div>
-          <h1 className="font-display text-5xl leading-[0.95] text-white md:text-6xl">Sayfa simdi yuklenemedi</h1>
+          <div className="section-eyebrow mb-4">Geçici sorun</div>
+          <h1 className="font-display text-5xl leading-[0.95] text-white md:text-6xl">Sayfa şimdi yüklenemedi</h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-white/60">
-            Demo akisini bozmadan devam etmek icin sayfayi yeniden deneyebilirsiniz.
+            Bağlantı veya sunucu tarafında kısa süreli bir aksaklık oluştu. Sayfayı yeniden deneyebilirsiniz.
           </p>
           <div className="mt-8 flex justify-center">
             <button

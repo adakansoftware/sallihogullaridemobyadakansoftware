@@ -38,7 +38,7 @@ export function MediaUploader({ projectId }: { projectId: string }) {
     )
 
     if (invalidFile) {
-      const message = 'Gecersiz dosya secildi. Desteklenen turleri kullanin ve dosya basina 25 MB sinirini asmayin.'
+      const message = 'Geçersiz dosya seçildi. Desteklenen türleri kullanın ve dosya başına 25 MB sınırını aşmayın.'
       setFiles([])
       setError(message)
       toast.error(message)
@@ -65,7 +65,7 @@ export function MediaUploader({ projectId }: { projectId: string }) {
     e.preventDefault()
     if (loading) return
     if (!selectedFiles.length) {
-      const message = 'En az bir dosya secin.'
+      const message = 'En az bir dosya seçin.'
       setError(message)
       toast.error(message)
       return
@@ -82,7 +82,7 @@ export function MediaUploader({ projectId }: { projectId: string }) {
 
         const uploadRes = await fetch('/api/upload', { method: 'POST', body: fd })
         const uploadData = await uploadRes.json().catch(() => ({}))
-        if (!uploadRes.ok) throw new Error(uploadData.message || 'Medya yuklenemedi.')
+        if (!uploadRes.ok) throw new Error(uploadData.message || 'Medya yüklenemedi.')
 
         uploadedUrls.push(uploadData.secure_url)
 
@@ -103,7 +103,7 @@ export function MediaUploader({ projectId }: { projectId: string }) {
         const saveData = await saveRes.json().catch(() => ({}))
         if (!saveRes.ok) {
           await cleanupUploadedFiles([uploadData.secure_url])
-          throw new Error(saveData.message || 'Medya kaydi olusturulamadi.')
+          throw new Error(saveData.message || 'Medya kaydı oluşturulamadı.')
         }
       }
 
@@ -114,7 +114,7 @@ export function MediaUploader({ projectId }: { projectId: string }) {
       toast.success(selectedFiles.length > 1 ? 'Medya galerisi güncellendi.' : 'Medya eklendi.')
       router.refresh()
     } catch (uploadError) {
-      const message = uploadError instanceof Error ? uploadError.message : 'Yukleme tamamlanamadi.'
+      const message = uploadError instanceof Error ? uploadError.message : 'Yükleme tamamlanamadı.'
       setError(message)
       if (uploadedUrls.length) {
         await cleanupUploadedFiles(uploadedUrls)
@@ -128,11 +128,11 @@ export function MediaUploader({ projectId }: { projectId: string }) {
   return (
     <form onSubmit={handleUpload} aria-busy={loading} className="space-y-5">
       <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
-        <input className="input-premium w-full" placeholder="Medya basligi" value={title} onChange={(e) => setTitle(e.target.value)} />
+        <input className="input-premium w-full" placeholder="Medya başlığı" value={title} onChange={(e) => setTitle(e.target.value)} />
         <input
           type="number"
           className="input-premium w-full"
-          placeholder="Baslangic sirasi"
+          placeholder="Başlangıç sırası"
           value={sortOrder}
           onChange={(e) => setSortOrder(Number(e.target.value))}
         />
@@ -158,7 +158,7 @@ export function MediaUploader({ projectId }: { projectId: string }) {
 
       {selectedFiles.length ? (
         <div className="rounded-[24px] border border-white/10 bg-white/[0.03] p-4">
-          <div className="mb-3 text-xs uppercase tracking-[0.18em] text-white/40">Secilen dosyalar</div>
+          <div className="mb-3 text-xs uppercase tracking-[0.18em] text-white/40">Seçilen dosyalar</div>
           <div className="space-y-2">
             {selectedFiles.map((file) => (
               <div key={`${file.name}-${file.size}`} className="flex min-w-0 items-center justify-between gap-4 text-sm text-white/70">
@@ -173,7 +173,7 @@ export function MediaUploader({ projectId }: { projectId: string }) {
       {error ? <p role="alert" aria-live="assertive" className="text-sm text-red-400">{error}</p> : null}
 
       <button className="btn-premium h-12 px-6" type="submit" disabled={loading}>
-        {loading ? 'Yukleniyor...' : 'Fotograf / Video Yukle'}
+        {loading ? 'Yükleniyor...' : 'Fotoğraf / Video Yükle'}
       </button>
     </form>
   )

@@ -4,8 +4,9 @@ import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { ChevronRight, Menu, Phone, X } from 'lucide-react'
+import { ChevronRight, Menu, MessageCircle, Phone, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { isRealPhoneValue, isRealWhatsAppUrl } from '@/lib/contact-utils'
 import type { SiteSettings } from '@/lib/store'
 import { siteQuickLinks } from '@/lib/site-content'
 
@@ -14,6 +15,8 @@ export function Navbar({ settings }: { settings: SiteSettings }) {
   const mobileToggleRef = useRef<HTMLInputElement>(null)
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const hasPhone = isRealPhoneValue(settings.contactPhone)
+  const hasWhatsApp = isRealWhatsAppUrl(settings.whatsappUrl)
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50)
@@ -76,7 +79,6 @@ export function Navbar({ settings }: { settings: SiteSettings }) {
               </div>
               <div className="hidden flex-col leading-tight sm:flex">
                 <span className="text-lg font-bold uppercase tracking-tight text-foreground">{settings.companyName}</span>
-                <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground">{settings.serviceArea}</span>
               </div>
             </Link>
 
@@ -105,10 +107,24 @@ export function Navbar({ settings }: { settings: SiteSettings }) {
             </div>
 
             <div className="hidden items-center gap-5 lg:flex">
-              <a href={`tel:${settings.contactPhone.replace(/\s+/g, '')}`} className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground">
-                <Phone className="h-4 w-4 text-primary" />
-                <span className="font-semibold">{settings.contactPhone}</span>
-              </a>
+              {hasPhone ? (
+                <a href={`tel:${settings.contactPhone.replace(/\s+/g, '')}`} className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground">
+                  <Phone className="h-4 w-4 text-primary" />
+                  <span className="font-semibold">{settings.contactPhone}</span>
+                </a>
+              ) : null}
+              {hasWhatsApp ? (
+                <a
+                  href={settings.whatsappUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="WhatsApp ile iletişime geç"
+                  title="WhatsApp"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-emerald-400/25 bg-emerald-500/10 text-emerald-300 transition-colors hover:border-emerald-300/45 hover:bg-emerald-500/18 hover:text-emerald-200"
+                >
+                  <MessageCircle className="h-5 w-5" />
+                </a>
+              ) : null}
               <Button asChild className="h-11 gap-2 bg-primary px-6 text-xs font-bold uppercase tracking-wider text-primary-foreground hover:bg-primary/90">
                 <Link href="/contact">
                   Teklif Al
@@ -161,10 +177,20 @@ export function Navbar({ settings }: { settings: SiteSettings }) {
             )
           })}
           <div className="mt-4 space-y-4 border-t border-border pt-6">
-            <a href={`tel:${settings.contactPhone.replace(/\s+/g, '')}`} onClick={closeMobileMenu} className="flex items-center gap-3 px-4 py-3 text-muted-foreground">
-              <Phone className="h-5 w-5 text-primary" />
-              <span className="font-semibold">{settings.contactPhone}</span>
-            </a>
+            {hasPhone ? (
+              <a href={`tel:${settings.contactPhone.replace(/\s+/g, '')}`} onClick={closeMobileMenu} className="flex items-center gap-3 px-4 py-3 text-muted-foreground">
+                <Phone className="h-5 w-5 text-primary" />
+                <span className="font-semibold">{settings.contactPhone}</span>
+              </a>
+            ) : null}
+            {hasWhatsApp ? (
+              <a href={settings.whatsappUrl} target="_blank" rel="noreferrer" onClick={closeMobileMenu} className="flex items-center gap-3 px-4 py-3 text-emerald-300">
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500/12">
+                  <MessageCircle className="h-4 w-4" />
+                </span>
+                <span className="font-semibold">WhatsApp ile yaz</span>
+              </a>
+            ) : null}
             <Button asChild className="h-12 w-full bg-primary font-bold uppercase tracking-wider text-primary-foreground hover:bg-primary/90">
               <Link href="/contact" onClick={closeMobileMenu}>Teklif Al</Link>
             </Button>

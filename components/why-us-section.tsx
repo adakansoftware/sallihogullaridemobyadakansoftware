@@ -38,12 +38,12 @@ export function WhyUsSection() {
           </div>
 
           <div className="lg:col-span-3">
-            <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-primary">Neden Biz?</span>
+            <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-primary">Neden Sallıhoğulları?</span>
             <h2 className="mb-6 text-3xl font-black leading-tight text-foreground sm:text-4xl lg:text-5xl">
-              Saha işinin <span className="text-primary">kontrollü ilerlemesi</span> için net çalışma düzeni
+              Saha işinin <span className="text-primary">aksamadan yürümesi</span> için düzenli operasyon akışı
             </h2>
             <p className="mb-10 max-w-xl text-lg leading-relaxed text-muted-foreground">
-              Makine, sevkiyat ve saha koordinasyonunu aynı operasyon planında birleştirerek işin temposunu daha öngörülebilir hale getiriyoruz.
+              Kazı, dolgu ve nakliyat işlerinde makine, kamyon ve ekip planını aynı çizgide tutarak bekleme, karışıklık ve gereksiz sefer riskini azaltıyoruz.
             </p>
 
             <div className="grid gap-5 sm:grid-cols-2">

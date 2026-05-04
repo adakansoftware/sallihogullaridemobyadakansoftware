@@ -5,7 +5,7 @@ import { readSettings } from '@/lib/store'
 
 export const metadata: Metadata = {
   title: 'KVKK Aydınlatma Metni',
-  description: 'İletişim ve teklif formları kapsaminda işlenen kişisel verilere ilişkin aydinlatma metni.',
+  description: 'İletişim ve teklif formları kapsamında işlenen kişisel verilere ilişkin aydınlatma metni.',
   alternates: {
     canonical: getCanonicalUrl('/kvkk-aydinlatma-metni'),
   },
@@ -24,48 +24,48 @@ export default async function KvkkPage() {
         <div className="relative z-10 mx-auto max-w-[1000px] px-6 lg:px-8">
           <div className="glass-card p-8 md:p-10 lg:p-12">
             <div className="section-eyebrow mb-4">KVKK</div>
-            <h1 className="font-display text-4xl text-white md:text-5xl">Kisisel Verilerin Korunmasi Aydınlatma Metni</h1>
+            <h1 className="font-display text-4xl text-white md:text-5xl">Kişisel Verilerin Korunması Aydınlatma Metni</h1>
             <div className="mt-8 space-y-8 text-sm leading-8 text-white/72 md:text-base">
               <p>
-                6698 sayili Kisisel Verilerin Korunmasi Kanunu (“KVKK”) uyarinca, kişisel verileriniz veri sorumlusu sifatiyla{' '}
-                <span className="font-semibold text-white">{settings.companyName || '[SIRKET UNVANI]'}</span> tarafindan islenebilecektir.
+                6698 sayılı Kişisel Verilerin Korunması Kanunu (“KVKK”) uyarınca, kişisel verileriniz veri sorumlusu sıfatıyla{' '}
+                <span className="font-semibold text-white">{settings.companyName || 'Sallıhoğulları Hafriyat'}</span> tarafından işlenebilecektir.
               </p>
 
               <div>
-                <h2 className="text-lg font-semibold text-white">Islenen veriler</h2>
-                <p className="mt-2">Ad-soyad, telefon, e-posta, firma adi, mesaj/talep icerigi, islem guvenligi verileri.</p>
+                <h2 className="text-lg font-semibold text-white">İşlenen veriler</h2>
+                <p className="mt-2">Ad-soyad, telefon, e-posta, firma adı, mesaj/talep içeriği ve işlem güvenliği verileri.</p>
               </div>
 
               <div>
-                <h2 className="text-lg font-semibold text-white">Isleme amaclari</h2>
+                <h2 className="text-lg font-semibold text-white">İşleme amaçları</h2>
                 <p className="mt-2">
-                  İletişim taleplerinin alınması ve cevaplanmasi, teklif/hizmet taleplerinin değerlendirilmesi, müşteri iliskileri süreçlerinin
-                  yurutulmesi, bilgi guvenligi süreçlerinin yurutulmesi, hukuki yukumluluklerin yerine getirilmesi, olasi uyusmazliklarda ispat
-                  süreçlerinin yurutulmesi.
+                  İletişim taleplerinin alınması ve cevaplanması, teklif/hizmet taleplerinin değerlendirilmesi, müşteri ilişkileri süreçlerinin
+                  yürütülmesi, bilgi güvenliği süreçlerinin yürütülmesi, hukuki yükümlülüklerin yerine getirilmesi ve olası uyuşmazlıklarda ispat
+                  süreçlerinin yürütülmesi.
                 </p>
               </div>
 
               <div>
-                <h2 className="text-lg font-semibold text-white">Toplama yontemi ve hukuki sebep</h2>
+                <h2 className="text-lg font-semibold text-white">Toplama yöntemi ve hukuki sebep</h2>
                 <p className="mt-2">
-                  Veriler; internet sitesi formları ve elektronik iletisim kanallari uzerinden elektronik ortamda toplanir. KVKK m.5 kapsaminda
-                  sozlesmenin kurulmasi/ifasi, hukuki yukumluluklerin yerine getirilmesi, bir hakkin tesisi/kullanilmasi/korunmasi ve veri
-                  sorumlusunun mesru menfaati hukuki sebeplerine dayanilarak islenebilir.
+                  Veriler; internet sitesi formları ve elektronik iletişim kanalları üzerinden elektronik ortamda toplanır. KVKK m.5 kapsamında
+                  sözleşmenin kurulması/ifası, hukuki yükümlülüklerin yerine getirilmesi, bir hakkın tesisi/kullanılması/korunması ve veri
+                  sorumlusunun meşru menfaati hukuki sebeplerine dayanılarak işlenebilir.
                 </p>
               </div>
 
               <div>
-                <h2 className="text-lg font-semibold text-white">Aktarim</h2>
+                <h2 className="text-lg font-semibold text-white">Aktarım</h2>
                 <p className="mt-2">
-                  Kisisel veriler, mevzuata uygun olarak yetkili kamu kurum ve kuruluslarina, hukuken yetkili mercilere, teknik hizmet alinan
-                  tedarikcilere ve is surecleri kapsaminda hizmet alinan is ortaklarina aktarilabilir.
+                  Kişisel veriler, mevzuata uygun olarak yetkili kamu kurum ve kuruluşlarına, hukuken yetkili mercilere, teknik hizmet alınan
+                  tedarikçilere ve iş süreçleri kapsamında hizmet alınan iş ortaklarına aktarılabilir.
                 </p>
               </div>
 
               <div>
                 <h2 className="text-lg font-semibold text-white">Saklama</h2>
                 <p className="mt-2">
-                  Kisisel veriler, isleme amacinin gerektirdigi sure ve ilgili mevzuattaki saklama sureleri boyunca muhafaza edilir; sonrasinda
+                  Kişisel veriler, işleme amacının gerektirdiği süre ve ilgili mevzuattaki saklama süreleri boyunca muhafaza edilir; sonrasında
                   silinir, yok edilir veya anonim hale getirilir.
                 </p>
               </div>
@@ -73,20 +73,20 @@ export default async function KvkkPage() {
               <div>
                 <h2 className="text-lg font-semibold text-white">Haklar</h2>
                 <p className="mt-2">
-                  Ilgili kisi, KVKK m.11 kapsamindaki haklarini kullanabilir; verilerinin islenip islenmedigini ogrenme, bilgi talep etme,
-                  duzeltme, silme/yok etme, aktarilan ucuncu kisileri ogrenme, otomatik analiz sonucuna itiraz etme ve zararin giderilmesini talep
-                  etme haklarina sahiptir.
+                  İlgili kişi, KVKK m.11 kapsamındaki haklarını kullanabilir; verilerinin işlenip işlenmediğini öğrenme, bilgi talep etme,
+                  düzeltme, silme/yok etme, aktarılan üçüncü kişileri öğrenme, otomatik analiz sonucuna itiraz etme ve zararın giderilmesini talep
+                  etme haklarına sahiptir.
                 </p>
               </div>
 
               <div>
-                <h2 className="text-lg font-semibold text-white">Basvuru</h2>
+                <h2 className="text-lg font-semibold text-white">Başvuru</h2>
                 <p className="mt-2">
-                  Basvurular{' '}
-                  <a href={`mailto:${settings.contactEmail || '[E-POSTA]'}`} className="text-white underline decoration-white/25 underline-offset-4 transition hover:decoration-white">
-                    {settings.contactEmail || '[E-POSTA]'}
+                  Başvurular{' '}
+                  <a href={`mailto:${settings.contactEmail}`} className="text-white underline decoration-white/25 underline-offset-4 transition hover:decoration-white">
+                    {settings.contactEmail}
                   </a>{' '}
-                  ve/veya <span className="font-medium text-white">{settings.address || '[ADRES]'}</span> uzerinden yapilabilir.
+                  ve/veya <span className="font-medium text-white">{settings.address}</span> üzerinden yapılabilir.
                 </p>
               </div>
             </div>

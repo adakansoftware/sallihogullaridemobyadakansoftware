@@ -8,14 +8,14 @@ import { buildShareMetadata, getCanonicalUrl } from '@/lib/seo'
 import { readSettings } from '@/lib/store'
 
 export const metadata: Metadata = {
-  title: 'Filo',
-  description: 'Ekskavatör, damperli kamyon, lowbed ve saha destek araçlarından oluşan makine parkını inceleyin.',
+  title: 'Makine Parkı ve Filo',
+  description: 'Sumitomo ekskavatör, Hidromek beko loder, Mercedes Arocs/Axor damperli kamyon, low-bed ve saha destek araçlarından oluşan filoyu inceleyin.',
   alternates: {
     canonical: getCanonicalUrl('/fleet'),
   },
   ...buildShareMetadata({
-    title: 'Filo | Sallıhoğulları',
-    description: 'Ekskavatör, damperli kamyon, lowbed ve saha destek araçlarından oluşan makine parkını inceleyin.',
+    title: 'Makine Parkı ve Filo | Sallıhoğulları',
+    description: 'Sumitomo ekskavatör, Hidromek beko loder, Mercedes Arocs/Axor damperli kamyon, low-bed ve saha destek araçlarından oluşan filoyu inceleyin.',
     pathname: '/fleet',
   }),
 }
@@ -27,14 +27,14 @@ export default async function FleetPage() {
     <SiteFrame settings={settings}>
       <PageHero
         eyebrow="Makine Parkı"
-        title="Operasyonu taşıyan güçlü araç ve ekipman altyapısı"
-        description="Ekskavatörlerden damperli kamyonlara, lowbed çözümlerinden saha destek araçlarına kadar işin temposunu taşıyan filomuzu inceleyin."
+        title="Saha ihtiyacına göre yönlendirilen makine ve kamyon altyapısı"
+        description="Ekskavatör, beko loder, damperli kamyon ve lowbed desteğiyle kazı, yükleme, taşıma ve saha düzenleme işlerini aynı operasyon planında ele alıyoruz."
         image="/images/dump-truck.jpg"
-        primaryCta={{ href: '/services', label: 'Hizmet Alanlarını Görün' }}
+        primaryCta={{ href: '/services', label: 'Hizmet Kapsamını Görün' }}
       />
       <FleetSection />
       <WhyUsSection />
-      <CTASection />
+      <CTASection settings={settings} />
     </SiteFrame>
   )
 }

@@ -36,7 +36,7 @@ export function LoginForm({ nextPath = '/admin' }: { nextPath?: string }) {
       const data = await res.json().catch(() => ({}))
 
       if (!res.ok) {
-        const message = data.message || 'Giriş başarısız.'
+        const message = data.message || 'Giriş bilgileri doğrulanamadı.'
         setError(message)
         toast.error(message)
         return
@@ -51,7 +51,7 @@ export function LoginForm({ nextPath = '/admin' }: { nextPath?: string }) {
       router.push(nextPath)
       router.refresh()
     } catch {
-      const message = 'Baglanti kurulurken bir sorun olustu. Lutfen tekrar deneyin.'
+      const message = 'Bağlantı kurulurken bir sorun oluştu. Lütfen tekrar deneyin.'
       setError(message)
       toast.error(message)
     } finally {
@@ -70,9 +70,9 @@ export function LoginForm({ nextPath = '/admin' }: { nextPath?: string }) {
           className="object-contain"
         />
       </div>
-      <div className="section-eyebrow mb-4">Admin girisi</div>
-      <h1 className="font-display text-5xl text-white">Yonetim Paneli</h1>
-      <p className="mt-3 text-white/60">Yalnizca yetkili kullanicilar icin guvenli giris alani.</p>
+      <div className="section-eyebrow mb-4">Admin girişi</div>
+      <h1 className="font-display text-5xl text-white">Yönetim Paneli</h1>
+      <p className="mt-3 text-white/60">Yalnızca yetkili kullanıcılar için güvenli giriş alanı.</p>
 
       <div className="mt-8 space-y-5">
         <div>
@@ -81,7 +81,7 @@ export function LoginForm({ nextPath = '/admin' }: { nextPath?: string }) {
             id="admin-email"
             type="email"
             className="input-premium w-full"
-            placeholder="admin@firma.com"
+            placeholder="E-posta adresiniz"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             autoComplete="email"
@@ -91,12 +91,12 @@ export function LoginForm({ nextPath = '/admin' }: { nextPath?: string }) {
         </div>
 
         <div>
-          <label htmlFor="admin-password" className="mb-2 block text-sm font-medium text-white/70">Sifre</label>
+          <label htmlFor="admin-password" className="mb-2 block text-sm font-medium text-white/70">Şifre</label>
           <input
             id="admin-password"
             type="password"
             className="input-premium w-full"
-            placeholder="Sifrenizi girin"
+            placeholder="Şifrenizi girin"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             autoComplete="current-password"
@@ -108,7 +108,7 @@ export function LoginForm({ nextPath = '/admin' }: { nextPath?: string }) {
       {error ? <p role="alert" aria-live="assertive" className="mt-4 rounded-2xl border border-red-400/15 bg-red-400/8 px-4 py-3 text-sm text-red-300">{error}</p> : null}
 
       <button type="submit" disabled={loading} className="btn-premium mt-6 h-12 w-full px-6">
-        {loading ? 'Giris yapiliyor...' : 'Giris Yap'}
+        {loading ? 'Giriş yapılıyor...' : 'Giriş Yap'}
       </button>
     </form>
   )

@@ -8,178 +8,186 @@ export const siteQuickLinks = [
 ]
 
 export const siteStats = [
-  { value: '25+', label: 'Yıl', sublabel: 'Saha Deneyimi' },
-  { value: '85+', label: 'Araç', sublabel: 'Makine ve Nakliye' },
-  { value: '7/24', label: 'Planlama', sublabel: 'Operasyon Takibi' },
-  { value: 'TR', label: 'Geneli', sublabel: 'Proje Bazlı Hizmet' },
-  { value: '1999', label: 'Kuruluş', sublabel: 'Yerel Tecrübe' },
+  { value: '25+', label: 'Yıl', sublabel: 'Sahada biriken tecrübe' },
+  { value: '30+', label: 'Araç', sublabel: 'Makine ve nakliye altyapısı' },
+  { value: '7/24', label: 'Takip', sublabel: 'Saha iletişimi' },
+  { value: 'TR', label: 'Bölge', sublabel: 'Proje bazlı hizmet ağı' },
+  { value: '1999', label: 'Kuruluş', sublabel: 'Yerel sektör bilgisi' },
 ]
 
 export const serviceCards = [
   {
     title: 'Hafriyat ve Kazı İşleri',
-    description: 'Temel kazısı, kanal açma, saha temizliği ve kontrollü hafriyat süreçlerinde doğru ekipman ve net iş programı.',
+    description: 'Temel kazısı, kanal açma, saha temizliği ve hafriyat çıkarma işlerinde erişim, yükleme ve döküm akışını baştan planlarız.',
     image: '/images/project-1.jpg',
   },
   {
     title: 'Ekskavatör Çalışmaları',
-    description: 'Farklı zemin ve saha koşullarına uygun ekskavatör desteğiyle kazı, yükleme, kırma ve zemin hazırlığı.',
+    description: 'Kazı, yükleme, kırma, tesviye ve zemin hazırlığında zemine ve iş programına uygun ekskavatör yönlendiririz.',
     image: '/images/excavator.jpg',
   },
   {
     title: 'Beko Loder Desteği',
-    description: 'Şantiye içi yükleme, boşaltma, kanal desteği ve dar alan düzenleme işlerinde hızlı makine çözümü.',
+    description: 'Dar alan, geri dolgu, küçük ölçekli kazı, yükleme ve saha içi düzenleme işlerinde pratik makine desteği sağlarız.',
     image: '/images/backhoe.jpg',
   },
   {
     title: 'Damperli Nakliyat',
-    description: 'Toprak, moloz, dolgu, taş, kum ve mıcır taşımalarında sahaya göre planlanan güvenilir sevkiyat akışı.',
+    description: 'Toprak, moloz, taş, kum, mıcır ve dolgu malzemesi taşımalarında kamyon akışını şantiyenin temposuna göre kurarız.',
     image: '/images/dump-truck.jpg',
   },
   {
     title: 'Lowbed Taşımacılık',
-    description: 'İş makineleri ve ağır ekipmanların yükleme, rota planlama ve teslim süreciyle kontrollü şekilde sevk edilmesi.',
+    description: 'İş makineleri ve ağır ekipmanlar için yükleme güvenliği, güzergah ve teslim saatini dikkate alan lowbed taşıma hizmeti veririz.',
     image: '/images/lowbed.jpg',
   },
   {
     title: 'Dolgu ve Zemin Hazırlığı',
-    description: 'Yol, altyapı ve şantiye kurulumlarında dolgu, tesviye, malzeme serimi ve saha lojistiği desteği.',
+    description: 'Yol, altyapı, parsel ve şantiye hazırlıklarında dolgu malzemesi, serim düzeni ve tesviye sürecini birlikte yönetiriz.',
     image: '/images/project-2.jpg',
   },
 ]
 
 export const fleetStats = [
-  { value: '85+', label: 'Toplam Araç' },
-  { value: '45', label: 'İş Makinesi' },
-  { value: 'Planlı', label: 'Bakım Takibi' },
-  { value: '7/24', label: 'Operasyon Hazırlığı' },
+  { value: '30+', label: 'Araç ve Makine' },
+  { value: '7', label: 'İş Makinesi' },
+  { value: 'Planlı', label: 'Bakım ve Hazırlık' },
+  { value: '23+', label: 'Nakliye Ekipmanı' },
 ]
 
 export const fleetItems = [
   {
     name: 'Ekskavatör',
-    count: '12',
-    capacity: '20-50 Ton',
-    description: 'Temel kazısı, yükleme, kanal açma ve zemin hazırlığı için farklı saha koşullarına göre görevlendirilen paletli ekipman grubu.',
-    specs: ['CAT 320', 'Volvo EC380', 'Komatsu PC450'],
+    count: '5',
+    capacity: '13-36 Ton',
+    description: 'Temel kazısı, yükleme, kanal açma ve zemin hazırlığında sahaya göre yönlendirilen Sumitomo SH 360, Sumitomo SH 210 ve Case CX130C ekskavatör grubu.',
+    specs: ['Sumitomo SH 360 x2', 'Sumitomo SH 210 x2', 'Case CX130C x1'],
     image: '/images/excavator.jpg',
   },
   {
     name: 'Beko Loder',
-    count: '8',
-    capacity: '7-12 Ton',
-    description: 'Dar çalışma alanlarında yükleme, düzenleme, geri dolgu ve saha destek işlerine cevap veren çok yönlü makine grubu.',
-    specs: ['JCB 3CX', 'CAT 428F', 'Hidromek HMK 102'],
+    count: '2',
+    capacity: 'Saha Destek',
+    description: 'Dar alan kazısı, geri dolgu, yükleme ve saha içi düzenleme işlerinde kullanılan Hidromek 4CX ve 3CX beko loder desteği.',
+    specs: ['Hidromek 4CX x1', 'Hidromek 3CX x1', 'Geri Dolgu ve Yükleme'],
     image: '/images/backhoe.jpg',
   },
   {
-    name: 'Damperli Kamyon',
-    count: '45',
-    capacity: '15-25 m³',
-    description: 'Hafriyat, dolgu malzemesi, kum, taş, mıcır ve toprak sevkiyatında şantiye temposunu taşıyan nakliye filosu.',
-    specs: ['Ford Cargo', 'Mercedes Axor', 'BMC Pro'],
+    name: 'On Teker Sarı Damperli Kamyon',
+    count: '17',
+    capacity: 'On Teker Damperli Nakliye',
+    description: 'Hafriyat, dolgu, kum, taş, mıcır ve toprak sevkiyatında çalışan sarı damperli Mercedes Arocs, Mercedes Axor ve BMC Pro kamyon grubu.',
+    specs: ['Arocs 3345 x4', 'Axor 3340 x12', 'BMC Pro 827 x1'],
     image: '/images/dump-truck.jpg',
   },
   {
-    name: 'Lowbed Tır',
-    count: '15',
-    capacity: '80 Ton',
-    description: 'İş makineleri ve ağır ekipmanlar için rota, yükleme ve teslim koordinasyonu yapılan özel taşıma altyapısı.',
-    specs: ['Goldhofer', 'Nooteboom', 'Faymonville'],
+    name: 'Çekici ve Dorse',
+    count: '5',
+    capacity: 'Damperli Dorse / Low-bed',
+    description: 'Malzeme sevkiyatı, ekipman taşıma ve saha lojistiğinde kullanılan Axor 1840 çekici, damperli dorse ve low-bed taşıma altyapısı.',
+    specs: ['Axor 1840 x2', 'Damperli Dorse x2', 'Low-bed x1'],
     image: '/images/lowbed.jpg',
+  },
+  {
+    name: 'Arazöz',
+    count: '1',
+    capacity: 'Saha Destek',
+    description: 'Şantiye içi sulama, yol temizliği, toz kontrolü ve saha destek ihtiyaçları için kullanılan Ford 2524 arazöz.',
+    specs: ['Ford 2524 x1', 'Toz Kontrolü', 'Saha Sulama'],
+    image: '/images/dump-truck.jpg',
   },
 ]
 
 export const whyChooseUsReasons = [
   {
-    title: 'Saha Disiplini',
-    description: 'İşe başlamadan önce erişim, yükleme noktası, sevkiyat yönü ve günlük çalışma temposu netleştirilir.',
-    stat: 'Net Plan',
+    title: 'İşe Başlamadan Net Plan',
+    description: 'Giriş-çıkış noktası, yükleme alanı, döküm güzergahı ve günlük çalışma temposu sahaya girilmeden netleştirilir.',
+    stat: 'Kontrollü Başlangıç',
   },
   {
-    title: 'Ekipman Uygunluğu',
-    description: 'Kazı, dolgu, nakliye ve zemin hazırlığı için saha koşuluna uygun makine kombinasyonu oluşturulur.',
-    stat: 'Doğru Ekipman',
+    title: 'Doğru Makine, Doğru Zaman',
+    description: 'Kazı, dolgu, yükleme ve nakliye işleri için zemin yapısına ve işin kapsamına uygun makine-kamyon dengesi kurulur.',
+    stat: 'İşe Uygun Ekip',
   },
   {
-    title: 'Zamanında Teslim',
-    description: 'Makine, kamyon ve saha ekibi aynı takvimde yürütülerek bekleme ve aksama riski azaltılır.',
-    stat: 'Takvim Takibi',
+    title: 'Takvime Bağlı Çalışma',
+    description: 'Makine, kamyon ve saha ekibi aynı programda yürütülür; bekleme, boş sefer ve dağınık çalışma riski azaltılır.',
+    stat: 'Günlük Kontrol',
   },
   {
-    title: 'Sorumlu İletişim',
-    description: 'Şantiye ekibiyle düzenli temas kurulur; iş akışı, ihtiyaç ve değişiklikler hızlıca paylaşılır.',
-    stat: 'Tek Muhatap',
+    title: 'Sahada Ulaşılabilir Ekip',
+    description: 'Şantiye sorumlusu ile sürekli temas kurulur; günlük ihtiyaç, değişiklik ve saha durumu hızlı şekilde paylaşılır.',
+    stat: 'Net İletişim',
   },
   {
-    title: 'Proje Bazlı Çözüm',
-    description: 'Küçük ölçekli kazıdan yoğun şantiye lojistiğine kadar kapsam işe göre şekillendirilir.',
-    stat: 'Esnek Kapsam',
+    title: 'İşin Kapsamına Göre Hizmet',
+    description: 'Küçük ölçekli kazıdan yoğun şantiye lojistiğine kadar hizmet kapsamı işin gerçek ihtiyacına göre şekillendirilir.',
+    stat: 'Esnek Plan',
   },
   {
-    title: 'Maliyet Kontrolü',
-    description: 'Gereksiz bekleme, boş sefer ve dağınık ekipman kullanımını azaltan daha kontrollü bir akış kurulur.',
-    stat: 'Verimli Sevk',
+    title: 'Sevkiyat Disiplini',
+    description: 'Damperli nakliyat, malzeme kabulü ve saha içi yönlendirme kontrollü ilerletilerek gereksiz bekleme azaltılır.',
+    stat: 'Düzenli Sevk',
   },
 ]
 
 export const certifications = [
-  'Operasyon öncesi saha keşfi',
-  'Makine ve sevkiyat koordinasyonu',
+  'İş öncesi saha keşfi ve erişim kontrolü',
+  'Makine, kamyon ve sevkiyat koordinasyonu',
   'Planlı bakım ve ekipman hazırlığı',
-  'Saha giriş-çıkış takibi',
+  'Günlük saha akışı ve iş takibi',
 ]
 
 export const collaborationPrinciples = [
   {
-    title: 'Planlama Netliği',
-    body: 'İşe başlamadan önce saha sınırları, ekipman dizilimi, taşıma yönleri ve günlük üretim hedefleri netleştirilir.',
-    accent: 'Ön hazırlık odaklı',
+    title: 'Ön Keşif',
+    body: 'Saha görülmeden, malzeme türü ve çalışma alanı netleşmeden rastgele program yapılmaz; işin akışı baştan belirlenir.',
+    accent: 'Sahaya göre hazırlık',
   },
   {
-    title: 'Şeffaf İletişim',
-    body: 'Şantiye ekibi, yüklenici ve operasyon sorumluları aynı hat üzerinde ilerler; belirsizlik yerine net geri bildirim üretilir.',
-    accent: 'Anlık koordinasyon',
+    title: 'Günlük Koordinasyon',
+    body: 'Şantiye ekibi, kamyon yönlendirmesi ve makine çalışması aynı iletişim hattında takip edilir; aksaklıklar büyümeden sahada çözülür.',
+    accent: 'Tek plan, tek takip',
   },
   {
     title: 'Teslim Disiplini',
-    body: 'Makine, nakliye ve saha yönetimi birbirinden kopuk değil, aynı teslim hedefi etrafında birlikte çalışır.',
-    accent: 'Takvim kontrollü',
+    body: 'Amaç yalnızca makine göndermek değil; işi güvenli, düzenli ve sahadaki takvime uyumlu şekilde tamamlamaktır.',
+    accent: 'Sonuca odaklı çalışma',
   },
 ]
 
-export const partnerSectors = ['Altyapı', 'Sanayi Sahaları', 'Lojistik Merkezleri', 'Şantiye Kurulumları', 'Yol ve Dolgu İşleri']
+export const partnerSectors = ['Altyapı İşleri', 'Sanayi Sahaları', 'Konut Şantiyeleri', 'Parsel Hazırlığı', 'Yol ve Dolgu Çalışmaları']
 
 export const mediaGalleryItems = [
   {
     type: 'image',
-    title: 'Kazı ve yükleme akışı',
-    category: 'Saha Operasyonu',
+    title: 'Kazı ve yükleme çalışması',
+    category: 'Hafriyat',
     image: '/images/gallery-1.jpg',
     tall: true,
   },
   {
     type: 'image',
-    title: 'Operasyon sahası görünümü',
-    category: 'Saha Organizasyonu',
+    title: 'Şantiye çalışma alanı',
+    category: 'Saha Planı',
     image: '/images/hero-main.jpg',
   },
   {
     type: 'image',
-    title: 'Damperli sevkiyat hattı',
-    category: 'Nakliye',
+    title: 'Damperli sevkiyat akışı',
+    category: 'Nakliyat',
     image: '/images/gallery-2.jpg',
   },
   {
     type: 'image',
-    title: 'Yükleme ve dengeleme sahası',
+    title: 'Yükleme ve malzeme yönetimi',
     category: 'Ekipman Kullanımı',
     image: '/images/gallery-3.jpg',
   },
   {
     type: 'image',
-    title: 'Şantiye yayılımı',
-    category: 'Genel Görünüm',
+    title: 'Saha düzenleme görünümü',
+    category: 'Zemin Hazırlığı',
     image: '/images/gallery-4.jpg',
     tall: true,
   },
@@ -195,7 +203,7 @@ export const footerServiceLinks = [
   'Hafriyat ve Kazı İşleri',
   'Damperli Nakliyat',
   'Dolgu ve Zemin Hazırlığı',
-  'İş Makinesi Yönetimi',
+  'İş Makinesi Desteği',
   'Şantiye Lojistiği',
-  'Altyapı Çalışmaları',
+  'Altyapı Kazıları',
 ]

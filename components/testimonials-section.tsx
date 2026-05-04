@@ -11,12 +11,12 @@ export function TestimonialsSection({ settings }: { settings: SiteSettings }) {
 
       <div className="relative z-10 mx-auto max-w-[1400px] px-6 lg:px-8">
         <div className="mx-auto mb-14 max-w-3xl text-center">
-          <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-primary">Çalışma Modeli</span>
+          <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-primary">Çalışma Prensibi</span>
           <h2 className="mb-6 text-3xl leading-tight font-black text-foreground sm:text-4xl lg:text-5xl">
-            İş birliğini <span className="text-primary">nasıl yürüttüğümüz</span>
+            Saha işini <span className="text-primary">nasıl kontrol altında tuttuğumuz</span>
           </h2>
           <p className="text-lg text-muted-foreground">
-            {settings.companyName} ile çalışan ekiplerin sahada en çok ihtiyaç duyduğu netlik, disiplin ve teslim yaklaşımı
+            {settings.companyName} için işin değeri; sahaya zamanında girmek, makine ve kamyon akışını karıştırmadan yürütmek ve verilen programa bağlı kalmaktır.
           </p>
         </div>
 
@@ -50,7 +50,7 @@ export function TestimonialsSection({ settings }: { settings: SiteSettings }) {
         </div>
 
         <div className="mt-16 border-t border-border/30 pt-12">
-          <p className="mb-8 text-center text-sm uppercase tracking-wider text-muted-foreground">Çalıştığımız İş Alanları</p>
+          <p className="mb-8 text-center text-sm uppercase tracking-wider text-muted-foreground">Hizmet Verdiğimiz İş Alanları</p>
           <div className="flex flex-wrap justify-center gap-x-12 gap-y-6">
             {partnerSectors.map((partner) => (
               <span key={partner} className="text-xl font-bold text-foreground/30 transition-colors hover:text-foreground/50">

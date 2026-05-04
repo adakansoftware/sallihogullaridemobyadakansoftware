@@ -1,26 +1,26 @@
 [
   {
     "id": "proj-basaksehir-metro",
-    "title": "Ba\u015fak\u015fehir Metro Altyap\u0131 Projesi",
-    "slug": "basaksehir-metro-altyapi-projesi",
-    "summary": "Metro hatt\u0131 g\u00fczergah\u0131nda disiplinli hafriyat, temel kaz\u0131 ve kontroll\u00fc saha lojisti\u011fi operasyonu.",
-    "description": "Ba\u015fak\u015fehir metro hatt\u0131 boyunca y\u00fcr\u00fct\u00fclen bu operasyon, kademeli saha planlamas\u0131, g\u00fcvenli sevkiyat ve \u00e7oklu ekipman koordinasyonu ile teslim edildi.",
-    "location": "\u0130stanbul",
-    "category": "Altyap\u0131 Kaz\u0131s\u0131",
+    "title": "Şantiye Hafriyatı ve Damperli Nakliyat Çalışması",
+    "slug": "santiye-hafriyati-damperli-nakliyat-calismasi",
+    "summary": "Kazı, yükleme, hafriyat nakli ve saha içi düzenlemenin aynı günlük planla yürütüldüğü şantiye çalışması.",
+    "description": "Şantiye hazırlığında kazı alanı, yükleme noktaları ve kamyon giriş-çıkış akışı aynı plan içinde ele alındı. Hafriyatın sahadan düzenli çıkarılması ve çalışma alanının temiz ilerlemesi için makine-kamyon koordinasyonu günlük olarak takip edildi.",
+    "location": "Gaziantep",
+    "category": "Hafriyat ve Nakliyat",
     "coverImage": "/images/project-1.jpg",
-    "status": "Yay\u0131nda",
+    "status": "Yayında",
     "featured": true,
     "tags": [
-      "Metro",
-      "Altyap\u0131",
-      "Kaz\u0131"
+      "Hafriyat",
+      "Damperli Nakliyat",
+      "Şantiye"
     ],
     "createdAt": "2026-01-10T09:00:00.000Z",
     "updatedAt": "2026-01-10T09:00:00.000Z",
     "media": [
       {
         "id": "media-basaksehir-1",
-        "title": "Saha genel g\u00f6r\u00fcn\u00fcm\u00fc",
+        "title": "Kazı ve yükleme alanı",
         "fileUrl": "/images/project-1.jpg",
         "fileType": "image/jpeg",
         "resourceType": "image",
@@ -31,7 +31,7 @@
       },
       {
         "id": "media-basaksehir-2",
-        "title": "Kaz\u0131 aks\u0131 ve ekipman yerle\u015fimi",
+        "title": "Hafriyat sevkiyat hattı",
         "fileUrl": "/images/gallery-1.jpg",
         "fileType": "image/jpeg",
         "resourceType": "image",
@@ -42,7 +42,7 @@
       },
       {
         "id": "media-basaksehir-3",
-        "title": "Saha lojistik ge\u00e7i\u015f koridoru",
+        "title": "Ekskavatör çalışma aksı",
         "fileUrl": "/images/excavator.jpg",
         "fileType": "image/jpeg",
         "resourceType": "image",
@@ -53,7 +53,7 @@
       },
       {
         "id": "media-basaksehir-4",
-        "title": "Kontrollu sevkiyat ritmi",
+        "title": "Saha içi nakliye akışı",
         "fileUrl": "/images/gallery-2.jpg",
         "fileType": "image/jpeg",
         "resourceType": "image",
@@ -66,17 +66,17 @@
   },
   {
     "id": "proj-organize-sanayi",
-    "title": "Organize Sanayi Geni\u015fleme Operasyonu",
-    "slug": "organize-sanayi-genisleme-operasyonu",
-    "summary": "Tesviye, dolgu ve altyap\u0131 haz\u0131rl\u0131k ak\u0131\u015flar\u0131n\u0131 kapsayan geni\u015f \u00f6l\u00e7ekli saha d\u00fczenleme operasyonu.",
-    "description": "Sanayi b\u00f6lgesi geni\u015fleme sahas\u0131nda zemin haz\u0131rl\u0131\u011f\u0131, malzeme y\u00f6netimi ve operasyon temposu ayn\u0131 takvim i\u00e7inde birle\u015ftirildi.",
-    "location": "Kocaeli",
-    "category": "Saha Haz\u0131rl\u0131\u011f\u0131",
+    "title": "Organize Sanayi Saha Hazırlığı",
+    "slug": "organize-sanayi-saha-hazirligi",
+    "summary": "Sanayi parselinde zemin hazırlığı, dolgu düzeni ve malzeme sevkiyatının birlikte yönetildiği saha çalışması.",
+    "description": "Üretim veya depo kullanımına hazırlanacak sahada tesviye, dolgu ve malzeme hareketi birbirini aksatmayacak şekilde planlandı. İş makinesi ve kamyon trafiği, saha güvenliği ve günlük iş programı gözetilerek organize edildi.",
+    "location": "Gaziantep OSB",
+    "category": "Saha Hazırlığı",
     "coverImage": "/images/project-2.jpg",
-    "status": "Yay\u0131nda",
+    "status": "Yayında",
     "featured": false,
     "tags": [
-      "Sanayi",
+      "Sanayi Sahası",
       "Dolgu",
       "Tesviye"
     ],
@@ -85,7 +85,7 @@
     "media": [
       {
         "id": "media-organize-1",
-        "title": "Haz\u0131rl\u0131k sahas\u0131",
+        "title": "Hazırlık sahası genel görünümü",
         "fileUrl": "/images/project-2.jpg",
         "fileType": "image/jpeg",
         "resourceType": "image",
@@ -96,7 +96,7 @@
       },
       {
         "id": "media-organize-2",
-        "title": "Dolgu planlama katmani",
+        "title": "Dolgu ve tesviye planı",
         "fileUrl": "/images/gallery-3.jpg",
         "fileType": "image/jpeg",
         "resourceType": "image",
@@ -107,7 +107,7 @@
       },
       {
         "id": "media-organize-3",
-        "title": "Saha acilis parcasi",
+        "title": "Malzeme kabul alanı",
         "fileUrl": "/images/dump-truck.jpg",
         "fileType": "image/jpeg",
         "resourceType": "image",
@@ -118,7 +118,7 @@
       },
       {
         "id": "media-organize-4",
-        "title": "Tesviye akis gorunumu",
+        "title": "Saha düzenleme akışı",
         "fileUrl": "/images/gallery-4.jpg",
         "fileType": "image/jpeg",
         "resourceType": "image",
@@ -131,18 +131,18 @@
   },
   {
     "id": "proj-lojistik-merkezi",
-    "title": "Lojistik Merkezi Temel Kaz\u0131s\u0131",
-    "slug": "lojistik-merkezi-temel-kazisi",
-    "summary": "Derin temel kaz\u0131s\u0131, hafriyat nakliyesi ve s\u0131k\u0131 saha temposunu bir araya getiren teslim odakl\u0131 proje.",
-    "description": "Lojistik merkezinin temel kaz\u0131s\u0131 s\u00fcrecinde s\u0131n\u0131rl\u0131 eri\u015fim alanlar\u0131na ra\u011fmen makine park\u0131 ve damperli nakliyat senkronize edildi.",
-    "location": "Ankara",
-    "category": "Temel Kaz\u0131s\u0131",
+    "title": "Temel Kazısı ve Hafriyat Nakliyesi",
+    "slug": "temel-kazisi-hafriyat-nakliyesi",
+    "summary": "Temel kazısı, yükleme ve hafriyat taşıma sürecinin günlük saha programına göre yürütüldüğü çalışma.",
+    "description": "Temel kazısı sürecinde kazı derinliği, çalışma alanı erişimi ve hafriyat çıkış güzergahı birlikte değerlendirildi. Amaç, sahadaki üretimi duraksatmadan düzenli kazı, yükleme ve sevkiyat akışı oluşturmaktı.",
+    "location": "Gaziantep",
+    "category": "Temel Kazısı",
     "coverImage": "/images/project-3.jpg",
-    "status": "Yay\u0131nda",
+    "status": "Yayında",
     "featured": false,
     "tags": [
-      "Temel Kaz\u0131s\u0131",
-      "Lojistik",
+      "Temel Kazısı",
+      "Hafriyat",
       "Nakliyat"
     ],
     "createdAt": "2026-01-06T09:00:00.000Z",
@@ -150,7 +150,7 @@
     "media": [
       {
         "id": "media-lojistik-1",
-        "title": "Kaz\u0131 alan\u0131",
+        "title": "Temel kazısı çalışma alanı",
         "fileUrl": "/images/project-3.jpg",
         "fileType": "image/jpeg",
         "resourceType": "image",
@@ -161,7 +161,7 @@
       },
       {
         "id": "media-lojistik-2",
-        "title": "Derin kazida ekipman ritmi",
+        "title": "Kazı derinliği ve ekipman konumu",
         "fileUrl": "/images/lowbed.jpg",
         "fileType": "image/jpeg",
         "resourceType": "image",
@@ -172,7 +172,7 @@
       },
       {
         "id": "media-lojistik-3",
-        "title": "Nakliye ve saha destek akisi",
+        "title": "Kamyon yükleme noktası",
         "fileUrl": "/images/gallery-2.jpg",
         "fileType": "image/jpeg",
         "resourceType": "image",
@@ -183,7 +183,7 @@
       },
       {
         "id": "media-lojistik-4",
-        "title": "Operasyon yogunlugu panoramasi",
+        "title": "Hafriyat çıkış güzergahı",
         "fileUrl": "/images/gallery-1.jpg",
         "fileType": "image/jpeg",
         "resourceType": "image",
@@ -196,26 +196,26 @@
   },
   {
     "id": "proj-otoyol-baglanti",
-    "title": "Otoyol Ba\u011flant\u0131 Yolu Dolgu \u00c7al\u0131\u015fmas\u0131",
-    "slug": "otoyol-baglanti-yolu-dolgu-calismasi",
-    "summary": "Yol altyap\u0131s\u0131 i\u00e7in dolgu, tesviye ve malzeme ak\u0131\u015f\u0131n\u0131 kapsayan uzun soluklu saha operasyonu.",
-    "description": "Ba\u011flant\u0131 yolu projesinde dolgu planlamas\u0131, kamyon sevkiyat ritmi ve saha dengeleme i\u015fleri birlikte ele al\u0131nd\u0131.",
-    "location": "Bursa",
-    "category": "Yol Yap\u0131m\u0131",
+    "title": "Yol Dolgusu ve Malzeme Sevkiyatı",
+    "slug": "yol-dolgusu-malzeme-sevkiyati",
+    "summary": "Dolgu malzemesi, damperli sevkiyat ve saha serim akışının birlikte takip edildiği yol hazırlığı.",
+    "description": "Yol ve bağlantı hattı hazırlığında malzeme sevkiyatı, dolgu serimi ve saha düzeni aynı operasyon takvimi içinde takip edildi. Kamyon hareketi ve makine çalışması, işin temposuna göre dengelenerek gereksiz bekleme azaltıldı.",
+    "location": "Gaziantep ve çevresi",
+    "category": "Dolgu ve Yol Hazırlığı",
     "coverImage": "/images/project-4.jpg",
-    "status": "Yay\u0131nda",
+    "status": "Yayında",
     "featured": false,
     "tags": [
-      "Yol",
-      "Dolgu",
-      "Saha Operasyonu"
+      "Yol Dolgusu",
+      "Malzeme Sevkiyatı",
+      "Damperli Taşıma"
     ],
     "createdAt": "2026-01-04T09:00:00.000Z",
     "updatedAt": "2026-01-04T09:00:00.000Z",
     "media": [
       {
         "id": "media-otoyol-1",
-        "title": "Ba\u011flant\u0131 yolu sahas\u0131",
+        "title": "Dolgu sahası genel görünümü",
         "fileUrl": "/images/project-4.jpg",
         "fileType": "image/jpeg",
         "resourceType": "image",
@@ -226,7 +226,7 @@
       },
       {
         "id": "media-otoyol-2",
-        "title": "Dolgu hattinda sevkiyat temposu",
+        "title": "Damperli sevkiyat temposu",
         "fileUrl": "/images/dump-truck.jpg",
         "fileType": "image/jpeg",
         "resourceType": "image",
@@ -237,7 +237,7 @@
       },
       {
         "id": "media-otoyol-3",
-        "title": "Yol platformu saha yayilimi",
+        "title": "Yol platformu hazırlığı",
         "fileUrl": "/images/gallery-4.jpg",
         "fileType": "image/jpeg",
         "resourceType": "image",

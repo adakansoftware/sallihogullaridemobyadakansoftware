@@ -7,14 +7,14 @@ import { buildShareMetadata, getCanonicalUrl } from '@/lib/seo'
 import { readSettings } from '@/lib/store'
 
 export const metadata: Metadata = {
-  title: 'İletişim',
-  description: 'Teklif, saha keşfi, hafriyat, damperli nakliyat ve operasyon planlaması için Sallıhoğulları ile iletişime geçin.',
+  title: 'İletişim ve Teklif',
+  description: 'Gaziantep hafriyat, dolgu, temel kazısı ve damperli nakliyat işleriniz için Sallıhoğulları Hafriyat ile iletişime geçin, saha bilgisi paylaşın.',
   alternates: {
     canonical: getCanonicalUrl('/contact'),
   },
   ...buildShareMetadata({
-    title: 'İletişim | Sallıhoğulları',
-    description: 'Teklif, saha keşfi, hafriyat, damperli nakliyat ve operasyon planlaması için Sallıhoğulları ile iletişime geçin.',
+    title: 'İletişim ve Teklif | Sallıhoğulları',
+    description: 'Gaziantep hafriyat, dolgu, temel kazısı ve damperli nakliyat işleriniz için Sallıhoğulları Hafriyat ile iletişime geçin, saha bilgisi paylaşın.',
     pathname: '/contact',
   }),
 }
@@ -26,13 +26,13 @@ export default async function ContactPage() {
     <SiteFrame settings={settings}>
       <PageHero
         eyebrow="İletişim"
-        title="Teklif, planlama ve saha görüşmeleri için bize ulaşın"
-        description="Projenizin lokasyonunu, kapsamını ve saha ihtiyaçlarını paylaşın; uygun ekipman, sevkiyat ve teklif yapısını birlikte netleştirelim."
+        title="Sahanız için net keşif, doğru ekipman ve uygulanabilir plan"
+        description="Lokasyon, metraj, malzeme türü ve çalışma takvimini paylaşın; kazı, dolgu veya nakliyat ihtiyacınız için sahaya uygun ekip ve teklif planı çıkaralım."
         image="/images/lowbed.jpg"
-        primaryCta={{ href: settings.whatsappUrl, label: 'WhatsApp ile Ulaşın' }}
+        primaryCta={{ href: settings.whatsappUrl, label: 'WhatsApp ile Görüşün' }}
       />
       <ContactSection settings={settings} />
-      <CTASection />
+      <CTASection settings={settings} />
     </SiteFrame>
   )
 }

@@ -9,14 +9,14 @@ import { buildShareMetadata, getCanonicalUrl } from '@/lib/seo'
 import { getSiteSettings } from '@/lib/settings-service'
 
 export const metadata: Metadata = {
-  title: 'Projeler',
-  description: 'Hafriyat, kazı, dolgu, nakliye ve saha operasyonu örneklerini görselleri ve kapsam bilgileriyle inceleyin.',
+  title: 'Saha Çalışmaları ve Referanslar',
+  description: 'Gaziantep hafriyat, dolgu, kazı, damperli nakliyat ve şantiye operasyonu çalışmalarını görselleri ve kapsam bilgileriyle inceleyin.',
   alternates: {
     canonical: getCanonicalUrl('/projects'),
   },
   ...buildShareMetadata({
-    title: 'Projeler | Sallıhoğulları',
-    description: 'Hafriyat, kazı, dolgu, nakliye ve saha operasyonu örneklerini görselleri ve kapsam bilgileriyle inceleyin.',
+    title: 'Saha Çalışmaları ve Referanslar | Sallıhoğulları',
+    description: 'Gaziantep hafriyat, dolgu, kazı, damperli nakliyat ve şantiye operasyonu çalışmalarını görselleri ve kapsam bilgileriyle inceleyin.',
     pathname: '/projects',
   }),
 }
@@ -27,15 +27,15 @@ export default async function ProjectsPage() {
   return (
     <SiteFrame settings={settings}>
       <PageHero
-        eyebrow="Referans Projeler"
-        title="Sahada yürütülen operasyon örnekleri"
-        description="Kazı, nakliye ve zemin hazırlığı işlerini görselleri, lokasyonları ve saha kapsamlarıyla inceleyin."
+        eyebrow="Saha Çalışmaları"
+        title="Hafriyat, dolgu ve nakliyat işlerinden çalışma kapsamları"
+        description="Kazı, yükleme, damperli nakliyat, dolgu ve zemin hazırlığı süreçlerinin farklı saha ihtiyaçlarında nasıl planlandığını inceleyin."
         image="/images/project-1.jpg"
-        primaryCta={{ href: '/contact', label: 'Benzer Bir Operasyon Planlayın' }}
+        primaryCta={{ href: '/contact', label: 'Benzer Bir İş İçin Görüşün' }}
       />
       <ProjectsSection projects={projects} />
       <MediaSection />
-      <CTASection />
+      <CTASection settings={settings} />
     </SiteFrame>
   )
 }
