@@ -112,7 +112,7 @@ export function buildDefaultMetadata(settings: SiteSettings): Metadata {
     metadataBase,
     title: {
       default: title,
-      template: `%s | ${settings.companyShortName}`,
+      template: `${settings.companyName} | %s`,
     },
     description,
     applicationName: settings.companyName,

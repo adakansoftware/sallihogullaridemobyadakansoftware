@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     canonical: getCanonicalUrl('/services'),
   },
   ...buildShareMetadata({
-    title: 'Adana Hafriyat ve Nakliyat Hizmetleri | Sallıhoğulları',
+    title: 'Sallıhoğulları Hafriyat | Adana Hafriyat ve Nakliyat Hizmetleri',
     description: 'Adana’da hafriyat, temel kazısı, dolgu işleri, damperli nakliyat, lowbed nakliyat, arazöz ve su tankeri hizmet kapsamlarını inceleyin.',
     pathname: '/services',
   }),
