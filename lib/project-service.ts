@@ -371,7 +371,7 @@ export function buildProjectHighlights(project: Project) {
     {
       label: 'Saha lokasyonu',
       value: project.location || 'Türkiye',
-      note: 'Projenin ritmi, lojistik planı ve ekipman yoğunluğu lokasyon şartlarına göre şekillenir.',
+      note: 'Projenin ritmi, sevkiyat planı ve ekipman yoğunluğu lokasyon şartlarına göre şekillenir.',
     },
     {
       label: 'Medya kapsamı',

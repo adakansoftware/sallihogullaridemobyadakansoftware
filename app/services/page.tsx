@@ -8,14 +8,14 @@ import { buildShareMetadata, getCanonicalUrl } from '@/lib/seo'
 import { readSettings } from '@/lib/store'
 
 export const metadata: Metadata = {
-  title: 'Hafriyat ve Nakliyat Hizmetleri',
-  description: 'Adana’da hafriyat, temel kazısı, altyapı kazıları, dolgu, damperli nakliyat, lowbed nakliyat, arazöz ve su tankeri hizmetlerini inceleyin.',
+  title: 'Adana Hafriyat ve Nakliyat Hizmetleri',
+  description: 'Adana’da hafriyat, temel kazısı, dolgu işleri, damperli nakliyat, lowbed nakliyat, arazöz ve su tankeri hizmet kapsamlarını inceleyin.',
   alternates: {
     canonical: getCanonicalUrl('/services'),
   },
   ...buildShareMetadata({
-    title: 'Hafriyat ve Nakliyat Hizmetleri | Sallıhoğulları',
-    description: 'Adana’da hafriyat, temel kazısı, altyapı kazıları, dolgu, damperli nakliyat, lowbed nakliyat, arazöz ve su tankeri hizmetlerini inceleyin.',
+    title: 'Adana Hafriyat ve Nakliyat Hizmetleri | Sallıhoğulları',
+    description: 'Adana’da hafriyat, temel kazısı, dolgu işleri, damperli nakliyat, lowbed nakliyat, arazöz ve su tankeri hizmet kapsamlarını inceleyin.',
     pathname: '/services',
   }),
 }

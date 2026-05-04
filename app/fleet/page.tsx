@@ -8,14 +8,14 @@ import { buildShareMetadata, getCanonicalUrl } from '@/lib/seo'
 import { readSettings } from '@/lib/store'
 
 export const metadata: Metadata = {
-  title: 'Makine Parkı ve Filo',
-  description: 'Sumitomo ekskavatör, Hidromek beko loder, Mercedes Arocs/Axor damperli kamyon, lowbed, Ford 2524 arazöz / su tankeri ve saha destek araçlarından oluşan filoyu inceleyin.',
+  title: 'Adana Makine Parkı ve Damperli Kamyon Filosu',
+  description: 'Sumitomo ekskavatör, Hidromek beko loder, Mercedes Arocs/Axor damperli kamyon, lowbed ve Ford 2524 arazöz / su tankeri filosunu inceleyin.',
   alternates: {
     canonical: getCanonicalUrl('/fleet'),
   },
   ...buildShareMetadata({
-    title: 'Makine Parkı ve Filo | Sallıhoğulları',
-    description: 'Sumitomo ekskavatör, Hidromek beko loder, Mercedes Arocs/Axor damperli kamyon, lowbed, Ford 2524 arazöz / su tankeri ve saha destek araçlarından oluşan filoyu inceleyin.',
+    title: 'Adana Makine Parkı ve Damperli Kamyon Filosu | Sallıhoğulları',
+    description: 'Sumitomo ekskavatör, Hidromek beko loder, Mercedes Arocs/Axor damperli kamyon, lowbed ve Ford 2524 arazöz / su tankeri filosunu inceleyin.',
     pathname: '/fleet',
   }),
 }

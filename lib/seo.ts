@@ -3,7 +3,45 @@ import type { SiteSettings } from '@/lib/store'
 import { env } from '@/lib/env'
 
 export const DEFAULT_SHARE_IMAGE = '/images/hero-main.jpg'
-const DEFAULT_DESCRIPTION = 'Adana merkezli Sallıhoğulları Hafriyat; hafriyat, dolgu, temel kazısı, damperli nakliyat, lowbed nakliyat, arazöz / su tankeri desteği ve malzeme taşıma işleri için saha odaklı çözüm sunar.'
+const SEO_LOCALITY = 'Adana'
+const DEFAULT_DESCRIPTION =
+  'Sallıhoğulları Hafriyat; Adana merkezli hafriyat, temel kazısı, dolgu, damperli nakliyat, lowbed nakliyat ve arazöz hizmetlerinde saha odaklı çalışır.'
+
+const SEO_KEYWORDS = [
+  'Sallıhoğulları Hafriyat',
+  'Sallıhoğulları',
+  'Adana hafriyat',
+  'Adana hafriyat firması',
+  'Adana hafriyat nakliyesi',
+  'Adana damperli nakliyat',
+  'Adana lowbed nakliyat',
+  'Adana arazöz',
+  'Adana su tankeri',
+  'Adana temel kazısı',
+  'Adana dolgu işleri',
+  'hafriyat',
+  'hafriyat nakliyesi',
+  'temel kazısı',
+  'dolgu işleri',
+  'damperli nakliyat',
+  'lowbed nakliyat',
+  'arazöz',
+  'su tankeri',
+  'mıcır taşıma',
+  'kum taşıma',
+  'toprak taşıma',
+]
+
+const SEO_SERVICES = [
+  'Hafriyat',
+  'Temel kazısı',
+  'Dolgu işleri',
+  'Damperli nakliyat',
+  'Hafriyat nakliyesi',
+  'Lowbed nakliyat',
+  'Arazöz ve su tankeri desteği',
+  'Malzeme taşıma',
+]
 
 export function getMetadataBase() {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || process.env.APP_ORIGIN?.trim()
@@ -81,38 +119,12 @@ export function buildDefaultMetadata(settings: SiteSettings): Metadata {
     authors: [{ name: settings.companyName }],
     creator: settings.companyName,
     publisher: settings.companyName,
+    manifest: '/manifest.webmanifest',
     alternates: {
       canonical: '/',
     },
     category: 'business',
-    keywords: [
-      settings.companyName,
-      settings.companyShortName,
-      'Adana hafriyat',
-      'Adana damperli nakliyat',
-      'Adana lowbed nakliyat',
-      'Adana arazöz',
-      'Adana su tankeri',
-      'Adana hafriyat nakliyesi',
-      'Adana temel kazısı',
-      'Adana dolgu işleri',
-      'hafriyat',
-      'hafriyat nakliyesi',
-      'temel kazısı',
-      'altyapı kazıları',
-      'dolgu',
-      'damperli nakliyat',
-      'lowbed nakliyat',
-      'lowbed taşıma',
-      'arazöz',
-      'su tankeri',
-      'mıcır taşıma',
-      'kum taşıma',
-      'toprak taşıma',
-      'iş makinesi',
-      'saha çalışması',
-      settings.serviceArea,
-    ],
+    keywords: Array.from(new Set([settings.companyName, settings.companyShortName, ...SEO_KEYWORDS, settings.serviceArea])),
     formatDetection: {
       telephone: false,
       email: false,
@@ -143,7 +155,7 @@ export function buildDefaultMetadata(settings: SiteSettings): Metadata {
 export function buildOrganizationJsonLd(settings: SiteSettings) {
   return {
     '@context': 'https://schema.org',
-    '@type': ['Organization', 'LocalBusiness'],
+    '@type': ['Organization', 'LocalBusiness', 'HomeAndConstructionBusiness'],
     '@id': getCanonicalUrl('/#organization'),
     name: settings.companyName,
     alternateName: settings.companyShortName,
@@ -156,16 +168,29 @@ export function buildOrganizationJsonLd(settings: SiteSettings) {
     address: {
       '@type': 'PostalAddress',
       streetAddress: settings.address,
-      addressLocality: 'Adana',
+      addressLocality: SEO_LOCALITY,
       addressCountry: 'TR',
     },
     areaServed: [
       {
         '@type': 'AdministrativeArea',
-        name: 'Adana',
+        name: SEO_LOCALITY,
       },
       settings.serviceArea,
     ],
+    knowsAbout: SEO_SERVICES,
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: `${settings.companyShortName} hizmetleri`,
+      itemListElement: SEO_SERVICES.map((service) => ({
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: service,
+          areaServed: SEO_LOCALITY,
+        },
+      })),
+    },
     openingHours: 'Mo-Sa 07:00-19:00',
     priceRange: 'Teklif ile',
     sameAs: [settings.instagramUrl, settings.whatsappUrl].filter(Boolean),
@@ -201,28 +226,16 @@ export function buildWebsiteJsonLd(settings: SiteSettings) {
 }
 
 export function buildServicesJsonLd(settings: SiteSettings) {
-  const services = [
-    'Hafriyat',
-    'Temel kazısı',
-    'Dolgu işleri',
-    'Altyapı kazıları',
-    'Damperli nakliyat',
-    'Hafriyat nakliyesi',
-    'Lowbed nakliyat',
-    'Arazöz ve su tankeri desteği',
-    'Malzeme taşıma',
-  ]
-
   return {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     '@id': getCanonicalUrl('/services#services'),
     name: `${settings.companyShortName} hizmetleri`,
-    itemListElement: services.map((service, index) => ({
+    itemListElement: SEO_SERVICES.map((service, index) => ({
       '@type': 'Service',
       position: index + 1,
       name: service,
-      areaServed: 'Adana',
+      areaServed: SEO_LOCALITY,
       provider: {
         '@id': getCanonicalUrl('/#organization'),
       },
