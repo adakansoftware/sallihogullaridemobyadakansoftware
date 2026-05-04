@@ -3,7 +3,7 @@ import type { SiteSettings } from '@/lib/store'
 import { env } from '@/lib/env'
 
 export const DEFAULT_SHARE_IMAGE = '/images/hero-main.jpg'
-const DEFAULT_DESCRIPTION = 'Gaziantep merkezli Sallıhoğulları Hafriyat; hafriyat, dolgu, temel kazısı, damperli nakliyat, low-bed ve şantiye lojistiği işleri için saha odaklı çözüm sunar.'
+const DEFAULT_DESCRIPTION = 'Adana merkezli Sallıhoğulları Hafriyat; hafriyat, dolgu, temel kazısı, damperli nakliyat, low-bed, hafriyat nakliyesi ve malzeme taşıma işleri için saha odaklı çözüm sunar.'
 
 export function getMetadataBase() {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || process.env.APP_ORIGIN?.trim()
@@ -67,7 +67,7 @@ export function getCanonicalUrl(pathname = '/') {
 
 export function buildDefaultMetadata(settings: SiteSettings): Metadata {
   const metadataBase = getMetadataBase()
-  const title = `${settings.companyName} | Gaziantep Hafriyat ve Damperli Nakliyat`
+  const title = `${settings.companyName} | Adana Hafriyat ve Damperli Nakliyat`
   const description = DEFAULT_DESCRIPTION
 
   return {
@@ -88,10 +88,10 @@ export function buildDefaultMetadata(settings: SiteSettings): Metadata {
     keywords: [
       settings.companyName,
       settings.companyShortName,
-      'Gaziantep hafriyat',
-      'Gaziantep damperli nakliyat',
-      'Gaziantep temel kazısı',
-      'Gaziantep dolgu işleri',
+      'Adana hafriyat',
+      'Adana damperli nakliyat',
+      'Adana temel kazısı',
+      'Adana dolgu işleri',
       'hafriyat',
       'temel kazısı',
       'altyapı kazıları',
@@ -102,7 +102,7 @@ export function buildDefaultMetadata(settings: SiteSettings): Metadata {
       'kum taşıma',
       'toprak taşıma',
       'iş makinesi',
-      'şantiye operasyonu',
+      'saha çalışması',
       settings.serviceArea,
     ],
     formatDetection: {
@@ -148,13 +148,13 @@ export function buildOrganizationJsonLd(settings: SiteSettings) {
     address: {
       '@type': 'PostalAddress',
       streetAddress: settings.address,
-      addressLocality: 'Gaziantep',
+      addressLocality: 'Adana',
       addressCountry: 'TR',
     },
     areaServed: [
       {
         '@type': 'AdministrativeArea',
-        name: 'Gaziantep',
+        name: 'Adana',
       },
       settings.serviceArea,
     ],
@@ -201,7 +201,7 @@ export function buildServicesJsonLd(settings: SiteSettings) {
     'Damperli nakliyat',
     'Malzeme sevkiyatı',
     'Low-bed taşımacılık',
-    'Şantiye lojistiği',
+    'Saha içi taşıma',
   ]
 
   return {
@@ -213,7 +213,7 @@ export function buildServicesJsonLd(settings: SiteSettings) {
       '@type': 'Service',
       position: index + 1,
       name: service,
-      areaServed: 'Gaziantep',
+      areaServed: 'Adana',
       provider: {
         '@id': getCanonicalUrl('/#organization'),
       },

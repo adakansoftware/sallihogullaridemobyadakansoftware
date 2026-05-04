@@ -121,7 +121,7 @@ export const whyChooseUsReasons = [
   },
   {
     title: 'İşin Kapsamına Göre Hizmet',
-    description: 'Küçük ölçekli kazıdan yoğun şantiye lojistiğine kadar hizmet kapsamı işin gerçek ihtiyacına göre şekillendirilir.',
+    description: 'Küçük ölçekli kazıdan yoğun saha içi taşımane kadar hizmet kapsamı işin gerçek ihtiyacına göre şekillendirilir.',
     stat: 'Esnek Plan',
   },
   {
@@ -204,6 +204,6 @@ export const footerServiceLinks = [
   'Damperli Nakliyat',
   'Dolgu ve Zemin Hazırlığı',
   'İş Makinesi Desteği',
-  'Şantiye Lojistiği',
+  'Saha İçi Taşıma',
   'Altyapı Kazıları',
 ]

@@ -9,13 +9,13 @@ import { readSettings } from '@/lib/store'
 
 export const metadata: Metadata = {
   title: 'Hafriyat ve Nakliyat Hizmetleri',
-  description: 'Gaziantep’te hafriyat, temel kazısı, altyapı kazıları, dolgu, damperli nakliyat, low-bed taşıma ve şantiye lojistiği hizmetlerini inceleyin.',
+  description: 'Adana’te hafriyat, temel kazısı, altyapı kazıları, dolgu, damperli nakliyat, low-bed taşıma ve saha içi taşıma hizmetlerini inceleyin.',
   alternates: {
     canonical: getCanonicalUrl('/services'),
   },
   ...buildShareMetadata({
     title: 'Hafriyat ve Nakliyat Hizmetleri | Sallıhoğulları',
-    description: 'Gaziantep’te hafriyat, temel kazısı, altyapı kazıları, dolgu, damperli nakliyat, low-bed taşıma ve şantiye lojistiği hizmetlerini inceleyin.',
+    description: 'Adana’te hafriyat, temel kazısı, altyapı kazıları, dolgu, damperli nakliyat, low-bed taşıma ve saha içi taşıma hizmetlerini inceleyin.',
     pathname: '/services',
   }),
 }

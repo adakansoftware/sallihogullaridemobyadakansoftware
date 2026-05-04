@@ -10,13 +10,13 @@ import { getSiteSettings } from '@/lib/settings-service'
 
 export const metadata: Metadata = {
   title: 'Saha Çalışmaları ve Referanslar',
-  description: 'Gaziantep hafriyat, dolgu, kazı, damperli nakliyat ve şantiye operasyonu çalışmalarını görselleri ve kapsam bilgileriyle inceleyin.',
+  description: 'Adana hafriyat, dolgu, kazı, damperli nakliyat ve saha çalışması çalışmalarını görselleri ve kapsam bilgileriyle inceleyin.',
   alternates: {
     canonical: getCanonicalUrl('/projects'),
   },
   ...buildShareMetadata({
     title: 'Saha Çalışmaları ve Referanslar | Sallıhoğulları',
-    description: 'Gaziantep hafriyat, dolgu, kazı, damperli nakliyat ve şantiye operasyonu çalışmalarını görselleri ve kapsam bilgileriyle inceleyin.',
+    description: 'Adana hafriyat, dolgu, kazı, damperli nakliyat ve saha çalışması çalışmalarını görselleri ve kapsam bilgileriyle inceleyin.',
     pathname: '/projects',
   }),
 }

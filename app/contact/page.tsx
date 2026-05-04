@@ -8,13 +8,13 @@ import { readSettings } from '@/lib/store'
 
 export const metadata: Metadata = {
   title: 'İletişim ve Teklif',
-  description: 'Gaziantep hafriyat, dolgu, temel kazısı ve damperli nakliyat işleriniz için Sallıhoğulları Hafriyat ile iletişime geçin, saha bilgisi paylaşın.',
+  description: 'Adana hafriyat, dolgu, temel kazısı ve damperli nakliyat işleriniz için Sallıhoğulları Hafriyat ile iletişime geçin, saha bilgisi paylaşın.',
   alternates: {
     canonical: getCanonicalUrl('/contact'),
   },
   ...buildShareMetadata({
     title: 'İletişim ve Teklif | Sallıhoğulları',
-    description: 'Gaziantep hafriyat, dolgu, temel kazısı ve damperli nakliyat işleriniz için Sallıhoğulları Hafriyat ile iletişime geçin, saha bilgisi paylaşın.',
+    description: 'Adana hafriyat, dolgu, temel kazısı ve damperli nakliyat işleriniz için Sallıhoğulları Hafriyat ile iletişime geçin, saha bilgisi paylaşın.',
     pathname: '/contact',
   }),
 }
