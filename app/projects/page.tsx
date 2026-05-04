@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     canonical: getCanonicalUrl('/projects'),
   },
   ...buildShareMetadata({
-    title: 'Sallıhoğulları Hafriyat | Adana Hafriyat Çalışmaları ve Referanslar',
+    title: 'Salihoğulları Hafriyat | Adana Hafriyat Çalışmaları ve Referanslar',
     description: 'Adana’da hafriyat, temel kazısı, dolgu, damperli nakliyat ve malzeme taşıma kapsamındaki saha çalışmalarını görselleriyle inceleyin.',
     pathname: '/projects',
   }),

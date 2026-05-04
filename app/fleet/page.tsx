@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     canonical: getCanonicalUrl('/fleet'),
   },
   ...buildShareMetadata({
-    title: 'Sallıhoğulları Hafriyat | Adana Makine Parkı ve Damperli Kamyon Filosu',
+    title: 'Salihoğulları Hafriyat | Adana Makine Parkı ve Damperli Kamyon Filosu',
     description: 'Sumitomo ekskavatör, Hidromek beko loder, Mercedes Arocs/Axor damperli kamyon, lowbed ve Ford 2524 arazöz / su tankeri filosunu inceleyin.',
     pathname: '/fleet',
   }),

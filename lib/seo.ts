@@ -5,11 +5,17 @@ import { env } from '@/lib/env'
 export const DEFAULT_SHARE_IMAGE = '/images/hero-main.jpg'
 const SEO_LOCALITY = 'Adana'
 const DEFAULT_DESCRIPTION =
-  'Sallıhoğulları Hafriyat; Adana merkezli hafriyat, temel kazısı, dolgu, damperli nakliyat, lowbed nakliyat ve arazöz hizmetlerinde saha odaklı çalışır.'
+  'Salihoğulları Hafriyat; Adana merkezli hafriyat, temel kazısı, dolgu, damperli nakliyat, lowbed nakliyat ve arazöz hizmetlerinde saha odaklı çalışır.'
+
+const BRAND_ALIASES = [
+  'Salihoğulları Hafriyat',
+  'Salihoğulları',
+  'Salihogullari Hafriyat',
+  'Salihogullari',
+]
 
 const SEO_KEYWORDS = [
-  'Sallıhoğulları Hafriyat',
-  'Sallıhoğulları',
+  ...BRAND_ALIASES,
   'Adana hafriyat',
   'Adana hafriyat firması',
   'Adana hafriyat nakliyesi',
@@ -158,9 +164,14 @@ export function buildOrganizationJsonLd(settings: SiteSettings) {
     '@type': ['Organization', 'LocalBusiness', 'HomeAndConstructionBusiness'],
     '@id': getCanonicalUrl('/#organization'),
     name: settings.companyName,
-    alternateName: settings.companyShortName,
     url: getMetadataBase().toString(),
     description: DEFAULT_DESCRIPTION,
+    legalName: settings.companyName,
+    slogan: 'Adana hafriyat ve damperli nakliyat hizmetleri',
+    foundingDate: settings.foundedYear,
+    identifier: settings.companyName,
+    keywords: SEO_KEYWORDS,
+    alternateName: Array.from(new Set([settings.companyShortName, ...BRAND_ALIASES])),
     logo: getCanonicalUrl('/images/sallihogullari-logo-small.png'),
     image: getCanonicalUrl(DEFAULT_SHARE_IMAGE),
     telephone: settings.contactPhone,
@@ -198,7 +209,7 @@ export function buildOrganizationJsonLd(settings: SiteSettings) {
       {
         '@type': 'ContactPoint',
         telephone: settings.contactPhone,
-        contactType: 'customer support',
+        contactType: 'sales',
         areaServed: 'TR',
         availableLanguage: ['tr'],
       },
@@ -212,6 +223,7 @@ export function buildWebsiteJsonLd(settings: SiteSettings) {
     '@type': 'WebSite',
     '@id': getCanonicalUrl('/#website'),
     name: settings.companyName,
+    alternateName: BRAND_ALIASES,
     url: getMetadataBase().toString(),
     inLanguage: 'tr-TR',
     publisher: {

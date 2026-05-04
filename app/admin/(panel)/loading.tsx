@@ -7,7 +7,7 @@ export default function AdminPanelLoading() {
         <div className="brand-logo-pulse relative h-14 w-20 overflow-hidden bg-black">
           <Image
             src="/images/sallihogullari-logo-small.png"
-            alt="Sallıhoğulları logo"
+            alt="Salihoğulları logo"
             fill
             sizes="80px"
             className="object-contain"

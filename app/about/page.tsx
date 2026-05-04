@@ -10,13 +10,13 @@ import { readSettings } from '@/lib/store'
 
 export const metadata: Metadata = {
   title: 'Adana Hafriyat Firması Hakkında',
-  description: 'Sallıhoğulları Hafriyat’ın Adana’da hafriyat, dolgu ve damperli nakliyat işlerindeki saha disiplini, ekipman planı ve çalışma yaklaşımını inceleyin.',
+  description: 'Salihoğulları Hafriyat’ın Adana’da hafriyat, dolgu ve damperli nakliyat işlerindeki saha disiplini, ekipman planı ve çalışma yaklaşımını inceleyin.',
   alternates: {
     canonical: getCanonicalUrl('/about'),
   },
   ...buildShareMetadata({
-    title: 'Sallıhoğulları Hafriyat | Adana Hafriyat Firması Hakkında',
-    description: 'Sallıhoğulları Hafriyat’ın Adana’da hafriyat, dolgu ve damperli nakliyat işlerindeki saha disiplini, ekipman planı ve çalışma yaklaşımını inceleyin.',
+    title: 'Salihoğulları Hafriyat | Adana Hafriyat Firması Hakkında',
+    description: 'Salihoğulları Hafriyat’ın Adana’da hafriyat, dolgu ve damperli nakliyat işlerindeki saha disiplini, ekipman planı ve çalışma yaklaşımını inceleyin.',
     pathname: '/about',
   }),
 }

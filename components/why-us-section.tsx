@@ -15,7 +15,7 @@ export function WhyUsSection() {
             <div className="relative aspect-[4/5] overflow-hidden">
               <Image
                 src="/images/about.jpg"
-                alt="Sallıhoğulları Hafriyat ekibi"
+                alt="Salihoğulları Hafriyat ekibi"
                 fill
                 className="object-cover"
                 sizes="(min-width: 1024px) 40vw, 100vw"
@@ -38,7 +38,7 @@ export function WhyUsSection() {
           </div>
 
           <div className="lg:col-span-3">
-            <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-primary">Neden Sallıhoğulları?</span>
+            <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-primary">Neden Salihoğulları?</span>
             <h2 className="mb-6 text-3xl font-black leading-tight text-foreground sm:text-4xl lg:text-5xl">
               Saha işinin <span className="text-primary">aksamadan yürümesi</span> için düzenli operasyon akışı
             </h2>
