@@ -26,11 +26,14 @@ export function isTrustedOriginRequest(request: Request, allowedOrigin: string |
 }
 
 export function isAllowedRequestContentType(request: Request, allowedContentTypes: string[]) {
-  const contentType = request.headers.get('content-type')?.toLowerCase() || ''
-  return allowedContentTypes.some((value) => contentType.includes(value))
+  const mediaType = request.headers.get('content-type')?.split(';')[0]?.trim().toLowerCase() || ''
+  return allowedContentTypes.some((value) => mediaType === value.toLowerCase())
 }
 
 export function isRequestBodyWithinLimit(request: Request, maxBytes: number) {
-  const contentLength = Number(request.headers.get('content-length'))
-  return !Number.isFinite(contentLength) || contentLength <= maxBytes
+  const rawContentLength = request.headers.get('content-length')
+  if (!rawContentLength) return true
+
+  const contentLength = Number(rawContentLength)
+  return Number.isFinite(contentLength) && contentLength >= 0 && contentLength <= maxBytes
 }

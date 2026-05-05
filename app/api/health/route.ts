@@ -1,5 +1,6 @@
 import { constants, promises as fs } from 'fs'
 import path from 'path'
+import { isAdminAuthenticated } from '@/lib/auth'
 import { env } from '@/lib/env'
 import { jsonNoStore, withErrorHandling } from '@/lib/http'
 
@@ -33,7 +34,7 @@ export async function GET() {
     const ready = dataReady && uploadsReady
 
     return jsonNoStore(
-      {
+      (await isAdminAuthenticated()) ? {
         status: ready ? 'ok' : 'degraded',
         checkedAt: new Date().toISOString(),
         runtime: {
@@ -46,6 +47,9 @@ export async function GET() {
           uploads: uploadsState,
         },
         notes: uploadsState.type === 'missing' ? ['uploads directory will be created automatically on first successful upload'] : [],
+      } : {
+        status: ready ? 'ok' : 'degraded',
+        checkedAt: new Date().toISOString(),
       },
       { status: ready ? 200 : 503 },
     )

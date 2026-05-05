@@ -107,6 +107,16 @@ async function run() {
     isAllowedRequestContentType(
       new Request('https://example.com/api/messages', {
         method: 'POST',
+        headers: { 'content-type': 'text/plain; application/json' },
+      }),
+      ['application/json'],
+    ),
+    false,
+  )
+  assert.equal(
+    isAllowedRequestContentType(
+      new Request('https://example.com/api/messages', {
+        method: 'POST',
         headers: { 'content-type': 'text/plain' },
       }),
       ['application/json'],
@@ -129,6 +139,26 @@ async function run() {
       new Request('https://example.com/api/messages', {
         method: 'POST',
         headers: { 'content-length': '1024' },
+      }),
+      256,
+    ),
+    false,
+  )
+  assert.equal(
+    isRequestBodyWithinLimit(
+      new Request('https://example.com/api/messages', {
+        method: 'POST',
+        headers: { 'content-length': '-1' },
+      }),
+      256,
+    ),
+    false,
+  )
+  assert.equal(
+    isRequestBodyWithinLimit(
+      new Request('https://example.com/api/messages', {
+        method: 'POST',
+        headers: { 'content-length': 'not-a-number' },
       }),
       256,
     ),

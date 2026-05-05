@@ -20,3 +20,9 @@ tsconfig.tsbuildinfo
 *.log
 *.bak
 .tmp-*
+
+# Runtime data that can contain request metadata or customer leads.
+data/audit.log
+data/messages.json
+data/rate-limit.json
+data/*.bak
