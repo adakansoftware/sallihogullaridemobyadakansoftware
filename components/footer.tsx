@@ -18,7 +18,7 @@ export function Footer({ settings }: { settings: SiteSettings }) {
         <div className="relative z-10 grid gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-12">
           <div className="lg:col-span-1">
             <Link href="/" className="mb-6 flex min-w-0 items-center gap-3">
-              <div className="glow-amber-sm relative flex h-11 w-14 shrink-0 items-center justify-center overflow-hidden">
+              <div className="relative flex h-11 w-14 shrink-0 items-center justify-center overflow-visible">
                 <Image
                   src="/images/salihogullari-logo-small.png"
                   alt={`${settings.companyName} logo`}
