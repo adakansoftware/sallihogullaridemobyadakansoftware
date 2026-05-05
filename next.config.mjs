@@ -1,8 +1,4 @@
-import path from 'path'
-import { fileURLToPath } from 'url'
-
 const isProduction = process.env.NODE_ENV === 'production'
-const workspaceRoot = path.dirname(fileURLToPath(import.meta.url))
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -12,7 +8,7 @@ const nextConfig = {
     qualities: [75, 82, 95],
   },
   turbopack: {
-    root: workspaceRoot,
+    root: process.cwd(),
   },
   async headers() {
     return [
@@ -35,6 +31,7 @@ const nextConfig = {
               "font-src 'self' data:",
               "connect-src 'self' https://vitals.vercel-insights.com",
               "media-src 'self' data: blob:",
+              "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com",
               "object-src 'none'",
               "worker-src 'self' blob:",
               "manifest-src 'self'",

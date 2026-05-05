@@ -7,7 +7,7 @@ export function YouTubeVideo({ url, title, className }: { url: string; title: st
     return (
       <div className={className}>
         <div className="flex h-full w-full items-center justify-center bg-black/50 px-4 text-center text-sm text-white/60">
-          YouTube videosu gosterilemiyor.
+          YouTube videosu gösterilemiyor.
         </div>
       </div>
     )
