@@ -68,12 +68,12 @@ export function Navbar({ settings }: { settings: SiteSettings }) {
         <div className="mx-auto max-w-[1400px] px-6 lg:px-8">
           <nav className="flex h-20 items-center justify-between lg:h-24">
             <Link href="/" className="group flex items-center gap-3">
-              <div className="relative flex h-11 w-14 items-center justify-center overflow-hidden bg-black">
+              <div className="relative flex h-12 w-16 shrink-0 items-center justify-center overflow-hidden">
                 <Image
                   src="/images/salihogullari-logo-small.png"
                   alt={`${settings.companyName} logo`}
                   fill
-                  sizes="56px"
+                  sizes="64px"
                   className="object-contain"
                 />
               </div>

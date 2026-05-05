@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { Instagram, Mail, MapPin, Phone } from 'lucide-react'
 import { isRealPhoneValue } from '@/lib/contact-utils'
 import type { SiteSettings } from '@/lib/store'
@@ -17,8 +18,14 @@ export function Footer({ settings }: { settings: SiteSettings }) {
         <div className="relative z-10 grid gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-12">
           <div className="lg:col-span-1">
             <Link href="/" className="mb-6 flex min-w-0 items-center gap-3">
-              <div className="glow-amber-sm flex h-11 w-11 items-center justify-center bg-primary">
-                <span className="text-lg font-black text-primary-foreground">{settings.companyShortName.slice(0, 2).toUpperCase()}</span>
+              <div className="glow-amber-sm relative flex h-11 w-14 shrink-0 items-center justify-center overflow-hidden">
+                <Image
+                  src="/images/salihogullari-logo-small.png"
+                  alt={`${settings.companyName} logo`}
+                  fill
+                  sizes="56px"
+                  className="object-contain"
+                />
               </div>
               <div className="flex min-w-0 flex-col leading-tight">
                 <span className="break-words text-lg font-bold uppercase text-foreground">{settings.companyName}</span>
