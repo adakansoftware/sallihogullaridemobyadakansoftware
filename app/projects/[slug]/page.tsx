@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import { ArrowLeft, ArrowUpRight, Calendar, CheckCircle2, Layers3, MapPin, Tags } from 'lucide-react'
 import { CTASection } from '@/components/cta-section'
 import { SiteFrame } from '@/components/site-frame'
+import { YouTubeVideo } from '@/components/youtube-video'
 import { buildProjectGallery, buildProjectHighlights, buildProjectScopes, findPublishedProjectBySlug } from '@/lib/project-service'
 import { buildShareMetadata, getCanonicalUrl } from '@/lib/seo'
 import { getSiteSettings } from '@/lib/settings-service'
@@ -141,7 +142,7 @@ export default async function ProjectDetailPage({
             <div className="glass-card overflow-hidden">
               <div className="relative min-h-[380px] sm:min-h-[460px]">
                 {featureMedia.resourceType === 'video' ? (
-                  <video src={featureMedia.fileUrl} controls className="h-full w-full object-cover" />
+                  <YouTubeVideo url={featureMedia.fileUrl} title={featureMedia.title || project.title} className="h-full w-full" />
                 ) : (
                   <Image src={featureMedia.fileUrl} alt={featureMedia.title || project.title} fill className="object-cover" quality={95} />
                 )}
@@ -200,7 +201,7 @@ export default async function ProjectDetailPage({
               >
                 <div className={`relative overflow-hidden ${index < 2 ? 'aspect-[16/10]' : 'aspect-[5/4]'}`}>
                   {media.resourceType === 'video' ? (
-                    <video src={media.fileUrl} controls className="h-full w-full object-cover" />
+                    <YouTubeVideo url={media.fileUrl} title={media.title || project.title} className="h-full w-full" />
                   ) : (
                     <Image src={media.fileUrl} alt={media.title || project.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
                   )}

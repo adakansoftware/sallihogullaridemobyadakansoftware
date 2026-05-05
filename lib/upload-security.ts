@@ -22,14 +22,7 @@ export function isAllowedFileSignature(mimeType: string, buffer: Uint8Array) {
       return includesAscii(buffer, 'WEBP', 8) && includesAscii(buffer, 'RIFF', 0)
     case 'image/avif':
       return includesAscii(buffer, 'ftypavif', 4) || includesAscii(buffer, 'ftypavis', 4)
-    case 'video/mp4':
-      return includesAscii(buffer, 'ftyp', 4)
-    case 'video/webm':
-      return startsWithBytes(buffer, [0x1a, 0x45, 0xdf, 0xa3])
-    case 'video/quicktime':
-      return includesAscii(buffer, 'ftypqt', 4)
     default:
       return false
   }
 }
-

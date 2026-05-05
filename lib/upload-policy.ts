@@ -2,14 +2,11 @@ import path from 'path'
 
 export const MAX_UPLOAD_FILE_SIZE = 25 * 1024 * 1024
 
-export const ALLOWED_UPLOAD_TYPES: Record<string, { extension: string; resourceType: 'image' | 'video' }> = {
+export const ALLOWED_UPLOAD_TYPES: Record<string, { extension: string; resourceType: 'image' }> = {
   'image/jpeg': { extension: 'jpg', resourceType: 'image' },
   'image/png': { extension: 'png', resourceType: 'image' },
   'image/webp': { extension: 'webp', resourceType: 'image' },
   'image/avif': { extension: 'avif', resourceType: 'image' },
-  'video/mp4': { extension: 'mp4', resourceType: 'video' },
-  'video/webm': { extension: 'webm', resourceType: 'video' },
-  'video/quicktime': { extension: 'mov', resourceType: 'video' },
 }
 
 export function sanitizeUploadBaseName(name: string) {

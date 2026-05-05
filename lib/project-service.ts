@@ -12,6 +12,7 @@ import {
   type ProjectMedia,
 } from '@/lib/store'
 import { createSlug, ensureUniqueSlug } from '@/lib/slug'
+import { isYouTubeUrl } from '@/lib/youtube'
 
 type ProjectInput = {
   title: string
@@ -79,7 +80,7 @@ function normalizeMediaCollection(media: ProjectMedia[]) {
 
 function normalizeProjectMedia(project: Project) {
   const sortedMedia = normalizeMediaCollection(project.media)
-  const coverMedia = sortedMedia.find((item) => item.isCover) || sortedMedia[0]
+  const coverMedia = sortedMedia.find((item) => item.isCover && item.resourceType === 'image') || sortedMedia.find((item) => item.resourceType === 'image')
   const coverImage = coverMedia?.fileUrl || project.coverImage || ''
 
   return {
@@ -213,12 +214,18 @@ export async function attachMediaToProject(projectId: string, input: ProjectMedi
   const projectIndex = projects.findIndex((item) => item.id === projectId)
   if (projectIndex === -1) return null
 
-  const fileExists = await assertManagedUploadExists(input.fileUrl)
-  if (!fileExists) {
-    throw new Error('Yüklenen dosya bulunamadı veya taşınmış olabilir.')
+  if (input.resourceType === 'image') {
+    const fileExists = await assertManagedUploadExists(input.fileUrl)
+    if (!fileExists) {
+      throw new Error('Yüklenen dosya bulunamadı veya taşınmış olabilir.')
+    }
   }
 
-  if (input.thumbnailUrl) {
+  if (input.resourceType === 'video' && !isYouTubeUrl(input.fileUrl)) {
+    throw new Error('Video için geçerli bir YouTube bağlantısı girin.')
+  }
+
+  if (input.thumbnailUrl && input.thumbnailUrl.startsWith('/uploads/')) {
     const thumbnailExists = await assertManagedUploadExists(input.thumbnailUrl)
     if (!thumbnailExists) {
       throw new Error('Önizleme dosyası bulunamadı veya taşınmış olabilir.')
@@ -250,7 +257,7 @@ export async function attachMediaToProject(projectId: string, input: ProjectMedi
   const nextProject = normalizeProjectMedia({
     ...currentProject,
     media: nextMedia,
-    coverImage: input.isCover || !currentProject.coverImage ? input.fileUrl : currentProject.coverImage,
+    coverImage: input.resourceType === 'image' && (input.isCover || !currentProject.coverImage) ? input.fileUrl : currentProject.coverImage,
     updatedAt: new Date().toISOString(),
   })
 

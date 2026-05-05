@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { isYouTubeUrl } from '@/lib/youtube'
 
 const MAX_PROJECT_TAGS = 12
 
@@ -106,15 +107,30 @@ export const messageStateSchema = z.object({
   isRead: z.boolean(),
 })
 
-export const mediaInputSchema = z.object({
-  title: z.string().trim().max(120, 'Medya başlığı çok uzun.').transform(normalizeString).default(''),
-  fileUrl: z.string().trim().min(1, 'Medya dosyası zorunludur.').max(500, 'Medya adresi çok uzun.').refine((value) => value.startsWith('/uploads/'), 'Yalnızca yönetilen yüklemeler kabul edilir.'),
-  fileType: z.string().trim().min(3, 'Dosya türü zorunludur.').max(80, 'Dosya türü çok uzun.').transform(normalizeString),
-  resourceType: resourceTypeSchema,
-  thumbnailUrl: z.string().trim().max(500, 'Önizleme adresi çok uzun.').refine((value) => !value || value.startsWith('/uploads/'), 'Önizleme adresi güvenli değil.').default(''),
-  isCover: z.boolean().default(false),
-  sortOrder: z.coerce.number().int().min(0, 'Sıralama negatif olamaz.').max(9999, 'Sıralama çok büyük.').default(0),
-})
+export const mediaInputSchema = z
+  .object({
+    title: z.string().trim().max(120, 'Medya başlığı çok uzun.').transform(normalizeString).default(''),
+    fileUrl: z
+      .string()
+      .trim()
+      .min(1, 'Medya adresi zorunludur.')
+      .max(500, 'Medya adresi çok uzun.')
+      .refine((value) => value.startsWith('/uploads/') || isYouTubeUrl(value), 'Görsel için yüklenen dosya, video için YouTube bağlantısı girin.'),
+    fileType: z.string().trim().min(3, 'Dosya türü zorunludur.').max(80, 'Dosya türü çok uzun.').transform(normalizeString),
+    resourceType: resourceTypeSchema,
+    thumbnailUrl: z.string().trim().max(500, 'Önizleme adresi çok uzun.').refine((value) => !value || value.startsWith('/uploads/'), 'Önizleme adresi güvenli değil.').default(''),
+    isCover: z.boolean().default(false),
+    sortOrder: z.coerce.number().int().min(0, 'Sıralama negatif olamaz.').max(9999, 'Sıralama çok büyük.').default(0),
+  })
+  .superRefine((value, context) => {
+    if (value.resourceType === 'image' && !value.fileUrl.startsWith('/uploads/')) {
+      context.addIssue({ code: z.ZodIssueCode.custom, path: ['fileUrl'], message: 'Görsel için yüklenen dosya adresi gerekir.' })
+    }
+
+    if (value.resourceType === 'video' && !isYouTubeUrl(value.fileUrl)) {
+      context.addIssue({ code: z.ZodIssueCode.custom, path: ['fileUrl'], message: 'Video için geçerli bir YouTube bağlantısı girin.' })
+    }
+  })
 
 export const mediaUpdateSchema = z.object({
   title: z.string().trim().max(120, 'Medya başlığı çok uzun.').transform(normalizeString).optional(),

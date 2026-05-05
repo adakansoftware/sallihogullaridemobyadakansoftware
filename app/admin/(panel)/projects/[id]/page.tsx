@@ -5,8 +5,10 @@ import { DeleteProjectButton } from '@/components/admin/DeleteProjectButton'
 import { MediaActions } from '@/components/admin/MediaActions'
 import { MediaUploader } from '@/components/admin/MediaUploader'
 import { ProjectForm } from '@/components/admin/ProjectForm'
+import { YouTubeVideo } from '@/components/youtube-video'
 import { auditProjectAssets } from '@/lib/asset-health'
 import { findAdminProjectById } from '@/lib/project-service'
+import { getYouTubeWatchUrl } from '@/lib/youtube'
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -74,7 +76,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         </div>
 
         <div className="industrial-border rounded-[28px] bg-white/[0.04] p-4 sm:p-6 md:rounded-[32px]">
-          <h2 className="font-display text-3xl text-white sm:text-4xl">Medya Yükle</h2>
+          <h2 className="font-display text-3xl text-white sm:text-4xl">Medya Ekle</h2>
           <div className="mt-6">
             <MediaUploader projectId={project.id} />
           </div>
@@ -91,7 +93,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
             <div key={item.id} className="rounded-[24px] border border-white/10 bg-white/[0.03] p-4">
               <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-black/40">
                 {item.resourceType === 'video' ? (
-                  <video src={item.fileUrl} controls className="h-full w-full object-cover" />
+                  <YouTubeVideo url={item.fileUrl} title={item.title || project.title} className="h-full w-full" />
                 ) : (
                   <div className="relative h-full w-full">
                     <Image src={item.fileUrl} alt={item.title || project.title} fill className="object-cover" />
@@ -108,7 +110,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                 <MediaActions mediaId={item.id} initialTitle={item.title || ''} initialSortOrder={item.sortOrder} initialIsCover={item.isCover} />
               </div>
               <div className="mt-4 flex items-center justify-between">
-                <a href={item.fileUrl} target="_blank" rel="noreferrer" className="text-sm text-amber-300 hover:text-amber-200">
+                <a href={item.resourceType === 'video' ? getYouTubeWatchUrl(item.fileUrl) : item.fileUrl} target="_blank" rel="noreferrer" className="text-sm text-amber-300 hover:text-amber-200">
                   Aç
                 </a>
                 <DeleteMediaButton mediaId={item.id} />
