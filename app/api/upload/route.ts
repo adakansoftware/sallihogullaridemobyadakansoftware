@@ -56,7 +56,7 @@ export async function POST(request: Request) {
       return jsonError(400, 'Dosya icerigi dogrulanamadi.')
     }
 
-    const uploadDir = path.join(process.cwd(), 'public', 'uploads')
+    const uploadDir = path.join(/*turbopackIgnore: true*/ process.cwd(), 'public', 'uploads')
     await fs.mkdir(uploadDir, { recursive: true })
 
     const safeName = sanitizeUploadBaseName(file.name) || 'media'

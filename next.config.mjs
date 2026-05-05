@@ -1,3 +1,7 @@
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+const projectRoot = path.dirname(fileURLToPath(import.meta.url))
 const isProduction = process.env.NODE_ENV === 'production'
 
 /** @type {import('next').NextConfig} */
@@ -8,7 +12,7 @@ const nextConfig = {
     qualities: [75, 82, 95],
   },
   turbopack: {
-    root: process.cwd(),
+    root: projectRoot,
   },
   async headers() {
     return [

@@ -65,8 +65,8 @@ export type SiteSettings = {
   quoteNotice: string
 }
 
-const dataDir = path.join(process.cwd(), 'data')
-const publicDir = path.join(process.cwd(), 'public')
+const dataDir = path.join(/*turbopackIgnore: true*/ process.cwd(), 'data')
+const publicDir = path.join(/*turbopackIgnore: true*/ process.cwd(), 'public')
 const uploadsDir = path.join(publicDir, 'uploads')
 const projectsFile = path.join(dataDir, 'projects.json')
 const messagesFile = path.join(dataDir, 'messages.json')
@@ -153,13 +153,6 @@ export async function writeSettings(settings: SiteSettings) {
 
 export function makeId() {
   return crypto.randomUUID()
-}
-
-export function parseTags(value: string) {
-  return value
-    .split(',')
-    .map((tag) => tag.trim())
-    .filter(Boolean)
 }
 
 export function isManagedUploadUrl(fileUrl: string) {

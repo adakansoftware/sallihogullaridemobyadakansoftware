@@ -9,7 +9,7 @@ type AuditEvent = {
   detail?: string
 }
 
-const auditFile = path.join(process.cwd(), 'data', 'audit.log')
+const auditFile = path.join(/*turbopackIgnore: true*/ process.cwd(), 'data', 'audit.log')
 let auditWriteQueue = Promise.resolve()
 
 function truncate(value: string | undefined, maxLength: number) {

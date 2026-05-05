@@ -1,3 +1,4 @@
+import crypto from 'crypto'
 import { cookies } from 'next/headers'
 import { normalizeAdminNextTarget } from '@/lib/admin-redirect'
 import { env } from '@/lib/env'
@@ -6,8 +7,6 @@ import { createSignedAdminSessionToken, isValidSignedAdminSessionToken } from '@
 export const ADMIN_COOKIE = 'admin_session'
 
 const SESSION_MAX_AGE = 60 * 60 * 8
-
-import crypto from 'crypto'
 
 function safeEqual(left: string, right: string) {
   const leftBuffer = Buffer.from(left)
