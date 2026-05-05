@@ -3,6 +3,7 @@ import path from 'path'
 import crypto from 'crypto'
 import { z } from 'zod'
 import { readJsonFileWithBackup, restorePrimaryJsonFile, writeJsonFileAtomic } from '@/lib/file-storage'
+import { isCleanPublicPathUrl, isPathInside } from '@/lib/path-security'
 import { storedMessagesSchema, storedProjectsSchema, storedSettingsSchema } from '@/lib/validation'
 
 export type ProjectMedia = {
@@ -162,11 +163,12 @@ export function parseTags(value: string) {
 }
 
 export function isManagedUploadUrl(fileUrl: string) {
-  return fileUrl.startsWith('/uploads/')
+  return isCleanPublicPathUrl(fileUrl, 'uploads')
 }
 
 export function isPublicAssetUrl(fileUrl: string) {
-  return fileUrl.startsWith('/images/') || isManagedUploadUrl(fileUrl)
+  if (isManagedUploadUrl(fileUrl)) return true
+  return isCleanPublicPathUrl(fileUrl, 'images')
 }
 
 export function resolvePublicAssetPath(fileUrl: string) {
@@ -174,7 +176,7 @@ export function resolvePublicAssetPath(fileUrl: string) {
 
   const relative = fileUrl.replace(/^\/+/, '')
   const resolved = path.resolve(publicDir, relative)
-  if (!resolved.startsWith(publicDir)) return null
+  if (!isPathInside(publicDir, resolved)) return null
   return resolved
 }
 
@@ -195,7 +197,7 @@ export function resolveManagedUploadPath(fileUrl: string) {
 
   const relative = fileUrl.replace(/^\/+/, '')
   const resolved = path.resolve(publicDir, relative)
-  if (!resolved.startsWith(uploadsDir)) return null
+  if (!isPathInside(uploadsDir, resolved)) return null
   return resolved
 }
 

@@ -117,7 +117,7 @@ export function Navbar({ settings }: { settings: SiteSettings }) {
                 <a
                   href={settings.whatsappUrl}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   aria-label="WhatsApp ile iletişime geç"
                   title="WhatsApp"
                   className="flex h-11 w-11 items-center justify-center rounded-full border border-emerald-400/25 bg-emerald-500/10 text-emerald-300 transition-colors hover:border-emerald-300/45 hover:bg-emerald-500/18 hover:text-emerald-200"
@@ -184,7 +184,7 @@ export function Navbar({ settings }: { settings: SiteSettings }) {
               </a>
             ) : null}
             {hasWhatsApp ? (
-              <a href={settings.whatsappUrl} target="_blank" rel="noreferrer" onClick={closeMobileMenu} className="flex items-center gap-3 px-4 py-3 text-emerald-300">
+              <a href={settings.whatsappUrl} target="_blank" rel="noopener noreferrer" onClick={closeMobileMenu} className="flex items-center gap-3 px-4 py-3 text-emerald-300">
                 <span className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500/12">
                   <MessageCircle className="h-4 w-4" />
                 </span>

@@ -60,7 +60,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         <a
           href={project.status === 'Yayında' ? `/projects/${project.slug}` : '/projects'}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
           className="btn-ghost-premium inline-flex h-12 items-center justify-center px-6"
         >
           Yayın Önizleme
@@ -110,7 +110,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                 <MediaActions mediaId={item.id} initialTitle={item.title || ''} initialSortOrder={item.sortOrder} initialIsCover={item.isCover} />
               </div>
               <div className="mt-4 flex items-center justify-between">
-                <a href={item.resourceType === 'video' ? getYouTubeWatchUrl(item.fileUrl) : item.fileUrl} target="_blank" rel="noreferrer" className="text-sm text-amber-300 hover:text-amber-200">
+                <a href={item.resourceType === 'video' ? getYouTubeWatchUrl(item.fileUrl) : item.fileUrl} target="_blank" rel="noopener noreferrer" className="text-sm text-amber-300 hover:text-amber-200">
                   Aç
                 </a>
                 <DeleteMediaButton mediaId={item.id} />

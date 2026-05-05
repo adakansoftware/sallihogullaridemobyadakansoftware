@@ -44,7 +44,7 @@ export function PageHero({ eyebrow, title, description, image, primaryCta }: Pag
           {primaryCta ? (
             <div className="mt-10">
               {isExternal ? (
-                <a href={primaryCta.href} target="_blank" rel="noreferrer" className="btn-premium inline-flex min-h-14 max-w-full items-center gap-3 whitespace-normal px-6 text-center sm:px-8">
+                <a href={primaryCta.href} target="_blank" rel="noopener noreferrer" className="btn-premium inline-flex min-h-14 max-w-full items-center gap-3 whitespace-normal px-6 text-center sm:px-8">
                   {primaryCta.label}
                   <ChevronRight className="h-4 w-4" />
                 </a>

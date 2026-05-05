@@ -156,12 +156,16 @@ export function ContactSection({ settings }: { settings: SiteSettings }) {
                     {info.label === 'Telefon' ? (
                       <>
                         <a href={`tel:${String(info.value).replace(/\s+/g, '')}`} className="break-all font-semibold text-foreground transition-colors hover:text-primary">{info.value}</a>
-                        <a href={`tel:${String(info.subValue).replace(/\s+/g, '')}`} className="block break-all text-sm text-muted-foreground transition-colors hover:text-primary">{info.subValue}</a>
+                        {info.subValue ? (
+                          <a href={`tel:${String(info.subValue).replace(/\s+/g, '')}`} className="block break-all text-sm text-muted-foreground transition-colors hover:text-primary">{info.subValue}</a>
+                        ) : null}
                       </>
                     ) : info.label === 'E-posta' ? (
                       <>
                         <a href={`mailto:${info.value}`} className="break-all font-semibold text-foreground transition-colors hover:text-primary">{info.value}</a>
-                        <a href={`mailto:${info.subValue}`} className="block break-all text-sm text-muted-foreground transition-colors hover:text-primary">{info.subValue}</a>
+                        {info.subValue ? (
+                          <a href={`mailto:${info.subValue}`} className="block break-all text-sm text-muted-foreground transition-colors hover:text-primary">{info.subValue}</a>
+                        ) : null}
                       </>
                     ) : (
                       <>
@@ -178,7 +182,7 @@ export function ContactSection({ settings }: { settings: SiteSettings }) {
               <div className="bg-primary p-6">
                 <h4 className="mb-2 text-lg font-bold text-primary-foreground">Hızlı İletişim Hattı</h4>
                 <p className="mb-4 text-sm text-primary-foreground/80">Acil kazı, dolgu, hafriyat nakliyesi veya makine yönlendirmesi için doğrudan iletişime geçebilirsiniz.</p>
-                <a href={settings.whatsappUrl} target="_blank" rel="noreferrer" className="group flex items-center justify-between font-bold text-primary-foreground">
+                <a href={settings.whatsappUrl} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between font-bold text-primary-foreground">
                   <span>WhatsApp ile Görüşün</span>
                   <ChevronRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </a>

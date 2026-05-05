@@ -210,7 +210,7 @@ export function ProjectForm({ mode = 'create', project }: Props) {
               <a
                 href={`/projects/${project?.slug || generatedSlug}`}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="mt-4 inline-flex h-11 max-w-full items-center rounded-2xl border border-white/10 bg-white/[0.03] px-4 text-sm text-white/80 transition hover:bg-white/[0.05]"
               >
                 Yayındaki sayfayı aç

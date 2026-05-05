@@ -41,7 +41,7 @@ export function Footer({ settings }: { settings: SiteSettings }) {
                   href={settings.instagramUrl}
                   aria-label="Instagram"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="group flex h-10 w-10 items-center justify-center bg-secondary transition-colors hover:bg-primary/20"
                 >
                   <Instagram className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-primary" />
@@ -105,9 +105,11 @@ export function Footer({ settings }: { settings: SiteSettings }) {
                   <a href={`mailto:${settings.contactEmail}`} className="break-all text-sm font-medium text-foreground transition-colors hover:text-primary">
                     {settings.contactEmail}
                   </a>
-                  <a href={`mailto:${settings.contactEmailSecondary}`} className="block break-all text-sm text-muted-foreground transition-colors hover:text-primary">
-                    {settings.contactEmailSecondary}
-                  </a>
+                  {settings.contactEmailSecondary ? (
+                    <a href={`mailto:${settings.contactEmailSecondary}`} className="block break-all text-sm text-muted-foreground transition-colors hover:text-primary">
+                      {settings.contactEmailSecondary}
+                    </a>
+                  ) : null}
                 </div>
               </li>
               <li className="flex items-start gap-3">

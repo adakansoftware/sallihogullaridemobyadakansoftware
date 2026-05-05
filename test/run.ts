@@ -22,6 +22,7 @@ async function run() {
   } = await import('../lib/request-guards-core.ts')
   const { hasAllowedUploadExtension, sanitizeUploadBaseName } = await import('../lib/upload-policy.ts')
   const { isAllowedFileSignature } = await import('../lib/upload-security.ts')
+  const { isCleanPublicPathUrl, isPathInside } = await import('../lib/path-security.ts')
 
   assert.equal(createSlug('Demo Metro Projesi'), 'demo-metro-projesi')
   assert.equal(createSlug('  test   proje ###  '), 'test-proje')
@@ -77,6 +78,14 @@ async function run() {
   assert.equal(hasAllowedUploadExtension('photo.jpeg', 'jpg'), true)
   assert.equal(hasAllowedUploadExtension('photo.png', 'jpg'), false)
   assert.equal(hasAllowedUploadExtension('clip.mov', 'mov'), true)
+
+  assert.equal(isCleanPublicPathUrl('/uploads/photo.jpg', 'uploads'), true)
+  assert.equal(isCleanPublicPathUrl('/uploads/../images/logo.png', 'uploads'), false)
+  assert.equal(isCleanPublicPathUrl('/uploads\\photo.jpg', 'uploads'), false)
+  assert.equal(isCleanPublicPathUrl('/images/hero-main.jpg', 'images'), true)
+  assert.equal(isCleanPublicPathUrl('/images/../uploads/photo.jpg', 'images'), false)
+  assert.equal(isPathInside(path.join('public', 'uploads'), path.join('public', 'uploads', 'photo.jpg')), true)
+  assert.equal(isPathInside(path.join('public', 'uploads'), path.join('public', 'uploads2', 'photo.jpg')), false)
 
   const jpegBuffer = new Uint8Array([0xff, 0xd8, 0xff, 0xee, 0x00])
   const fakeBuffer = new Uint8Array([0x00, 0x11, 0x22, 0x33, 0x44])

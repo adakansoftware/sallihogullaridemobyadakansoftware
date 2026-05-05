@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { isCleanPublicPathUrl } from '@/lib/path-security'
 import { isYouTubeUrl } from '@/lib/youtube'
 
 const MAX_PROJECT_TAGS = 12
@@ -20,7 +21,7 @@ function safeText(min: number, max: number, requiredMessage: string) {
 function isSafeAssetUrl(value: string) {
   if (!value) return true
   if (value.startsWith('/')) {
-    return value.startsWith('/images/') || value.startsWith('/uploads/')
+    return isCleanPublicPathUrl(value, 'images') || isCleanPublicPathUrl(value, 'uploads')
   }
 
   try {
@@ -48,24 +49,34 @@ export const loginSchema = z.object({
   password: z.string().min(8, 'Şifre en az 8 karakter olmalıdır.').max(128, 'Şifre çok uzun.'),
 })
 
-export const messageInputSchema = z.object({
-  name: safeText(2, 80, 'Ad soyad zorunludur.'),
-  phone: z
-    .string()
-    .trim()
-    .max(24, 'Telefon çok uzun.')
-    .regex(/^[0-9+\-\s()]*$/, 'Telefon formatı geçersiz.')
-    .or(z.literal(''))
-    .transform((value) => (typeof value === 'string' ? normalizeString(value) : value)),
-  email: z
-    .string()
-    .trim()
-    .email('Geçerli bir e-posta girin.')
-    .or(z.literal(''))
-    .transform((value) => value.trim().toLowerCase()),
-  subject: safeText(2, 120, 'Konu zorunludur.'),
-  message: safeText(10, 2000, 'Mesaj en az 10 karakter olmalıdır.'),
-})
+export const messageInputSchema = z
+  .object({
+    name: safeText(2, 80, 'Ad soyad zorunludur.'),
+    phone: z
+      .string()
+      .trim()
+      .max(24, 'Telefon çok uzun.')
+      .regex(/^[0-9+\-\s()]*$/, 'Telefon formatı geçersiz.')
+      .or(z.literal(''))
+      .transform((value) => (typeof value === 'string' ? normalizeString(value) : value)),
+    email: z
+      .string()
+      .trim()
+      .email('Geçerli bir e-posta girin.')
+      .or(z.literal(''))
+      .transform((value) => value.trim().toLowerCase()),
+    subject: safeText(2, 120, 'Konu zorunludur.'),
+    message: safeText(10, 2000, 'Mesaj en az 10 karakter olmalıdır.'),
+  })
+  .superRefine((value, context) => {
+    if (!value.phone && !value.email) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['phone'],
+        message: 'Telefon veya e-posta bilgilerinden en az biri girilmelidir.',
+      })
+    }
+  })
 
 export const tagsSchema = z.union([z.array(z.string()), z.string()]).transform((value) => {
   const items = Array.isArray(value) ? value : value.split(',')
@@ -115,15 +126,15 @@ export const mediaInputSchema = z
       .trim()
       .min(1, 'Medya adresi zorunludur.')
       .max(500, 'Medya adresi çok uzun.')
-      .refine((value) => value.startsWith('/uploads/') || isYouTubeUrl(value), 'Görsel için yüklenen dosya, video için YouTube bağlantısı girin.'),
+      .refine((value) => (value.startsWith('/uploads/') && isSafeAssetUrl(value)) || isYouTubeUrl(value), 'Görsel için yüklenen dosya, video için YouTube bağlantısı girin.'),
     fileType: z.string().trim().min(3, 'Dosya türü zorunludur.').max(80, 'Dosya türü çok uzun.').transform(normalizeString),
     resourceType: resourceTypeSchema,
-    thumbnailUrl: z.string().trim().max(500, 'Önizleme adresi çok uzun.').refine((value) => !value || value.startsWith('/uploads/'), 'Önizleme adresi güvenli değil.').default(''),
+    thumbnailUrl: z.string().trim().max(500, 'Önizleme adresi çok uzun.').refine((value) => !value || isSafeAssetUrl(value), 'Önizleme adresi güvenli değil.').default(''),
     isCover: z.boolean().default(false),
     sortOrder: z.coerce.number().int().min(0, 'Sıralama negatif olamaz.').max(9999, 'Sıralama çok büyük.').default(0),
   })
   .superRefine((value, context) => {
-    if (value.resourceType === 'image' && !value.fileUrl.startsWith('/uploads/')) {
+    if (value.resourceType === 'image' && !(value.fileUrl.startsWith('/uploads/') && isSafeAssetUrl(value.fileUrl))) {
       context.addIssue({ code: z.ZodIssueCode.custom, path: ['fileUrl'], message: 'Görsel için yüklenen dosya adresi gerekir.' })
     }
 

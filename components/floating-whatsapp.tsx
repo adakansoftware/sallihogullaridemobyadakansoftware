@@ -14,7 +14,7 @@ export function FloatingWhatsApp({ settings }: { settings: SiteSettings }) {
         <a
           href={settings.instagramUrl}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
           aria-label="Instagram profilini aç"
           className="group flex h-14 w-14 items-center justify-center overflow-hidden rounded-full border border-pink-300/25 bg-gradient-to-br from-pink-500 via-rose-500 to-amber-400 text-white shadow-[0_18px_45px_rgba(244,63,94,0.24)] transition-all duration-300 hover:w-48 focus-visible:w-48 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-300/70"
         >
@@ -29,7 +29,7 @@ export function FloatingWhatsApp({ settings }: { settings: SiteSettings }) {
         <a
           href={settings.whatsappUrl}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
           aria-label="WhatsApp ile yaz"
           className="group flex h-14 w-14 items-center justify-center overflow-hidden rounded-full border border-emerald-300/25 bg-emerald-500 text-white shadow-[0_18px_45px_rgba(16,185,129,0.28)] transition-all duration-300 hover:w-52 hover:bg-emerald-500/95 focus-visible:w-52 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300/70"
         >
