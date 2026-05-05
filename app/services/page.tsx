@@ -32,7 +32,7 @@ export default async function ServicesPage() {
         image="/images/excavator.jpg"
         primaryCta={{ href: '/projects', label: 'Saha Çalışmalarını İnceleyin' }}
       />
-      <ServicesSection />
+      <ServicesSection cardHref="/contact#iletisim" />
       <WhyUsSection />
       <CTASection settings={settings} />
     </SiteFrame>

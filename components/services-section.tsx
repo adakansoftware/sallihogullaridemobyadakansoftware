@@ -3,7 +3,11 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { serviceCards } from '@/lib/site-content'
 
-export function ServicesSection() {
+type ServicesSectionProps = {
+  cardHref?: string
+}
+
+export function ServicesSection({ cardHref = '/services' }: ServicesSectionProps = {}) {
   return (
     <section id="hizmetler" className="relative overflow-hidden py-24 lg:py-32">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/5 to-background" />
@@ -25,7 +29,7 @@ export function ServicesSection() {
           {serviceCards.map((service, index) => (
             <Link
               key={service.title}
-              href="/services"
+              href={cardHref}
               className={`group hover-lift relative cursor-pointer overflow-hidden border border-border/50 bg-card ${
                 index === 0 ? 'md:col-span-2 md:row-span-2' : ''
               }`}
