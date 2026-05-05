@@ -7,7 +7,7 @@ export default function RootLoading() {
         <div className="space-y-6">
           <div className="brand-logo-pulse relative h-14 w-20 overflow-hidden bg-black">
             <Image
-              src="/images/sallihogullari-logo-small.png"
+              src="/images/salihogullari-logo-small.png"
               alt="Salihoğulları logo"
               fill
               sizes="80px"

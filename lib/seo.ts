@@ -151,9 +151,9 @@ export function buildDefaultMetadata(settings: SiteSettings): Metadata {
     verification: env.GOOGLE_SITE_VERIFICATION ? { google: env.GOOGLE_SITE_VERIFICATION } : undefined,
     icons: {
       icon: [
-        { url: '/images/sallihogullari-logo-small.png', type: 'image/png' },
+        { url: '/images/salihogullari-logo-small.png', type: 'image/png' },
       ],
-      apple: '/images/sallihogullari-logo-small.png',
+      apple: '/images/salihogullari-logo-small.png',
     },
   }
 }
@@ -172,7 +172,7 @@ export function buildOrganizationJsonLd(settings: SiteSettings) {
     identifier: settings.companyName,
     keywords: SEO_KEYWORDS,
     alternateName: Array.from(new Set([settings.companyShortName, ...BRAND_ALIASES])),
-    logo: getCanonicalUrl('/images/sallihogullari-logo-small.png'),
+    logo: getCanonicalUrl('/images/salihogullari-logo-small.png'),
     image: getCanonicalUrl(DEFAULT_SHARE_IMAGE),
     telephone: settings.contactPhone,
     email: settings.contactEmail,

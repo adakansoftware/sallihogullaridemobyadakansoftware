@@ -63,7 +63,7 @@ export function LoginForm({ nextPath = '/admin' }: { nextPath?: string }) {
     <form onSubmit={handleSubmit} aria-busy={loading} className="industrial-border premium-shadow w-full max-w-md rounded-[30px] bg-white/[0.045] p-8 md:p-9">
       <div className="brand-logo-pulse relative mb-6 h-14 w-20 overflow-hidden bg-black">
         <Image
-          src="/images/sallihogullari-logo-small.png"
+          src="/images/salihogullari-logo-small.png"
           alt="Salihoğulları logo"
           fill
           sizes="80px"
