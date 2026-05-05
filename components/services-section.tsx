@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { serviceCards } from '@/lib/site-content'
 
@@ -22,11 +23,13 @@ export function ServicesSection() {
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-5">
           {serviceCards.map((service, index) => (
-            <div
+            <Link
               key={service.title}
+              href="/services"
               className={`group hover-lift relative cursor-pointer overflow-hidden border border-border/50 bg-card ${
                 index === 0 ? 'md:col-span-2 md:row-span-2' : ''
               }`}
+              aria-label={`${service.title} hizmetini incele`}
             >
               <div className={`relative w-full ${index === 0 ? 'h-full min-h-[400px] lg:min-h-[500px]' : 'h-56 lg:h-64'}`}>
                 <Image
@@ -47,7 +50,7 @@ export function ServicesSection() {
                   <ArrowRight className="h-4 w-4" />
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
