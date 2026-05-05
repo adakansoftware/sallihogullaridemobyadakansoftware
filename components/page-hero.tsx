@@ -15,6 +15,7 @@ type PageHeroProps = {
 
 export function PageHero({ eyebrow, title, description, image, primaryCta }: PageHeroProps) {
   const isExternal = Boolean(primaryCta?.href.startsWith('http'))
+  void eyebrow
 
   return (
     <section className="relative overflow-hidden pt-36 pb-20 lg:pt-44 lg:pb-28">
@@ -30,11 +31,6 @@ export function PageHero({ eyebrow, title, description, image, primaryCta }: Pag
 
       <div className="relative z-10 mx-auto max-w-[1400px] px-6 lg:px-8">
         <div className="max-w-3xl">
-          <div className="glass-surface mb-8 inline-flex items-center gap-4 px-5 py-3">
-            <span className="h-2.5 w-2.5 rounded-full bg-primary" />
-            <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">{eyebrow}</span>
-          </div>
-
           <h1 className="max-w-4xl text-4xl leading-[0.95] font-black tracking-[-0.03em] text-foreground sm:text-5xl lg:text-6xl xl:text-[5rem]">
             {title}
           </h1>
