@@ -26,7 +26,6 @@ export default async function FleetPage() {
   return (
     <SiteFrame settings={settings}>
       <PageHero
-        eyebrow="Makine Parkı"
         title="Saha ihtiyacına göre yönlendirilen makine ve kamyon altyapısı"
         description="Ekskavatör, beko loder, damperli kamyon, lowbed ve arazöz / su tankeri desteğiyle kazı, yükleme, taşıma ve saha düzenleme işlerini aynı operasyon planında ele alıyoruz."
         image="/images/dump-truck.jpg"

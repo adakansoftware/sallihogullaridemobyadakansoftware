@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
 
 type PageHeroProps = {
-  eyebrow: string
   title: string
   description: string
   image: string
@@ -13,9 +12,8 @@ type PageHeroProps = {
   }
 }
 
-export function PageHero({ eyebrow, title, description, image, primaryCta }: PageHeroProps) {
+export function PageHero({ title, description, image, primaryCta }: PageHeroProps) {
   const isExternal = Boolean(primaryCta?.href.startsWith('http'))
-  void eyebrow
 
   return (
     <section className="relative overflow-hidden pt-36 pb-20 lg:pt-44 lg:pb-28">

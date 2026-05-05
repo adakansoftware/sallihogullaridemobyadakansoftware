@@ -25,7 +25,6 @@ export default async function ContactPage() {
   return (
     <SiteFrame settings={settings}>
       <PageHero
-        eyebrow="İletişim"
         title="Sahanız için net keşif, doğru ekipman ve uygulanabilir plan"
         description="Lokasyon, metraj, malzeme türü ve çalışma takvimini paylaşın; kazı, dolgu veya nakliyat ihtiyacınız için sahaya uygun ekip ve teklif planı çıkaralım."
         image="/images/lowbed.jpg"

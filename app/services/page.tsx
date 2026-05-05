@@ -26,7 +26,6 @@ export default async function ServicesPage() {
   return (
     <SiteFrame settings={settings}>
       <PageHero
-        eyebrow="Hizmet Alanları"
         title="Kazıdan sevkiyata kadar sahada işleyen net operasyon düzeni"
         description="Temel kazısı, hafriyat nakliyesi, dolgu, damperli nakliyat, lowbed nakliyat ve arazöz desteğini sahanın erişim, zemin ve zaman ihtiyacına göre planlıyoruz."
         image="/images/excavator.jpg"

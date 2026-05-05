@@ -27,7 +27,6 @@ export default async function ProjectsPage() {
   return (
     <SiteFrame settings={settings}>
       <PageHero
-        eyebrow="Saha Çalışmaları"
         title="Hafriyat, dolgu ve nakliyat işlerinden çalışma kapsamları"
         description="Kazı, yükleme, damperli nakliyat, dolgu ve zemin hazırlığı süreçlerinin farklı saha ihtiyaçlarında nasıl planlandığını inceleyin."
         image="/images/project-1.jpg"

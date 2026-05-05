@@ -27,7 +27,6 @@ export default async function AboutPage() {
   return (
     <SiteFrame settings={settings}>
       <PageHero
-        eyebrow="Firma Profili"
         title={`${settings.companyName} çalışma anlayışı`}
         description="Hafriyat, dolgu ve damperli nakliyat işlerinde sahayı önceden okuyan, doğru makine-kamyon planı kuran ve günlük akışı takip eden çalışma düzenimizi inceleyin."
         image="/images/project-2.jpg"
