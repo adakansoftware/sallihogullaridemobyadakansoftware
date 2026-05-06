@@ -1,13 +1,10 @@
 import type { MetadataRoute } from 'next'
-import { readSettings } from '@/lib/store'
 
-export default async function manifest(): Promise<MetadataRoute.Manifest> {
-  const settings = await readSettings()
-
+export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: settings.companyName,
-    short_name: settings.companyShortName,
-    description: settings.heroDescription,
+    name: 'Salihoğulları Hafriyat',
+    short_name: 'Salihoğulları',
+    description: 'Adana merkezli hafriyat, damperli nakliyat, lowbed ve arazöz hizmetleri.',
     start_url: '/',
     display: 'standalone',
     background_color: '#050505',
@@ -15,13 +12,13 @@ export default async function manifest(): Promise<MetadataRoute.Manifest> {
     lang: 'tr-TR',
     icons: [
       {
-        src: '/images/salihogullari-logo-small.png',
-        sizes: 'any',
+        src: '/icon.png',
+        sizes: '192x192',
         type: 'image/png',
       },
       {
-        src: '/images/salihogullari-logo-small.png',
-        sizes: 'any',
+        src: '/apple-icon.png',
+        sizes: '192x192',
         type: 'image/png',
       },
     ],

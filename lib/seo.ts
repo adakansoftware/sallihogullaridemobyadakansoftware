@@ -151,9 +151,10 @@ export function buildDefaultMetadata(settings: SiteSettings): Metadata {
     verification: env.GOOGLE_SITE_VERIFICATION ? { google: env.GOOGLE_SITE_VERIFICATION } : undefined,
     icons: {
       icon: [
-        { url: '/images/salihogullari-logo-small.png', type: 'image/png' },
+        { url: '/favicon-48x48.png', sizes: '48x48', type: 'image/png' },
+        { url: '/icon.png', sizes: '192x192', type: 'image/png' },
       ],
-      apple: '/images/salihogullari-logo-small.png',
+      apple: '/apple-icon.png',
     },
   }
 }

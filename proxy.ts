@@ -1,6 +1,11 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { ADMIN_COOKIE, isValidAdminSessionToken } from '@/lib/auth'
+import { env } from '@/lib/env'
+
+function getRedirectUrl(pathname: string, request: NextRequest) {
+  return new URL(pathname, env.APP_ORIGIN || env.NEXT_PUBLIC_SITE_URL || request.url)
+}
 
 function clearAdminCookie(response: NextResponse) {
   response.cookies.set(ADMIN_COOKIE, '', {
@@ -23,7 +28,7 @@ export function proxy(request: NextRequest) {
 
   if (pathname === '/admin/login') {
     if (isAuthenticated) {
-      return NextResponse.redirect(new URL('/admin', request.url))
+      return NextResponse.redirect(getRedirectUrl('/admin', request))
     }
 
     const response = NextResponse.next()
@@ -34,7 +39,7 @@ export function proxy(request: NextRequest) {
     return NextResponse.next()
   }
 
-  const loginUrl = new URL('/admin/login', request.url)
+  const loginUrl = getRedirectUrl('/admin/login', request)
   loginUrl.searchParams.set('next', pathname)
   const response = NextResponse.redirect(loginUrl)
   return hasToken ? clearAdminCookie(response) : response

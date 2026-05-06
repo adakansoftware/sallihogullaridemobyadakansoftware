@@ -146,10 +146,10 @@ export function ProjectForm({ mode = 'create', project }: Props) {
             <input className="input-premium w-full" placeholder="Etiketler (virgülle)" value={tags} onChange={(e) => setTags(e.target.value)} />
           </div>
           <div className="mt-4">
-            <input className="input-premium w-full" placeholder="Kapak görseli yolu: /images/... veya /uploads/..." value={coverImage} onChange={(e) => setCoverImage(e.target.value)} />
+            <input className="input-premium w-full" placeholder="Kapak görseli yolu: /images/..." value={coverImage} onChange={(e) => setCoverImage(e.target.value)} />
           </div>
           <div className="mt-3 rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white/55">
-            Not: Kapak seçimini en güvenli şekilde medya yükleyip ilgili kaydı kapak olarak işaretleyerek yapabilirsiniz.
+            Not: Kapak görsellerini /images altındaki onaylı dosya yollarıyla yönetin. Video eklemek için medya alanındaki YouTube bağlantısını kullanın.
           </div>
         </div>
 

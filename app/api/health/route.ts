@@ -26,12 +26,10 @@ async function checkPathState(targetPath: string) {
 export async function GET() {
   return withErrorHandling(async () => {
     const dataDir = path.join(process.cwd(), 'data')
-    const uploadsDir = path.join(process.cwd(), 'public', 'uploads')
 
-    const [dataState, uploadsState] = await Promise.all([checkPathState(dataDir), checkPathState(uploadsDir)])
+    const dataState = await checkPathState(dataDir)
     const dataReady = dataState.exists && dataState.writable
-    const uploadsReady = (uploadsState.exists && uploadsState.writable) || uploadsState.type === 'missing'
-    const ready = dataReady && uploadsReady
+    const ready = dataReady
 
     return jsonNoStore(
       (await isAdminAuthenticated()) ? {
@@ -44,9 +42,7 @@ export async function GET() {
         },
         storage: {
           data: dataState,
-          uploads: uploadsState,
         },
-        notes: uploadsState.type === 'missing' ? ['uploads directory will be created automatically on first successful upload'] : [],
       } : {
         status: ready ? 'ok' : 'degraded',
         checkedAt: new Date().toISOString(),
