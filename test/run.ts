@@ -13,7 +13,7 @@ async function run() {
   const { normalizeAdminNextTarget } = await import('../lib/admin-redirect.ts')
   const { readJsonFileWithBackup } = await import('../lib/file-storage.ts')
   const { getComparableOrigin, resolveAllowedOrigin } = await import('../lib/origin.ts')
-  const { isValidSignedAdminSessionToken } = await import('../lib/session-token.ts')
+  const { createSignedAdminSessionToken, isValidSignedAdminSessionToken } = await import('../lib/session-token.ts')
   const { createSlug, ensureUniqueSlug } = await import('../lib/slug.ts')
   const {
     isAllowedRequestContentType,
@@ -44,6 +44,9 @@ async function run() {
   assert.equal(isValidSignedAdminSessionToken(undefined, process.env.ADMIN_SESSION_SECRET), false)
   assert.equal(isValidSignedAdminSessionToken('invalid.token.extra', process.env.ADMIN_SESSION_SECRET), false)
   assert.equal(isValidSignedAdminSessionToken('eyJmb28iOiJiYXIifQ.invalid', process.env.ADMIN_SESSION_SECRET), false)
+  assert.equal(isValidSignedAdminSessionToken('a'.repeat(513), process.env.ADMIN_SESSION_SECRET), false)
+  assert.equal(isValidSignedAdminSessionToken(`${'a'.repeat(385)}.${'b'.repeat(43)}`, process.env.ADMIN_SESSION_SECRET), false)
+  assert.equal(isValidSignedAdminSessionToken(createSignedAdminSessionToken(process.env.ADMIN_SESSION_SECRET, 60), process.env.ADMIN_SESSION_SECRET), true)
 
   assert.equal(getComparableOrigin('https://example.com/path?q=1'), 'https://example.com')
   assert.equal(getComparableOrigin('not-a-url'), null)
@@ -178,6 +181,18 @@ async function run() {
         },
       }),
       'https://example.com',
+    ),
+    false,
+  )
+  assert.equal(
+    isTrustedOriginRequest(
+      new Request('https://example.com/api/projects', {
+        method: 'POST',
+        headers: {
+          origin: 'https://example.com',
+        },
+      }),
+      null,
     ),
     false,
   )

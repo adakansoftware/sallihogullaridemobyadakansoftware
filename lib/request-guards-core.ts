@@ -13,7 +13,7 @@ export function hasMatchingOrigin(origin: string | null, allowedOrigin: string) 
 }
 
 export function isTrustedOriginRequest(request: Request, allowedOrigin: string | null) {
-  if (!allowedOrigin) return true
+  if (!allowedOrigin) return false
 
   const requestOrigin = getComparableOrigin(request.headers.get('origin'))
   const refererOrigin = getComparableOrigin(request.headers.get('referer'))

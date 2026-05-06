@@ -6,6 +6,10 @@ import {
 } from '@/lib/request-guards-core'
 
 export function assertTrustedOriginHeaders(request: Request, allowedOrigin: string | null) {
+  if (!allowedOrigin) {
+    throw new ApiError(403, 'Guvenilir site origin ayari eksik.')
+  }
+
   if (!isTrustedOriginRequest(request, allowedOrigin)) {
     throw new ApiError(403, 'Istek kaynagi dogrulanamadi.')
   }
