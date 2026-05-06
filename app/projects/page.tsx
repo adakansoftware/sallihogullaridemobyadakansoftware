@@ -9,14 +9,14 @@ import { buildShareMetadata, getCanonicalUrl } from '@/lib/seo'
 import { getSiteSettings } from '@/lib/settings-service'
 
 export const metadata: Metadata = {
-  title: 'Adana Hafriyat Çalışmaları ve Referanslar',
-  description: 'Adana’da hafriyat, temel kazısı, dolgu, damperli nakliyat ve malzeme taşıma kapsamındaki saha çalışmalarını görselleriyle inceleyin.',
+  title: 'Adana Hafriyat ve Nakliyat İşleri',
+  description: 'Adana’da hafriyat, temel kazısı, dolgu, damperli nakliyat ve saha hazırlığı kapsamında yürütülen iş örneklerini ve çalışma kapsamlarını inceleyin.',
   alternates: {
     canonical: getCanonicalUrl('/projects'),
   },
   ...buildShareMetadata({
-    title: 'Salihoğulları Hafriyat | Adana Hafriyat Çalışmaları ve Referanslar',
-    description: 'Adana’da hafriyat, temel kazısı, dolgu, damperli nakliyat ve malzeme taşıma kapsamındaki saha çalışmalarını görselleriyle inceleyin.',
+    title: 'Salihoğulları Hafriyat | Adana Hafriyat ve Nakliyat İşleri',
+    description: 'Adana’da hafriyat, temel kazısı, dolgu, damperli nakliyat ve saha hazırlığı kapsamında yürütülen iş örneklerini ve çalışma kapsamlarını inceleyin.',
     pathname: '/projects',
   }),
 }
@@ -27,10 +27,10 @@ export default async function ProjectsPage() {
   return (
     <SiteFrame settings={settings}>
       <PageHero
-        title="Hafriyat, dolgu ve nakliyat işlerinden çalışma kapsamları"
-        description="Kazı, yükleme, damperli nakliyat, dolgu ve zemin hazırlığı süreçlerinin farklı saha ihtiyaçlarında nasıl planlandığını inceleyin."
+        title="Sahada yürütülen hafriyat ve nakliyat işlerinden örnekler"
+        description="Temel kazısı, hafriyat nakliyesi, dolgu, damperli sevkiyat ve zemin hazırlığı işlerinde çalışma kapsamının sahaya göre nasıl planlandığını inceleyin."
         image="/images/project-1.jpg"
-        primaryCta={{ href: '/contact', label: 'Benzer Bir İş İçin Görüşün' }}
+        primaryCta={{ href: '/contact', label: 'Benzer İş İçin Görüşelim' }}
       />
       <ProjectsSection projects={projects} />
       <MediaSection />

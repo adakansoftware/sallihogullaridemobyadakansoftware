@@ -28,15 +28,15 @@ export function CTASection({ settings }: { settings: SiteSettings }) {
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <div>
             <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-primary">
-              Sahanız İçin Netleşelim
+              İş Kapsamını Netleştirelim
             </span>
             <h2 className="mb-6 text-3xl leading-tight font-black text-foreground sm:text-4xl lg:text-5xl xl:text-6xl">
-              Kazı, dolgu ve nakliyat ihtiyacınızı{' '}
-              <span className="text-primary">sahaya uygun iş planına dönüştürelim</span>
+              Hafriyat ve nakliyat ihtiyacınızı{' '}
+              <span className="text-primary">sahaya uygun çalışma planına çevirelim</span>
             </h2>
 
             <p className="mb-10 max-w-lg text-lg leading-relaxed text-muted-foreground">
-              Lokasyon, metraj, malzeme türü ve çalışma takvimini paylaşın; doğru makine, kamyon ve sevkiyat planını birlikte netleştirelim.
+              Konum, yaklaşık metraj, malzeme türü ve çalışma takvimini paylaşın; uygun makine, kamyon ve sevkiyat düzenini birlikte netleştirelim.
             </p>
 
             <div className="flex flex-col gap-4 sm:flex-row">
@@ -50,7 +50,7 @@ export function CTASection({ settings }: { settings: SiteSettings }) {
               ) : null}
               <Button asChild size="lg" variant="outline" className="h-14 w-full gap-2 border-border/50 bg-secondary/30 px-8 text-sm font-bold uppercase tracking-wider text-foreground hover:bg-secondary/50 sm:w-auto">
                 <Link href="/contact">
-                  Keşif Talebi
+                  Teklif Talebi
                   <ChevronRight className="h-5 w-5" />
                 </Link>
               </Button>
@@ -60,15 +60,15 @@ export function CTASection({ settings }: { settings: SiteSettings }) {
           <div className="grid grid-cols-1 gap-4 min-[380px]:grid-cols-2">
             <div className="border border-border/40 bg-card/80 p-8 text-center backdrop-blur">
               <div className="mb-2 text-4xl font-black text-primary lg:text-5xl">25+</div>
-              <div className="text-sm text-muted-foreground">Saha Tecrübesi</div>
+              <div className="text-sm text-muted-foreground">Saha Deneyimi</div>
             </div>
             <div className="border border-border/40 bg-card/80 p-8 text-center backdrop-blur">
               <div className="mb-2 text-4xl font-black text-primary lg:text-5xl">7/24</div>
-              <div className="text-sm text-muted-foreground">Günlük Takip</div>
+              <div className="text-sm text-muted-foreground">Saha Takibi</div>
             </div>
             <div className="border border-border/40 bg-card/80 p-8 text-center backdrop-blur">
               <div className="mb-2 text-4xl font-black text-primary lg:text-5xl">Planlı</div>
-              <div className="text-sm text-muted-foreground">Planlı Akış</div>
+              <div className="text-sm text-muted-foreground">Planlı İş Akışı</div>
             </div>
             <div className="border border-border/40 bg-card/80 p-8 text-center backdrop-blur">
               <div className="mb-2 text-4xl font-black text-primary lg:text-5xl">30+</div>

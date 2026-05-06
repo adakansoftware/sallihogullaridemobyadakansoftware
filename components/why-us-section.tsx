@@ -38,12 +38,12 @@ export function WhyUsSection() {
           </div>
 
           <div className="lg:col-span-3">
-            <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-primary">Neden Salihoğulları?</span>
+            <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-primary">Çalışma Anlayışı</span>
             <h2 className="mb-6 text-3xl font-black leading-tight text-foreground sm:text-4xl lg:text-5xl">
-              Saha işinin <span className="text-primary">aksamadan yürümesi</span> için düzenli operasyon akışı
+              Saha işinin <span className="text-primary">aksamadan ilerlemesi</span> için net ekip ve sevkiyat düzeni
             </h2>
             <p className="mb-10 max-w-xl text-lg leading-relaxed text-muted-foreground">
-              Kazı, dolgu ve nakliyat işlerinde makine, kamyon ve ekip planını aynı çizgide tutarak bekleme, karışıklık ve gereksiz sefer riskini azaltıyoruz.
+              Kazı, dolgu ve nakliyat işlerinde makine, kamyon ve saha ekibini aynı plan içinde tutarak bekleme, karışıklık ve gereksiz sefer riskini azaltıyoruz.
             </p>
 
             <div className="grid gap-5 sm:grid-cols-2">

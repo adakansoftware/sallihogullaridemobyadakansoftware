@@ -6,9 +6,9 @@ import { isRealPhoneValue } from '@/lib/contact-utils'
 import type { SiteSettings } from '@/lib/store'
 
 const heroStats = [
-  { value: '25+', label: 'Yıllık Saha Deneyimi' },
-  { value: '7/24', label: 'Operasyon Takibi' },
-  { value: '30+', label: 'Araç ve Makine' },
+  { value: '25+', label: 'Saha Tecrübesi' },
+  { value: '7/24', label: 'Saha Takibi' },
+  { value: '30+', label: 'Makine ve Kamyon' },
 ]
 
 export function Hero({ settings }: { settings: SiteSettings }) {
@@ -58,7 +58,7 @@ export function Hero({ settings }: { settings: SiteSettings }) {
           <div className="mb-20 flex flex-col gap-4 sm:flex-row">
             <Button asChild size="lg" className="glow-amber h-16 w-full gap-3 bg-primary px-6 text-sm font-bold uppercase tracking-[0.1em] text-primary-foreground transition-all duration-300 hover:scale-[1.02] hover:bg-primary/90 sm:w-auto sm:px-10">
               <Link href="/contact">
-                Teklif Talebi Oluştur
+                Sahanız İçin Görüşelim
                 <ChevronRight className="h-5 w-5" />
               </Link>
             </Button>
@@ -71,7 +71,7 @@ export function Hero({ settings }: { settings: SiteSettings }) {
               >
                 <a href={`tel:${settings.contactPhone.replace(/\s+/g, '')}`}>
                   <Phone className="h-4 w-4" />
-                  Hemen Arayın
+                  Telefonla Görüşün
                 </a>
               </Button>
             ) : null}

@@ -11,12 +11,12 @@ export function TestimonialsSection({ settings }: { settings: SiteSettings }) {
 
       <div className="relative z-10 mx-auto max-w-[1400px] px-6 lg:px-8">
         <div className="mx-auto mb-14 max-w-3xl text-center">
-          <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-primary">Çalışma Prensibi</span>
+          <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-primary">Saha Prensipleri</span>
           <h2 className="mb-6 text-3xl leading-tight font-black text-foreground sm:text-4xl lg:text-5xl">
-            Saha işini <span className="text-primary">nasıl kontrol altında tuttuğumuz</span>
+            İşin sahada <span className="text-primary">düzenli ilerlemesi için izlediğimiz yol</span>
           </h2>
           <p className="text-lg text-muted-foreground">
-            {settings.companyName} için işin değeri; sahaya zamanında girmek, makine ve kamyon akışını karıştırmadan yürütmek ve verilen programa bağlı kalmaktır.
+            {settings.companyName} için doğru hizmet; sahaya uygun ekip göndermek, makine ve kamyon akışını karıştırmadan yürütmek ve verilen iş programına bağlı kalmaktır.
           </p>
         </div>
 
@@ -50,7 +50,7 @@ export function TestimonialsSection({ settings }: { settings: SiteSettings }) {
         </div>
 
         <div className="mt-16 border-t border-border/30 pt-12">
-          <p className="mb-8 text-center text-sm uppercase tracking-wider text-muted-foreground">Hizmet Verdiğimiz İş Alanları</p>
+          <p className="mb-8 text-center text-sm uppercase tracking-wider text-muted-foreground">Çalıştığımız Saha Türleri</p>
           <div className="flex flex-wrap justify-center gap-x-12 gap-y-6">
             {partnerSectors.map((partner) => (
               <span key={partner} className="text-xl font-bold text-foreground/30 transition-colors hover:text-foreground/50">

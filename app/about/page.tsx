@@ -10,13 +10,13 @@ import { readSettings } from '@/lib/store'
 
 export const metadata: Metadata = {
   title: 'Adana Hafriyat Firması Hakkında',
-  description: 'Salihoğulları Hafriyat’ın Adana’da hafriyat, dolgu ve damperli nakliyat işlerindeki saha disiplini, ekipman planı ve çalışma yaklaşımını inceleyin.',
+  description: 'Salihoğulları Hafriyat’ın Adana’da hafriyat, dolgu, damperli nakliyat ve saha hazırlığı işlerindeki çalışma düzenini, ekipman planını ve saha yaklaşımını inceleyin.',
   alternates: {
     canonical: getCanonicalUrl('/about'),
   },
   ...buildShareMetadata({
     title: 'Salihoğulları Hafriyat | Adana Hafriyat Firması Hakkında',
-    description: 'Salihoğulları Hafriyat’ın Adana’da hafriyat, dolgu ve damperli nakliyat işlerindeki saha disiplini, ekipman planı ve çalışma yaklaşımını inceleyin.',
+    description: 'Salihoğulları Hafriyat’ın Adana’da hafriyat, dolgu, damperli nakliyat ve saha hazırlığı işlerindeki çalışma düzenini, ekipman planını ve saha yaklaşımını inceleyin.',
     pathname: '/about',
   }),
 }
@@ -27,10 +27,10 @@ export default async function AboutPage() {
   return (
     <SiteFrame settings={settings}>
       <PageHero
-        title={`${settings.companyName} çalışma anlayışı`}
-        description="Hafriyat, dolgu ve damperli nakliyat işlerinde sahayı önceden okuyan, doğru makine-kamyon planı kuran ve günlük akışı takip eden çalışma düzenimizi inceleyin."
+        title={`${settings.companyName} saha çalışma anlayışı`}
+        description="Hafriyat, dolgu, temel kazısı ve damperli nakliyat işlerinde önce sahayı okuyan, sonra makine-kamyon planını kuran ve günlük akışı takip eden çalışma düzenimizi inceleyin."
         image="/images/project-2.jpg"
-        primaryCta={{ href: '/contact', label: 'Sahanız İçin Görüşelim' }}
+        primaryCta={{ href: '/contact', label: 'İş Kapsamını Görüşelim' }}
       />
       <StatsSection />
       <AboutSection settings={settings} />

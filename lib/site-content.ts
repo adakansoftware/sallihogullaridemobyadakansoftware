@@ -8,42 +8,42 @@ export const siteQuickLinks = [
 ]
 
 export const siteStats = [
-  { value: '25+', label: 'Yıl', sublabel: 'Sahada biriken tecrübe' },
-  { value: '30+', label: 'Araç', sublabel: 'Makine ve nakliye altyapısı' },
-  { value: '7/24', label: 'Takip', sublabel: 'Saha iletişimi' },
-  { value: 'TR', label: 'Bölge', sublabel: 'Proje bazlı hizmet ağı' },
-  { value: '1999', label: 'Kuruluş', sublabel: 'Yerel sektör bilgisi' },
+  { value: '25+', label: 'Yıl', sublabel: 'Hafriyat ve nakliyat tecrübesi' },
+  { value: '30+', label: 'Araç', sublabel: 'Makine, kamyon ve ekipman parkı' },
+  { value: '7/24', label: 'Takip', sublabel: 'Saha ve sevkiyat koordinasyonu' },
+  { value: 'Adana', label: 'Merkez', sublabel: 'Bölge şantiyelerine hızlı erişim' },
+  { value: '1999', label: 'Kuruluş', sublabel: 'Yerel saha bilgisi ve iş disiplini' },
 ]
 
 export const serviceCards = [
   {
     title: 'Hafriyat ve Kazı İşleri',
-    description: 'Temel kazısı, kanal açma, saha temizliği ve hafriyat çıkarma işlerinde erişim, yükleme ve döküm akışını baştan planlarız.',
+    description: 'Temel kazısı, kanal açma, parsel temizliği ve hafriyat çıkarma işlerinde kazı sınırını, makine erişimini, yükleme noktasını ve döküm sevkiyatını işe başlamadan netleştiririz.',
     image: '/images/project-1.jpg',
   },
   {
     title: 'Ekskavatör Çalışmaları',
-    description: 'Kazı, yükleme, kırma, tesviye ve zemin hazırlığında zemine ve iş programına uygun ekskavatör yönlendiririz.',
+    description: 'Kazı, yükleme, kırma, tesviye ve zemin hazırlığında zeminin sertliğine, alan genişliğine ve günlük iş programına göre uygun ekskavatör çalışması planlarız.',
     image: '/images/excavator.jpg',
   },
   {
     title: 'Beko Loder Desteği',
-    description: 'Dar alan, geri dolgu, küçük ölçekli kazı, yükleme ve saha içi düzenleme işlerinde pratik makine desteği sağlarız.',
+    description: 'Dar alan kazıları, geri dolgu, küçük ölçekli yükleme, saha içi düzeltme ve malzeme toparlama işlerinde pratik beko loder desteği sağlarız.',
     image: '/images/backhoe.jpg',
   },
   {
     title: 'Damperli Nakliyat',
-    description: 'Toprak, moloz, taş, kum, mıcır ve dolgu malzemesi taşımalarında kamyon akışını şantiyenin temposuna göre kurarız.',
+    description: 'Toprak, moloz, taş, kum, mıcır ve dolgu malzemesi taşımalarında damperli kamyon akışını yükleme noktası, döküm sahası ve günlük tempo üzerinden kurarız.',
     image: '/images/dump-truck.jpg',
   },
   {
     title: 'Lowbed Nakliyat',
-    description: 'İş makineleri ve ağır ekipmanlar için yükleme güvenliği, güzergah ve teslim saatini dikkate alan lowbed nakliyat hizmeti veririz.',
+    description: 'Ekskavatör, beko loder ve ağır ekipman sevkiyatında yükleme güvenliği, güzergah uygunluğu ve teslim saatini dikkate alan lowbed nakliyat planı yaparız.',
     image: '/images/lowbed.jpg',
   },
   {
     title: 'Dolgu ve Zemin Hazırlığı',
-    description: 'Yol, altyapı, parsel ve şantiye hazırlıklarında dolgu malzemesi, serim düzeni ve tesviye sürecini birlikte yönetiriz.',
+    description: 'Yol, altyapı, parsel ve şantiye hazırlıklarında dolgu malzemesi sevkiyatını, serim düzenini, sıkıştırma ihtiyacını ve tesviye sürecini aynı saha planında ele alırız.',
     image: '/images/project-2.jpg',
   },
 ]
@@ -100,33 +100,33 @@ export const fleetItems = [
 
 export const whyChooseUsReasons = [
   {
-    title: 'İşe Başlamadan Net Plan',
-    description: 'Giriş-çıkış noktası, yükleme alanı, döküm güzergahı ve günlük çalışma temposu sahaya girilmeden netleştirilir.',
-    stat: 'Kontrollü Başlangıç',
+    title: 'Sahaya Göre Net Plan',
+    description: 'Giriş-çıkış noktası, yükleme alanı, döküm güzergahı ve günlük çalışma temposu sahaya ekip girmeden önce netleştirilir.',
+    stat: 'Planlı Başlangıç',
   },
   {
     title: 'Doğru Makine, Doğru Zaman',
-    description: 'Kazı, dolgu, yükleme ve nakliye işleri için zemin yapısına ve işin kapsamına uygun makine-kamyon dengesi kurulur.',
+    description: 'Kazı, dolgu, yükleme ve nakliye işleri için zemin yapısına, alan genişliğine ve işin kapsamına uygun makine-kamyon dengesi kurulur.',
     stat: 'İşe Uygun Ekip',
   },
   {
     title: 'Takvime Bağlı Çalışma',
-    description: 'Makine, kamyon ve saha ekibi aynı programda yürütülür; bekleme, boş sefer ve dağınık çalışma riski azaltılır.',
+    description: 'Makine, kamyon ve saha ekibi aynı günlük programda ilerler; bekleme, boş sefer ve dağınık çalışma riski azaltılır.',
     stat: 'Günlük Kontrol',
   },
   {
     title: 'Sahada Ulaşılabilir Ekip',
-    description: 'Şantiye sorumlusu ile sürekli temas kurulur; günlük ihtiyaç, değişiklik ve saha durumu hızlı şekilde paylaşılır.',
+    description: 'Şantiye sorumlusu ile doğrudan temas kurulur; günlük ihtiyaç, değişiklik ve saha durumu hızlı şekilde paylaşılır.',
     stat: 'Net İletişim',
   },
   {
-    title: 'İşin Kapsamına Göre Hizmet',
-    description: 'Küçük ölçekli kazıdan yoğun saha içi taşımaya kadar hizmet kapsamı işin gerçek ihtiyacına göre şekillendirilir.',
+    title: 'İhtiyaca Göre Ekipman',
+    description: 'Küçük ölçekli kazıdan yoğun saha içi taşımaya kadar ekipman ve kamyon sayısı işin gerçek ihtiyacına göre şekillendirilir.',
     stat: 'Esnek Plan',
   },
   {
     title: 'Sevkiyat Disiplini',
-    description: 'Damperli nakliyat, malzeme kabulü ve saha içi yönlendirme kontrollü ilerletilerek gereksiz bekleme azaltılır.',
+    description: 'Damperli nakliyat, malzeme kabulü ve saha içi yönlendirme kontrollü ilerletilerek kamyon beklemesi ve zaman kaybı azaltılır.',
     stat: 'Düzenli Sevk',
   },
 ]
@@ -140,23 +140,23 @@ export const certifications = [
 
 export const collaborationPrinciples = [
   {
-    title: 'Ön Keşif',
-    body: 'Saha görülmeden, malzeme türü ve çalışma alanı netleşmeden rastgele program yapılmaz; işin akışı baştan belirlenir.',
+    title: 'Ön Kontrol',
+    body: 'Saha görülmeden, malzeme türü ve çalışma alanı netleşmeden rastgele program yapılmaz; işin erişimi, yükleme noktası ve sevkiyat akışı baştan belirlenir.',
     accent: 'Sahaya göre hazırlık',
   },
   {
     title: 'Günlük Koordinasyon',
-    body: 'Şantiye ekibi, kamyon yönlendirmesi ve makine çalışması aynı iletişim hattında takip edilir; aksaklıklar büyümeden sahada çözülür.',
+    body: 'Şantiye ekibi, kamyon yönlendirmesi ve makine çalışması aynı iletişim hattında takip edilir; değişiklikler büyümeden sahada karşılık bulur.',
     accent: 'Tek plan, tek takip',
   },
   {
     title: 'Teslim Disiplini',
-    body: 'Amaç yalnızca makine göndermek değil; işi güvenli, düzenli ve sahadaki takvime uyumlu şekilde tamamlamaktır.',
-    accent: 'Sonuca odaklı çalışma',
+    body: 'Amaç yalnızca makine göndermek değil; işi düzenli, kontrollü ve sahadaki takvime uyumlu şekilde tamamlamaktır.',
+    accent: 'İş bitirme odağı',
   },
 ]
 
-export const partnerSectors = ['Altyapı İşleri', 'Sanayi Sahaları', 'Konut Şantiyeleri', 'Parsel Hazırlığı', 'Yol ve Dolgu Çalışmaları']
+export const partnerSectors = ['Konut Şantiyeleri', 'Sanayi Sahaları', 'Altyapı İşleri', 'Parsel Hazırlığı', 'Yol ve Dolgu Çalışmaları']
 
 export const mediaGalleryItems = [
   {

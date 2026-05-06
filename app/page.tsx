@@ -15,13 +15,13 @@ export const metadata: Metadata = {
   title: {
     absolute: 'Salihoğulları Hafriyat | Adana Hafriyat ve Nakliyat Hizmetleri',
   },
-  description: 'Salihoğulları Hafriyat; Adana’da temel kazısı, dolgu, damperli nakliyat, lowbed nakliyat, arazöz ve hafriyat nakliyesi için saha odaklı çalışır.',
+  description: 'Salihoğulları Hafriyat; Adana merkezli temel kazısı, dolgu, damperli nakliyat, lowbed, arazöz ve hafriyat nakliyesi işlerinde saha düzenine göre çalışır.',
   alternates: {
     canonical: getCanonicalUrl('/'),
   },
   ...buildShareMetadata({
     title: 'Salihoğulları Hafriyat | Adana Hafriyat ve Nakliyat Hizmetleri',
-    description: 'Salihoğulları Hafriyat; Adana’da temel kazısı, dolgu, damperli nakliyat, lowbed nakliyat, arazöz ve hafriyat nakliyesi için saha odaklı çalışır.',
+    description: 'Salihoğulları Hafriyat; Adana merkezli temel kazısı, dolgu, damperli nakliyat, lowbed, arazöz ve hafriyat nakliyesi işlerinde saha düzenine göre çalışır.',
     pathname: '/',
   }),
 }

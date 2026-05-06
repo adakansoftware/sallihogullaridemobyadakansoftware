@@ -27,15 +27,15 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
           <div className="max-w-2xl">
             <div className="mb-6 flex items-center gap-4">
               <div className="h-px w-12 bg-primary" />
-              <span className="text-xs font-bold uppercase tracking-[0.25em] text-primary">Saha Çalışmaları</span>
+              <span className="text-xs font-bold uppercase tracking-[0.25em] text-primary">Saha İşleri</span>
             </div>
             <h2 className="text-4xl leading-[0.95] font-black tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-              Yürütülen <span className="text-gradient">Saha Çalışmaları</span>
+              Sahada planlanan <span className="text-gradient">hafriyat ve nakliyat kapsamları</span>
             </h2>
           </div>
           <div className="lg:max-w-sm">
             <Link href="/projects" className="mt-4 flex items-center gap-2 text-sm font-semibold text-foreground lg:justify-end">
-              <span>Tüm çalışmaları incele</span>
+              <span>İş kapsamlarını incele</span>
               <ArrowRight className="h-4 w-4 text-primary" />
             </Link>
           </div>
@@ -131,7 +131,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
           </div>
         ) : (
           <div className="rounded-[32px] border border-white/10 bg-white/[0.03] px-8 py-12 text-center text-white/58">
-            Henüz yayında çalışma bulunmuyor.
+            Henüz yayında proje kaydı bulunmuyor.
           </div>
         )}
       </div>

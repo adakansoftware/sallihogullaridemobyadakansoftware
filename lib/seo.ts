@@ -5,7 +5,7 @@ import { env } from '@/lib/env'
 export const DEFAULT_SHARE_IMAGE = '/images/hero-main.jpg'
 const SEO_LOCALITY = 'Adana'
 const DEFAULT_DESCRIPTION =
-  'Salihoğulları Hafriyat; Adana merkezli hafriyat, temel kazısı, dolgu, damperli nakliyat, lowbed nakliyat ve arazöz hizmetlerinde saha odaklı çalışır.'
+  'Salihoğulları Hafriyat; Adana merkezli hafriyat, temel kazısı, dolgu, damperli nakliyat, lowbed ve arazöz hizmetlerinde saha düzenine göre çalışır.'
 
 const BRAND_ALIASES = [
   'Salihoğulları Hafriyat',
