@@ -73,10 +73,10 @@ export const fleetItems = [
     image: '/images/backhoe.jpg',
   },
   {
-    name: 'On Teker Sarı Damperli Kamyon',
+    name: 'Damperli Nakliye Filosu',
     count: '17',
-    capacity: 'On Teker Damperli Nakliye',
-    description: 'Hafriyat, dolgu, kum, taş, mıcır ve toprak sevkiyatında çalışan sarı damperli Mercedes Arocs, Mercedes Axor ve BMC Pro kamyon grubu.',
+    capacity: 'Damperli Nakliye',
+    description: 'Hafriyat, dolgu, kum, taş, mıcır ve toprak sevkiyatında kullanılan Mercedes Arocs, Mercedes Axor ve BMC Pro damperli kamyon grubu.',
     specs: ['Arocs 3345 x4', 'Axor 3340 x12', 'BMC Pro 827 x1'],
     image: '/images/dump-truck.jpg',
   },

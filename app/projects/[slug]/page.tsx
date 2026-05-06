@@ -37,7 +37,9 @@ export async function generateMetadata({
   const description = project.summary || project.description
 
   return {
-    title: project.title,
+    title: {
+      absolute: `${project.title} | Sallıhoğulları Hafriyat`,
+    },
     description,
     alternates: {
       canonical: getCanonicalUrl(`/projects/${project.slug}`),
@@ -74,7 +76,7 @@ export default async function ProjectDetailPage({
     <SiteFrame settings={settings}>
       <section className="relative overflow-hidden pt-36 pb-18 lg:pt-44">
         <div className="absolute inset-0">
-          <Image src={project.coverImage || '/images/project-1.jpg'} alt={project.title} fill className="object-cover" priority quality={95} />
+          <Image src={project.coverImage || '/images/project-1.jpg'} alt={`${project.title} - Sallıhoğulları Hafriyat proje görseli`} fill className="object-cover" priority quality={95} />
           <div className="absolute inset-0 bg-gradient-to-r from-background via-background/88 to-background/48" />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/45 to-background/75" />
           <div className="absolute inset-0 bg-gradient-to-br from-primary/12 via-transparent to-transparent" />
@@ -144,7 +146,7 @@ export default async function ProjectDetailPage({
                 {featureMedia.resourceType === 'video' ? (
                   <YouTubeVideo url={featureMedia.fileUrl} title={featureMedia.title || project.title} className="h-full w-full" />
                 ) : (
-                  <Image src={featureMedia.fileUrl} alt={featureMedia.title || project.title} fill className="object-cover" quality={95} />
+                  <Image src={featureMedia.fileUrl} alt={`${featureMedia.title || project.title} - Sallıhoğulları Hafriyat saha görseli`} fill className="object-cover" quality={95} />
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
                 <div className="absolute right-6 bottom-6 left-6 flex items-end justify-between gap-4">
@@ -203,7 +205,7 @@ export default async function ProjectDetailPage({
                   {media.resourceType === 'video' ? (
                     <YouTubeVideo url={media.fileUrl} title={media.title || project.title} className="h-full w-full" />
                   ) : (
-                    <Image src={media.fileUrl} alt={media.title || project.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <Image src={media.fileUrl} alt={`${media.title || project.title} - Sallıhoğulları Hafriyat saha çalışması`} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-background/78 via-transparent to-transparent" />
                 </div>

@@ -21,7 +21,7 @@ export function Hero({ settings }: { settings: SiteSettings }) {
       <div className="absolute inset-0">
         <Image
           src="/images/hero-main.jpg"
-          alt={`${settings.companyName} saha operasyonu`}
+          alt="Sallıhoğulları Hafriyat temel kazısı ve hafriyat çalışması"
           fill
           className="scale-105 object-cover"
           priority

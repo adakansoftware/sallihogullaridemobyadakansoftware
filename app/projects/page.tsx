@@ -9,14 +9,16 @@ import { buildShareMetadata, getCanonicalUrl } from '@/lib/seo'
 import { getSiteSettings } from '@/lib/settings-service'
 
 export const metadata: Metadata = {
-  title: 'Adana Hafriyat ve Nakliyat İşleri',
-  description: 'Adana’da hafriyat, temel kazısı, dolgu, damperli nakliyat ve saha hazırlığı kapsamında yürütülen iş örneklerini ve çalışma kapsamlarını inceleyin.',
+  title: {
+    absolute: 'Projelerimiz | Sallıhoğulları Hafriyat',
+  },
+  description: 'Sallıhoğulları Hafriyat’ın tamamlanan hafriyat, temel kazısı, dolgu, nakliyat ve saha hazırlığı çalışmalarını inceleyin.',
   alternates: {
     canonical: getCanonicalUrl('/projects'),
   },
   ...buildShareMetadata({
-    title: 'Salihoğulları Hafriyat | Adana Hafriyat ve Nakliyat İşleri',
-    description: 'Adana’da hafriyat, temel kazısı, dolgu, damperli nakliyat ve saha hazırlığı kapsamında yürütülen iş örneklerini ve çalışma kapsamlarını inceleyin.',
+    title: 'Projelerimiz | Sallıhoğulları Hafriyat',
+    description: 'Sallıhoğulları Hafriyat’ın tamamlanan hafriyat, temel kazısı, dolgu, nakliyat ve saha hazırlığı çalışmalarını inceleyin.',
     pathname: '/projects',
   }),
 }

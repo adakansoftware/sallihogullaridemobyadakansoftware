@@ -21,7 +21,7 @@ export function Footer({ settings }: { settings: SiteSettings }) {
               <div className="relative flex h-11 w-14 shrink-0 items-center justify-center overflow-visible">
                 <Image
                   src="/images/salihogullari-logo-small.png"
-                  alt={`${settings.companyName} logo`}
+                  alt="Sallıhoğulları Hafriyat logo"
                   fill
                   sizes="56px"
                   className="object-contain"

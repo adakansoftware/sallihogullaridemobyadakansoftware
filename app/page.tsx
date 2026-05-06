@@ -13,15 +13,15 @@ import { readProjects, readSettings } from '@/lib/store'
 
 export const metadata: Metadata = {
   title: {
-    absolute: 'Salihoğulları Hafriyat | Adana Hafriyat ve Nakliyat Hizmetleri',
+    absolute: 'Sallıhoğulları Hafriyat | Hafriyat, Temel Kazısı ve İş Makinesi Hizmetleri',
   },
-  description: 'Salihoğulları Hafriyat; Adana merkezli temel kazısı, dolgu, damperli nakliyat, lowbed, arazöz ve hafriyat nakliyesi işlerinde saha düzenine göre çalışır.',
+  description: 'Sallıhoğulları Hafriyat; hafriyat, temel kazısı, dolgu, damperli nakliyat, lowbed taşımacılık, arazöz, beko loder, ekskavatör ve iş makinesi hizmetleri sunar.',
   alternates: {
     canonical: getCanonicalUrl('/'),
   },
   ...buildShareMetadata({
-    title: 'Salihoğulları Hafriyat | Adana Hafriyat ve Nakliyat Hizmetleri',
-    description: 'Salihoğulları Hafriyat; Adana merkezli temel kazısı, dolgu, damperli nakliyat, lowbed, arazöz ve hafriyat nakliyesi işlerinde saha düzenine göre çalışır.',
+    title: 'Sallıhoğulları Hafriyat | Hafriyat, Temel Kazısı ve İş Makinesi Hizmetleri',
+    description: 'Sallıhoğulları Hafriyat; hafriyat, temel kazısı, dolgu, damperli nakliyat, lowbed taşımacılık, arazöz, beko loder, ekskavatör ve iş makinesi hizmetleri sunar.',
     pathname: '/',
   }),
 }

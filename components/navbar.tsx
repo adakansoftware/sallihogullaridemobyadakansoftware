@@ -71,7 +71,7 @@ export function Navbar({ settings }: { settings: SiteSettings }) {
               <div className="relative flex h-12 w-16 shrink-0 items-center justify-center overflow-hidden">
                 <Image
                   src="/images/salihogullari-logo-small.png"
-                  alt={`${settings.companyName} logo`}
+                  alt="Sallıhoğulları Hafriyat logo"
                   fill
                   sizes="64px"
                   className="object-contain"

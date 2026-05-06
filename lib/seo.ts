@@ -3,11 +3,15 @@ import type { SiteSettings } from '@/lib/store'
 import { env } from '@/lib/env'
 
 export const DEFAULT_SHARE_IMAGE = '/images/hero-main.jpg'
+const SEO_BRAND = 'Sallıhoğulları Hafriyat'
 const SEO_LOCALITY = 'Adana'
 const DEFAULT_DESCRIPTION =
-  'Salihoğulları Hafriyat; Adana merkezli hafriyat, temel kazısı, dolgu, damperli nakliyat, lowbed ve arazöz hizmetlerinde saha düzenine göre çalışır.'
+  'Sallıhoğulları Hafriyat; hafriyat, temel kazısı, dolgu, damperli nakliyat, lowbed taşımacılık, arazöz, beko loder, ekskavatör ve iş makinesi hizmetleri sunar.'
 
 const BRAND_ALIASES = [
+  'Sallıhoğulları Hafriyat',
+  'Sallihogullari Hafriyat',
+  'Sallihogullari',
   'Salihoğulları Hafriyat',
   'Salihoğulları',
   'Salihogullari Hafriyat',
@@ -25,29 +29,43 @@ const SEO_KEYWORDS = [
   'Adana su tankeri',
   'Adana temel kazısı',
   'Adana dolgu işleri',
+  'Adana iş makinesi hizmetleri',
+  'Adana ekskavatör hizmeti',
+  'Adana beko loder hizmeti',
+  'Adana inşaat sahası hazırlığı',
   'hafriyat',
   'hafriyat nakliyesi',
   'temel kazısı',
   'dolgu işleri',
   'damperli nakliyat',
-  'lowbed nakliyat',
+  'lowbed taşımacılık',
   'arazöz',
   'su tankeri',
+  'beko loder hizmeti',
+  'ekskavatör hizmeti',
+  'iş makinesi hizmetleri',
+  'inşaat sahası hazırlığı',
+  'moloz ve hafriyat taşıma',
   'mıcır taşıma',
   'kum taşıma',
   'toprak taşıma',
 ]
 
 const SEO_SERVICES = [
-  'Hafriyat',
-  'Temel kazısı',
-  'Dolgu işleri',
-  'Damperli nakliyat',
-  'Hafriyat nakliyesi',
-  'Lowbed nakliyat',
-  'Arazöz ve su tankeri desteği',
-  'Malzeme taşıma',
+  'Hafriyat Hizmeti',
+  'Temel Kazısı',
+  'Dolgu ve Zemin Hazırlığı',
+  'Damperli Nakliyat',
+  'Lowbed Taşımacılık',
+  'Arazöz Hizmeti',
+  'Beko Loder Hizmeti',
+  'Ekskavatör Hizmeti',
+  'İş Makinesi Hizmetleri',
+  'İnşaat Sahası Hazırlığı',
+  'Moloz ve Hafriyat Taşıma',
 ]
+
+const SEO_AREAS = ['Adana', 'Hatay', 'Antakya', 'İskenderun', 'Osmaniye', 'Mersin']
 
 export function getMetadataBase() {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || process.env.APP_ORIGIN?.trim()
@@ -111,32 +129,32 @@ export function getCanonicalUrl(pathname = '/') {
 
 export function buildDefaultMetadata(settings: SiteSettings): Metadata {
   const metadataBase = getMetadataBase()
-  const title = `${settings.companyName} | Adana Hafriyat ve Damperli Nakliyat`
+  const title = `${SEO_BRAND} | Hafriyat, Temel Kazısı ve İş Makinesi Hizmetleri`
   const description = DEFAULT_DESCRIPTION
 
   return {
     metadataBase,
     title: {
       default: title,
-      template: `${settings.companyName} | %s`,
+      template: `${SEO_BRAND} | %s`,
     },
     description,
-    applicationName: settings.companyName,
-    authors: [{ name: settings.companyName }],
-    creator: settings.companyName,
-    publisher: settings.companyName,
+    applicationName: SEO_BRAND,
+    authors: [{ name: SEO_BRAND }],
+    creator: SEO_BRAND,
+    publisher: SEO_BRAND,
     manifest: '/manifest.webmanifest',
     alternates: {
       canonical: '/',
     },
     category: 'business',
-    keywords: Array.from(new Set([settings.companyName, settings.companyShortName, ...SEO_KEYWORDS, settings.serviceArea])),
+    keywords: Array.from(new Set([SEO_BRAND, settings.companyName, settings.companyShortName, ...SEO_KEYWORDS, settings.serviceArea])),
     formatDetection: {
       telephone: false,
       email: false,
       address: false,
     },
-    ...buildShareMetadata({ title, description, pathname: '/', siteName: settings.companyName }),
+    ...buildShareMetadata({ title, description, pathname: '/', siteName: SEO_BRAND }),
     robots: {
       index: true,
       follow: true,
@@ -164,15 +182,15 @@ export function buildOrganizationJsonLd(settings: SiteSettings) {
     '@context': 'https://schema.org',
     '@type': ['Organization', 'LocalBusiness', 'HomeAndConstructionBusiness'],
     '@id': getCanonicalUrl('/#organization'),
-    name: settings.companyName,
+    name: SEO_BRAND,
     url: getMetadataBase().toString(),
     description: DEFAULT_DESCRIPTION,
-    legalName: settings.companyName,
-    slogan: 'Adana hafriyat ve damperli nakliyat hizmetleri',
+    legalName: SEO_BRAND,
+    slogan: 'Hafriyat, temel kazısı ve iş makinesi hizmetleri',
     foundingDate: settings.foundedYear,
-    identifier: settings.companyName,
+    identifier: SEO_BRAND,
     keywords: SEO_KEYWORDS,
-    alternateName: Array.from(new Set([settings.companyShortName, ...BRAND_ALIASES])),
+    alternateName: Array.from(new Set([settings.companyShortName, settings.companyName, ...BRAND_ALIASES])),
     logo: getCanonicalUrl('/images/salihogullari-logo-small.png'),
     image: getCanonicalUrl(DEFAULT_SHARE_IMAGE),
     telephone: settings.contactPhone,
@@ -184,16 +202,16 @@ export function buildOrganizationJsonLd(settings: SiteSettings) {
       addressCountry: 'TR',
     },
     areaServed: [
-      {
+      ...SEO_AREAS.map((area) => ({
         '@type': 'AdministrativeArea',
-        name: SEO_LOCALITY,
-      },
+        name: area,
+      })),
       settings.serviceArea,
     ],
     knowsAbout: SEO_SERVICES,
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
-      name: `${settings.companyShortName} hizmetleri`,
+      name: `${SEO_BRAND} hizmetleri`,
       itemListElement: SEO_SERVICES.map((service) => ({
         '@type': 'Offer',
         itemOffered: {
@@ -223,7 +241,7 @@ export function buildWebsiteJsonLd(settings: SiteSettings) {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     '@id': getCanonicalUrl('/#website'),
-    name: settings.companyName,
+    name: SEO_BRAND,
     alternateName: BRAND_ALIASES,
     url: getMetadataBase().toString(),
     inLanguage: 'tr-TR',
@@ -233,7 +251,7 @@ export function buildWebsiteJsonLd(settings: SiteSettings) {
     potentialAction: {
       '@type': 'ContactAction',
       target: getCanonicalUrl('/contact'),
-      name: 'Teklif ve saha keşfi talebi',
+      name: 'Hafriyat ve iş makinesi hizmetleri için teklif talebi',
     },
   }
 }
@@ -243,7 +261,7 @@ export function buildServicesJsonLd(settings: SiteSettings) {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     '@id': getCanonicalUrl('/services#services'),
-    name: `${settings.companyShortName} hizmetleri`,
+    name: `${SEO_BRAND} hizmetleri`,
     itemListElement: SEO_SERVICES.map((service, index) => ({
       '@type': 'Service',
       position: index + 1,
