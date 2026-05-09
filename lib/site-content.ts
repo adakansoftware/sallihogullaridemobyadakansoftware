@@ -8,42 +8,42 @@ export const siteQuickLinks = [
 ]
 
 export const siteStats = [
-  { value: '25+', label: 'Yıl', sublabel: 'Hafriyat ve nakliyat tecrübesi' },
-  { value: '30+', label: 'Araç', sublabel: 'Makine, kamyon ve ekipman parkı' },
-  { value: '7/24', label: 'Takip', sublabel: 'Saha ve sevkiyat koordinasyonu' },
-  { value: 'Adana', label: 'Merkez', sublabel: 'Bölge şantiyelerine hızlı erişim' },
-  { value: '1999', label: 'Kuruluş', sublabel: 'Yerel saha bilgisi ve iş disiplini' },
+  { value: '25+', label: 'Yıl', sublabel: 'Sahada biriken hafriyat ve nakliyat deneyimi' },
+  { value: '30+', label: 'Araç', sublabel: 'İş makinesi, kamyon ve taşıma ekipmanı' },
+  { value: '7/24', label: 'Takip', sublabel: 'Şantiye akışı ve sevkiyat koordinasyonu' },
+  { value: 'Adana', label: 'Merkez', sublabel: 'Adana ve çevre illerde saha erişimi' },
+  { value: '1999', label: 'Kuruluş', sublabel: 'Yerel saha bilgisi ve operasyon disiplini' },
 ]
 
 export const serviceCards = [
   {
     title: 'Hafriyat ve Kazı İşleri',
-    description: 'Temel kazısı, kanal açma, parsel temizliği ve hafriyat çıkarma işlerinde kazı sınırını, makine erişimini, yükleme noktasını ve döküm sevkiyatını işe başlamadan netleştiririz.',
+    description: 'Temel kazısı, kanal açma, parsel temizliği ve hafriyat çıkarma işlerinde kazı sınırı, makine erişimi, yükleme noktası ve döküm sevkiyatı işe başlamadan sahada netleştirilir.',
     image: '/images/project-1.jpg',
   },
   {
     title: 'Ekskavatör Çalışmaları',
-    description: 'Kazı, yükleme, kırma, tesviye ve zemin hazırlığında zeminin sertliğine, alan genişliğine ve günlük iş programına göre uygun ekskavatör çalışması planlarız.',
+    description: 'Kazı, yükleme, kırma, tesviye ve zemin hazırlığında zeminin durumuna, çalışma alanına ve günlük programa göre doğru ekskavatör gücü sahaya yönlendirilir.',
     image: '/images/excavator.jpg',
   },
   {
     title: 'Beko Loder Desteği',
-    description: 'Dar alan kazıları, geri dolgu, küçük ölçekli yükleme, saha içi düzeltme ve malzeme toparlama işlerinde pratik beko loder desteği sağlarız.',
+    description: 'Dar alan kazıları, geri dolgu, küçük ölçekli yükleme, saha içi düzeltme ve malzeme toparlama işlerinde hızlı hareket eden beko loder desteği sağlanır.',
     image: '/images/backhoe.jpg',
   },
   {
     title: 'Damperli Nakliyat',
-    description: 'Toprak, moloz, taş, kum, mıcır ve dolgu malzemesi taşımalarında damperli kamyon akışını yükleme noktası, döküm sahası ve günlük tempo üzerinden kurarız.',
+    description: 'Toprak, moloz, taş, kum, mıcır ve dolgu malzemesi taşımalarında kamyon akışı; yükleme noktası, döküm sahası ve günlük iş temposuna göre kurulur.',
     image: '/images/dump-truck.jpg',
   },
   {
     title: 'Lowbed Nakliyat',
-    description: 'Ekskavatör, beko loder ve ağır ekipman sevkiyatında yükleme güvenliği, güzergah uygunluğu ve teslim saatini dikkate alan lowbed nakliyat planı yaparız.',
+    description: 'Ekskavatör, beko loder ve ağır ekipman sevkiyatında yükleme güvenliği, güzergah uygunluğu ve teslim saati dikkate alınarak lowbed planı hazırlanır.',
     image: '/images/lowbed.jpg',
   },
   {
     title: 'Dolgu ve Zemin Hazırlığı',
-    description: 'Yol, altyapı, parsel ve şantiye hazırlıklarında dolgu malzemesi sevkiyatını, serim düzenini, sıkıştırma ihtiyacını ve tesviye sürecini aynı saha planında ele alırız.',
+    description: 'Yol, altyapı, parsel ve şantiye hazırlıklarında dolgu sevkiyatı, serim düzeni, sıkıştırma ihtiyacı ve tesviye süreci aynı saha planında ele alınır.',
     image: '/images/project-2.jpg',
   },
 ]
@@ -60,7 +60,7 @@ export const fleetItems = [
     name: 'Ekskavatör',
     count: '5',
     capacity: '13-36 Ton',
-    description: 'Temel kazısı, yükleme, kanal açma ve zemin hazırlığında sahaya göre yönlendirilen Sumitomo SH 360, Sumitomo SH 210 ve Case CX130C ekskavatör grubu.',
+    description: 'Temel kazısı, yükleme, kanal açma ve zemin hazırlığında farklı saha koşullarına göre yönlendirilen Sumitomo SH 360, Sumitomo SH 210 ve Case CX130C ekskavatör grubu.',
     specs: ['Sumitomo SH 360 x2', 'Sumitomo SH 210 x2', 'Case CX130C x1'],
     image: '/images/excavator.jpg',
   },
@@ -76,7 +76,7 @@ export const fleetItems = [
     name: 'Damperli Nakliye Filosu',
     count: '17',
     capacity: 'Damperli Nakliye',
-    description: 'Hafriyat, dolgu, kum, taş, mıcır ve toprak sevkiyatında kullanılan Mercedes Arocs, Mercedes Axor ve BMC Pro damperli kamyon grubu.',
+    description: 'Hafriyat, dolgu, kum, taş, mıcır ve toprak sevkiyatında düzenli yükleme ve döküm akışı için kullanılan Mercedes Arocs, Mercedes Axor ve BMC Pro damperli kamyon grubu.',
     specs: ['Arocs 3345 x4', 'Axor 3340 x12', 'BMC Pro 827 x1'],
     image: '/images/dump-truck.jpg',
   },
@@ -84,7 +84,7 @@ export const fleetItems = [
     name: 'Çekici ve Dorse',
     count: '5',
     capacity: 'Damperli Dorse / Lowbed',
-    description: 'Malzeme sevkiyatı, ekipman taşıma ve lowbed nakliyat işlerinde kullanılan Axor 1840 çekici, damperli dorse ve lowbed taşıma altyapısı.',
+    description: 'Malzeme sevkiyatı, ekipman taşıma ve lowbed nakliyat işlerinde güzergah, yükleme güvenliği ve teslim planına göre kullanılan Axor 1840 çekici, damperli dorse ve lowbed altyapısı.',
     specs: ['Axor 1840 x2', 'Damperli Dorse x2', 'Lowbed x1'],
     image: '/images/lowbed.jpg',
   },
@@ -101,7 +101,7 @@ export const fleetItems = [
 export const whyChooseUsReasons = [
   {
     title: 'Sahaya Göre Net Plan',
-    description: 'Giriş-çıkış noktası, yükleme alanı, döküm güzergahı ve günlük çalışma temposu sahaya ekip girmeden önce netleştirilir.',
+    description: 'Giriş-çıkış noktası, yükleme alanı, döküm güzergahı ve günlük çalışma temposu ekip sahaya girmeden önce netleştirilir.',
     stat: 'Planlı Başlangıç',
   },
   {
@@ -141,7 +141,7 @@ export const certifications = [
 export const collaborationPrinciples = [
   {
     title: 'Ön Kontrol',
-    body: 'Saha görülmeden, malzeme türü ve çalışma alanı netleşmeden rastgele program yapılmaz; işin erişimi, yükleme noktası ve sevkiyat akışı baştan belirlenir.',
+    body: 'Saha görülmeden, malzeme türü ve çalışma alanı netleşmeden program yapılmaz; işin erişimi, yükleme noktası ve sevkiyat akışı baştan belirlenir.',
     accent: 'Sahaya göre hazırlık',
   },
   {

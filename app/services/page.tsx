@@ -28,10 +28,10 @@ export default async function ServicesPage() {
   return (
     <SiteFrame settings={settings}>
       <PageHero
-        title="Kazı, dolgu ve nakliyatta sahaya göre kurulan iş planı"
-        description="Temel kazısı, hafriyat nakliyesi, dolgu, damperli nakliyat, lowbed ve arazöz desteğini; sahanın erişimine, zemin durumuna, malzeme türüne ve çalışma takvimine göre planlıyoruz."
+        title="Kazıdan sevkiyata sahada işleyen plan"
+        description="Temel kazısı, hafriyat nakliyesi, dolgu, damperli nakliyat, lowbed ve arazöz desteğini sahanın erişimine, zemin durumuna, malzeme türüne ve çalışma takvimine göre planlıyoruz."
         image="/images/excavator.jpg"
-        primaryCta={{ href: '/projects', label: 'Yürütülen İşleri İnceleyin' }}
+        primaryCta={{ href: '/projects', label: 'Saha İşlerini İnceleyin' }}
       />
       <ServicesSection cardHref="/contact#iletisim" />
       <WhyUsSection />

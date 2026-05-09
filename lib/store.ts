@@ -85,8 +85,8 @@ const defaultSettings: SiteSettings = {
   foundedYear: '1999',
   instagramUrl: 'https://www.instagram.com/salihogullarihafriyat?igsh=MThmMjMwMmp2OTViNw%3D%3D&utm_source=qr',
   whatsappUrl: 'https://wa.me/905399416521',
-  heroTitle: 'Hafriyat, dolgu ve damperli nakliyatta, sahayı bilen ekip',
-  heroDescription: 'Temel kazısı, saha düzenleme, dolgu, malzeme sevkiyatı ve damperli taşıma işlerinde makine, kamyon ve ekip akışını tek elden planlıyoruz.',
+  heroTitle: 'Hafriyat, temel kazısı ve nakliyatta, sahada güçlü plan',
+  heroDescription: 'Temel kazısı, dolgu, zemin hazırlığı, hafriyat nakliyesi, lowbed ve arazöz ihtiyaçlarında makine, kamyon ve sevkiyat düzenini sahanın gerçek akışına göre kuruyoruz.',
   quoteNotice: 'Lokasyon, yaklaşık metraj ve malzeme bilgisini paylaşın; sahaya uygun çalışma planı ve net teklif hazırlayalım.',
 }
 

@@ -11,18 +11,18 @@ export function AboutSection({ settings }: { settings: SiteSettings }) {
           <div>
             <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-primary">Firma Profili</span>
             <h2 className="mb-6 text-3xl leading-tight font-black text-foreground sm:text-4xl lg:text-5xl">
-              Hafriyat işini <span className="text-primary">saha düzeniyle yürüten ekip</span>
+              Hafriyat işini <span className="text-primary">saha disipliniyle yürüten ekip</span>
             </h2>
 
             <div className="space-y-5 leading-relaxed text-muted-foreground">
               <p className="text-lg">
-                {settings.companyName}, Adana merkezli olarak hafriyat, dolgu, temel kazısı, damperli nakliyat, lowbed ve arazöz desteği gereken işlerde sahayı okuyarak hareket eden bir çalışma düzeni kurar.
+                {settings.companyName}, Adana merkezli olarak hafriyat, temel kazısı, dolgu, damperli nakliyat, lowbed ve arazöz desteği gereken işlerde sahayı önceden okuyarak planlı hareket eden bir çalışma düzeni kurar.
               </p>
               <p>
-                İşe başlamadan önce çalışma alanının erişimi, yükleme noktası, döküm güzergahı, malzeme türü ve günlük sevkiyat temposu netleştirilir. Makine ve kamyon organizasyonu bu plana göre sahaya yönlendirilir.
+                İşe başlamadan önce çalışma alanının erişimi, yükleme noktası, döküm güzergahı, malzeme türü ve günlük sevkiyat temposu netleştirilir. Makine, kamyon ve saha ekibi bu plana göre yönlendirilir.
               </p>
               <p>
-                Müteahhitler, sanayi sahaları, parsel hazırlıkları, altyapı ekipleri ve özel şantiye ihtiyaçları için yalnızca araç gönderen değil; işin sahada düzenli ilerlemesini takip eden bir çözüm ortağı olarak çalışıyoruz.
+                Müteahhitler, sanayi sahaları, parsel hazırlıkları, altyapı ekipleri ve özel şantiye ihtiyaçları için yalnızca araç gönderen değil; işin sahada düzenli ilerlemesini takip eden güvenilir bir saha çözüm ortağı olarak çalışıyoruz.
               </p>
             </div>
 
@@ -31,8 +31,8 @@ export function AboutSection({ settings }: { settings: SiteSettings }) {
                 <div className="mb-4 flex h-12 w-12 items-center justify-center bg-primary/10">
                   <Target className="h-6 w-6 text-primary" />
                 </div>
-                <h4 className="mb-1 font-bold text-foreground">İşe Başlama Şekli</h4>
-                <p className="text-xs text-muted-foreground">Saha görülür, erişim ve sevkiyat planı netleşir, ekip öyle yönlenir</p>
+                <h4 className="mb-1 font-bold text-foreground">İşe Hazırlık</h4>
+                <p className="text-xs text-muted-foreground">Saha görülür, erişim ve sevkiyat planı netleşir, ekip buna göre yönlenir</p>
               </div>
               <div>
                 <div className="mb-4 flex h-12 w-12 items-center justify-center bg-primary/10">
@@ -46,7 +46,7 @@ export function AboutSection({ settings }: { settings: SiteSettings }) {
                   <Users className="h-6 w-6 text-primary" />
                 </div>
                 <h4 className="mb-1 font-bold text-foreground">İş Takibi</h4>
-                <p className="text-xs text-muted-foreground">Net iletişim, düzenli sevkiyat ve sahada kontrol edilebilir akış</p>
+                <p className="text-xs text-muted-foreground">Net iletişim, düzenli sevkiyat ve sahada kontrol edilebilir iş akışı</p>
               </div>
             </div>
           </div>

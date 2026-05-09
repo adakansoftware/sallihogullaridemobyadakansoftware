@@ -29,10 +29,10 @@ export default async function AboutPage() {
   return (
     <SiteFrame settings={settings}>
       <PageHero
-        title={`${settings.companyName} saha çalışma anlayışı`}
-        description="Hafriyat, dolgu, temel kazısı ve damperli nakliyat işlerinde önce sahayı okuyan, sonra makine-kamyon planını kuran ve günlük akışı takip eden çalışma düzenimizi inceleyin."
+        title={`${settings.companyName} saha çalışma disiplini`}
+        description="Hafriyat, temel kazısı, dolgu ve damperli nakliyat işlerinde sahayı önceden okuyup makine, kamyon ve sevkiyat planını aynı iş akışında yöneten çalışma düzenimizi inceleyin."
         image="/images/project-2.jpg"
-        primaryCta={{ href: '/contact', label: 'İş Kapsamını Görüşelim' }}
+        primaryCta={{ href: '/contact', label: 'Saha İhtiyacını Görüşelim' }}
       />
       <StatsSection />
       <AboutSection settings={settings} />

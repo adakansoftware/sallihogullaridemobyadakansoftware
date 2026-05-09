@@ -29,10 +29,10 @@ export default async function ProjectsPage() {
   return (
     <SiteFrame settings={settings}>
       <PageHero
-        title="Sahada yürütülen hafriyat ve nakliyat işlerinden örnekler"
-        description="Temel kazısı, hafriyat nakliyesi, dolgu, damperli sevkiyat ve zemin hazırlığı işlerinde çalışma kapsamının sahaya göre nasıl planlandığını inceleyin."
+        title="Sahada planlanan hafriyat ve nakliyat işleri"
+        description="Temel kazısı, hafriyat nakliyesi, dolgu, damperli sevkiyat ve zemin hazırlığı işlerinde kapsamın sahaya, takvime ve ekipman ihtiyacına göre nasıl yönetildiğini inceleyin."
         image="/images/project-1.jpg"
-        primaryCta={{ href: '/contact', label: 'Benzer İş İçin Görüşelim' }}
+        primaryCta={{ href: '/contact', label: 'Benzer Bir İş İçin Görüşelim' }}
       />
       <ProjectsSection projects={projects} />
       <MediaSection />

@@ -28,8 +28,8 @@ export default async function FleetPage() {
   return (
     <SiteFrame settings={settings}>
       <PageHero
-        title="Saha ihtiyacına göre yönlendirilen makine ve kamyon altyapısı"
-        description="Ekskavatör, beko loder, damperli kamyon, lowbed ve arazöz / su tankeri desteğiyle kazı, yükleme, taşıma ve saha düzenleme işlerini aynı operasyon planında ele alıyoruz."
+        title="Saha ihtiyacına göre kurulan makine ve araç gücü"
+        description="Ekskavatör, beko loder, damperli kamyon, lowbed ve arazöz / su tankeri desteğiyle kazı, yükleme, taşıma ve saha düzenleme işlerini tek operasyon planında ele alıyoruz."
         image="/images/dump-truck.jpg"
         primaryCta={{ href: '/services', label: 'Hizmet Kapsamını Görün' }}
       />

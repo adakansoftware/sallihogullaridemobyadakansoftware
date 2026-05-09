@@ -17,11 +17,11 @@ export function ServicesSection({ cardHref = '/services' }: ServicesSectionProps
           <div className="max-w-2xl">
             <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-primary">Hizmet Kapsamı</span>
             <h2 className="text-3xl leading-tight font-black text-foreground sm:text-4xl lg:text-5xl">
-              Kazıdan sevkiyata <span className="text-primary">sahada işleyen düzen</span>
+              Kazıdan sevkiyata <span className="text-primary">kontrollü saha akışı</span>
             </h2>
           </div>
           <p className="max-w-md text-muted-foreground lg:text-right">
-            Hafriyat, dolgu, damperli nakliyat, lowbed ve arazöz desteğini işin kapsamına göre planlıyor; makine ve kamyon akışını sahadaki tempoya göre yönetiyoruz.
+            Hafriyat, dolgu, damperli nakliyat, lowbed ve arazöz desteğini işin kapsamına göre planlıyor; makine, kamyon ve sevkiyat akışını sahadaki tempoya göre yönetiyoruz.
           </p>
         </div>
 

@@ -11,11 +11,11 @@ export function MediaSection() {
           <div className="max-w-xl">
             <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-primary">Saha Galerisi</span>
             <h2 className="text-3xl font-black leading-tight text-foreground sm:text-4xl lg:text-5xl">
-              Sahadan <span className="text-primary">çalışma kareleri</span>
+              Sahadan <span className="text-primary">gerçek çalışma kareleri</span>
             </h2>
           </div>
           <p className="max-w-md text-muted-foreground lg:text-right">
-            Kazı, yükleme, dolgu ve sevkiyat akışını anlatan gerçek saha çalışma düzeninden seçilen kareler.
+            Kazı, yükleme, dolgu ve sevkiyat akışını gösteren gerçek saha çalışmalarından seçilen kareler.
           </p>
         </div>
 

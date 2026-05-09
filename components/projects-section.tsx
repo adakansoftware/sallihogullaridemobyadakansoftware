@@ -30,12 +30,12 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
               <span className="text-xs font-bold uppercase tracking-[0.25em] text-primary">Saha İşleri</span>
             </div>
             <h2 className="text-4xl leading-[0.95] font-black tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-              Sahada planlanan <span className="text-gradient">hafriyat ve nakliyat kapsamları</span>
+              Sahada yönetilen <span className="text-gradient">hafriyat ve nakliyat işleri</span>
             </h2>
           </div>
           <div className="lg:max-w-sm">
             <Link href="/projects" className="mt-4 flex items-center gap-2 text-sm font-semibold text-foreground lg:justify-end">
-              <span>İş kapsamlarını incele</span>
+              <span>Saha işlerini incele</span>
               <ArrowRight className="h-4 w-4 text-primary" />
             </Link>
           </div>
