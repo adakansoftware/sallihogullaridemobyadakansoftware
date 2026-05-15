@@ -1,28 +1,29 @@
 [
   {
     "id": "proj-hika-insaat-hatay-600-konutlar",
-    "title": "Hika İnşaat Hatay 600 Konutlar Degabaj Çalışması",
-    "slug": "hika-insaat-hatay-600-konutlar-degabaj-calismasi",
-    "summary": "Hatay 600 Konutlar sahasında degabaj, kazı, yükleme ve hafriyat nakliyesinin günlük saha planına göre yürütüldüğü çalışma.",
-    "description": "Hika İnşaat Hatay 600 Konutlar sahasında yürütülen degabaj çalışmasında kazı alanı, yükleme noktası ve kamyon giriş-çıkış akışı birlikte planlandı. Hafriyatın düzenli çıkarılması, çalışma alanının kontrollü ilerlemesi ve makine-kamyon koordinasyonunun aksamaması için saha akışı günlük olarak takip edildi.",
+    "title": "Hika İnşaat Hatay Şantiye Sahası Yol Telasman Çalışması",
+    "slug": "hika-insaat-hatay-santiye-sahasi-yol-telasman-calismasi",
+    "summary": "Hatay Hika İnşaat şantiye sahasında yol hattı, saha içi ulaşım ve kamyon geçiş düzeni için yürütülen yol telasman çalışması.",
+    "description": "Hika İnşaat Hatay şantiye sahasında yürütülen yol telasman çalışmasında saha içi ulaşım aksı, kamyon giriş-çıkış düzeni ve malzeme serim alanları birlikte planlandı. Ekskavatör ve damperli kamyon akışı; yol kotu, zemin durumu ve günlük şantiye programına göre takip edilerek çalışma alanının düzenli ilerlemesi sağlandı.",
     "location": "Hatay",
-    "category": "Degabaj ve Hafriyat",
+    "category": "Yol Telasman ve Saha Hazırlığı",
     "coverImage": "/images/hero-main.jpg",
     "status": "Yayında",
     "featured": true,
     "tags": [
-      "Degabaj",
+      "Yol Telasman",
+      "Şantiye Sahası",
       "Hafriyat",
       "Damperli Nakliyat",
       "Hika İnşaat",
       "Hatay"
     ],
     "createdAt": "2026-05-06T09:00:00.000Z",
-    "updatedAt": "2026-05-06T09:00:00.000Z",
+    "updatedAt": "2026-05-15T09:00:00.000Z",
     "media": [
       {
         "id": "media-hika-hatay-1",
-        "title": "Degabaj çalışma alanı",
+        "title": "Yol telasman çalışma alanı",
         "fileUrl": "/images/hero-main.jpg",
         "fileType": "image/jpeg",
         "resourceType": "image",
@@ -33,7 +34,7 @@
       },
       {
         "id": "media-hika-hatay-2",
-        "title": "Ekskavatör ve yükleme akışı",
+        "title": "Ekskavatör ve kamyon saha akışı",
         "fileUrl": "/images/gallery-1.jpg",
         "fileType": "image/jpeg",
         "resourceType": "image",
@@ -44,7 +45,7 @@
       },
       {
         "id": "media-hika-hatay-3",
-        "title": "Hafriyat yükleme noktası",
+        "title": "Şantiye sahası yol hazırlığı",
         "fileUrl": "/images/excavator.jpg",
         "fileType": "image/jpeg",
         "resourceType": "image",
