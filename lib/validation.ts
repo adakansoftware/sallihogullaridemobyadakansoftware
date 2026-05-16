@@ -127,7 +127,7 @@ export const mediaInputSchema = z
       .trim()
       .min(1, 'Medya adresi zorunludur.')
       .max(500, 'Medya adresi çok uzun.')
-      .refine((value) => (value.startsWith('/uploads/') && isSafeAssetUrl(value)) || isYouTubeUrl(value), 'Görsel için yüklenen dosya, video için YouTube bağlantısı girin.'),
+      .refine((value) => ((value.startsWith('/uploads/') || value.startsWith('/images/')) && isSafeAssetUrl(value)) || isYouTubeUrl(value), 'Görsel için güvenli bir /images veya /uploads dosyası, video için YouTube bağlantısı girin.'),
     fileType: z.string().trim().min(3, 'Dosya türü zorunludur.').max(80, 'Dosya türü çok uzun.').transform(normalizeString),
     resourceType: resourceTypeSchema,
     thumbnailUrl: z.string().trim().max(500, 'Önizleme adresi çok uzun.').refine((value) => !value || isSafeAssetUrl(value), 'Önizleme adresi güvenli değil.').default(''),
@@ -135,8 +135,8 @@ export const mediaInputSchema = z
     sortOrder: z.coerce.number().int().min(0, 'Sıralama negatif olamaz.').max(9999, 'Sıralama çok büyük.').default(0),
   })
   .superRefine((value, context) => {
-    if (value.resourceType === 'image' && !(value.fileUrl.startsWith('/uploads/') && isSafeAssetUrl(value.fileUrl))) {
-      context.addIssue({ code: z.ZodIssueCode.custom, path: ['fileUrl'], message: 'Görsel için yüklenen dosya adresi gerekir.' })
+    if (value.resourceType === 'image' && !((value.fileUrl.startsWith('/uploads/') || value.fileUrl.startsWith('/images/')) && isSafeAssetUrl(value.fileUrl))) {
+      context.addIssue({ code: z.ZodIssueCode.custom, path: ['fileUrl'], message: 'Görsel için güvenli bir /images veya /uploads dosya adresi gerekir.' })
     }
 
     if (value.resourceType === 'video' && !isYouTubeUrl(value.fileUrl)) {

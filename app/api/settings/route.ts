@@ -21,7 +21,7 @@ export async function PATCH(request: Request) {
     assertRequestContentType(request, ['application/json'])
     assertRequestBodySize(request, SETTINGS_MUTATION_MAX_BYTES)
 
-    const payload = await readJson(request, settingsSchema)
+    const payload = await readJson(request, settingsSchema, SETTINGS_MUTATION_MAX_BYTES)
     const nextSettings = await updateSiteSettings(payload)
 
     await writeAuditLog({ action: 'settings.update', status: 'success', ip })

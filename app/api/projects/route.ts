@@ -25,7 +25,7 @@ export async function POST(request: Request) {
     assertRequestContentType(request, ['application/json'])
     assertRequestBodySize(request, PROJECT_MUTATION_MAX_BYTES)
 
-    const payload = await readJson(request, projectInputSchema)
+    const payload = await readJson(request, projectInputSchema, PROJECT_MUTATION_MAX_BYTES)
     const project = await createProject(payload)
 
     await writeAuditLog({ action: 'project.create', status: 'success', ip, target: project.id })

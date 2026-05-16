@@ -1,48 +1,47 @@
+import { getRateLimitStore } from '@/lib/rate-limit-store'
+
 type RateLimitOptions = {
   limit: number
   windowMs: number
 }
 
-type Bucket = {
-  count: number
-  resetAt: number
-}
-
-const buckets = new Map<string, Bucket>()
 const MAX_BUCKETS = 5000
 
 function pruneExpiredBuckets(now = Date.now()) {
-  for (const [key, bucket] of buckets.entries()) {
+  const store = getRateLimitStore()
+  for (const [key, bucket] of store.entries()) {
     if (bucket.resetAt <= now) {
-      buckets.delete(key)
+      store.delete(key)
     }
   }
 }
 
 function trimBuckets() {
+  const store = getRateLimitStore()
   pruneExpiredBuckets()
-  const retainedKeys = [...buckets.entries()]
+  const retainedKeys = [...store.entries()]
     .sort((left, right) => right[1].resetAt - left[1].resetAt)
     .slice(0, MAX_BUCKETS)
     .map(([key]) => key)
   const retained = new Set(retainedKeys)
 
-  for (const key of buckets.keys()) {
+  for (const [key] of store.entries()) {
     if (!retained.has(key)) {
-      buckets.delete(key)
+      store.delete(key)
     }
   }
 }
 
 export async function checkRateLimit(key: string, options: RateLimitOptions) {
+  const store = getRateLimitStore()
   pruneExpiredBuckets()
 
   const now = Date.now()
-  const current = buckets.get(key)
+  const current = store.get(key)
 
   if (!current || current.resetAt <= now) {
     const next = { count: 1, resetAt: now + options.windowMs }
-    buckets.set(key, next)
+    store.set(key, next)
     trimBuckets()
     return { allowed: true, remaining: options.limit - 1, resetAt: next.resetAt }
   }
@@ -52,7 +51,7 @@ export async function checkRateLimit(key: string, options: RateLimitOptions) {
   }
 
   current.count += 1
-  buckets.set(key, current)
+  store.set(key, current)
   trimBuckets()
   return { allowed: true, remaining: options.limit - current.count, resetAt: current.resetAt }
 }

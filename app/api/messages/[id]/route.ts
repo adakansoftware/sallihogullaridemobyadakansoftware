@@ -16,7 +16,7 @@ export async function PATCH(request: Request, { params }: Params) {
     assertRequestBodySize(request, MESSAGE_UPDATE_MAX_BYTES)
 
     const { id } = await params
-    const payload = await readJson(request, messageStateSchema)
+    const payload = await readJson(request, messageStateSchema, MESSAGE_UPDATE_MAX_BYTES)
     const message = await updateMessageReadState(id, payload.isRead)
 
     if (!message) {

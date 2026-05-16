@@ -16,7 +16,7 @@ export async function POST(request: Request) {
     assertRequestContentType(request, ['application/json'])
     assertRequestBodySize(request, LOGIN_REQUEST_MAX_BYTES)
     const ip = await enforceRateLimit(request, 'login', LOGIN_LIMIT, LOGIN_WINDOW_MS)
-    const credentials = await readJson(request, loginSchema)
+    const credentials = await readJson(request, loginSchema, LOGIN_REQUEST_MAX_BYTES)
     await enforceIdentifierRateLimit(credentials.email, 'login:email', LOGIN_IDENTITY_LIMIT, LOGIN_WINDOW_MS)
 
     if (!validateAdminCredentials(credentials.email, credentials.password)) {

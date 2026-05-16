@@ -2,6 +2,7 @@ import crypto from 'crypto'
 import { cookies } from 'next/headers'
 import { normalizeAdminNextTarget } from '@/lib/admin-redirect'
 import { env } from '@/lib/env'
+import { verifyPasswordAgainstHash } from '@/lib/password-hash'
 import { createSignedAdminSessionToken, isValidSignedAdminSessionToken } from '@/lib/session-token'
 
 export const ADMIN_COOKIE = 'admin_session'
@@ -54,7 +55,14 @@ export async function isAdminAuthenticated() {
 }
 
 export function validateAdminCredentials(email: string, password: string) {
-  return safeEqual(email.trim().toLowerCase(), env.ADMIN_EMAIL.toLowerCase()) && safeEqual(password, env.ADMIN_PASSWORD)
+  const emailMatches = safeEqual(email.trim().toLowerCase(), env.ADMIN_EMAIL.toLowerCase())
+  if (!emailMatches) return false
+
+  if (env.ADMIN_PASSWORD_HASH) {
+    return verifyPasswordAgainstHash(password, env.ADMIN_PASSWORD_HASH)
+  }
+
+  return safeEqual(password, env.ADMIN_PASSWORD || '')
 }
 
 export { normalizeAdminNextTarget }

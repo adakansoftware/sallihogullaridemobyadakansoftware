@@ -45,6 +45,8 @@ npm run dev
 ```env
 ADMIN_EMAIL=admin@example.com
 ADMIN_PASSWORD=use-a-strong-password
+# Optional alternative to ADMIN_PASSWORD:
+# ADMIN_PASSWORD_HASH=scrypt:<salt-base64url>:<hash-base64url>
 ADMIN_SESSION_SECRET=use-a-long-random-secret
 APP_ORIGIN=https://example.com
 NEXT_PUBLIC_SITE_URL=https://example.com
@@ -55,11 +57,11 @@ NEXT_PUBLIC_SITE_URL=https://example.com
 - `APP_ORIGIN` and `NEXT_PUBLIC_SITE_URL` should match the live domain.
 - In production, configure at least one of `APP_ORIGIN` or `NEXT_PUBLIC_SITE_URL`; if both are set, they must point to the same origin.
 - `data/` must be readable and writable in production.
-- `public/uploads/` should be writable in production. The folder can be created automatically on the first successful upload.
+- The current build keeps the upload API disabled; image assets are expected under `public/images` and video embeds should use YouTube URLs.
 - This project uses file-based persistence and is best deployed to a single writable instance.
 - Keep `data/` and `public/uploads/` in backups together.
 - Use strong, client-specific admin credentials before handoff.
-- A healthy `/api/health` response may still report a missing uploads directory before the first upload, which is expected for a fresh demo deployment.
+- Rate limiting is currently memory-backed, so it is local-instance only unless replaced with a shared store.
 
 ## Operations
 

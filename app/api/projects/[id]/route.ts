@@ -1,4 +1,4 @@
-import { jsonError, jsonOk, readJson, withErrorHandling } from '@/lib/http'
+import { jsonError, jsonNoStore, jsonOk, readJson, withErrorHandling } from '@/lib/http'
 import { isAdminAuthenticated } from '@/lib/auth'
 import { projectInputSchema } from '@/lib/validation'
 import { assertAdminRequest, enforceRateLimit } from '@/lib/security'
@@ -19,7 +19,7 @@ export async function GET(_: Request, { params }: Params) {
       return jsonError(404, 'Proje bulunamadı.')
     }
 
-    return jsonOk(project)
+    return jsonNoStore(project)
   })
 }
 
@@ -31,7 +31,7 @@ export async function PATCH(request: Request, { params }: Params) {
     assertRequestBodySize(request, PROJECT_MUTATION_MAX_BYTES)
 
     const { id } = await params
-    const payload = await readJson(request, projectInputSchema)
+    const payload = await readJson(request, projectInputSchema, PROJECT_MUTATION_MAX_BYTES)
     const project = await updateProject(id, payload)
     if (!project) return jsonError(404, 'Proje bulunamadı.')
 

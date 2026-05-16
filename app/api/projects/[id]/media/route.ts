@@ -16,7 +16,7 @@ export async function POST(request: Request, { params }: Params) {
     assertRequestBodySize(request, MEDIA_MUTATION_MAX_BYTES)
 
     const { id } = await params
-    const payload = await readJson(request, mediaInputSchema)
+    const payload = await readJson(request, mediaInputSchema, MEDIA_MUTATION_MAX_BYTES)
     const media = await attachMediaToProject(id, payload)
     if (!media) return jsonError(404, 'Proje bulunamadı.')
 

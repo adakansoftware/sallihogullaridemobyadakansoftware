@@ -33,7 +33,7 @@ export async function PATCH(request: Request, { params }: Params) {
     assertRequestBodySize(request, MEDIA_UPDATE_MAX_BYTES)
 
     const { mediaId } = await params
-    const payload = await readJson(request, mediaUpdateSchema)
+    const payload = await readJson(request, mediaUpdateSchema, MEDIA_UPDATE_MAX_BYTES)
     const updated = await updateProjectMedia(mediaId, payload)
 
     if (!updated) {

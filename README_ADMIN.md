@@ -15,13 +15,13 @@ This project includes a protected admin panel for content management and operati
 1. Log in with the environment-based admin credentials.
 2. Update company-wide information from `/admin/settings`.
 3. Create or edit projects from `/admin/projects`.
-4. Upload gallery media only from the admin panel.
+4. Add gallery media using approved `/images/...` assets or YouTube links.
 5. Review incoming contact requests from `/admin/messages`.
 
 ## Safe Editing Expectations
 
 - Project cover images should point to `/images/...` or managed `/uploads/...` paths.
-- Uploaded files are validated before they are saved.
+- Static image paths and managed upload paths are validated before they are accepted.
 - Deleting a project also evaluates whether related uploaded files are still referenced elsewhere.
 - Draft content stays out of the public project listing until published.
 
@@ -37,3 +37,4 @@ This project includes a protected admin panel for content management and operati
 - This is a file-backed operational CMS for a corporate website.
 - It is suitable for moderate editorial/admin activity on a single writable deployment target.
 - If the client later needs multiple concurrent editors or multi-instance hosting, plan a database migration.
+- The current rate limit implementation is memory-backed and should be replaced with a shared store for multi-instance production.

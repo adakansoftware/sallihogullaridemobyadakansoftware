@@ -13,6 +13,7 @@ async function run() {
   const { normalizeAdminNextTarget } = await import('../lib/admin-redirect.ts')
   const { readJsonFileWithBackup } = await import('../lib/file-storage.ts')
   const { getComparableOrigin, resolveAllowedOrigin } = await import('../lib/origin.ts')
+  const { hashPasswordWithScrypt, isValidPasswordHashFormat, verifyPasswordAgainstHash } = await import('../lib/password-hash.ts')
   const { createSignedAdminSessionToken, isValidSignedAdminSessionToken } = await import('../lib/session-token.ts')
   const { createSlug, ensureUniqueSlug } = await import('../lib/slug.ts')
   const {
@@ -47,6 +48,11 @@ async function run() {
   assert.equal(isValidSignedAdminSessionToken('a'.repeat(513), process.env.ADMIN_SESSION_SECRET), false)
   assert.equal(isValidSignedAdminSessionToken(`${'a'.repeat(385)}.${'b'.repeat(43)}`, process.env.ADMIN_SESSION_SECRET), false)
   assert.equal(isValidSignedAdminSessionToken(createSignedAdminSessionToken(process.env.ADMIN_SESSION_SECRET, 60), process.env.ADMIN_SESSION_SECRET), true)
+
+  const hashedPassword = hashPasswordWithScrypt('super-secure-password', Buffer.alloc(16, 7))
+  assert.equal(isValidPasswordHashFormat(hashedPassword), true)
+  assert.equal(verifyPasswordAgainstHash('super-secure-password', hashedPassword), true)
+  assert.equal(verifyPasswordAgainstHash('wrong-password', hashedPassword), false)
 
   assert.equal(getComparableOrigin('https://example.com/path?q=1'), 'https://example.com')
   assert.equal(getComparableOrigin('not-a-url'), null)

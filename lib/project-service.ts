@@ -1,16 +1,15 @@
 import {
   assertManagedUploadExists,
-  assertPublicAssetExists,
+  assertPublicAssetExists as assertAnyPublicAssetExists,
   getProjectById,
   getProjectBySlug,
   isPublicAssetUrl,
   makeId,
-  readProjects,
   safeDeleteManagedUploadIfOrphan,
-  writeProjects,
   type Project,
   type ProjectMedia,
 } from '@/lib/store'
+import { getProjectRepository } from '@/lib/content-repository'
 import { createSlug, ensureUniqueSlug } from '@/lib/slug'
 import { isYouTubeUrl } from '@/lib/youtube'
 
@@ -102,14 +101,14 @@ function finalizeProjects(projects: Project[]) {
 async function validateProjectCoverImage(coverImage: string) {
   if (!coverImage || !isPublicAssetUrl(coverImage)) return
 
-  const exists = await assertPublicAssetExists(coverImage)
+  const exists = await assertAnyPublicAssetExists(coverImage)
   if (!exists) {
     throw new Error('Kapak görseli bulunamadı. Lütfen mevcut bir /images veya /uploads dosyası seçin.')
   }
 }
 
 export async function listAdminProjects() {
-  const projects = await readProjects()
+  const projects = await getProjectRepository().list()
   return projects.map(normalizeProjectMedia)
 }
 
@@ -136,7 +135,8 @@ export async function findPublishedProjectBySlug(slug: string) {
 
 export async function createProject(input: ProjectInput) {
   const now = new Date().toISOString()
-  const projects = await readProjects()
+  const repository = getProjectRepository()
+  const projects = await repository.list()
   const slug = ensureUniqueSlug(createSlug(input.slug || input.title), projects)
   await validateProjectCoverImage(input.coverImage)
 
@@ -159,12 +159,13 @@ export async function createProject(input: ProjectInput) {
   })
 
   projects.unshift(project)
-  await writeProjects(finalizeProjects(projects))
+  await repository.save(finalizeProjects(projects))
   return project
 }
 
 export async function updateProject(id: string, input: ProjectInput) {
-  const projects = await readProjects()
+  const repository = getProjectRepository()
+  const projects = await repository.list()
   const index = projects.findIndex((item) => item.id === id)
   if (index === -1) return null
 
@@ -189,18 +190,19 @@ export async function updateProject(id: string, input: ProjectInput) {
   })
 
   projects[index] = nextProject
-  await writeProjects(finalizeProjects(projects))
+  await repository.save(finalizeProjects(projects))
   return nextProject
 }
 
 export async function deleteProject(id: string) {
-  const projects = await readProjects()
+  const repository = getProjectRepository()
+  const projects = await repository.list()
   const project = projects.find((item) => item.id === id)
   if (!project) return false
 
   const nextProjects = finalizeProjects(projects.filter((item) => item.id !== id))
 
-  await writeProjects(nextProjects)
+  await repository.save(nextProjects)
 
   for (const media of project.media) {
     await safeDeleteManagedUploadIfOrphan(media.fileUrl, nextProjects)
@@ -214,12 +216,15 @@ export async function deleteProject(id: string) {
 }
 
 export async function attachMediaToProject(projectId: string, input: ProjectMediaInput) {
-  const projects = await readProjects()
+  const repository = getProjectRepository()
+  const projects = await repository.list()
   const projectIndex = projects.findIndex((item) => item.id === projectId)
   if (projectIndex === -1) return null
 
   if (input.resourceType === 'image') {
-    const fileExists = await assertManagedUploadExists(input.fileUrl)
+    const fileExists = input.fileUrl.startsWith('/uploads/')
+      ? await assertManagedUploadExists(input.fileUrl)
+      : await assertAnyPublicAssetExists(input.fileUrl)
     if (!fileExists) {
       throw new Error('Yüklenen dosya bulunamadı veya taşınmış olabilir.')
     }
@@ -266,12 +271,13 @@ export async function attachMediaToProject(projectId: string, input: ProjectMedi
   })
 
   projects[projectIndex] = nextProject
-  await writeProjects(finalizeProjects(projects))
+  await repository.save(finalizeProjects(projects))
   return nextProject.media.find((item) => item.id === media.id) || media
 }
 
 export async function updateProjectMedia(mediaId: string, input: ProjectMediaUpdateInput) {
-  const projects = await readProjects()
+  const repository = getProjectRepository()
+  const projects = await repository.list()
   let updatedMedia: ProjectMedia | null = null
 
   const nextProjects = finalizeProjects(
@@ -306,12 +312,13 @@ export async function updateProjectMedia(mediaId: string, input: ProjectMediaUpd
 
   if (!updatedMedia) return null
 
-  await writeProjects(nextProjects)
+  await repository.save(nextProjects)
   return updatedMedia
 }
 
 export async function deleteProjectMedia(mediaId: string) {
-  const projects = await readProjects()
+  const repository = getProjectRepository()
+  const projects = await repository.list()
   let removedFileUrl = ''
   let removedThumbUrl = ''
   let deleted = false
@@ -336,7 +343,7 @@ export async function deleteProjectMedia(mediaId: string) {
 
   if (!deleted) return false
 
-  await writeProjects(nextProjects)
+  await repository.save(nextProjects)
   await safeDeleteManagedUploadIfOrphan(removedFileUrl, nextProjects)
   if (removedThumbUrl && removedThumbUrl !== removedFileUrl) {
     await safeDeleteManagedUploadIfOrphan(removedThumbUrl, nextProjects)

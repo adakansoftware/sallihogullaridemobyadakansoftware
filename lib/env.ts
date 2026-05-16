@@ -1,17 +1,35 @@
 import { z } from 'zod'
 import { getComparableOrigin } from '@/lib/origin'
+import { isValidPasswordHashFormat } from '@/lib/password-hash'
 
 const envSchema = z
   .object({
     NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
     ADMIN_EMAIL: z.string().trim().email('ADMIN_EMAIL geçerli bir e-posta olmalıdır.'),
-    ADMIN_PASSWORD: z.string().min(12, 'ADMIN_PASSWORD en az 12 karakter olmalıdır.'),
+    ADMIN_PASSWORD: z.string().min(12, 'ADMIN_PASSWORD en az 12 karakter olmalıdır.').optional(),
+    ADMIN_PASSWORD_HASH: z.string().trim().optional(),
     ADMIN_SESSION_SECRET: z.string().min(32, 'ADMIN_SESSION_SECRET en az 32 karakter olmalıdır.'),
     APP_ORIGIN: z.string().trim().url('APP_ORIGIN geçerli bir URL olmalıdır.').optional(),
     NEXT_PUBLIC_SITE_URL: z.string().trim().url('NEXT_PUBLIC_SITE_URL geçerli bir URL olmalıdır.').optional(),
     GOOGLE_SITE_VERIFICATION: z.string().trim().optional(),
   })
   .superRefine((value, ctx) => {
+    if (!value.ADMIN_PASSWORD && !value.ADMIN_PASSWORD_HASH) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'ADMIN_PASSWORD veya ADMIN_PASSWORD_HASH ayarlanmalıdır.',
+        path: ['ADMIN_PASSWORD'],
+      })
+    }
+
+    if (value.ADMIN_PASSWORD_HASH && !isValidPasswordHashFormat(value.ADMIN_PASSWORD_HASH)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'ADMIN_PASSWORD_HASH desteklenen scrypt formatında olmalıdır.',
+        path: ['ADMIN_PASSWORD_HASH'],
+      })
+    }
+
     if (value.APP_ORIGIN && value.NEXT_PUBLIC_SITE_URL) {
       const appOrigin = getComparableOrigin(value.APP_ORIGIN)
       const publicOrigin = getComparableOrigin(value.NEXT_PUBLIC_SITE_URL)
@@ -30,6 +48,7 @@ const parsedEnv = envSchema.safeParse({
   NODE_ENV: process.env.NODE_ENV,
   ADMIN_EMAIL: process.env.ADMIN_EMAIL,
   ADMIN_PASSWORD: process.env.ADMIN_PASSWORD,
+  ADMIN_PASSWORD_HASH: process.env.ADMIN_PASSWORD_HASH,
   ADMIN_SESSION_SECRET: process.env.ADMIN_SESSION_SECRET || process.env.AUTH_SECRET,
   APP_ORIGIN: process.env.APP_ORIGIN,
   NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,

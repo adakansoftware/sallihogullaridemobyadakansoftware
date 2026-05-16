@@ -1,12 +1,14 @@
-import { readSettings, writeSettings, type SiteSettings } from '@/lib/store'
+import { getSettingsRepository } from '@/lib/content-repository'
+import type { SiteSettings } from '@/lib/store'
 
 export async function getSiteSettings() {
-  return readSettings()
+  return getSettingsRepository().get()
 }
 
 export async function updateSiteSettings(input: SiteSettings) {
-  const current = await readSettings()
+  const repository = getSettingsRepository()
+  const current = await repository.get()
   const nextSettings = { ...current, ...input }
-  await writeSettings(nextSettings)
+  await repository.save(nextSettings)
   return nextSettings
 }
