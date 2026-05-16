@@ -68,8 +68,8 @@ export const fleetItems = [
     name: 'Beko Loder',
     count: '2',
     capacity: 'Saha Destek',
-    description: 'Dar alan kazısı, geri dolgu, yükleme ve saha içi düzenleme işlerinde kullanılan Hidromek 4CX ve 3CX beko loder desteği.',
-    specs: ['Hidromek 4CX x1', 'Hidromek 3CX x1', 'Geri Dolgu ve Yükleme'],
+    description: 'Dar alan kazısı, geri dolgu, yükleme ve saha içi düzenleme işlerinde kullanılan Hidromek HMK 102 B Alpha ve Hidromek HMK 102 S Alpha beko loder desteği.',
+    specs: ['Hidromek HMK 102 B Alpha x1', 'Hidromek HMK 102 S Alpha x1', 'Geri Dolgu ve Yükleme'],
     image: '/images/backhoe.jpg',
   },
   {
@@ -97,12 +97,12 @@ export const fleetItems = [
     image: '/images/dump-truck.jpg',
   },
   {
-    name: 'Silindir',
+    name: 'Toprak Silindiri',
     count: '1',
     capacity: 'Zemin Sıkıştırma',
-    description: 'Dolgu, yol alt yapısı, saha düzenleme ve platform hazırlığında zemin sıkıştırma ihtiyacını kontrollü şekilde karşılayan silindir desteği.',
-    specs: ['Zemin Sıkıştırma', 'Dolgu ve Yol Hazırlığı', 'Saha Platform Düzenleme'],
-    image: '/images/project-2.jpg',
+    description: 'Dolgu, yol alt yapısı, saha düzenleme ve platform hazırlığında zemin sıkıştırma ihtiyacını kontrollü şekilde karşılayan Sakai marka toprak silindiri desteği.',
+    specs: ['Sakai', 'Toprak Silindiri', 'Zemin Sıkıştırma'],
+    image: '/images/fleet-silindir-sakai.jpg',
   },
 ]
 
