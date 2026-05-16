@@ -27,6 +27,7 @@ export type Project = {
   location: string
   category: string
   coverImage: string
+  cardImage?: string
   status: 'Taslak' | 'Yayında'
   featured: boolean
   tags: string[]

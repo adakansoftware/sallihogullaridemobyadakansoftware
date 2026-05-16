@@ -123,22 +123,24 @@
   },
   {
     "id": "proj-organize-sanayi",
-    "title": "Sanayi Sahası Dolgu ve Zemin Hazırlığı",
-    "slug": "organize-sanayi-saha-hazirligi",
-    "summary": "Sanayi sahasında zemin hazırlığı, dolgu düzeni ve malzeme sevkiyatının tek saha planı içinde yönetildiği çalışma.",
-    "description": "Üretim veya depo kullanımına hazırlanacak sahada tesviye, dolgu ve malzeme hareketi birbirini aksatmayacak şekilde planlandı. İş makinesi ve kamyon trafiği; saha erişimi, güvenli çalışma alanı ve günlük program dikkate alınarak organize edildi.",
-    "location": "Adana OSB",
-    "category": "Saha Hazırlığı",
+    "title": "Hatay OGD Özpolatlar Adi Ortaklığı Bypass ve Kum Nakliyesi",
+    "slug": "hatay-ogd-ozpolatlar-adi-ortakligi-bypass-ve-kum-nakliyesi",
+    "summary": "Hatay sahasında bypass hattı ve kum nakliyesinin kamyon akışıyla birlikte yürütüldüğü saha çalışması.",
+    "description": "Hatay OGD Özpolatlar Adi Ortaklığı işinde bypass hattı düzeni, saha içi kamyon sirkülasyonu ve kum nakliyesi aynı operasyon planı içinde yönetildi. Zemin hazırlığı ve sevkiyat akışı; günlük iş programı, saha erişimi ve güvenli çalışma düzeni dikkate alınarak sürdürüldü.",
+    "location": "Hatay",
+    "category": "Bypass ve Kum Nakliyesi",
     "coverImage": "/images/project-2.jpg",
+    "cardImage": "/images/gallery-4.jpg",
     "status": "Yayında",
     "featured": false,
     "tags": [
-      "Sanayi Sahası",
-      "Dolgu",
-      "Tesviye"
+      "Hatay",
+      "Bypass",
+      "Kum Nakliyesi",
+      "Şantiye Sahası"
     ],
     "createdAt": "2026-01-08T09:00:00.000Z",
-    "updatedAt": "2026-01-08T09:00:00.000Z",
+    "updatedAt": "2026-05-15T11:40:00.000Z",
     "media": [
       {
         "id": "media-organize-1",

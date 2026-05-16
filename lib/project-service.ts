@@ -22,6 +22,7 @@ type ProjectInput = {
   location: string
   category: string
   coverImage: string
+  cardImage?: string
   status: 'Taslak' | 'Yayında'
   featured: boolean
   tags: string[]
@@ -85,6 +86,7 @@ function normalizeProjectMedia(project: Project) {
 
   return {
     ...project,
+    cardImage: project.cardImage || project.coverImage || coverImage,
     coverImage,
     media: sortedMedia.map((item) => ({
       ...item,
@@ -147,6 +149,7 @@ export async function createProject(input: ProjectInput) {
     location: input.location,
     category: input.category,
     coverImage: input.coverImage,
+    cardImage: input.cardImage || input.coverImage,
     status: input.status,
     featured: input.featured,
     tags: input.tags,
@@ -178,6 +181,7 @@ export async function updateProject(id: string, input: ProjectInput) {
     location: input.location,
     category: input.category,
     coverImage: nextCoverImage,
+    cardImage: input.cardImage || current.cardImage || nextCoverImage,
     status: input.status,
     featured: input.featured,
     tags: input.tags,

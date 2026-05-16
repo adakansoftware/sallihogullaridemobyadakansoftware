@@ -46,7 +46,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
             <Link href={`/projects/${featuredProject.slug}`} className="group relative cursor-pointer overflow-hidden lg:col-span-3 lg:row-span-2">
               <div className="deep-shadow relative h-full min-h-[680px] sm:min-h-[550px] lg:min-h-full">
                 <Image
-                  src={featuredProject.coverImage || '/images/project-1.jpg'}
+                  src={featuredProject.cardImage || featuredProject.coverImage || '/images/project-1.jpg'}
                   alt={`${featuredProject.title} - Sallıhoğulları Hafriyat hafriyat çalışması`}
                   fill
                   className="object-cover transition-transform duration-1000 group-hover:scale-105"
@@ -92,7 +92,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                   <div className="flex h-full flex-col border border-border/30 bg-card sm:flex-row">
                     <div className="relative h-48 w-full shrink-0 overflow-hidden sm:h-auto sm:w-44 lg:w-48">
                       <Image
-                        src={project.coverImage || '/images/project-2.jpg'}
+                        src={project.cardImage || project.coverImage || '/images/project-2.jpg'}
                         alt={`${project.title} - Sallıhoğulları Hafriyat saha çalışması`}
                         fill
                         className="object-cover transition-transform duration-700 group-hover:scale-110"

@@ -44,10 +44,10 @@ export function Hero({ settings }: { settings: SiteSettings }) {
       <div className="pointer-events-none absolute bottom-1/4 left-1/3 h-[400px] w-[400px] rounded-full bg-primary/4 blur-[120px]" />
 
       <div className="relative z-10 mx-auto max-w-[1400px] px-6 pt-32 pb-24 lg:px-8 lg:pt-44 lg:pb-36">
-        <div className="max-w-3xl">
-          <h1 className="mb-8 text-[2.75rem] leading-[0.95] font-black tracking-[-0.02em] text-foreground sm:text-5xl lg:text-6xl xl:text-[5.25rem]">
+        <div className="max-w-3xl overflow-visible">
+          <h1 className="mb-8 overflow-visible pb-1 text-[2.75rem] leading-[1.08] font-black tracking-[-0.02em] text-foreground sm:text-5xl lg:text-6xl xl:text-[5.25rem]">
             <span className="block">{heroLead}</span>
-            <span className="text-gradient mt-2 block">{heroAccent}</span>
+            <span className="text-gradient mt-2 block overflow-visible pb-1">{heroAccent}</span>
           </h1>
 
           <p className="mb-12 max-w-xl text-lg leading-[1.7] font-light text-muted-foreground lg:text-xl">
