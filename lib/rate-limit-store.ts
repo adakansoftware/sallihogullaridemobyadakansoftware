@@ -30,6 +30,8 @@ class MemoryRateLimitStore implements RateLimitStore {
   }
 }
 
+const rateLimitStoreDriver = 'memory' as const
+
 declare global {
   var __saliRateLimitStore: RateLimitStore | undefined
 }
@@ -40,4 +42,8 @@ export function getRateLimitStore() {
   }
 
   return globalThis.__saliRateLimitStore
+}
+
+export function getRateLimitStoreDriver() {
+  return rateLimitStoreDriver
 }

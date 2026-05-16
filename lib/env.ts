@@ -5,6 +5,8 @@ import { isValidPasswordHashFormat } from '@/lib/password-hash'
 const envSchema = z
   .object({
     NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
+    CONTENT_STORE: z.enum(['file']).default('file'),
+    RATE_LIMIT_STORE: z.enum(['memory']).default('memory'),
     ADMIN_EMAIL: z.string().trim().email('ADMIN_EMAIL geçerli bir e-posta olmalıdır.'),
     ADMIN_PASSWORD: z.string().min(12, 'ADMIN_PASSWORD en az 12 karakter olmalıdır.').optional(),
     ADMIN_PASSWORD_HASH: z.string().trim().optional(),
@@ -46,6 +48,8 @@ const envSchema = z
 
 const parsedEnv = envSchema.safeParse({
   NODE_ENV: process.env.NODE_ENV,
+  CONTENT_STORE: process.env.CONTENT_STORE,
+  RATE_LIMIT_STORE: process.env.RATE_LIMIT_STORE,
   ADMIN_EMAIL: process.env.ADMIN_EMAIL,
   ADMIN_PASSWORD: process.env.ADMIN_PASSWORD,
   ADMIN_PASSWORD_HASH: process.env.ADMIN_PASSWORD_HASH,

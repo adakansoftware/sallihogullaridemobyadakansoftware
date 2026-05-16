@@ -48,6 +48,8 @@ ADMIN_PASSWORD=use-a-strong-password
 # Optional alternative to ADMIN_PASSWORD:
 # ADMIN_PASSWORD_HASH=scrypt:<salt-base64url>:<hash-base64url>
 ADMIN_SESSION_SECRET=use-a-long-random-secret
+CONTENT_STORE=file
+RATE_LIMIT_STORE=memory
 APP_ORIGIN=https://example.com
 NEXT_PUBLIC_SITE_URL=https://example.com
 ```
@@ -59,9 +61,10 @@ NEXT_PUBLIC_SITE_URL=https://example.com
 - `data/` must be readable and writable in production.
 - The current build keeps the upload API disabled; image assets are expected under `public/images` and video embeds should use YouTube URLs.
 - This project uses file-based persistence and is best deployed to a single writable instance.
-- Keep `data/` and `public/uploads/` in backups together.
+- Keep `data/` and custom `public/images/` assets in backups together.
 - Use strong, client-specific admin credentials before handoff.
 - Rate limiting is currently memory-backed, so it is local-instance only unless replaced with a shared store.
+- `/api/health` now reports the active content store, rate-limit store, and production warnings after admin authentication.
 
 ## Operations
 
@@ -77,3 +80,4 @@ NEXT_PUBLIC_SITE_URL=https://example.com
 - [CLIENT_HANDOFF.md](C:\Users\adaka\Desktop\sali_admin_full\CLIENT_HANDOFF.md)
 - [DELIVERY_CHECKLIST.md](C:\Users\adaka\Desktop\sali_admin_full\DELIVERY_CHECKLIST.md)
 - [DEPLOYMENT.md](C:\Users\adaka\Desktop\sali_admin_full\DEPLOYMENT.md)
+- [PRODUCTION_MIGRATION.md](C:\Users\adaka\Desktop\sali_admin_full\PRODUCTION_MIGRATION.md)

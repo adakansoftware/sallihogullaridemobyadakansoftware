@@ -58,6 +58,7 @@ class FileSettingsRepository implements SettingsRepository {
 const projectRepository: ProjectRepository = new FileProjectRepository()
 const messageRepository: MessageRepository = new FileMessageRepository()
 const settingsRepository: SettingsRepository = new FileSettingsRepository()
+const contentStoreDriver = 'file' as const
 
 export function getProjectRepository() {
   return projectRepository
@@ -69,4 +70,8 @@ export function getMessageRepository() {
 
 export function getSettingsRepository() {
   return settingsRepository
+}
+
+export function getContentStoreDriver() {
+  return contentStoreDriver
 }

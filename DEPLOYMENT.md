@@ -12,11 +12,12 @@
 - Read/write access to `data/`
 - Stable origin configuration through `APP_ORIGIN` and `NEXT_PUBLIC_SITE_URL`
 - If you use hashed admin credentials, provide `ADMIN_PASSWORD_HASH`; otherwise provide `ADMIN_PASSWORD`
+- The current defaults are `CONTENT_STORE=file` and `RATE_LIMIT_STORE=memory`
 
 ## Recommended Release Flow
 
 1. Update environment variables.
-2. Restore or attach persisted `data/` and `public/uploads/`.
+2. Restore or attach persisted `data/` and any curated `public/images/` assets.
 3. Run `npm run test`.
 4. Run `npm run lint`.
 5. Run `npm run build`.
@@ -38,3 +39,4 @@
 - Concurrent edits are hardened, but a shared database is still the correct future upgrade for larger teams.
 - The upload API is intentionally disabled in this build; production image management currently relies on controlled `public/images` assets or a future object-storage integration.
 - If the live domain changes, update both `APP_ORIGIN` and `NEXT_PUBLIC_SITE_URL` together.
+- See [PRODUCTION_MIGRATION.md](C:\Users\adaka\Desktop\sali_admin_full\PRODUCTION_MIGRATION.md) before moving to multi-instance or serverless production.
