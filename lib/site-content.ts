@@ -96,6 +96,14 @@ export const fleetItems = [
     specs: ['Ford 2524 x1', 'Su Tankeri / Arazöz', 'Toz Kontrolü'],
     image: '/images/dump-truck.jpg',
   },
+  {
+    name: 'Silindir',
+    count: '1',
+    capacity: 'Zemin Sıkıştırma',
+    description: 'Dolgu, yol alt yapısı, saha düzenleme ve platform hazırlığında zemin sıkıştırma ihtiyacını kontrollü şekilde karşılayan silindir desteği.',
+    specs: ['Zemin Sıkıştırma', 'Dolgu ve Yol Hazırlığı', 'Saha Platform Düzenleme'],
+    image: '/images/project-2.jpg',
+  },
 ]
 
 export const whyChooseUsReasons = [
