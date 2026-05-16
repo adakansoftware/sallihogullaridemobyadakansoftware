@@ -90,6 +90,52 @@
     ]
   },
   {
+    "id": "proj-hatay-yikim-calismasi",
+    "title": "Hatay Yıkım Çalışması",
+    "slug": "hatay-yikim-calismasi",
+    "summary": "Yıkım sahasında ekskavatör, moloz ayrıştırma ve kamyon yükleme akışının birlikte yürütüldüğü çalışma.",
+    "description": "Hatay yıkım çalışmasında yapı sökümü, moloz ayrıştırma ve damperli kamyona yükleme süreci aynı saha planı içinde yönetildi. Ekskavatör pozisyonu, kamyon yaklaşımı ve güvenli çalışma alanı günlük operasyon akışına göre koordine edildi.",
+    "location": "Hatay",
+    "category": "Yıkım",
+    "coverImage": "/images/project-hika-demolition-1.png",
+    "cardImage": "/images/project-hika-demolition-1.png",
+    "status": "Yayında",
+    "featured": false,
+    "tags": [
+      "Yıkım",
+      "Ekskavatör",
+      "Moloz Yükleme",
+      "Damperli Nakliyat",
+      "Hatay"
+    ],
+    "createdAt": "2026-05-16T15:53:00.000Z",
+    "updatedAt": "2026-05-16T15:55:00.000Z",
+    "media": [
+      {
+        "id": "media-hatay-yikim-1",
+        "title": "Yıkım sahasında çift ekskavatör çalışması",
+        "fileUrl": "/images/project-hika-demolition-1.png",
+        "fileType": "image/png",
+        "resourceType": "image",
+        "thumbnailUrl": "/images/project-hika-demolition-1.png",
+        "isCover": true,
+        "sortOrder": 0,
+        "createdAt": "2026-05-16T15:53:00.000Z"
+      },
+      {
+        "id": "media-hatay-yikim-2",
+        "title": "Ekskavatör ve damperli kamyon yükleme aksı",
+        "fileUrl": "/images/project-hika-demolition-2.png",
+        "fileType": "image/png",
+        "resourceType": "image",
+        "thumbnailUrl": "/images/project-hika-demolition-2.png",
+        "isCover": false,
+        "sortOrder": 1,
+        "createdAt": "2026-05-16T15:54:00.000Z"
+      }
+    ]
+  },
+  {
     "id": "proj-basaksehir-metro",
     "title": "Şantiye Hafriyatı ve Damperli Nakliyat",
     "slug": "santiye-hafriyati-damperli-nakliyat-calismasi",

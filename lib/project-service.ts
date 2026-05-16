@@ -350,7 +350,7 @@ export function buildProjectGallery(project: Project) {
   const mediaUrls = new Set(normalized.media.map((item) => item.fileUrl))
   const fallbackMedia: ProjectMedia[] = fallbackGalleryPool
     .filter((fileUrl) => fileUrl !== normalized.coverImage && !mediaUrls.has(fileUrl))
-    .slice(0, Math.max(0, 4 - normalized.media.length))
+    .slice(0, Math.min(1, Math.max(0, 4 - normalized.media.length)))
     .map((fileUrl, index) => ({
       id: `fallback-${normalized.id}-${index}`,
       title: `${normalized.title} ek görünüm ${index + 1}`,

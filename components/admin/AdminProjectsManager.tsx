@@ -1,7 +1,9 @@
 "use client";
 
 import { useMemo, useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
+import { CalendarDays, Images, Search, Star } from 'lucide-react'
 import type { Project } from '@/lib/store'
 
 type SortKey = 'updated-desc' | 'updated-asc' | 'title-asc' | 'title-desc'
@@ -20,6 +22,11 @@ function sortProjects(projects: Project[], sortKey: SortKey) {
     default:
       return sorted.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
   }
+}
+
+function formatProjectDate(value: string) {
+  const date = new Date(value)
+  return Number.isNaN(date.getTime()) ? 'Güncel değil' : date.toLocaleDateString('tr-TR')
 }
 
 export function AdminProjectsManager({ projects }: { projects: Project[] }) {
@@ -52,15 +59,18 @@ export function AdminProjectsManager({ projects }: { projects: Project[] }) {
 
   return (
     <div className="space-y-6">
-      <div className="industrial-border rounded-[28px] bg-white/[0.04] p-5">
+      <div className="admin-surface rounded-[28px] p-5">
         <div className="grid gap-4 xl:grid-cols-[1.3fr_0.7fr_0.6fr_0.7fr_auto]">
-          <input
-            className="input-premium"
-            placeholder="Proje adı, konum veya etiket ara"
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            aria-label="Projelerde ara"
-          />
+          <label className="relative">
+            <Search className="pointer-events-none absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-white/35" />
+            <input
+              className="input-premium pl-11"
+              placeholder="Proje adı, konum veya etiket ara"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              aria-label="Projelerde ara"
+            />
+          </label>
           <select className="input-premium" value={status} onChange={(event) => setStatus(event.target.value as typeof status)} aria-label="Proje durumuna göre filtrele">
             <option value="all">Tüm durumlar</option>
             <option value="Yayında">Yayında</option>
@@ -72,57 +82,83 @@ export function AdminProjectsManager({ projects }: { projects: Project[] }) {
             <option value="title-asc">Başlık A-Z</option>
             <option value="title-desc">Başlık Z-A</option>
           </select>
-          <label className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white/70">
+          <label className="admin-surface-muted flex items-center gap-3 rounded-2xl px-4 py-3 text-sm text-white/70">
             <input type="checkbox" checked={featuredOnly} onChange={(event) => setFeaturedOnly(event.target.checked)} aria-label="Sadece öne çıkan projeleri göster" />
             Öne çıkanlar
           </label>
-          <div className="rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white/55">{filteredProjects.length} kayıt</div>
+          <div className="admin-surface-muted rounded-2xl px-4 py-3 text-sm text-white/55">{filteredProjects.length} kayıt</div>
         </div>
 
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
-          <span className="rounded-2xl border border-white/10 px-4 py-3 text-sm text-white/65">Yayında: {publishedCount}</span>
-          <span className="rounded-2xl border border-white/10 px-4 py-3 text-sm text-white/65">Taslak: {draftCount}</span>
-          <span className="rounded-2xl border border-white/10 px-4 py-3 text-sm text-white/65">Medya: {totalMediaCount}</span>
+          <span className="admin-surface-muted rounded-2xl px-4 py-3 text-sm text-white/65">Yayında: {publishedCount}</span>
+          <span className="admin-surface-muted rounded-2xl px-4 py-3 text-sm text-white/65">Taslak: {draftCount}</span>
+          <span className="admin-surface-muted rounded-2xl px-4 py-3 text-sm text-white/65">Medya: {totalMediaCount}</span>
         </div>
       </div>
 
-      <div className="industrial-border rounded-[32px] bg-white/[0.04] p-4 md:p-6">
-        <div className="hidden grid-cols-[minmax(0,1.4fr)_0.8fr_0.7fr_0.8fr_auto] gap-3 border-b border-white/10 px-4 pb-4 text-[11px] uppercase tracking-[0.18em] text-white/35 lg:grid">
-          <span>Proje</span>
-          <span>Durum</span>
-          <span>Medya</span>
-          <span>Güncelleme</span>
-          <span className="text-right">İşlem</span>
-        </div>
-
-        <div className="grid gap-4 pt-4">
+      <div className="admin-surface rounded-[32px] p-4 md:p-6">
+        <div className="grid gap-4 pt-1">
           {filteredProjects.map((project) => (
-            <div key={project.id} className="rounded-[24px] border border-white/10 bg-white/[0.03] p-5 transition hover:border-amber-400/20">
-              <div className="grid gap-4 lg:grid-cols-[minmax(0,1.4fr)_0.8fr_0.7fr_0.8fr_auto] lg:items-center">
-                <div className="min-w-0">
-                  <div className="flex flex-wrap items-center gap-3">
-                    <h2 className="break-words text-xl font-medium text-white">{project.title}</h2>
-                    {project.featured ? <span className="rounded-full bg-amber-400/10 px-3 py-1 text-xs text-amber-300">Öne Çıkan</span> : null}
+            <div key={project.id} className="admin-surface-muted overflow-hidden rounded-[26px] transition hover:border-amber-400/20">
+              <div className="grid gap-0 lg:grid-cols-[240px_minmax(0,1fr)]">
+                <div className="relative min-h-[220px]">
+                  <Image
+                    src={project.cardImage || project.coverImage || '/images/project-1.jpg'}
+                    alt={project.title}
+                    fill
+                    className="object-cover"
+                    sizes="240px"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                  <div className="absolute right-4 bottom-4 left-4 flex flex-wrap gap-2">
+                    <span className={`inline-flex rounded-full px-3 py-1 text-xs ${project.status === 'Yayında' ? 'bg-emerald-400/10 text-emerald-300' : 'bg-white/10 text-white/70'}`}>
+                      {project.status}
+                    </span>
+                    {project.featured ? (
+                      <span className="inline-flex items-center gap-1 rounded-full bg-amber-400/10 px-3 py-1 text-xs text-amber-300">
+                        <Star className="h-3 w-3" />
+                        Öne Çıkan
+                      </span>
+                    ) : null}
                   </div>
-                  <div className="mt-2 break-words text-sm text-white/45">{project.category || 'Kategori yok'} • {project.location || 'Lokasyon yok'}</div>
-                  {project.summary ? <p className="mt-3 max-w-3xl break-words text-white/65">{project.summary}</p> : null}
-                  {project.tags.length ? <div className="mt-3 flex flex-wrap gap-2">{project.tags.map((tag) => <span key={tag} className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/65">{tag}</span>)}</div> : null}
                 </div>
 
-                <div>
-                  <div className={`inline-flex rounded-full px-3 py-1 text-xs ${project.status === 'Yayında' ? 'bg-emerald-400/10 text-emerald-300' : 'bg-white/10 text-white/60'}`}>
-                    {project.status}
+                <div className="flex flex-col p-5 lg:p-6">
+                  <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                    <div className="min-w-0">
+                      <h2 className="break-words text-xl font-semibold text-white">{project.title}</h2>
+                      <div className="mt-2 break-words text-sm text-white/45">
+                        {project.category || 'Kategori yok'} • {project.location || 'Lokasyon yok'}
+                      </div>
+                    </div>
+
+                    <Link href={`/admin/projects/${project.id}`} className="btn-ghost-premium inline-flex h-11 items-center px-5">
+                      Düzenle
+                    </Link>
                   </div>
-                </div>
 
-                <div className="text-sm text-white/70">{project.media.length} medya</div>
+                  {project.summary ? <p className="mt-4 max-w-3xl break-words text-sm leading-7 text-white/65">{project.summary}</p> : null}
 
-                <div className="text-sm text-white/55">{new Date(project.updatedAt).toLocaleDateString('tr-TR')}</div>
+                  <div className="mt-5 flex flex-wrap gap-3 text-xs text-white/55">
+                    <span className="inline-flex items-center gap-2 rounded-full border border-white/10 px-3 py-2">
+                      <Images className="h-3.5 w-3.5 text-amber-300" />
+                      {project.media.length} medya
+                    </span>
+                    <span className="inline-flex items-center gap-2 rounded-full border border-white/10 px-3 py-2">
+                      <CalendarDays className="h-3.5 w-3.5 text-amber-300" />
+                      {formatProjectDate(project.updatedAt)}
+                    </span>
+                  </div>
 
-                <div className="flex justify-start lg:justify-end">
-                  <Link href={`/admin/projects/${project.id}`} className="btn-ghost-premium inline-flex h-11 items-center px-5">
-                    Düzenle
-                  </Link>
+                  {project.tags.length ? (
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {project.tags.map((tag) => (
+                        <span key={tag} className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/65">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
                 </div>
               </div>
             </div>
