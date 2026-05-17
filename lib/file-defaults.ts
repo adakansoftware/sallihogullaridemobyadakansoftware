@@ -1,8 +1,8 @@
 import type { SiteSettings } from '@/lib/store'
 
 export const defaultSiteSettings: SiteSettings = {
-  companyName: 'Salihoğulları Hafriyat',
-  companyShortName: 'Salihoğulları',
+  companyName: 'Sallıhoğulları Hafriyat',
+  companyShortName: 'Sallıhoğulları',
   contactPhone: '+90 539 941 65 21',
   contactPhoneSecondary: '+90 532 555 55 55',
   contactEmail: 'info@salihogullari.com',

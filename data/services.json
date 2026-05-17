@@ -1,0 +1,66 @@
+[
+  {
+    "slug": "hafriyat-kazi-isleri",
+    "title": "Hafriyat ve Kazı İşleri",
+    "description": "Temel kazısı, kanal açma, parsel temizliği ve hafriyat çıkarma işlerinde kazı sınırı, makine erişimi, yükleme noktası ve döküm sevkiyatı işe başlamadan sahada netleştirilir.",
+    "metaDescription": "Hafriyat ve kazı işleri hizmetimizde temel kazısı, kanal açma, parsel temizliği ve kontrollü hafriyat sevkiyatı birlikte planlanır.",
+    "image": "/images/project-1.jpg",
+    "highlights": ["Temel kazısı", "Kanal açma", "Parsel temizliği", "Kontrollü sevkiyat"]
+  },
+  {
+    "slug": "ekskavator-calismalari",
+    "title": "Ekskavatör Çalışmaları",
+    "description": "Kazı, yükleme, kırma, tesviye ve zemin hazırlığında zeminin durumuna, çalışma alanına ve günlük programa göre doğru ekskavatör gücü sahaya yönlendirilir.",
+    "metaDescription": "Ekskavatör çalışmalarında kazı, yükleme, tesviye ve zemin hazırlığı için sahaya uygun makine gücü planlanır.",
+    "image": "/images/excavator.jpg",
+    "highlights": ["Kazı ve yükleme", "Tesviye", "Zemin hazırlığı", "Saha programına uyum"]
+  },
+  {
+    "slug": "beko-loder-destegi",
+    "title": "Beko Loder Desteği",
+    "description": "Dar alan kazıları, geri dolgu, küçük ölçekli yükleme, saha içi düzeltme ve malzeme toparlama işlerinde hızlı hareket eden beko loder desteği sağlanır.",
+    "metaDescription": "Beko loder desteği ile dar alan kazıları, geri dolgu ve saha içi düzenleme işleri hızlı ve kontrollü yürütülür.",
+    "image": "/images/backhoe.jpg",
+    "highlights": ["Dar alan kazıları", "Geri dolgu", "Malzeme toparlama", "Saha içi düzenleme"]
+  },
+  {
+    "slug": "damperli-nakliyat",
+    "title": "Damperli Nakliyat",
+    "description": "Toprak, moloz, taş, kum, mıcır ve dolgu malzemesi taşımalarında kamyon akışı; yükleme noktası, döküm sahası ve günlük iş temposuna göre kurulur.",
+    "metaDescription": "Damperli nakliyat hizmetimizde toprak, moloz, kum, taş ve dolgu malzemeleri için düzenli yükleme ve döküm akışı sağlanır.",
+    "image": "/images/dump-truck.jpg",
+    "highlights": ["Toprak ve moloz sevkiyatı", "Kum ve mıcır taşıma", "Döküm planı", "Günlük kamyon akışı"]
+  },
+  {
+    "slug": "lowbed-nakliyat",
+    "title": "Lowbed Nakliyat",
+    "description": "Ekskavatör, beko loder ve ağır ekipman sevkiyatında yükleme güvenliği, güzergah uygunluğu ve teslim saati dikkate alınarak lowbed planı hazırlanır.",
+    "metaDescription": "Lowbed nakliyat hizmetimiz ağır iş makineleri ve ekipmanların güvenli yükleme, güzergah ve teslim planıyla taşınmasını kapsar.",
+    "image": "/images/lowbed.jpg",
+    "highlights": ["Ağır ekipman taşıma", "Güvenli yükleme", "Güzergah planı", "Zamanında teslim"]
+  },
+  {
+    "slug": "dolgu-zemin-hazirligi",
+    "title": "Dolgu ve Zemin Hazırlığı",
+    "description": "Yol, altyapı, parsel ve şantiye hazırlıklarında dolgu sevkiyatı, serim düzeni, sıkıştırma ihtiyacı ve tesviye süreci aynı saha planında ele alınır.",
+    "metaDescription": "Dolgu ve zemin hazırlığı hizmetimizde serim, tesviye ve sıkıştırma ihtiyacı tek saha planı içinde yönetilir.",
+    "image": "/images/project-2.jpg",
+    "highlights": ["Dolgu sevkiyatı", "Serim düzeni", "Tesviye", "Sıkıştırma planı"]
+  },
+  {
+    "slug": "arazoz-su-tankeri",
+    "title": "Arazöz / Su Tankeri",
+    "description": "Şantiye içi sulama, yol temizliği, toz kontrolü ve saha destek ihtiyaçlarında arazöz ve su tankeri planlı şekilde yönlendirilir.",
+    "metaDescription": "Arazöz ve su tankeri hizmetimiz şantiye içi sulama, toz kontrolü ve saha temizliği için planlı destek sağlar.",
+    "image": "/images/fleet-arazoz-truck.png",
+    "highlights": ["Şantiye içi sulama", "Toz kontrolü", "Yol temizliği", "Saha desteği"]
+  },
+  {
+    "slug": "altyapi-kazilari",
+    "title": "Altyapı Kazıları",
+    "description": "Hat açma, kanal hazırlığı, boru ve altyapı geçişleri için gerekli kazı düzeni; zemin yapısı, erişim hattı ve günlük saha programına göre kurulur.",
+    "metaDescription": "Altyapı kazıları hizmetimizde kanal, hat ve geçiş çalışmaları için kazı planı saha koşullarına göre oluşturulur.",
+    "image": "/images/gallery-2.jpg",
+    "highlights": ["Hat ve kanal kazıları", "Altyapı geçişleri", "Zemin değerlendirmesi", "Günlük saha koordinasyonu"]
+  }
+]

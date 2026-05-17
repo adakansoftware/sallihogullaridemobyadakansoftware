@@ -23,6 +23,7 @@ export const metadata: Metadata = {
 
 export default async function ContactPage() {
   const settings = await getSiteSettings()
+  const mapsEmbedUrl = process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL?.trim() || ''
 
   return (
     <SiteFrame settings={settings}>
@@ -32,7 +33,7 @@ export default async function ContactPage() {
         image="/images/lowbed.jpg"
         primaryCta={{ href: settings.whatsappUrl, label: 'WhatsApp ile Görüşün' }}
       />
-      <ContactSection settings={settings} />
+      <ContactSection settings={settings} mapsEmbedUrl={mapsEmbedUrl} />
       <CTASection settings={settings} />
     </SiteFrame>
   )

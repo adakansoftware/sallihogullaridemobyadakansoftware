@@ -15,7 +15,7 @@ export function WhyUsSection() {
             <div className="relative aspect-[4/5] overflow-hidden">
               <Image
                 src="/images/about.jpg"
-                alt="Salihoğulları Hafriyat ekibi"
+                alt="Sallıhoğulları Hafriyat ekibi"
                 fill
                 className="object-cover"
                 sizes="(min-width: 1024px) 40vw, 100vw"

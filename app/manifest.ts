@@ -2,8 +2,8 @@ import type { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Salihoğulları Hafriyat',
-    short_name: 'Salihoğulları',
+    name: 'Sallıhoğulları Hafriyat',
+    short_name: 'Sallıhoğulları',
     description: 'Adana merkezli hafriyat, damperli nakliyat, lowbed ve arazöz hizmetleri.',
     start_url: '/',
     display: 'standalone',

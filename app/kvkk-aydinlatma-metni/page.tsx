@@ -28,7 +28,7 @@ export default async function KvkkPage() {
             <div className="mt-8 space-y-8 text-sm leading-8 text-white/72 md:text-base">
               <p>
                 6698 sayılı Kişisel Verilerin Korunması Kanunu (“KVKK”) uyarınca, kişisel verileriniz veri sorumlusu sıfatıyla{' '}
-                <span className="font-semibold text-white">{settings.companyName || 'Salihoğulları Hafriyat'}</span> tarafından işlenebilecektir.
+                <span className="font-semibold text-white">{settings.companyName || 'Sallıhoğulları Hafriyat'}</span> tarafından işlenebilecektir.
               </p>
 
               <div>

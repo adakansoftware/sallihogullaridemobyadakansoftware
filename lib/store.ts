@@ -75,8 +75,8 @@ const messagesFile = path.join(dataDir, 'messages.json')
 const settingsFile = path.join(dataDir, 'settings.json')
 
 const defaultSettings: SiteSettings = {
-  companyName: 'Salihoğulları Hafriyat',
-  companyShortName: 'Salihoğulları',
+  companyName: 'Sallıhoğulları Hafriyat',
+  companyShortName: 'Sallıhoğulları',
   contactPhone: '+90 539 941 65 21',
   contactPhoneSecondary: '+90 532 555 55 55',
   contactEmail: 'info@salihogullari.com',

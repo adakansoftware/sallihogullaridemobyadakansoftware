@@ -72,9 +72,9 @@ export function Footer({ settings }: { settings: SiteSettings }) {
             <h4 className="mb-6 text-sm font-bold uppercase tracking-wider text-foreground">Hizmetlerimiz</h4>
             <ul className="space-y-3">
               {footerServiceLinks.map((service) => (
-                <li key={service}>
-                  <Link href="/services" className="text-sm text-muted-foreground transition-colors hover:text-primary">
-                    {service}
+                <li key={service.href}>
+                  <Link href={service.href} className="text-sm text-muted-foreground transition-colors hover:text-primary">
+                    {service.label}
                   </Link>
                 </li>
               ))}

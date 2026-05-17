@@ -35,7 +35,7 @@ const nextConfig = {
               "font-src 'self' data:",
               "connect-src 'self' https://vitals.vercel-insights.com",
               "media-src 'self' data: blob:",
-              "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com",
+              "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://www.google.com https://maps.google.com",
               "object-src 'none'",
               "worker-src 'self' blob:",
               "manifest-src 'self'",

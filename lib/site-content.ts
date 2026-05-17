@@ -1,3 +1,5 @@
+import { getServiceHref, serviceDetails } from '@/lib/services-data'
+
 export const siteQuickLinks = [
   { href: '/', label: 'Ana Sayfa' },
   { href: '/about', label: 'Hakkımızda' },
@@ -15,38 +17,12 @@ export const siteStats = [
   { value: '1999', label: 'Kuruluş', sublabel: 'Yerel saha bilgisi ve operasyon disiplini' },
 ]
 
-export const serviceCards = [
-  {
-    title: 'Hafriyat ve Kazı İşleri',
-    description: 'Temel kazısı, kanal açma, parsel temizliği ve hafriyat çıkarma işlerinde kazı sınırı, makine erişimi, yükleme noktası ve döküm sevkiyatı işe başlamadan sahada netleştirilir.',
-    image: '/images/project-1.jpg',
-  },
-  {
-    title: 'Ekskavatör Çalışmaları',
-    description: 'Kazı, yükleme, kırma, tesviye ve zemin hazırlığında zeminin durumuna, çalışma alanına ve günlük programa göre doğru ekskavatör gücü sahaya yönlendirilir.',
-    image: '/images/excavator.jpg',
-  },
-  {
-    title: 'Beko Loder Desteği',
-    description: 'Dar alan kazıları, geri dolgu, küçük ölçekli yükleme, saha içi düzeltme ve malzeme toparlama işlerinde hızlı hareket eden beko loder desteği sağlanır.',
-    image: '/images/backhoe.jpg',
-  },
-  {
-    title: 'Damperli Nakliyat',
-    description: 'Toprak, moloz, taş, kum, mıcır ve dolgu malzemesi taşımalarında kamyon akışı; yükleme noktası, döküm sahası ve günlük iş temposuna göre kurulur.',
-    image: '/images/dump-truck.jpg',
-  },
-  {
-    title: 'Lowbed Nakliyat',
-    description: 'Ekskavatör, beko loder ve ağır ekipman sevkiyatında yükleme güvenliği, güzergah uygunluğu ve teslim saati dikkate alınarak lowbed planı hazırlanır.',
-    image: '/images/lowbed.jpg',
-  },
-  {
-    title: 'Dolgu ve Zemin Hazırlığı',
-    description: 'Yol, altyapı, parsel ve şantiye hazırlıklarında dolgu sevkiyatı, serim düzeni, sıkıştırma ihtiyacı ve tesviye süreci aynı saha planında ele alınır.',
-    image: '/images/project-2.jpg',
-  },
-]
+export const serviceCards = serviceDetails.map((service) => ({
+  title: service.title,
+  description: service.description,
+  image: service.image,
+  href: getServiceHref(service.slug),
+}))
 
 export const fleetStats = [
   { value: '30+', label: 'Araç ve Makine' },
@@ -60,7 +36,8 @@ export const fleetItems = [
     name: 'Ekskavatör',
     count: '5',
     capacity: '13-36 Ton',
-    description: 'Temel kazısı, yükleme, kanal açma ve zemin hazırlığında farklı saha koşullarına göre yönlendirilen Sumitomo SH 360, Sumitomo SH 210 ve Case CX130C ekskavatör grubu.',
+    description:
+      'Temel kazısı, yükleme, kanal açma ve zemin hazırlığında farklı saha koşullarına göre yönlendirilen Sumitomo SH 360, Sumitomo SH 210 ve Case CX130C ekskavatör grubu.',
     specs: ['Sumitomo SH 360 x2', 'Sumitomo SH 210 x2', 'Case CX130C x1'],
     image: '/images/excavator.jpg',
   },
@@ -68,7 +45,8 @@ export const fleetItems = [
     name: 'Beko Loder',
     count: '2',
     capacity: 'Saha Destek',
-    description: 'Dar alan kazısı, geri dolgu, yükleme ve saha içi düzenleme işlerinde kullanılan Hidromek HMK 102 B Alpha ve Hidromek HMK 102 S Alpha beko loder desteği.',
+    description:
+      'Dar alan kazısı, geri dolgu, yükleme ve saha içi düzenleme işlerinde kullanılan Hidromek HMK 102 B Alpha ve Hidromek HMK 102 S Alpha beko loder desteği.',
     specs: ['Hidromek HMK 102 B Alpha x1', 'Hidromek HMK 102 S Alpha x1', 'Geri Dolgu ve Yükleme'],
     image: '/images/backhoe.jpg',
   },
@@ -76,7 +54,8 @@ export const fleetItems = [
     name: 'Damperli Nakliye Filosu',
     count: '17',
     capacity: 'Damperli Nakliye',
-    description: 'Hafriyat, dolgu, kum, taş, mıcır ve toprak sevkiyatında düzenli yükleme ve döküm akışı için kullanılan Mercedes Arocs, Mercedes Axor ve BMC Pro damperli kamyon grubu.',
+    description:
+      'Hafriyat, dolgu, kum, taş, mıcır ve toprak sevkiyatında düzenli yükleme ve döküm akışı için kullanılan Mercedes Arocs, Mercedes Axor ve BMC Pro damperli kamyon grubu.',
     specs: ['Arocs 3345 x4', 'Axor 3340 x12', 'BMC Pro 827 x1'],
     image: '/images/dump-truck.jpg',
   },
@@ -84,7 +63,8 @@ export const fleetItems = [
     name: 'Çekici ve Dorse',
     count: '5',
     capacity: 'Damperli Dorse / Lowbed',
-    description: 'Malzeme sevkiyatı, ekipman taşıma ve lowbed nakliyat işlerinde güzergah, yükleme güvenliği ve teslim planına göre kullanılan Axor 1840 çekici, damperli dorse ve lowbed altyapısı.',
+    description:
+      'Malzeme sevkiyatı, ekipman taşıma ve lowbed nakliyat işlerinde güzergah, yükleme güvenliği ve teslim planına göre kullanılan Axor 1840 çekici, damperli dorse ve lowbed altyapısı.',
     specs: ['Axor 1840 x2', 'Damperli Dorse x2', 'Lowbed x1'],
     image: '/images/fleet-tir-damper.png',
   },
@@ -100,7 +80,8 @@ export const fleetItems = [
     name: 'Toprak Silindiri',
     count: '1',
     capacity: 'Zemin Sıkıştırma',
-    description: 'Dolgu, yol alt yapısı, saha düzenleme ve platform hazırlığında zemin sıkıştırma ihtiyacını kontrollü şekilde karşılayan Sakai marka toprak silindiri desteği.',
+    description:
+      'Dolgu, yol altyapısı, saha düzenleme ve platform hazırlığında zemin sıkıştırma ihtiyacını kontrollü şekilde karşılayan Sakai marka toprak silindiri desteği.',
     specs: ['Sakai', 'Toprak Silindiri', 'Zemin Sıkıştırma'],
     image: '/images/fleet-silindir-sakai.jpg',
   },
@@ -207,12 +188,7 @@ export const mediaGalleryItems = [
   },
 ]
 
-export const footerServiceLinks = [
-  'Hafriyat ve Kazı İşleri',
-  'Damperli Nakliyat',
-  'Dolgu ve Zemin Hazırlığı',
-  'İş Makinesi Desteği',
-  'Lowbed Nakliyat',
-  'Arazöz / Su Tankeri',
-  'Altyapı Kazıları',
-]
+export const footerServiceLinks = serviceDetails.map((service) => ({
+  label: service.title,
+  href: getServiceHref(service.slug),
+}))

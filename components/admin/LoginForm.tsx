@@ -64,7 +64,7 @@ export function LoginForm({ nextPath = '/admin' }: { nextPath?: string }) {
       <div className="brand-logo-pulse relative mb-6 h-14 w-20 overflow-hidden bg-black">
         <Image
           src="/images/salihogullari-logo-small.png"
-          alt="Salihoğulları logo"
+          alt="Sallıhoğulları logo"
           fill
           sizes="80px"
           className="object-contain"

@@ -119,10 +119,11 @@ export function Navbar({ settings }: { settings: SiteSettings }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="WhatsApp ile iletişime geç"
-                  title="WhatsApp"
-                  className="flex h-11 w-11 items-center justify-center rounded-full border border-emerald-400/25 bg-emerald-500/10 text-emerald-300 transition-colors hover:border-emerald-300/45 hover:bg-emerald-500/18 hover:text-emerald-200"
+                  title="WhatsApp ile Yaz"
+                  className="flex h-11 items-center gap-2 rounded-full border border-emerald-400/25 bg-emerald-500/10 px-4 text-sm font-semibold text-emerald-300 transition-colors hover:border-emerald-300/45 hover:bg-emerald-500/18 hover:text-emerald-200"
                 >
                   <MessageCircle className="h-5 w-5" />
+                  <span>WhatsApp ile Yaz</span>
                 </a>
               ) : null}
               <Button asChild className="h-11 gap-2 bg-primary px-6 text-xs font-bold uppercase tracking-wider text-primary-foreground hover:bg-primary/90">
@@ -188,7 +189,7 @@ export function Navbar({ settings }: { settings: SiteSettings }) {
                 <span className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500/12">
                   <MessageCircle className="h-4 w-4" />
                 </span>
-                <span className="font-semibold">WhatsApp ile yaz</span>
+                <span className="font-semibold">WhatsApp ile Yaz</span>
               </a>
             ) : null}
             <Button asChild className="h-12 w-full bg-primary font-bold uppercase tracking-wider text-primary-foreground hover:bg-primary/90">

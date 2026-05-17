@@ -8,7 +8,12 @@ import { Button } from '@/components/ui/button'
 import { isRealPhoneValue, isRealWhatsAppUrl } from '@/lib/contact-utils'
 import type { SiteSettings } from '@/lib/store'
 
-export function ContactSection({ settings }: { settings: SiteSettings }) {
+type ContactSectionProps = {
+  settings: SiteSettings
+  mapsEmbedUrl?: string
+}
+
+export function ContactSection({ settings, mapsEmbedUrl = '' }: ContactSectionProps) {
   const [form, setForm] = useState({
     name: '',
     phone: '',
@@ -26,6 +31,7 @@ export function ContactSection({ settings }: { settings: SiteSettings }) {
   const hasPhone = isRealPhoneValue(settings.contactPhone)
   const hasSecondaryPhone = isRealPhoneValue(settings.contactPhoneSecondary)
   const hasWhatsApp = isRealWhatsAppUrl(settings.whatsappUrl)
+  const hasMapsEmbed = mapsEmbedUrl.startsWith('https://')
   const contactInfo = [
     hasPhone ? { icon: Phone, label: 'Telefon', value: settings.contactPhone, subValue: hasSecondaryPhone ? settings.contactPhoneSecondary : '' } : null,
     { icon: Mail, label: 'E-posta', value: settings.contactEmail, subValue: settings.contactEmailSecondary },
@@ -43,7 +49,7 @@ export function ContactSection({ settings }: { settings: SiteSettings }) {
     setReference('')
 
     try {
-      const res = await fetch('/api/messages', {
+      const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
@@ -51,16 +57,16 @@ export function ContactSection({ settings }: { settings: SiteSettings }) {
       const data = await res.json().catch(() => ({}))
 
       if (!res.ok) {
-      const message = data.message || 'Talebiniz şu anda gönderilemedi. Lütfen telefon veya WhatsApp üzerinden iletişime geçin.'
+        const message = data.message || 'Talebiniz şu anda gönderilemedi. Lütfen telefon veya WhatsApp üzerinden iletişime geçin.'
         setError(message)
         toast.error(message)
         return
       }
 
-      const message = data.message || 'Talebiniz başarıyla alındı. Saha bilgilerinizi inceleyip sizinle iletişime geçeceğiz.'
+      const message = data.message || 'Talebiniz başarıyla iletildi. Saha bilgilerinizi inceleyip sizinle iletişime geçeceğiz.'
       setFeedback(message)
       setReference(data.reference || '')
-      toast.success('Talebiniz alındı.')
+      toast.success('Talebiniz iletildi.')
       setForm({
         name: '',
         phone: '',
@@ -84,7 +90,9 @@ export function ContactSection({ settings }: { settings: SiteSettings }) {
           <h2 className="mb-6 text-3xl leading-tight font-black text-foreground sm:text-4xl lg:text-5xl">
             Sahanız için <span className="text-primary">net keşif ve doğru plan</span>
           </h2>
-          <p className="text-lg text-muted-foreground">Saha lokasyonu, yaklaşık metraj, malzeme türü ve çalışma tarihini paylaşın; doğru makine, kamyon ve sevkiyat planını birlikte netleştirelim.</p>
+          <p className="text-lg text-muted-foreground">
+            Saha lokasyonu, yaklaşık metraj, malzeme türü ve çalışma tarihini paylaşın; doğru makine, kamyon ve sevkiyat planını birlikte netleştirelim.
+          </p>
         </div>
 
         <div className="grid gap-8 lg:grid-cols-5">
@@ -96,33 +104,80 @@ export function ContactSection({ settings }: { settings: SiteSettings }) {
               <div className="grid gap-5 sm:grid-cols-2">
                 <div>
                   <label htmlFor="contact-name" className="mb-2 block text-sm font-semibold text-foreground">Ad Soyad</label>
-                  <input id="contact-name" type="text" placeholder="Adınız Soyadınız" value={form.name} onChange={(event) => setForm((prev) => ({ ...prev, name: event.target.value }))} required autoComplete="name" className="w-full border border-border/50 bg-input px-4 py-3.5 text-foreground transition-colors placeholder:text-muted-foreground focus:border-primary focus:outline-none" />
+                  <input
+                    id="contact-name"
+                    type="text"
+                    placeholder="Adınız Soyadınız"
+                    value={form.name}
+                    onChange={(event) => setForm((prev) => ({ ...prev, name: event.target.value }))}
+                    required
+                    autoComplete="name"
+                    className="w-full border border-border/50 bg-input px-4 py-3.5 text-foreground transition-colors placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+                  />
                 </div>
                 <div>
                   <label htmlFor="contact-phone" className="mb-2 block text-sm font-semibold text-foreground">Telefon</label>
-                  <input id="contact-phone" type="tel" placeholder="(5XX) XXX XX XX" value={form.phone} onChange={(event) => setForm((prev) => ({ ...prev, phone: event.target.value }))} required autoComplete="tel" className="w-full border border-border/50 bg-input px-4 py-3.5 text-foreground transition-colors placeholder:text-muted-foreground focus:border-primary focus:outline-none" />
+                  <input
+                    id="contact-phone"
+                    type="tel"
+                    placeholder="(5XX) XXX XX XX"
+                    value={form.phone}
+                    onChange={(event) => setForm((prev) => ({ ...prev, phone: event.target.value }))}
+                    required
+                    autoComplete="tel"
+                    className="w-full border border-border/50 bg-input px-4 py-3.5 text-foreground transition-colors placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+                  />
                 </div>
               </div>
 
               <div className="grid gap-5 sm:grid-cols-2">
                 <div>
                   <label htmlFor="contact-email" className="mb-2 block text-sm font-semibold text-foreground">E-posta</label>
-                  <input id="contact-email" type="email" placeholder="E-posta adresiniz" value={form.email} onChange={(event) => setForm((prev) => ({ ...prev, email: event.target.value }))} required autoComplete="email" className="w-full border border-border/50 bg-input px-4 py-3.5 text-foreground transition-colors placeholder:text-muted-foreground focus:border-primary focus:outline-none" />
+                  <input
+                    id="contact-email"
+                    type="email"
+                    placeholder="E-posta adresiniz"
+                    value={form.email}
+                    onChange={(event) => setForm((prev) => ({ ...prev, email: event.target.value }))}
+                    required
+                    autoComplete="email"
+                    className="w-full border border-border/50 bg-input px-4 py-3.5 text-foreground transition-colors placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+                  />
                 </div>
                 <div>
                   <label htmlFor="contact-subject" className="mb-2 block text-sm font-semibold text-foreground">İş Kapsamı</label>
-                  <input id="contact-subject" type="text" placeholder="Örn. Damperli nakliyat, temel kazısı, dolgu" value={form.subject} onChange={(event) => setForm((prev) => ({ ...prev, subject: event.target.value }))} required className="w-full border border-border/50 bg-input px-4 py-3.5 text-foreground transition-colors placeholder:text-muted-foreground focus:border-primary focus:outline-none" />
+                  <input
+                    id="contact-subject"
+                    type="text"
+                    placeholder="Örn. Damperli nakliyat, temel kazısı, dolgu"
+                    value={form.subject}
+                    onChange={(event) => setForm((prev) => ({ ...prev, subject: event.target.value }))}
+                    required
+                    className="w-full border border-border/50 bg-input px-4 py-3.5 text-foreground transition-colors placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+                  />
                 </div>
               </div>
 
               <div>
                 <label htmlFor="contact-message" className="mb-2 block text-sm font-semibold text-foreground">Saha Bilgisi</label>
-                <textarea id="contact-message" rows={4} placeholder="Lokasyon, yaklaşık metraj, taşınacak malzeme, çalışma tarihi, giriş-çıkış durumu ve ihtiyaç duyulan ekipman hakkında kısa bilgi verin..." value={form.message} onChange={(event) => setForm((prev) => ({ ...prev, message: event.target.value }))} required className="w-full resize-none border border-border/50 bg-input px-4 py-3.5 text-foreground transition-colors placeholder:text-muted-foreground focus:border-primary focus:outline-none" />
+                <textarea
+                  id="contact-message"
+                  rows={4}
+                  placeholder="Lokasyon, yaklaşık metraj, taşınacak malzeme, çalışma tarihi, giriş-çıkış durumu ve ihtiyaç duyulan ekipman hakkında kısa bilgi verin..."
+                  value={form.message}
+                  onChange={(event) => setForm((prev) => ({ ...prev, message: event.target.value }))}
+                  required
+                  className="w-full resize-none border border-border/50 bg-input px-4 py-3.5 text-foreground transition-colors placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+                />
               </div>
 
               {error ? <p className="text-sm text-red-400" role="alert" aria-live="assertive">{error}</p> : null}
               {feedback ? <p className="text-sm text-emerald-300" role="status" aria-live="polite">{feedback}</p> : null}
-              {reference ? <p className="text-sm text-white/55" role="status" aria-live="polite">Talep referansı: <span className="font-medium text-white">{reference}</span></p> : null}
+              {reference ? (
+                <p className="text-sm text-white/55" role="status" aria-live="polite">
+                  Talep referansı: <span className="font-medium text-white">{reference}</span>
+                </p>
+              ) : null}
 
               <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-4 text-sm leading-7 text-white/60">
                 Kişisel verileriniz, talebinizin değerlendirilmesi ve sizinle iletişime geçilmesi amacıyla işlenmektedir. Detaylı bilgi için{' '}
@@ -155,16 +210,24 @@ export function ContactSection({ settings }: { settings: SiteSettings }) {
                     <div className="mb-1 text-xs uppercase tracking-wider text-muted-foreground">{info.label}</div>
                     {info.label === 'Telefon' ? (
                       <>
-                        <a href={`tel:${String(info.value).replace(/\s+/g, '')}`} className="break-all font-semibold text-foreground transition-colors hover:text-primary">{info.value}</a>
+                        <a href={`tel:${String(info.value).replace(/\s+/g, '')}`} className="break-all font-semibold text-foreground transition-colors hover:text-primary">
+                          {info.value}
+                        </a>
                         {info.subValue ? (
-                          <a href={`tel:${String(info.subValue).replace(/\s+/g, '')}`} className="block break-all text-sm text-muted-foreground transition-colors hover:text-primary">{info.subValue}</a>
+                          <a href={`tel:${String(info.subValue).replace(/\s+/g, '')}`} className="block break-all text-sm text-muted-foreground transition-colors hover:text-primary">
+                            {info.subValue}
+                          </a>
                         ) : null}
                       </>
                     ) : info.label === 'E-posta' ? (
                       <>
-                        <a href={`mailto:${info.value}`} className="break-all font-semibold text-foreground transition-colors hover:text-primary">{info.value}</a>
+                        <a href={`mailto:${info.value}`} className="break-all font-semibold text-foreground transition-colors hover:text-primary">
+                          {info.value}
+                        </a>
                         {info.subValue ? (
-                          <a href={`mailto:${info.subValue}`} className="block break-all text-sm text-muted-foreground transition-colors hover:text-primary">{info.subValue}</a>
+                          <a href={`mailto:${info.subValue}`} className="block break-all text-sm text-muted-foreground transition-colors hover:text-primary">
+                            {info.subValue}
+                          </a>
                         ) : null}
                       </>
                     ) : (
@@ -178,10 +241,33 @@ export function ContactSection({ settings }: { settings: SiteSettings }) {
               </div>
             ))}
 
+            <div className="glass-card overflow-hidden p-0">
+              {hasMapsEmbed ? (
+                <div className="w-full">
+                  <iframe
+                    src={mapsEmbedUrl}
+                    title="Sallıhoğulları Hafriyat konum haritası"
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="aspect-[4/3] w-full border-0"
+                    allowFullScreen
+                  />
+                </div>
+              ) : (
+                <div className="p-6">
+                  <div className="mb-2 text-xs uppercase tracking-wider text-muted-foreground">Konum</div>
+                  <div className="text-lg font-semibold text-foreground">{settings.address || 'Adana, Türkiye'}</div>
+                  <p className="mt-2 text-sm text-muted-foreground">{settings.serviceArea}</p>
+                </div>
+              )}
+            </div>
+
             {hasWhatsApp ? (
               <div className="bg-primary p-6">
                 <h4 className="mb-2 text-lg font-bold text-primary-foreground">Hızlı İletişim Hattı</h4>
-                <p className="mb-4 text-sm text-primary-foreground/80">Acil kazı, dolgu, hafriyat nakliyesi veya makine yönlendirmesi için doğrudan iletişime geçebilirsiniz.</p>
+                <p className="mb-4 text-sm text-primary-foreground/80">
+                  Acil kazı, dolgu, hafriyat nakliyesi veya makine yönlendirmesi için doğrudan iletişime geçebilirsiniz.
+                </p>
                 <a href={settings.whatsappUrl} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between font-bold text-primary-foreground">
                   <span>WhatsApp ile Görüşün</span>
                   <ChevronRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
