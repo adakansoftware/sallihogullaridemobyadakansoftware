@@ -1,8 +1,8 @@
 import { SettingsForm } from '@/components/admin/SettingsForm'
-import { readSettings } from '@/lib/store'
+import { getSiteSettings } from '@/lib/settings-service'
 
 export default async function AdminSettingsPage() {
-  const settings = await readSettings()
+  const settings = await getSiteSettings()
 
   return (
     <div>

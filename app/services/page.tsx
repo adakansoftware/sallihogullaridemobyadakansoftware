@@ -5,7 +5,7 @@ import { ServicesSection } from '@/components/services-section'
 import { SiteFrame } from '@/components/site-frame'
 import { WhyUsSection } from '@/components/why-us-section'
 import { buildShareMetadata, getCanonicalUrl } from '@/lib/seo'
-import { readSettings } from '@/lib/store'
+import { getSiteSettings } from '@/lib/settings-service'
 
 export const metadata: Metadata = {
   title: {
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 }
 
 export default async function ServicesPage() {
-  const settings = await readSettings()
+  const settings = await getSiteSettings()
 
   return (
     <SiteFrame settings={settings}>

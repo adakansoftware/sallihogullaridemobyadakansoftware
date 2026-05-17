@@ -6,7 +6,8 @@ import { AdminSidebarNav } from '@/components/admin/AdminSidebarNav'
 import { AdminTopbar } from '@/components/admin/AdminTopbar'
 import { LogoutButton } from '@/components/admin/LogoutButton'
 import { isAdminAuthenticated } from '@/lib/auth'
-import { readMessages, readSettings } from '@/lib/store'
+import { listAdminMessages } from '@/lib/message-service'
+import { getSiteSettings } from '@/lib/settings-service'
 
 export const metadata: Metadata = {
   title: 'Admin Panel',
@@ -21,7 +22,7 @@ export default async function AdminPanelLayout({ children }: Readonly<{ children
     redirect('/admin/login')
   }
 
-  const [settings, messages] = await Promise.all([readSettings(), readMessages()])
+  const [settings, messages] = await Promise.all([getSiteSettings(), listAdminMessages()])
   const unreadCount = messages.filter((item) => !item.isRead).length
 
   return (

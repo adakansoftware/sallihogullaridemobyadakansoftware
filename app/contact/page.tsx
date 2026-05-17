@@ -4,7 +4,7 @@ import { CTASection } from '@/components/cta-section'
 import { PageHero } from '@/components/page-hero'
 import { SiteFrame } from '@/components/site-frame'
 import { buildShareMetadata, getCanonicalUrl } from '@/lib/seo'
-import { readSettings } from '@/lib/store'
+import { getSiteSettings } from '@/lib/settings-service'
 
 export const metadata: Metadata = {
   title: {
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 }
 
 export default async function ContactPage() {
-  const settings = await readSettings()
+  const settings = await getSiteSettings()
 
   return (
     <SiteFrame settings={settings}>

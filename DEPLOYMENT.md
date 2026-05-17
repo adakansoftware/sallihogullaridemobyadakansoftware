@@ -2,14 +2,15 @@
 
 ## Hosting Assumptions
 
-- One writable application instance
-- Persistent storage for `data/`
+- File mode: one writable application instance and persistent storage for `data/`
+- Postgres mode: reachable PostgreSQL database and no writable disk requirement for content
 - Environment variables managed outside the repository
 
 ## Required Runtime Expectations
 
 - Node.js version compatible with Next.js 16
-- Read/write access to `data/`
+- If `CONTENT_STORE=file`, read/write access to `data/`
+- If `CONTENT_STORE=postgres`, a valid `DATABASE_URL`
 - Stable origin configuration through `APP_ORIGIN` and `NEXT_PUBLIC_SITE_URL`
 - If you use hashed admin credentials, provide `ADMIN_PASSWORD_HASH`; otherwise provide `ADMIN_PASSWORD`
 - The current defaults are `CONTENT_STORE=file` and `RATE_LIMIT_STORE=memory`
@@ -17,18 +18,21 @@
 ## Recommended Release Flow
 
 1. Update environment variables.
-2. Restore or attach persisted `data/` and any curated `public/images/` assets.
-3. Run `npm run test`.
-4. Run `npm run lint`.
-5. Run `npm run build`.
-6. Deploy the application.
-7. Verify `/api/health`.
-8. Verify admin login and one sample content update.
-9. Confirm contact form submission and one admin-side project/media update.
+2. If using file mode, restore or attach persisted `data/` and any curated `public/images/` assets.
+3. If using Postgres mode, run `npm run db:init` once against the target database.
+4. If migrating existing JSON content, run `npm run db:import:file-data` before switching production traffic.
+5. Run `npm run test`.
+6. Run `npm run lint`.
+7. Run `npm run build`.
+8. Deploy the application.
+9. Verify `/api/health`.
+10. Verify admin login and one sample content update.
+11. Confirm contact form submission and one admin-side project/media update.
 
 ## Backup Guidance
 
-- Back up `data/` together with any custom files kept under `public/images/`.
+- Back up `data/` together with any custom files kept under `public/images/` when using file mode.
+- Back up the PostgreSQL database together with `public/images/` when using Postgres mode.
 - Keep recovery copies of the generated `.bak` JSON files.
 - Before major content migrations, take a fresh snapshot.
 

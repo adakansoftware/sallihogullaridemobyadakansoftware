@@ -1,8 +1,8 @@
 import { AdminMessagesManager } from '@/components/admin/AdminMessagesManager'
-import { readMessages } from '@/lib/store'
+import { listAdminMessages } from '@/lib/message-service'
 
 export default async function AdminMessagesPage() {
-  const messages = await readMessages()
+  const messages = await listAdminMessages()
   const unreadCount = messages.filter((message) => !message.isRead).length
 
   return (

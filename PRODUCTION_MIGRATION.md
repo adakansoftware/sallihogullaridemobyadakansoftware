@@ -1,12 +1,14 @@
-## Production Migration Plan
+## Production Storage Modes
 
-This project currently runs with:
+This project now supports two content storage modes:
 
 - `CONTENT_STORE=file`
-- `RATE_LIMIT_STORE=memory`
-- admin media managed through controlled `public/images` assets
+- `CONTENT_STORE=postgres`
 
-That is intentional for simple local development, but it is not the final architecture for multi-instance or serverless production.
+Media remains intentionally simple in both cases:
+
+- admin media managed through controlled `public/images` assets
+- upload API disabled by design
 
 ### Phase 1: Safe Single-Instance Production
 
@@ -23,29 +25,27 @@ This is acceptable when:
 - restarts are infrequent
 - admin edits are low volume
 
-### Phase 2: Shared Content Storage
+### Postgres Mode
 
-Replace file-backed content repositories with a shared database.
+Use this mode when:
 
-Recommended mapping:
+- you want to deploy on Vercel or another stateless platform
+- you want persistent admin/contact data without a writable local disk
 
-- `projects` -> relational table or document collection
-- `messages` -> relational table or document collection
-- `settings` -> single-row settings table or keyed document
+Implementation already exists in the repo. Setup steps:
 
-Suggested options:
+1. Set `CONTENT_STORE=postgres`
+2. Set `DATABASE_URL`
+3. Run `npm run db:init`
+4. If needed, run `npm run db:import:file-data`
 
-- PostgreSQL for structured relational storage
-- SQLite only if you still remain single-instance
-- a managed document database only if the team prefers schema-light content operations
+Current Postgres storage shape:
 
-Implementation steps:
+- `projects` table with `tags` and `media` stored as `jsonb`
+- `messages` table
+- `site_settings` singleton table
 
-1. Keep `lib/content-repository.ts` as the boundary
-2. Add database-backed repository implementations beside the file-backed ones
-3. Switch repository selection by `CONTENT_STORE`
-4. Migrate existing `data/projects.json`, `data/messages.json`, and `data/settings.json`
-5. Leave file mode available for local development
+This keeps the current application model simple and avoids over-engineering for a low-volume site.
 
 ### Phase 3: Shared Rate Limiting
 
@@ -89,7 +89,7 @@ Before scaling out, also add:
 
 ### Current Honest Limitations
 
-- File storage is not safe for horizontally scaled production by itself
+- File mode is not safe for horizontally scaled production by itself
 - Memory rate limiting is not shared across instances
 - Upload API is intentionally disabled
-- Health output warns about these defaults in production
+- Health output warns when production still uses file mode or memory-only rate limiting

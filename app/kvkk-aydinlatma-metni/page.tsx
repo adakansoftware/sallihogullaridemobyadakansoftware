@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { SiteFrame } from '@/components/site-frame'
 import { getCanonicalUrl } from '@/lib/seo'
-import { readSettings } from '@/lib/store'
+import { getSiteSettings } from '@/lib/settings-service'
 
 export const metadata: Metadata = {
   title: 'KVKK Aydınlatma Metni',
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 }
 
 export default async function KvkkPage() {
-  const settings = await readSettings()
+  const settings = await getSiteSettings()
 
   return (
     <SiteFrame settings={settings}>

@@ -1,18 +1,16 @@
+import { env } from '@/lib/env'
+import { readMessages, readProjects, readSettings, writeMessages, writeProjects, writeSettings, type AdminMessage, type Project, type SiteSettings } from '@/lib/store'
 import {
-  readMessages,
-  readProjects,
-  readSettings,
-  writeMessages,
-  writeProjects,
-  writeSettings,
-  type AdminMessage,
-  type Project,
-  type SiteSettings,
-} from '@/lib/store'
+  PostgresMessageRepository,
+  PostgresProjectRepository,
+  PostgresSettingsRepository,
+} from '@/lib/postgres-content-repository'
 
 export interface ProjectRepository {
   list(): Promise<Project[]>
   save(projects: Project[]): Promise<void>
+  findById(id: string): Promise<Project | null>
+  findBySlug(slug: string): Promise<Project | null>
 }
 
 export interface MessageRepository {
@@ -32,6 +30,16 @@ class FileProjectRepository implements ProjectRepository {
 
   save(projects: Project[]) {
     return writeProjects(projects)
+  }
+
+  async findById(id: string) {
+    const projects = await readProjects()
+    return projects.find((project) => project.id === id) || null
+  }
+
+  async findBySlug(slug: string) {
+    const projects = await readProjects()
+    return projects.find((project) => project.slug === slug) || null
   }
 }
 
@@ -55,23 +63,26 @@ class FileSettingsRepository implements SettingsRepository {
   }
 }
 
-const projectRepository: ProjectRepository = new FileProjectRepository()
-const messageRepository: MessageRepository = new FileMessageRepository()
-const settingsRepository: SettingsRepository = new FileSettingsRepository()
-const contentStoreDriver = 'file' as const
+const fileProjectRepository: ProjectRepository = new FileProjectRepository()
+const fileMessageRepository: MessageRepository = new FileMessageRepository()
+const fileSettingsRepository: SettingsRepository = new FileSettingsRepository()
+
+const postgresProjectRepository: ProjectRepository = new PostgresProjectRepository()
+const postgresMessageRepository: MessageRepository = new PostgresMessageRepository()
+const postgresSettingsRepository: SettingsRepository = new PostgresSettingsRepository()
 
 export function getProjectRepository() {
-  return projectRepository
+  return env.CONTENT_STORE === 'postgres' ? postgresProjectRepository : fileProjectRepository
 }
 
 export function getMessageRepository() {
-  return messageRepository
+  return env.CONTENT_STORE === 'postgres' ? postgresMessageRepository : fileMessageRepository
 }
 
 export function getSettingsRepository() {
-  return settingsRepository
+  return env.CONTENT_STORE === 'postgres' ? postgresSettingsRepository : fileSettingsRepository
 }
 
 export function getContentStoreDriver() {
-  return contentStoreDriver
+  return env.CONTENT_STORE
 }

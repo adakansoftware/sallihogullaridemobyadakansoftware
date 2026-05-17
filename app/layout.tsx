@@ -3,15 +3,15 @@ import { Analytics } from '@vercel/analytics/next'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
 import { buildDefaultMetadata, buildOrganizationJsonLd, buildServicesJsonLd, buildWebsiteJsonLd } from '@/lib/seo'
-import { readSettings } from '@/lib/store'
+import { getSiteSettings } from '@/lib/settings-service'
 import './globals.css'
 
 export async function generateMetadata(): Promise<Metadata> {
-  return buildDefaultMetadata(await readSettings())
+  return buildDefaultMetadata(await getSiteSettings())
 }
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const settings = await readSettings()
+  const settings = await getSiteSettings()
   const organizationJsonLd = buildOrganizationJsonLd(settings)
   const websiteJsonLd = buildWebsiteJsonLd(settings)
   const servicesJsonLd = buildServicesJsonLd(settings)

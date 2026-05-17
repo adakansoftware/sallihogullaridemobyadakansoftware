@@ -8,8 +8,9 @@ import { ProjectsSection } from '@/components/projects-section'
 import { ServicesSection } from '@/components/services-section'
 import { StatsSection } from '@/components/stats-section'
 import { WhyUsSection } from '@/components/why-us-section'
+import { listPublishedProjects } from '@/lib/project-service'
 import { buildShareMetadata, getCanonicalUrl } from '@/lib/seo'
-import { readProjects, readSettings } from '@/lib/store'
+import { getSiteSettings } from '@/lib/settings-service'
 
 export const metadata: Metadata = {
   title: {
@@ -27,7 +28,7 @@ export const metadata: Metadata = {
 }
 
 export default async function Home() {
-  const [settings, projects] = await Promise.all([readSettings(), readProjects()])
+  const [settings, projects] = await Promise.all([getSiteSettings(), listPublishedProjects()])
 
   return (
     <main className="min-h-screen">

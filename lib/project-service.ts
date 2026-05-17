@@ -1,8 +1,6 @@
 import {
   assertManagedUploadExists,
   assertPublicAssetExists as assertAnyPublicAssetExists,
-  getProjectById,
-  getProjectBySlug,
   isPublicAssetUrl,
   makeId,
   safeDeleteManagedUploadIfOrphan,
@@ -118,12 +116,12 @@ export async function listPublishedProjects() {
 }
 
 export async function findAdminProjectById(id: string) {
-  const project = await getProjectById(id)
+  const project = await getProjectRepository().findById(id)
   return project ? normalizeProjectMedia(project) : null
 }
 
 export async function findAdminProjectBySlug(slug: string) {
-  const project = await getProjectBySlug(slug)
+  const project = await getProjectRepository().findBySlug(slug)
   return project ? normalizeProjectMedia(project) : null
 }
 

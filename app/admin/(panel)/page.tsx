@@ -1,13 +1,15 @@
 import Link from 'next/link'
 import { ArrowRight, FolderKanban, ImageIcon, Mail, Star } from 'lucide-react'
 import { getSiteAssetHealth } from '@/lib/asset-health'
-import { readMessages, readProjects, readSettings } from '@/lib/store'
+import { listAdminMessages } from '@/lib/message-service'
+import { listAdminProjects } from '@/lib/project-service'
+import { getSiteSettings } from '@/lib/settings-service'
 
 export default async function AdminDashboardPage() {
   const [projects, messages, settings, assetHealth] = await Promise.all([
-    readProjects(),
-    readMessages(),
-    readSettings(),
+    listAdminProjects(),
+    listAdminMessages(),
+    getSiteSettings(),
     getSiteAssetHealth(),
   ])
 

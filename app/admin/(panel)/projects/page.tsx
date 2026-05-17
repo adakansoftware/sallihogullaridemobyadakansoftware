@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import { AdminProjectsManager } from '@/components/admin/AdminProjectsManager'
-import { readProjects } from '@/lib/store'
+import { listAdminProjects } from '@/lib/project-service'
 
 export default async function AdminProjectsPage() {
-  const projects = await readProjects()
+  const projects = await listAdminProjects()
   const publishedCount = projects.filter((project) => project.status === 'Yayında').length
   const featuredCount = projects.filter((project) => project.featured).length
 

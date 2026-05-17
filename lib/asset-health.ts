@@ -4,9 +4,9 @@ import {
   assertPublicAssetExists,
   collectManagedUploadUrls,
   isPublicAssetUrl,
-  readProjects,
   type Project,
 } from '@/lib/store'
+import { getProjectRepository } from '@/lib/content-repository'
 
 export type AssetIssueKind = 'cover' | 'media' | 'thumbnail'
 
@@ -56,7 +56,7 @@ export async function auditProjectAssets(project: Project) {
 }
 
 export async function getSiteAssetHealth() {
-  const projects = await readProjects()
+  const projects = await getProjectRepository().list()
   const missingAssets: AssetIssue[] = []
 
   for (const project of projects) {
