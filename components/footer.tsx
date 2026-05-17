@@ -40,11 +40,13 @@ export function Footer({ settings }: { settings: SiteSettings }) {
                 <a
                   href={settings.instagramUrl}
                   aria-label="Instagram"
+                  title="Instagram"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex h-10 w-10 items-center justify-center bg-secondary transition-colors hover:bg-primary/20"
+                  className="flex h-11 items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-4 text-sm font-semibold text-foreground transition-colors hover:border-primary/45 hover:bg-primary/18 hover:text-primary"
                 >
-                  <Instagram className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-primary" />
+                  <Instagram className="h-4 w-4" />
+                  <span>Instagram</span>
                 </a>
               </div>
             ) : null}
