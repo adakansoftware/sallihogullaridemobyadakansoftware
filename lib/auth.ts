@@ -1,13 +1,11 @@
+import 'server-only'
 import crypto from 'crypto'
 import { cookies } from 'next/headers'
 import { normalizeAdminNextTarget } from '@/lib/admin-redirect'
+import { ADMIN_COOKIE, SESSION_MAX_AGE } from '@/lib/auth-shared'
 import { env } from '@/lib/env'
 import { verifyPasswordAgainstHash } from '@/lib/password-hash'
 import { createSignedAdminSessionToken, isValidSignedAdminSessionToken } from '@/lib/session-token'
-
-export const ADMIN_COOKIE = 'admin_session'
-
-const SESSION_MAX_AGE = 60 * 60 * 8
 
 function safeEqual(left: string, right: string) {
   const leftBuffer = Buffer.from(left)

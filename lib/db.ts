@@ -13,7 +13,7 @@ function createPool() {
   return new Pool({
     connectionString: env.DATABASE_URL,
     max: 4,
-    ssl: env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : undefined,
+    ssl: env.NODE_ENV === 'production' ? { rejectUnauthorized: true } : undefined,
   })
 }
 
