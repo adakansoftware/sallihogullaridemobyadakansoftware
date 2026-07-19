@@ -1,7 +1,10 @@
 "use client"
 
 import Image from 'next/image'
-import { fleetItems, fleetStats } from '@/lib/site-content'
+import Link from 'next/link'
+import { ArrowUpRight } from 'lucide-react'
+import { getFleetHref, fleetItems } from '@/lib/fleet-data'
+import { fleetStats } from '@/lib/site-content'
 
 export function FleetSection() {
   return (
@@ -30,7 +33,11 @@ export function FleetSection() {
 
         <div className="grid gap-5 md:grid-cols-2">
           {fleetItems.map((item) => (
-            <div key={item.name} className="group hover-lift relative overflow-hidden border border-border/40 bg-card">
+            <Link
+              key={item.slug}
+              href={getFleetHref(item.slug)}
+              className="group hover-lift relative overflow-hidden border border-border/40 bg-card transition-colors hover:border-primary/50"
+            >
               <div className="flex flex-col lg:flex-row">
                 <div className="relative h-64 w-full shrink-0 lg:h-auto lg:w-1/2">
                   <Image src={item.image} alt={`${item.name} - Sallıhoğulları Hafriyat iş makinesi ve araç filosu`} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
@@ -47,6 +54,10 @@ export function FleetSection() {
                   <div className="mb-3 flex flex-wrap items-center gap-3">
                     <h3 className="text-xl font-black text-foreground lg:text-2xl">{item.name}</h3>
                     <span className="bg-primary/10 px-2.5 py-1 text-xs font-bold text-primary">{item.capacity}</span>
+                    <span className="inline-flex items-center gap-1 text-xs font-bold text-primary">
+                      Detayı Gör
+                      <ArrowUpRight className="h-3.5 w-3.5" />
+                    </span>
                   </div>
 
                   <p className="mb-5 leading-relaxed text-muted-foreground">{item.description}</p>
@@ -63,7 +74,7 @@ export function FleetSection() {
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
