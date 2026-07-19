@@ -196,3 +196,37 @@ export const storedAdminMessageSchema = z.object({
 
 export const storedMessagesSchema = z.array(storedAdminMessageSchema)
 export const storedSettingsSchema = settingsSchema
+
+const fleetText = (min: number, max: number) =>
+  z.string().trim().min(min).max(max).refine((value) => !/[<>]/.test(value), 'Güvenli olmayan karakterler kullanılamaz.').transform(normalizeString)
+
+export const fleetStatSchema = z.object({
+  value: fleetText(1, 40),
+  label: fleetText(1, 80),
+})
+
+export const fleetModelSchema = z.object({
+  name: fleetText(2, 120),
+  quantity: fleetText(1, 40),
+  role: fleetText(2, 80),
+  details: fleetText(10, 500),
+  image: z.string().trim().min(1).max(500).refine(isSafeAssetUrl, 'Model görsel adresi güvenli değil.').optional(),
+})
+
+export const fleetItemSchema = z.object({
+  slug: z.string().trim().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Geçersiz filo slug değeri.'),
+  name: fleetText(2, 120),
+  count: fleetText(1, 20),
+  capacity: fleetText(2, 80),
+  description: fleetText(20, 700),
+  specs: z.array(fleetText(2, 120)).min(1).max(12),
+  image: z.string().trim().min(1).max(500).refine(isSafeAssetUrl, 'Filo görsel adresi güvenli değil.'),
+  detailTitle: fleetText(5, 160),
+  detailDescription: fleetText(20, 700),
+  models: z.array(fleetModelSchema).min(1).max(12),
+})
+
+export const fleetContentSchema = z.object({
+  stats: z.array(fleetStatSchema).min(1).max(12),
+  items: z.array(fleetItemSchema).min(1).max(24),
+})

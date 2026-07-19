@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation'
 import { CTASection } from '@/components/cta-section'
 import { PageHero } from '@/components/page-hero'
 import { SiteFrame } from '@/components/site-frame'
-import { findFleetBySlug, fleetItems, getFleetHref } from '@/lib/fleet-data'
+import { findFleetBySlug, getFleetHref, listFleetItems } from '@/lib/fleet-service'
 import { buildShareMetadata, getCanonicalUrl } from '@/lib/seo'
 import { getSiteSettings } from '@/lib/settings-service'
 
@@ -16,12 +16,13 @@ type FleetDetailPageProps = {
 }
 
 export async function generateStaticParams() {
-  return fleetItems.map((item) => ({ slug: item.slug }))
+  const items = await listFleetItems()
+  return items.map((item) => ({ slug: item.slug }))
 }
 
 export async function generateMetadata({ params }: FleetDetailPageProps): Promise<Metadata> {
   const { slug } = await params
-  const item = findFleetBySlug(slug)
+  const item = await findFleetBySlug(slug)
 
   if (!item) {
     return {}
@@ -45,13 +46,11 @@ export async function generateMetadata({ params }: FleetDetailPageProps): Promis
 
 export default async function FleetDetailPage({ params }: FleetDetailPageProps) {
   const { slug } = await params
-  const item = findFleetBySlug(slug)
+  const [item, settings] = await Promise.all([findFleetBySlug(slug), getSiteSettings()])
 
   if (!item) {
     notFound()
   }
-
-  const settings = await getSiteSettings()
 
   return (
     <SiteFrame settings={settings}>

@@ -4,6 +4,7 @@ import { FleetSection } from '@/components/fleet-section'
 import { PageHero } from '@/components/page-hero'
 import { SiteFrame } from '@/components/site-frame'
 import { WhyUsSection } from '@/components/why-us-section'
+import { getFleetContent } from '@/lib/fleet-service'
 import { buildShareMetadata, getCanonicalUrl } from '@/lib/seo'
 import { getSiteSettings } from '@/lib/settings-service'
 
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
 }
 
 export default async function FleetPage() {
-  const settings = await getSiteSettings()
+  const [settings, fleetContent] = await Promise.all([getSiteSettings(), getFleetContent()])
 
   return (
     <SiteFrame settings={settings}>
@@ -33,7 +34,7 @@ export default async function FleetPage() {
         image="/images/dump-truck.jpg"
         primaryCta={{ href: '/services', label: 'Hizmet Kapsamını Görün' }}
       />
-      <FleetSection />
+      <FleetSection items={fleetContent.items} stats={fleetContent.stats} />
       <WhyUsSection />
       <CTASection settings={settings} />
     </SiteFrame>

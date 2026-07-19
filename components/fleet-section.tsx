@@ -1,12 +1,14 @@
-"use client"
-
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
-import { getFleetHref, fleetItems } from '@/lib/fleet-data'
-import { fleetStats } from '@/lib/site-content'
+import { getFleetHref, type FleetItem, type FleetStat } from '@/lib/fleet-service'
 
-export function FleetSection() {
+type FleetSectionProps = {
+  items: FleetItem[]
+  stats: FleetStat[]
+}
+
+export function FleetSection({ items, stats }: FleetSectionProps) {
   return (
     <section id="filo" className="relative overflow-hidden py-24 lg:py-32">
       <div className="absolute inset-0 bg-gradient-to-b from-secondary/20 via-background to-background" />
@@ -23,7 +25,7 @@ export function FleetSection() {
         </div>
 
         <div className="mb-14 grid grid-cols-1 gap-4 min-[380px]:grid-cols-2 lg:grid-cols-4">
-          {fleetStats.map((stat) => (
+          {stats.map((stat) => (
             <div key={stat.label} className="border border-border/40 bg-card p-6 text-center">
               <div className="mb-1 text-3xl font-black text-primary lg:text-4xl">{stat.value}</div>
               <div className="text-sm text-muted-foreground">{stat.label}</div>
@@ -32,7 +34,7 @@ export function FleetSection() {
         </div>
 
         <div className="grid gap-5 md:grid-cols-2">
-          {fleetItems.map((item) => (
+          {items.map((item) => (
             <Link
               key={item.slug}
               href={getFleetHref(item.slug)}
