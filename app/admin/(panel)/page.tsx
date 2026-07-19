@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { ArrowRight, FolderKanban, ImageIcon, Mail, Star, Truck } from 'lucide-react'
 import { getSiteAssetHealth } from '@/lib/asset-health'
+import { getAdminInsights } from '@/lib/admin-insights'
 import { getAuditSummary, listAuditEntries } from '@/lib/audit-service'
 import { getFleetContent } from '@/lib/fleet-service'
 import { listAdminMessages } from '@/lib/message-service'
@@ -8,7 +9,7 @@ import { listAdminProjects } from '@/lib/project-service'
 import { getSiteSettings } from '@/lib/settings-service'
 
 export default async function AdminDashboardPage() {
-  const [projects, messages, settings, assetHealth, fleetContent, auditSummary, recentAudit] = await Promise.all([
+  const [projects, messages, settings, assetHealth, fleetContent, auditSummary, recentAudit, insights] = await Promise.all([
     listAdminProjects(),
     listAdminMessages(),
     getSiteSettings(),
@@ -16,6 +17,7 @@ export default async function AdminDashboardPage() {
     getFleetContent(),
     getAuditSummary(),
     listAuditEntries(6),
+    getAdminInsights(),
   ])
 
   const mediaCount = projects.reduce((sum, project) => sum + project.media.length, 0)
@@ -198,6 +200,43 @@ export default async function AdminDashboardPage() {
               İletişim akışına git
             </Link>
           </div>
+        </div>
+      </div>
+
+      <div className="admin-surface rounded-[32px] p-6">
+        <div className="mb-5 flex items-center justify-between">
+          <h2 className="font-display text-4xl text-white">Öncelikli Aksiyonlar</h2>
+          <Link href="/admin/insights" className="text-amber-300 hover:text-amber-200">İçgörülere Git</Link>
+        </div>
+        <div className="grid gap-4 xl:grid-cols-3">
+          {insights.slice(0, 3).map((insight) => (
+            <div key={insight.id} className="admin-surface-muted rounded-[24px] p-5">
+              <div className="flex items-center justify-between gap-3">
+                <div className="text-lg font-medium text-white">{insight.title}</div>
+                <span
+                  className={`rounded-full px-3 py-1 text-xs ${
+                    insight.severity === 'high'
+                      ? 'bg-red-400/10 text-red-300'
+                      : insight.severity === 'medium'
+                        ? 'bg-amber-400/10 text-amber-300'
+                        : 'bg-sky-400/10 text-sky-300'
+                  }`}
+                >
+                  {insight.severity === 'high' ? 'Yüksek' : insight.severity === 'medium' ? 'Orta' : 'Düşük'}
+                </span>
+              </div>
+              <p className="mt-3 line-clamp-3 text-sm leading-7 text-white/60">{insight.description}</p>
+              <div className="mt-4 text-sm text-white/45">{insight.stat}</div>
+              <Link href={insight.href} className="mt-4 inline-flex text-sm font-medium text-amber-300 transition hover:text-amber-200">
+                Hemen aç
+              </Link>
+            </div>
+          ))}
+          {insights.length === 0 ? (
+            <div className="rounded-[24px] border border-emerald-400/15 bg-emerald-400/8 p-5 text-sm text-emerald-200 xl:col-span-3">
+              Şu an dikkat gerektiren öncelikli admin aksiyonu görünmüyor.
+            </div>
+          ) : null}
         </div>
       </div>
 

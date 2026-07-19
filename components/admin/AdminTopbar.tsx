@@ -1,8 +1,14 @@
 import Link from 'next/link'
-import { Bell, ExternalLink, Sparkles } from 'lucide-react'
+import { Bell, ExternalLink, Sparkles, TriangleAlert } from 'lucide-react'
 import type { SiteSettings } from '@/lib/store'
 
-export function AdminTopbar({ settings, unreadCount }: { settings: SiteSettings; unreadCount: number }) {
+type AdminTopbarProps = {
+  settings: SiteSettings
+  unreadCount: number
+  alertCount: number
+}
+
+export function AdminTopbar({ settings, unreadCount, alertCount }: AdminTopbarProps) {
   return (
     <div className="admin-surface sticky top-0 z-20 min-w-0 rounded-[28px] px-5 py-4 backdrop-blur-xl">
       <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
@@ -10,7 +16,7 @@ export function AdminTopbar({ settings, unreadCount }: { settings: SiteSettings;
           <div className="section-eyebrow mb-3">Kontrol Merkezi</div>
           <div className="text-2xl font-semibold tracking-[-0.02em] text-white">Yönetim Paneli</div>
           <p className="mt-2 max-w-2xl text-sm text-white/55">
-            İçerik, medya ve mesaj akışını tek ekrandan hızlı şekilde yönetin.
+            İçerik, medya, filo ve operasyon uyarılarını tek ekrandan daha hızlı yönetin.
           </p>
         </div>
 
@@ -33,6 +39,13 @@ export function AdminTopbar({ settings, unreadCount }: { settings: SiteSettings;
               {unreadCount} mesaj
             </div>
           </div>
+          <Link href="/admin/insights" className="admin-surface-muted rounded-2xl px-4 py-3 transition hover:border-amber-400/20">
+            <div className="data-label text-white/40">Uyarı</div>
+            <div className="mt-2 flex items-center gap-2 text-sm text-white/80">
+              <TriangleAlert className="h-4 w-4 text-amber-300" />
+              {alertCount} kayıt
+            </div>
+          </Link>
           <Link href="/" className="btn-ghost-premium inline-flex h-[58px] items-center justify-center gap-2 px-5">
             Siteyi Gör
             <ExternalLink className="h-4 w-4" />

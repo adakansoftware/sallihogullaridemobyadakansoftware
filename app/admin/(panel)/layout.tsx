@@ -5,6 +5,7 @@ import { AdminFooter } from '@/components/admin/AdminFooter'
 import { AdminSidebarNav } from '@/components/admin/AdminSidebarNav'
 import { AdminTopbar } from '@/components/admin/AdminTopbar'
 import { LogoutButton } from '@/components/admin/LogoutButton'
+import { getAdminInsightsSummary } from '@/lib/admin-insights'
 import { isAdminAuthenticated } from '@/lib/auth'
 import { listAdminMessages } from '@/lib/message-service'
 import { getSiteSettings } from '@/lib/settings-service'
@@ -22,7 +23,7 @@ export default async function AdminPanelLayout({ children }: Readonly<{ children
     redirect('/admin/login')
   }
 
-  const [settings, messages] = await Promise.all([getSiteSettings(), listAdminMessages()])
+  const [settings, messages, insightsSummary] = await Promise.all([getSiteSettings(), listAdminMessages(), getAdminInsightsSummary()])
   const unreadCount = messages.filter((item) => !item.isRead).length
 
   return (
@@ -59,7 +60,7 @@ export default async function AdminPanelLayout({ children }: Readonly<{ children
         </aside>
 
         <main className="flex min-h-screen min-w-0 flex-col p-4 md:p-8">
-          <AdminTopbar settings={settings} unreadCount={unreadCount} />
+          <AdminTopbar settings={settings} unreadCount={unreadCount} alertCount={insightsSummary.total} />
           <div className="flex-1 pt-6">
             <div className="admin-surface rounded-[28px] p-4 md:rounded-[34px] md:p-7">
               {children}
