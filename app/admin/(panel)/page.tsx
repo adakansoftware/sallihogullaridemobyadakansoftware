@@ -50,6 +50,7 @@ export default async function AdminDashboardPage() {
             Yeni Proje
             <ArrowRight className="h-4 w-4" />
           </Link>
+          <Link href="/admin/operations" className="btn-ghost-premium inline-flex h-12 items-center px-6">Operasyon Masası</Link>
           <Link href="/admin/fleet" className="btn-ghost-premium inline-flex h-12 items-center px-6">Filo Yönetimi</Link>
           <Link href="/admin/projects" className="btn-ghost-premium inline-flex h-12 items-center px-6">İçerik Akışı</Link>
           <Link href="/admin/settings" className="btn-ghost-premium inline-flex h-12 items-center px-6">Ayarlar</Link>
