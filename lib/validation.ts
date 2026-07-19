@@ -217,6 +217,7 @@ export const fleetItemSchema = z.object({
   slug: z.string().trim().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Geçersiz filo slug değeri.'),
   name: fleetText(2, 120),
   count: fleetText(1, 20),
+  modelCount: z.coerce.number().int().min(1).max(12),
   capacity: fleetText(2, 80),
   description: fleetText(20, 700),
   specs: z.array(fleetText(2, 120)).min(1).max(12),

@@ -30,12 +30,26 @@ function assertNonEmptyModels(items: FleetItem[]) {
   }
 }
 
+function assertModelCounts(items: FleetItem[]) {
+  for (const item of items) {
+    if (item.models.length !== item.modelCount) {
+      throw new Error(`Fleet item model count mismatch: ${item.slug}`)
+    }
+
+    const uniqueNames = new Set(item.models.map((model) => model.name.toLocaleLowerCase('tr-TR')))
+    if (uniqueNames.size !== item.models.length) {
+      throw new Error(`Fleet item has duplicate model cards: ${item.slug}`)
+    }
+  }
+}
+
 export async function getFleetContent() {
   const parsed = await readJsonFileWithBackup(fleetFile, fleetContentSchema, defaultFleetContent)
   const content = parsed.data
 
   assertUniqueSlugs(content.items)
   assertNonEmptyModels(content.items)
+  assertModelCounts(content.items)
 
   if (parsed.source !== 'primary') {
     await restorePrimaryJsonFile(fleetFile, content)
