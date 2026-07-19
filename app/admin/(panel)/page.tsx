@@ -1,18 +1,21 @@
 import Link from 'next/link'
 import { ArrowRight, FolderKanban, ImageIcon, Mail, Star, Truck } from 'lucide-react'
 import { getSiteAssetHealth } from '@/lib/asset-health'
+import { getAuditSummary, listAuditEntries } from '@/lib/audit-service'
 import { getFleetContent } from '@/lib/fleet-service'
 import { listAdminMessages } from '@/lib/message-service'
 import { listAdminProjects } from '@/lib/project-service'
 import { getSiteSettings } from '@/lib/settings-service'
 
 export default async function AdminDashboardPage() {
-  const [projects, messages, settings, assetHealth, fleetContent] = await Promise.all([
+  const [projects, messages, settings, assetHealth, fleetContent, auditSummary, recentAudit] = await Promise.all([
     listAdminProjects(),
     listAdminMessages(),
     getSiteSettings(),
     getSiteAssetHealth(),
     getFleetContent(),
+    getAuditSummary(),
+    listAuditEntries(6),
   ])
 
   const mediaCount = projects.reduce((sum, project) => sum + project.media.length, 0)
@@ -214,6 +217,65 @@ export default async function AdminDashboardPage() {
               <p className="mt-3 line-clamp-3 text-sm leading-7 text-white/60">{item.description}</p>
             </div>
           ))}
+        </div>
+      </div>
+
+      <div className="grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
+        <div className="admin-surface rounded-[32px] p-6">
+          <div className="mb-5 flex items-center justify-between">
+            <h2 className="font-display text-4xl text-white">Denetim Özeti</h2>
+            <Link href="/admin/activity" className="text-amber-300 hover:text-amber-200">Tüm Kayıtlar</Link>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="admin-surface-muted rounded-[24px] p-4">
+              <div className="data-label text-white/40">Toplam Kayıt</div>
+              <div className="mt-3 text-3xl text-white">{auditSummary.total}</div>
+            </div>
+            <div className="admin-surface-muted rounded-[24px] p-4">
+              <div className="data-label text-white/40">İşlem Türü</div>
+              <div className="mt-3 text-3xl text-white">{auditSummary.uniqueActions}</div>
+            </div>
+            <div className="admin-surface-muted rounded-[24px] p-4">
+              <div className="data-label text-white/40">Başarılı</div>
+              <div className="mt-3 text-3xl text-emerald-300">{auditSummary.success}</div>
+            </div>
+            <div className="admin-surface-muted rounded-[24px] p-4">
+              <div className="data-label text-white/40">Riskli</div>
+              <div className="mt-3 text-3xl text-amber-300">{auditSummary.failure + auditSummary.rejected}</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="admin-surface rounded-[32px] p-6">
+          <div className="mb-5 flex items-center justify-between">
+            <h2 className="font-display text-4xl text-white">Son Panel Hareketleri</h2>
+            <Link href="/admin/activity" className="text-amber-300 hover:text-amber-200">Aktiviteye Git</Link>
+          </div>
+          <div className="space-y-4">
+            {recentAudit.map((entry) => (
+              <div key={`${entry.at}-${entry.action}-${entry.target || 'na'}`} className="admin-surface-muted rounded-[24px] p-4">
+                <div className="flex flex-wrap items-center gap-3">
+                  <div className="text-base font-medium text-white">{entry.action}</div>
+                  <span
+                    className={`rounded-full px-3 py-1 text-xs ${
+                      entry.status === 'success'
+                        ? 'bg-emerald-400/10 text-emerald-300'
+                        : entry.status === 'failure'
+                          ? 'bg-amber-400/10 text-amber-300'
+                          : 'bg-red-400/10 text-red-300'
+                    }`}
+                  >
+                    {entry.status}
+                  </span>
+                </div>
+                <div className="mt-2 text-sm text-white/45">{new Date(entry.at).toLocaleString('tr-TR')}</div>
+                <div className="mt-3 text-sm text-white/65">
+                  {entry.detail || entry.target || 'Ek detay yok'}
+                </div>
+              </div>
+            ))}
+            {recentAudit.length === 0 ? <div className="rounded-[24px] border border-dashed border-white/10 p-8 text-white/50">Henüz denetim kaydı yok.</div> : null}
+          </div>
         </div>
       </div>
 

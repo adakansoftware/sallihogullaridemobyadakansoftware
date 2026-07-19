@@ -2,12 +2,13 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { FolderKanban, LayoutDashboard, Mail, Settings, Truck } from 'lucide-react'
+import { Activity, FolderKanban, LayoutDashboard, Mail, Settings, Truck } from 'lucide-react'
 
 const navItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/projects', label: 'Projeler', icon: FolderKanban },
   { href: '/admin/fleet', label: 'Filo', icon: Truck },
+  { href: '/admin/activity', label: 'Aktivite', icon: Activity },
   { href: '/admin/messages', label: 'Mesajlar', icon: Mail },
   { href: '/admin/settings', label: 'Site Ayarları', icon: Settings },
 ]
