@@ -1,5 +1,5 @@
 import path from 'path'
-import { readJsonFileWithBackup, restorePrimaryJsonFile } from '@/lib/file-storage'
+import { readJsonFileWithBackup, restorePrimaryJsonFile, writeJsonFileAtomic } from '@/lib/file-storage'
 import { fleetContentSchema } from '@/lib/validation'
 
 export type FleetContent = Awaited<ReturnType<typeof getFleetContent>>
@@ -55,6 +55,17 @@ export async function getFleetContent() {
     await restorePrimaryJsonFile(fleetFile, content)
   }
 
+  return content
+}
+
+export async function updateFleetContent(input: unknown) {
+  const content = fleetContentSchema.parse(input)
+
+  assertUniqueSlugs(content.items)
+  assertNonEmptyModels(content.items)
+  assertModelCounts(content.items)
+
+  await writeJsonFileAtomic(fleetFile, content)
   return content
 }
 

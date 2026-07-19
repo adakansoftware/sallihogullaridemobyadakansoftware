@@ -1,16 +1,18 @@
 import Link from 'next/link'
-import { ArrowRight, FolderKanban, ImageIcon, Mail, Star } from 'lucide-react'
+import { ArrowRight, FolderKanban, ImageIcon, Mail, Star, Truck } from 'lucide-react'
 import { getSiteAssetHealth } from '@/lib/asset-health'
+import { getFleetContent } from '@/lib/fleet-service'
 import { listAdminMessages } from '@/lib/message-service'
 import { listAdminProjects } from '@/lib/project-service'
 import { getSiteSettings } from '@/lib/settings-service'
 
 export default async function AdminDashboardPage() {
-  const [projects, messages, settings, assetHealth] = await Promise.all([
+  const [projects, messages, settings, assetHealth, fleetContent] = await Promise.all([
     listAdminProjects(),
     listAdminMessages(),
     getSiteSettings(),
     getSiteAssetHealth(),
+    getFleetContent(),
   ])
 
   const mediaCount = projects.reduce((sum, project) => sum + project.media.length, 0)
@@ -21,6 +23,12 @@ export default async function AdminDashboardPage() {
   const projectsWithoutMedia = projects.filter((project) => project.media.length === 0).length
   const missingAssetCount = assetHealth.missingAssets.length
   const orphanUploadCount = assetHealth.orphanUploads.length
+  const fleetCategoryCount = fleetContent.items.length
+  const fleetModelCount = fleetContent.items.reduce((sum, item) => sum + item.models.length, 0)
+  const fleetUnitCount = fleetContent.items.reduce((sum, item) => {
+    const parsed = Number.parseInt(item.count, 10)
+    return sum + (Number.isFinite(parsed) ? parsed : 0)
+  }, 0)
 
   return (
     <div className="space-y-10">
@@ -29,7 +37,7 @@ export default async function AdminDashboardPage() {
           <div className="section-eyebrow mb-4">Yönetim Özeti</div>
           <h1 className="font-display text-4xl text-white sm:text-5xl md:text-7xl">Operasyon Paneli</h1>
           <p className="mt-3 max-w-3xl text-white/60">
-            {settings.companyName} için içerik, medya ve iletişim akışını daha hızlı okuyup daha güvenli yönetin.
+            {settings.companyName} için içerik, medya, filo ve iletişim akışını tek merkezden daha güvenli yönetin.
           </p>
         </div>
         <div className="flex flex-wrap gap-3">
@@ -37,12 +45,13 @@ export default async function AdminDashboardPage() {
             Yeni Proje
             <ArrowRight className="h-4 w-4" />
           </Link>
+          <Link href="/admin/fleet" className="btn-ghost-premium inline-flex h-12 items-center px-6">Filo Yönetimi</Link>
           <Link href="/admin/projects" className="btn-ghost-premium inline-flex h-12 items-center px-6">İçerik Akışı</Link>
           <Link href="/admin/settings" className="btn-ghost-premium inline-flex h-12 items-center px-6">Ayarlar</Link>
         </div>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-5">
         <div className="admin-kpi rounded-[28px] p-6">
           <div className="flex items-center justify-between">
             <div className="data-label text-white/45">Toplam Proje</div>
@@ -70,6 +79,13 @@ export default async function AdminDashboardPage() {
             <Star className="h-5 w-5 text-amber-300" />
           </div>
           <div className="stat-value mt-4 text-5xl text-white">{featuredCount}</div>
+        </div>
+        <div className="admin-kpi rounded-[28px] p-6">
+          <div className="flex items-center justify-between">
+            <div className="data-label text-white/45">Filo Kartları</div>
+            <Truck className="h-5 w-5 text-amber-300" />
+          </div>
+          <div className="stat-value mt-4 text-5xl text-white">{fleetModelCount}</div>
         </div>
       </div>
 
@@ -151,7 +167,24 @@ export default async function AdminDashboardPage() {
           <div className="data-label text-white/45">Operasyon Özeti</div>
           <div className="mt-3 text-2xl text-white">{settings.heroTitle}</div>
           <p className="mt-3 text-white/60">{settings.quoteNotice}</p>
+          <div className="mt-6 grid gap-3 md:grid-cols-3">
+            <div className="admin-surface-muted rounded-2xl px-4 py-4">
+              <div className="data-label text-white/40">Filo kategorisi</div>
+              <div className="mt-2 text-2xl text-white">{fleetCategoryCount}</div>
+            </div>
+            <div className="admin-surface-muted rounded-2xl px-4 py-4">
+              <div className="data-label text-white/40">Model kartı</div>
+              <div className="mt-2 text-2xl text-white">{fleetModelCount}</div>
+            </div>
+            <div className="admin-surface-muted rounded-2xl px-4 py-4">
+              <div className="data-label text-white/40">Toplam birim</div>
+              <div className="mt-2 text-2xl text-white">{fleetUnitCount}</div>
+            </div>
+          </div>
           <div className="mt-6 grid gap-3">
+            <Link href="/admin/fleet" className="admin-surface-muted rounded-2xl px-4 py-3 text-white/75 transition hover:border-amber-400/20">
+              Filo kartlarını yönet
+            </Link>
             <Link href="/" className="admin-surface-muted rounded-2xl px-4 py-3 text-white/75 transition hover:border-amber-400/20">
               Anasayfayı aç
             </Link>
@@ -162,6 +195,25 @@ export default async function AdminDashboardPage() {
               İletişim akışına git
             </Link>
           </div>
+        </div>
+      </div>
+
+      <div className="admin-surface rounded-[32px] p-6">
+        <div className="mb-5 flex items-center justify-between">
+          <h2 className="font-display text-4xl text-white">Filo Kısaltması</h2>
+          <Link href="/admin/fleet" className="text-amber-300 hover:text-amber-200">Filo Yönetimine Git</Link>
+        </div>
+        <div className="grid gap-4 xl:grid-cols-3">
+          {fleetContent.items.slice(0, 3).map((item) => (
+            <div key={item.slug} className="admin-surface-muted rounded-[24px] p-5">
+              <div className="flex items-center justify-between gap-3">
+                <div className="text-lg font-medium text-white">{item.name}</div>
+                <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/65">{item.models.length} model</span>
+              </div>
+              <div className="mt-2 text-sm text-white/45">{item.count} adet • {item.capacity}</div>
+              <p className="mt-3 line-clamp-3 text-sm leading-7 text-white/60">{item.description}</p>
+            </div>
+          ))}
         </div>
       </div>
 
