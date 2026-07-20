@@ -308,6 +308,86 @@ export default async function AdminOperationsPage() {
         </section>
       </div>
 
+      <div className="grid gap-6 xl:grid-cols-[1fr_1fr]">
+        <section className="admin-surface rounded-[32px] p-6">
+          <div className="mb-5 flex items-center justify-between">
+            <h2 className="font-display text-4xl text-white">Alan Momentumu</h2>
+            <Link href="/admin/insights" className="text-amber-300 hover:text-amber-200">Takibi Aç</Link>
+          </div>
+          <div className="space-y-4">
+            {issueAnalytics.domainMomentum.slice(0, 4).map((item) => (
+              <div key={item.domain} className="admin-surface-muted rounded-[24px] p-4">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div className="text-base font-medium text-white">{item.label}</div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className={`rounded-full px-3 py-1 text-xs ${
+                      item.momentum === 'accelerating'
+                        ? 'bg-red-400/10 text-red-300'
+                        : item.momentum === 'improving'
+                          ? 'bg-emerald-400/10 text-emerald-300'
+                          : 'bg-white/10 text-white/65'
+                    }`}>
+                      {item.momentum === 'accelerating' ? 'Yük artıyor' : item.momentum === 'improving' ? 'Toparlanıyor' : 'Dengede'}
+                    </span>
+                    <span className={`rounded-full px-3 py-1 text-xs ${scoreTone(item.healthScore)}`}>{item.healthScore}/100</span>
+                  </div>
+                </div>
+                <div className="mt-3 grid gap-3 text-sm text-white/45 md:grid-cols-3">
+                  <div>Son 3 gün: <span className="text-white">{item.currentOpened}</span> açık / <span className="text-white">{item.currentResolved}</span> çözüm</div>
+                  <div>Önceki 3 gün: <span className="text-white">{item.previousOpened}</span> açık / <span className="text-white">{item.previousResolved}</span> çözüm</div>
+                  <div>
+                    Basınç farkı:{' '}
+                    <span className={item.pressureDelta > 0 ? 'text-red-300' : item.pressureDelta < 0 ? 'text-emerald-300' : 'text-white'}>
+                      {item.pressureDelta > 0 ? '+' : ''}{item.pressureDelta}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="admin-surface rounded-[32px] p-6">
+          <div className="mb-5 flex items-center justify-between">
+            <h2 className="font-display text-4xl text-white">Aksiyon Kuyruğu</h2>
+            <Link href="/admin" className="text-amber-300 hover:text-amber-200">Özet</Link>
+          </div>
+          <div className="space-y-4">
+            {issueAnalytics.actionQueue.slice(0, 4).map((item) => (
+              <div key={item.issueId} className="admin-surface-muted rounded-[24px] p-4">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div className="text-base font-medium text-white">
+                    {item.queueRank}. {item.title}
+                  </div>
+                  <span className={`rounded-full px-3 py-1 text-xs ${
+                    item.riskScore >= 75
+                      ? 'bg-red-400/10 text-red-300'
+                      : item.riskScore >= 45
+                        ? 'bg-amber-400/10 text-amber-300'
+                        : 'bg-sky-400/10 text-sky-300'
+                  }`}>
+                    Risk {item.riskScore}
+                  </span>
+                </div>
+                <div className="mt-2 text-sm text-white/45">
+                  {getAnalyticsDomainLabel(item.domain)} • {item.ownerHint} • {item.status === 'monitoring' ? 'İzlemede' : 'Açık'}
+                </div>
+                <div className="mt-3 text-sm text-white">{item.actionLabel}</div>
+                <p className="mt-2 text-sm leading-7 text-white/60">{item.rationale}</p>
+                <Link href={item.href} className="mt-3 inline-flex text-sm font-medium text-amber-300 transition hover:text-amber-200">
+                  Müdahaleye Git
+                </Link>
+              </div>
+            ))}
+            {issueAnalytics.actionQueue.length === 0 ? (
+              <div className="rounded-[24px] border border-emerald-400/15 bg-emerald-400/8 p-5 text-sm text-emerald-200">
+                Aksiyon kuyruğuna düşen açık kayıt görünmüyor.
+              </div>
+            ) : null}
+          </div>
+        </section>
+      </div>
+
       <AdminIssueResolutionBoard
         title="Çözüm Takibi"
         description="Filtrelenmiş sorun listesine ek olarak, her issue için müdahale durumu ve kısa not saklayın."

@@ -77,6 +77,30 @@ export type AdminIssueAnalyticsResult = {
     action: string
     reason: string
   }>
+  domainMomentum: Array<{
+    domain: OperationDomain | 'insights'
+    label: string
+    currentOpened: number
+    currentResolved: number
+    previousOpened: number
+    previousResolved: number
+    pressureDelta: number
+    momentum: 'accelerating' | 'improving' | 'stable'
+    healthScore: number
+  }>
+  actionQueue: Array<{
+    issueId: string
+    title: string
+    href: string
+    domain: OperationDomain | 'insights'
+    severity: PrioritySeverity
+    status: AdminIssueStatus
+    riskScore: number
+    queueRank: number
+    actionLabel: string
+    rationale: string
+    ownerHint: string
+  }>
   watchlist: AdminIssueAnalyticsItem[]
   recentTransitions: Array<{
     issueId: string
@@ -148,6 +172,14 @@ function getDomainLabel(domain: OperationDomain | 'insights') {
   if (domain === 'fleet') return 'Filo'
   if (domain === 'audit') return 'Denetim'
   return 'İçgörüler'
+}
+
+function getOwnerHint(domain: OperationDomain | 'insights') {
+  if (domain === 'projects') return 'İçerik ve yayın akışı'
+  if (domain === 'messages') return 'Müşteri dönüş ekibi'
+  if (domain === 'fleet') return 'Filo ve ekipman yönetimi'
+  if (domain === 'audit') return 'Yetki ve denetim takibi'
+  return 'Yönetim içgörü takibi'
 }
 
 function buildDomainPlaybook(input: {
@@ -347,6 +379,47 @@ export async function getAdminIssueAnalytics(): Promise<AdminIssueAnalyticsResul
       return left.healthScore - right.healthScore
     })
 
+  const domainMomentum = domainSummary
+    .map((domain) => {
+      const currentOpened = history.filter((entry) => {
+        const issue = catalog[entry.issueId]
+        return issue?.domain === domain.domain && entry.source === 'sync' && currentWindow.some((item) => item.dayKey === toDayKey(entry.at))
+      }).length
+      const currentResolved = history.filter((entry) => {
+        const issue = catalog[entry.issueId]
+        return issue?.domain === domain.domain && entry.toStatus === 'resolved' && currentWindow.some((item) => item.dayKey === toDayKey(entry.at))
+      }).length
+      const previousOpened = history.filter((entry) => {
+        const issue = catalog[entry.issueId]
+        return issue?.domain === domain.domain && entry.source === 'sync' && previousWindow.some((item) => item.dayKey === toDayKey(entry.at))
+      }).length
+      const previousResolved = history.filter((entry) => {
+        const issue = catalog[entry.issueId]
+        return issue?.domain === domain.domain && entry.toStatus === 'resolved' && previousWindow.some((item) => item.dayKey === toDayKey(entry.at))
+      }).length
+      const pressureDelta = (currentOpened - currentResolved) - (previousOpened - previousResolved)
+
+      return {
+        domain: domain.domain,
+        label: getDomainLabel(domain.domain),
+        currentOpened,
+        currentResolved,
+        previousOpened,
+        previousResolved,
+        pressureDelta,
+        momentum: pressureDelta > 1 ? 'accelerating' as const : pressureDelta < -1 ? 'improving' as const : 'stable' as const,
+        healthScore: domain.healthScore,
+      }
+    })
+    .sort((left, right) => {
+      if (left.momentum !== right.momentum) {
+        const weight = { accelerating: 0, stable: 1, improving: 2 }
+        return weight[left.momentum] - weight[right.momentum]
+      }
+      if (left.pressureDelta !== right.pressureDelta) return right.pressureDelta - left.pressureDelta
+      return left.healthScore - right.healthScore
+    })
+
   const watchlist = activeStates
     .map((state) => {
       const issue = catalog[state.id]
@@ -388,6 +461,35 @@ export async function getAdminIssueAnalytics(): Promise<AdminIssueAnalyticsResul
       if (severityOrder !== 0) return severityOrder
       return right.ageHours - left.ageHours
     })
+
+  const actionQueue = watchlist
+    .slice(0, 6)
+    .map((issue, index) => ({
+      issueId: issue.id,
+      title: issue.title,
+      href: issue.href,
+      domain: issue.domain,
+      severity: issue.severity,
+      status: issue.status,
+      riskScore: issue.riskScore,
+      queueRank: index + 1,
+      actionLabel:
+        issue.overSla && issue.domain === 'messages'
+          ? 'Mesajı aynı vardiyada kapat'
+          : issue.overSla && issue.domain === 'projects'
+            ? 'Yayın açığını tek oturumda düzelt'
+            : issue.overSla && issue.domain === 'fleet'
+              ? 'Kart ve envanteri senkronla'
+              : issue.overSla && issue.domain === 'audit'
+                ? 'Yetki ve log incelemesini başlat'
+                : issue.reopenCount > 0
+                  ? 'Kalıcı çözüm kontrolünü ata'
+                  : issue.status === 'monitoring'
+                    ? 'İzleme notunu sonuca çevir'
+                    : 'Bugün ilk müdahaleyi tamamla',
+      rationale: issue.recommendation,
+      ownerHint: getOwnerHint(issue.domain),
+    }))
 
   const recentTransitions = history
     .filter((entry) => catalog[entry.issueId])
@@ -441,6 +543,8 @@ export async function getAdminIssueAnalytics(): Promise<AdminIssueAnalyticsResul
       momentum,
     },
     playbooks,
+    domainMomentum,
+    actionQueue,
     watchlist,
     recentTransitions,
   }
