@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { AlertTriangle, FolderKanban, Mail, ShieldAlert, Truck } from 'lucide-react'
 import { AdminIssueResolutionBoard } from '@/components/admin/AdminIssueResolutionBoard'
 import { AdminOperationsBoard } from '@/components/admin/AdminOperationsBoard'
+import { getAdminIssueAnalytics } from '@/lib/admin-issue-analytics'
 import { getSyncedAdminIssueStateMap } from '@/lib/admin-issue-tracker'
 import { getAdminOperationsCenter } from '@/lib/admin-operations'
 
@@ -25,10 +26,16 @@ function getDomainLabel(domain: 'projects' | 'messages' | 'fleet' | 'audit') {
   return 'Denetim'
 }
 
+function getAnalyticsDomainLabel(domain: 'projects' | 'messages' | 'fleet' | 'audit' | 'insights') {
+  if (domain === 'insights') return 'İçgörüler'
+  return getDomainLabel(domain)
+}
+
 export default async function AdminOperationsPage() {
-  const [{ snapshot, issues, summary }, issueStateMap] = await Promise.all([
+  const [{ snapshot, issues, summary }, issueStateMap, issueAnalytics] = await Promise.all([
     getAdminOperationsCenter(),
     getSyncedAdminIssueStateMap(),
+    getAdminIssueAnalytics(),
   ])
 
   const trackedIssues = issues.map((issue) => {
@@ -152,11 +159,128 @@ export default async function AdminOperationsPage() {
 
       <AdminOperationsBoard issues={issues} score={summary.score} />
 
+      <div className="grid gap-6 xl:grid-cols-[1fr_1fr]">
+        <section className="admin-surface rounded-[32px] p-6">
+          <div className="mb-5 flex items-center justify-between">
+            <h2 className="font-display text-4xl text-white">Operasyon Sağlığı</h2>
+            <Link href="/admin" className="text-amber-300 hover:text-amber-200">Dashboard</Link>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <div className="admin-surface-muted rounded-[24px] p-4">
+              <div className="data-label text-white/40">Sağlık skoru</div>
+              <div className={`mt-3 text-3xl ${scoreTone(issueAnalytics.summary.healthScore)}`}>{issueAnalytics.summary.healthScore}</div>
+            </div>
+            <div className="admin-surface-muted rounded-[24px] p-4">
+              <div className="data-label text-white/40">SLA kaçağı</div>
+              <div className={`mt-3 text-3xl ${issueAnalytics.summary.slaBreaches ? 'text-red-300' : 'text-emerald-300'}`}>{issueAnalytics.summary.slaBreaches}</div>
+            </div>
+            <div className="admin-surface-muted rounded-[24px] p-4">
+              <div className="data-label text-white/40">7 günlük geçiş</div>
+              <div className="mt-3 text-3xl text-white">{issueAnalytics.summary.transitionCount7d}</div>
+            </div>
+            <div className="admin-surface-muted rounded-[24px] p-4">
+              <div className="data-label text-white/40">Toparlanma</div>
+              <div className={`mt-3 text-3xl ${issueAnalytics.focus.recoveryRate >= 100 ? 'text-emerald-300' : issueAnalytics.focus.recoveryRate >= 60 ? 'text-amber-300' : 'text-red-300'}`}>
+                %{issueAnalytics.focus.recoveryRate}
+              </div>
+            </div>
+          </div>
+          <div className="mt-5 rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm text-white/60">
+            En yoğun alan {issueAnalytics.focus.hottestDomain ? getAnalyticsDomainLabel(issueAnalytics.focus.hottestDomain) : 'yok'}.
+            Baskı skoru: <span className="text-white">{issueAnalytics.focus.highestPressureCount}</span>.
+          </div>
+        </section>
+
+        <section className="admin-surface rounded-[32px] p-6">
+          <div className="mb-5 flex items-center justify-between">
+            <h2 className="font-display text-4xl text-white">7 Günlük Akış</h2>
+            <Link href="/admin/insights" className="text-amber-300 hover:text-amber-200">Takibi Aç</Link>
+          </div>
+          <div className="space-y-4">
+            {issueAnalytics.trend7d.map((item) => (
+              <div key={item.dayKey} className="admin-surface-muted rounded-[24px] p-4">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div className="text-base font-medium text-white">{new Date(item.dayKey).toLocaleDateString('tr-TR', { day: '2-digit', month: 'short' })}</div>
+                  <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">{item.updated + item.resolved} hareket</span>
+                </div>
+                <div className="mt-3 grid gap-3 md:grid-cols-3 text-sm text-white/45">
+                  <div>Açılan: <span className="text-white">{item.opened}</span></div>
+                  <div>Çözülen: <span className="text-white">{item.resolved}</span></div>
+                  <div>Güncellenen: <span className="text-white">{item.updated}</span></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+
       <AdminIssueResolutionBoard
         title="Çözüm Takibi"
         description="Filtrelenmiş sorun listesine ek olarak, her issue için müdahale durumu ve kısa not saklayın."
         issues={trackedIssues}
       />
+
+      <div className="grid gap-6 xl:grid-cols-[1fr_1fr]">
+        <section className="admin-surface rounded-[32px] p-6">
+          <div className="mb-5 flex items-center justify-between">
+            <h2 className="font-display text-4xl text-white">Alan Baskısı</h2>
+            <Link href="/admin" className="text-amber-300 hover:text-amber-200">Özet</Link>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {issueAnalytics.domainSummary.map((domain) => (
+              <div key={domain.domain} className="admin-surface-muted rounded-[24px] p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="text-lg text-white">{getAnalyticsDomainLabel(domain.domain)}</div>
+                  <span className={`rounded-full px-3 py-1 text-xs ${scoreTone(domain.healthScore)}`}>
+                    {domain.healthScore}/100
+                  </span>
+                </div>
+                <div className="mt-3 text-sm text-white/45">{domain.tracked} takip • {domain.resolved} çözüldü</div>
+                <div className="mt-2 text-sm text-white/45">Aktif: {domain.active} • SLA: {domain.slaBreaches}</div>
+                <div className="mt-2 text-sm text-white/45">Tekrar: {domain.reopened} • Yaş: {domain.avgAgeHours > 0 ? `${Math.round(domain.avgAgeHours)} saat` : '0 saat'}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="admin-surface rounded-[32px] p-6">
+          <div className="mb-5 flex items-center justify-between">
+            <h2 className="font-display text-4xl text-white">Son Issue Geçişleri</h2>
+            <Link href="/admin/insights" className="text-amber-300 hover:text-amber-200">Takibi Aç</Link>
+          </div>
+          <div className="space-y-4">
+            {issueAnalytics.recentTransitions.map((entry) => (
+              <div key={`${entry.issueId}-${entry.at}`} className="admin-surface-muted rounded-[24px] p-4">
+                <div className="flex flex-wrap items-center gap-3">
+                  <div className="text-base font-medium text-white">{entry.title}</div>
+                  <span className={`rounded-full px-3 py-1 text-xs ${
+                    entry.toStatus === 'resolved'
+                      ? 'bg-emerald-400/10 text-emerald-300'
+                      : entry.toStatus === 'monitoring'
+                        ? 'bg-amber-400/10 text-amber-300'
+                        : 'bg-red-400/10 text-red-300'
+                  }`}>
+                    {entry.toStatus === 'resolved' ? 'Çözüldü' : entry.toStatus === 'monitoring' ? 'İzlemede' : 'Açık'}
+                  </span>
+                </div>
+                <div className="mt-2 text-sm text-white/45">
+                  {formatDate(entry.at)} • {getAnalyticsDomainLabel(entry.domain)}
+                </div>
+                <div className="mt-2 text-sm text-white/60">
+                  {entry.fromStatus ? `${entry.fromStatus} → ${entry.toStatus}` : `${entry.toStatus} olarak kayda girdi`}
+                </div>
+                <div className="mt-2 text-sm text-white/45">{entry.note || 'Not girilmedi'}</div>
+                <Link href={entry.href} className="mt-3 inline-flex text-sm font-medium text-amber-300 transition hover:text-amber-200">
+                  Issue&apos;ya Git
+                </Link>
+              </div>
+            ))}
+            {issueAnalytics.recentTransitions.length === 0 ? (
+              <div className="rounded-[24px] border border-dashed border-white/10 p-8 text-white/50">Henüz issue geçiş kaydı yok.</div>
+            ) : null}
+          </div>
+        </section>
+      </div>
 
       <div className="grid gap-6 xl:grid-cols-2">
         <section className="admin-surface rounded-[32px] p-6">

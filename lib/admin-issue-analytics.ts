@@ -29,6 +29,7 @@ export type AdminIssueAnalyticsResult = {
     slaBreaches: number
     avgResolveHours: number
     healthScore: number
+    transitionCount7d: number
   }
   domainSummary: Array<{
     domain: OperationDomain | 'insights'
@@ -38,7 +39,19 @@ export type AdminIssueAnalyticsResult = {
     slaBreaches: number
     reopened: number
     avgAgeHours: number
+    healthScore: number
   }>
+  trend7d: Array<{
+    dayKey: string
+    opened: number
+    resolved: number
+    updated: number
+  }>
+  focus: {
+    hottestDomain: OperationDomain | 'insights' | null
+    highestPressureCount: number
+    recoveryRate: number
+  }
   watchlist: AdminIssueAnalyticsItem[]
   recentTransitions: Array<{
     issueId: string
@@ -84,6 +97,18 @@ function buildHealthScore(input: { active: number; slaBreaches: number; reopened
   return Math.max(0, 100 - penalty)
 }
 
+function startOfDay(date: Date) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate())
+}
+
+function toDayKey(value: string | Date) {
+  const date = typeof value === 'string' ? new Date(value) : value
+  const year = date.getFullYear()
+  const month = `${date.getMonth() + 1}`.padStart(2, '0')
+  const day = `${date.getDate()}`.padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
+
 function isActive(state: AdminIssueState) {
   return state.status === 'open' || state.status === 'monitoring'
 }
@@ -101,6 +126,16 @@ export async function getAdminIssueAnalytics(): Promise<AdminIssueAnalyticsResul
   const staleOpen48h = activeStates.filter((state) => hoursSince(state.firstSeenAt) >= 48)
   const staleOpen7d = activeStates.filter((state) => hoursSince(state.firstSeenAt) >= 7 * 24)
   const reopenedIssues = trackedStates.filter((state) => state.reopenCount > 0)
+  const now = new Date()
+  const trend7d = Array.from({ length: 7 }, (_, offset) => {
+    const date = startOfDay(new Date(now.getFullYear(), now.getMonth(), now.getDate() - (6 - offset)))
+    const dayKey = toDayKey(date)
+    const opened = history.filter((entry) => entry.source === 'sync' && toDayKey(entry.at) === dayKey).length
+    const resolved = history.filter((entry) => entry.toStatus === 'resolved' && toDayKey(entry.at) === dayKey).length
+    const updated = history.filter((entry) => entry.source === 'manual' && toDayKey(entry.at) === dayKey).length
+    return { dayKey, opened, resolved, updated }
+  })
+  const transitionCount7d = trend7d.reduce((sum, item) => sum + item.updated + item.resolved, 0)
 
   const slaBreaches = trackedStates.filter((state) => {
     const issue = catalog[state.id]
@@ -144,8 +179,23 @@ export async function getAdminIssueAnalytics(): Promise<AdminIssueAnalyticsResul
       slaBreaches: domainBreaches.length,
       reopened: items.filter((state) => state.reopenCount > 0).length,
       avgAgeHours: ages.length > 0 ? ages.reduce((sum, value) => sum + value, 0) / ages.length : 0,
+      healthScore: buildHealthScore({
+        active: active.length,
+        slaBreaches: domainBreaches.length,
+        reopened: items.filter((state) => state.reopenCount > 0).length,
+        staleOpen7d: active.filter((state) => hoursSince(state.firstSeenAt) >= 7 * 24).length,
+      }),
     }
   })
+
+  const hottestDomainEntry = [...domainSummary].sort((left, right) => {
+    const pressureLeft = left.active + left.slaBreaches * 2 + left.reopened
+    const pressureRight = right.active + right.slaBreaches * 2 + right.reopened
+    return pressureRight - pressureLeft
+  })[0]
+  const totalClosed = trend7d.reduce((sum, item) => sum + item.resolved, 0)
+  const totalOpened = trend7d.reduce((sum, item) => sum + item.opened, 0)
+  const recoveryRate = totalOpened > 0 ? Math.min(100, Math.round((totalClosed / totalOpened) * 100)) : totalClosed > 0 ? 100 : 0
 
   const watchlist = activeStates
     .map((state) => {
@@ -202,8 +252,15 @@ export async function getAdminIssueAnalytics(): Promise<AdminIssueAnalyticsResul
         reopened: reopenedIssues.length,
         staleOpen7d: staleOpen7d.length,
       }),
+      transitionCount7d,
     },
     domainSummary,
+    trend7d,
+    focus: {
+      hottestDomain: hottestDomainEntry?.domain ?? null,
+      highestPressureCount: hottestDomainEntry ? hottestDomainEntry.active + hottestDomainEntry.slaBreaches * 2 + hottestDomainEntry.reopened : 0,
+      recoveryRate,
+    },
     watchlist,
     recentTransitions,
   }
