@@ -189,6 +189,16 @@ export default async function AdminOperationsPage() {
             En yoğun alan {issueAnalytics.focus.hottestDomain ? getAnalyticsDomainLabel(issueAnalytics.focus.hottestDomain) : 'yok'}.
             Baskı skoru: <span className="text-white">{issueAnalytics.focus.highestPressureCount}</span>.
           </div>
+          <div className="mt-4 rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm text-white/60">
+            Haftalık yön {
+              issueAnalytics.focus.weeklyDirection === 'up'
+                ? 'yukarı'
+                : issueAnalytics.focus.weeklyDirection === 'down'
+                  ? 'aşağı'
+                  : 'dengede'
+            }.
+            Fark: <span className="text-white">{issueAnalytics.focus.weeklyDelta}</span>. {issueAnalytics.focus.recommendation}
+          </div>
         </section>
 
         <section className="admin-surface rounded-[32px] p-6">
@@ -283,6 +293,43 @@ export default async function AdminOperationsPage() {
       </div>
 
       <div className="grid gap-6 xl:grid-cols-2">
+        <section className="admin-surface rounded-[32px] p-6 xl:col-span-2">
+          <div className="mb-5 flex items-center justify-between">
+            <h2 className="font-display text-4xl text-white">Müdahale Öneri Masası</h2>
+            <Link href="/admin/insights" className="text-amber-300 hover:text-amber-200">İçgörülere Git</Link>
+          </div>
+          <div className="grid gap-4 xl:grid-cols-3">
+            {issueAnalytics.watchlist.slice(0, 3).map((issue) => (
+              <div key={issue.id} className="admin-surface-muted rounded-[24px] p-5">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="text-lg font-medium text-white">{issue.title}</div>
+                  <span className={`rounded-full px-3 py-1 text-xs ${
+                    issue.riskScore >= 75
+                      ? 'bg-red-400/10 text-red-300'
+                      : issue.riskScore >= 45
+                        ? 'bg-amber-400/10 text-amber-300'
+                        : 'bg-sky-400/10 text-sky-300'
+                  }`}>
+                    Risk {issue.riskScore}
+                  </span>
+                </div>
+                <div className="mt-3 text-sm text-white/45">
+                  {getAnalyticsDomainLabel(issue.domain)} • {issue.status === 'monitoring' ? 'İzlemede' : 'Açık'} • {Math.round(issue.ageHours)} saat
+                </div>
+                <p className="mt-3 text-sm leading-7 text-white/60">{issue.recommendation}</p>
+                <Link href={issue.href} className="mt-4 inline-flex text-sm font-medium text-amber-300 transition hover:text-amber-200">
+                  Müdahaleye Git
+                </Link>
+              </div>
+            ))}
+            {issueAnalytics.watchlist.length === 0 ? (
+              <div className="rounded-[24px] border border-emerald-400/15 bg-emerald-400/8 p-5 text-sm text-emerald-200 xl:col-span-3">
+                Şu an öneri gerektiren açık issue görünmüyor.
+              </div>
+            ) : null}
+          </div>
+        </section>
+
         <section className="admin-surface rounded-[32px] p-6">
           <div className="mb-5 flex items-center justify-between">
             <h2 className="font-display text-4xl text-white">Mesaj Kuyruğu</h2>

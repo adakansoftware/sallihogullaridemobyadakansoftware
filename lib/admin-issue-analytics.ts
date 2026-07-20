@@ -15,6 +15,8 @@ export type AdminIssueAnalyticsItem = {
   overSla: boolean
   reopenCount: number
   updatedAt: string
+  riskScore: number
+  recommendation: string
 }
 
 export type AdminIssueAnalyticsResult = {
@@ -51,6 +53,9 @@ export type AdminIssueAnalyticsResult = {
     hottestDomain: OperationDomain | 'insights' | null
     highestPressureCount: number
     recoveryRate: number
+    weeklyDirection: 'up' | 'down' | 'stable'
+    weeklyDelta: number
+    recommendation: string
   }
   watchlist: AdminIssueAnalyticsItem[]
   recentTransitions: Array<{
@@ -97,6 +102,26 @@ function buildHealthScore(input: { active: number; slaBreaches: number; reopened
   return Math.max(0, 100 - penalty)
 }
 
+function buildRiskScore(input: { severity: PrioritySeverity; ageHours: number; overSla: boolean; reopenCount: number; status: AdminIssueStatus }) {
+  const severityBase = input.severity === 'high' ? 55 : input.severity === 'medium' ? 35 : 20
+  const ageComponent = Math.min(25, Math.round(input.ageHours / 8))
+  const slaComponent = input.overSla ? 15 : 0
+  const reopenComponent = Math.min(10, input.reopenCount * 3)
+  const statusAdjustment = input.status === 'monitoring' ? -5 : 0
+  return Math.max(0, Math.min(100, severityBase + ageComponent + slaComponent + reopenComponent + statusAdjustment))
+}
+
+function buildRecommendation(input: { domain: OperationDomain | 'insights'; severity: PrioritySeverity; overSla: boolean; reopenCount: number; status: AdminIssueStatus }) {
+  if (input.overSla && input.domain === 'messages') return 'Mesaj kuyruğunu öne çekip geri dönüş sırasını hemen temizleyin.'
+  if (input.overSla && input.domain === 'projects') return 'Canlı proje tarafında eksik medya ve özet alanlarını aynı oturumda kapatın.'
+  if (input.overSla && input.domain === 'fleet') return 'Filo kartlarındaki adet ve görsel tutarsızlıklarını aynı gün senkronlayın.'
+  if (input.overSla && input.domain === 'audit') return 'Denetim kayıtlarını ve başarısız giriş nedenlerini hemen inceleyin.'
+  if (input.reopenCount > 0) return 'Tekrar açılan bu issue için kalıcı çözüm notu ve kontrol listesi ekleyin.'
+  if (input.status === 'monitoring') return 'İzleme durumunu kısa aralıkla kontrol edip kalıcı çözüme bağlayın.'
+  if (input.severity === 'high') return 'Bu issue için ilk müdahaleyi bugün tamamlayın.'
+  return 'Bu kaydı normal operasyon akışında planlı şekilde kapatın.'
+}
+
 function startOfDay(date: Date) {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate())
 }
@@ -136,6 +161,12 @@ export async function getAdminIssueAnalytics(): Promise<AdminIssueAnalyticsResul
     return { dayKey, opened, resolved, updated }
   })
   const transitionCount7d = trend7d.reduce((sum, item) => sum + item.updated + item.resolved, 0)
+  const firstHalf = trend7d.slice(0, 3)
+  const secondHalf = trend7d.slice(-3)
+  const firstHalfPressure = firstHalf.reduce((sum, item) => sum + item.opened - item.resolved, 0)
+  const secondHalfPressure = secondHalf.reduce((sum, item) => sum + item.opened - item.resolved, 0)
+  const weeklyDelta = secondHalfPressure - firstHalfPressure
+  const weeklyDirection = weeklyDelta > 1 ? 'up' : weeklyDelta < -1 ? 'down' : 'stable'
 
   const slaBreaches = trackedStates.filter((state) => {
     const issue = catalog[state.id]
@@ -196,12 +227,21 @@ export async function getAdminIssueAnalytics(): Promise<AdminIssueAnalyticsResul
   const totalClosed = trend7d.reduce((sum, item) => sum + item.resolved, 0)
   const totalOpened = trend7d.reduce((sum, item) => sum + item.opened, 0)
   const recoveryRate = totalOpened > 0 ? Math.min(100, Math.round((totalClosed / totalOpened) * 100)) : totalClosed > 0 ? 100 : 0
+  const focusRecommendation =
+    hottestDomainEntry?.slaBreaches
+      ? `${hottestDomainEntry.domain === 'insights' ? 'İçgörü' : hottestDomainEntry.domain} alanındaki SLA kaçaklarını ilk öncelik yapın.`
+      : weeklyDirection === 'up'
+        ? 'Son günlerde operasyon baskısı artıyor; açık kayıtları aynı gün içinde kapatmaya odaklanın.'
+        : weeklyDirection === 'down'
+          ? 'İyileşme eğilimi var; tekrar açılan kayıtları kalıcı çözüme çevirin.'
+          : 'Operasyon temposu dengede; yüksek öncelikli kayıtları düzenli takipte tutun.'
 
   const watchlist = activeStates
     .map((state) => {
       const issue = catalog[state.id]
       if (!issue) return null
       const ageHours = hoursSince(state.firstSeenAt)
+      const overSla = ageHours > getSlaHours(issue.severity)
       return {
         id: state.id,
         title: issue.title,
@@ -210,14 +250,29 @@ export async function getAdminIssueAnalytics(): Promise<AdminIssueAnalyticsResul
         severity: issue.severity,
         domain: issue.domain,
         ageHours,
-        overSla: ageHours > getSlaHours(issue.severity),
+        overSla,
         reopenCount: state.reopenCount,
         updatedAt: state.updatedAt,
+        riskScore: buildRiskScore({
+          severity: issue.severity,
+          ageHours,
+          overSla,
+          reopenCount: state.reopenCount,
+          status: state.status,
+        }),
+        recommendation: buildRecommendation({
+          domain: issue.domain,
+          severity: issue.severity,
+          overSla,
+          reopenCount: state.reopenCount,
+          status: state.status,
+        }),
       }
     })
     .filter((item): item is AdminIssueAnalyticsItem => item !== null)
     .sort((left, right) => {
       if (left.overSla !== right.overSla) return left.overSla ? -1 : 1
+      if (left.riskScore !== right.riskScore) return right.riskScore - left.riskScore
       const severityOrder = getSeverityWeight(left.severity) - getSeverityWeight(right.severity)
       if (severityOrder !== 0) return severityOrder
       return right.ageHours - left.ageHours
@@ -260,6 +315,9 @@ export async function getAdminIssueAnalytics(): Promise<AdminIssueAnalyticsResul
       hottestDomain: hottestDomainEntry?.domain ?? null,
       highestPressureCount: hottestDomainEntry ? hottestDomainEntry.active + hottestDomainEntry.slaBreaches * 2 + hottestDomainEntry.reopened : 0,
       recoveryRate,
+      weeklyDirection,
+      weeklyDelta,
+      recommendation: focusRecommendation,
     },
     watchlist,
     recentTransitions,
