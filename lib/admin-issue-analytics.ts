@@ -28,7 +28,17 @@ export type AdminIssueAnalyticsResult = {
     reopened: number
     slaBreaches: number
     avgResolveHours: number
+    healthScore: number
   }
+  domainSummary: Array<{
+    domain: OperationDomain | 'insights'
+    tracked: number
+    active: number
+    resolved: number
+    slaBreaches: number
+    reopened: number
+    avgAgeHours: number
+  }>
   watchlist: AdminIssueAnalyticsItem[]
   recentTransitions: Array<{
     issueId: string
@@ -69,6 +79,11 @@ function getSeverityWeight(severity: PrioritySeverity) {
   return 2
 }
 
+function buildHealthScore(input: { active: number; slaBreaches: number; reopened: number; staleOpen7d: number }) {
+  const penalty = input.active * 4 + input.slaBreaches * 12 + input.reopened * 5 + input.staleOpen7d * 7
+  return Math.max(0, 100 - penalty)
+}
+
 function isActive(state: AdminIssueState) {
   return state.status === 'open' || state.status === 'monitoring'
 }
@@ -106,6 +121,31 @@ export async function getAdminIssueAnalytics(): Promise<AdminIssueAnalyticsResul
     resolutionDurations.length > 0
       ? resolutionDurations.reduce((sum, value) => sum + value, 0) / resolutionDurations.length
       : 0
+
+  const domainSummary = (['projects', 'messages', 'fleet', 'audit', 'insights'] as const).map((domain) => {
+    const items = trackedStates.filter((state) => catalog[state.id]?.domain === domain)
+    const active = items.filter(isActive)
+    const ages = active.map((state) => hoursSince(state.firstSeenAt))
+    const domainBreaches = items.filter((state) => {
+      const issue = catalog[state.id]
+      if (!issue) return false
+      const limit = getSlaHours(issue.severity)
+      if (state.status === 'resolved' && state.resolvedAt) {
+        return hoursBetween(state.firstSeenAt, state.resolvedAt) > limit
+      }
+      return hoursSince(state.firstSeenAt) > limit
+    })
+
+    return {
+      domain,
+      tracked: items.length,
+      active: active.length,
+      resolved: items.filter((state) => state.status === 'resolved').length,
+      slaBreaches: domainBreaches.length,
+      reopened: items.filter((state) => state.reopenCount > 0).length,
+      avgAgeHours: ages.length > 0 ? ages.reduce((sum, value) => sum + value, 0) / ages.length : 0,
+    }
+  })
 
   const watchlist = activeStates
     .map((state) => {
@@ -156,7 +196,14 @@ export async function getAdminIssueAnalytics(): Promise<AdminIssueAnalyticsResul
       reopened: reopenedIssues.length,
       slaBreaches: slaBreaches.length,
       avgResolveHours,
+      healthScore: buildHealthScore({
+        active: activeStates.length,
+        slaBreaches: slaBreaches.length,
+        reopened: reopenedIssues.length,
+        staleOpen7d: staleOpen7d.length,
+      }),
     },
+    domainSummary,
     watchlist,
     recentTransitions,
   }

@@ -322,6 +322,86 @@ export default async function AdminDashboardPage() {
         </div>
       </div>
 
+      <div className="grid gap-6 xl:grid-cols-[1fr_1fr]">
+        <div className="admin-surface rounded-[32px] p-6">
+          <div className="mb-5 flex items-center justify-between">
+            <h2 className="font-display text-4xl text-white">Alan Basıncı</h2>
+            <Link href="/admin/operations" className="text-amber-300 hover:text-amber-200">Detaylı Operasyon</Link>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {issueAnalytics.domainSummary.map((domain) => (
+              <div key={domain.domain} className="admin-surface-muted rounded-[24px] p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="text-lg text-white">
+                    {domain.domain === 'projects'
+                      ? 'Projeler'
+                      : domain.domain === 'messages'
+                        ? 'Mesajlar'
+                        : domain.domain === 'fleet'
+                          ? 'Filo'
+                          : domain.domain === 'audit'
+                            ? 'Denetim'
+                            : 'İçgörüler'}
+                  </div>
+                  <span className={`rounded-full px-3 py-1 text-xs ${
+                    domain.slaBreaches
+                      ? 'bg-red-400/10 text-red-300'
+                      : domain.active
+                        ? 'bg-amber-400/10 text-amber-300'
+                        : 'bg-emerald-400/10 text-emerald-300'
+                  }`}>
+                    {domain.active} aktif
+                  </span>
+                </div>
+                <div className="mt-3 text-sm text-white/45">{domain.tracked} takip • {domain.resolved} çözüldü</div>
+                <div className="mt-2 text-sm text-white/45">SLA: {domain.slaBreaches} • Tekrar: {domain.reopened}</div>
+                <div className="mt-2 text-sm text-white/45">
+                  Ortalama yaş: {domain.avgAgeHours > 0 ? `${Math.round(domain.avgAgeHours)} saat` : '0 saat'}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="admin-surface rounded-[32px] p-6">
+          <div className="mb-5 flex items-center justify-between">
+            <h2 className="font-display text-4xl text-white">Son Issue Geçişleri</h2>
+            <Link href="/admin/insights" className="text-amber-300 hover:text-amber-200">Takibi Aç</Link>
+          </div>
+          <div className="space-y-4">
+            {issueAnalytics.recentTransitions.map((entry) => (
+              <div key={`${entry.issueId}-${entry.at}`} className="admin-surface-muted rounded-[24px] p-4">
+                <div className="flex flex-wrap items-center gap-3">
+                  <div className="text-base font-medium text-white">{entry.title}</div>
+                  <span className={`rounded-full px-3 py-1 text-xs ${
+                    entry.toStatus === 'resolved'
+                      ? 'bg-emerald-400/10 text-emerald-300'
+                      : entry.toStatus === 'monitoring'
+                        ? 'bg-amber-400/10 text-amber-300'
+                        : 'bg-red-400/10 text-red-300'
+                  }`}>
+                    {entry.toStatus === 'resolved' ? 'Çözüldü' : entry.toStatus === 'monitoring' ? 'İzlemede' : 'Açık'}
+                  </span>
+                </div>
+                <div className="mt-2 text-sm text-white/45">
+                  {new Date(entry.at).toLocaleString('tr-TR')} • {severityLabel(entry.severity)}
+                </div>
+                <div className="mt-2 text-sm text-white/60">
+                  {entry.fromStatus ? `${entry.fromStatus} → ${entry.toStatus}` : `${entry.toStatus} olarak kayda girdi`}
+                </div>
+                <div className="mt-2 text-sm text-white/45">{entry.note || 'Not girilmedi'}</div>
+                <Link href={entry.href} className="mt-3 inline-flex text-sm font-medium text-amber-300 transition hover:text-amber-200">
+                  Issue&apos;ya Git
+                </Link>
+              </div>
+            ))}
+            {issueAnalytics.recentTransitions.length === 0 ? (
+              <div className="rounded-[24px] border border-dashed border-white/10 p-8 text-white/50">Henüz issue geçiş kaydı yok.</div>
+            ) : null}
+          </div>
+        </div>
+      </div>
+
       <div className="admin-surface rounded-[32px] p-6">
         <div className="mb-5 flex items-center justify-between">
           <h2 className="font-display text-4xl text-white">Filo Kısaltması</h2>

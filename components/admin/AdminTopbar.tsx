@@ -6,9 +6,18 @@ type AdminTopbarProps = {
   settings: SiteSettings
   unreadCount: number
   alertCount: number
+  issueHealthScore: number
+  slaCount: number
+  reopenedCount: number
 }
 
-export function AdminTopbar({ settings, unreadCount, alertCount }: AdminTopbarProps) {
+function toneClass(score: number) {
+  if (score >= 85) return 'text-emerald-300'
+  if (score >= 65) return 'text-amber-300'
+  return 'text-red-300'
+}
+
+export function AdminTopbar({ settings, unreadCount, alertCount, issueHealthScore, slaCount, reopenedCount }: AdminTopbarProps) {
   return (
     <div className="admin-surface sticky top-0 z-20 min-w-0 rounded-[28px] px-5 py-4 backdrop-blur-xl">
       <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
@@ -26,10 +35,10 @@ export function AdminTopbar({ settings, unreadCount, alertCount }: AdminTopbarPr
             <div className="mt-2 max-w-[180px] truncate text-sm text-white/80 sm:max-w-none">{settings.companyShortName}</div>
           </div>
           <div className="admin-surface-muted rounded-2xl px-4 py-3">
-            <div className="data-label text-white/40">Durum</div>
-            <div className="mt-2 flex items-center gap-2 text-sm text-emerald-300">
+            <div className="data-label text-white/40">Sağlık Skoru</div>
+            <div className={`mt-2 flex items-center gap-2 text-sm ${toneClass(issueHealthScore)}`}>
               <Sparkles className="h-4 w-4" />
-              Panel aktif
+              {issueHealthScore}/100
             </div>
           </div>
           <div className="admin-surface-muted rounded-2xl px-4 py-3">
@@ -39,6 +48,13 @@ export function AdminTopbar({ settings, unreadCount, alertCount }: AdminTopbarPr
               {unreadCount} mesaj
             </div>
           </div>
+          <Link href="/admin/operations" className="admin-surface-muted rounded-2xl px-4 py-3 transition hover:border-amber-400/20">
+            <div className="data-label text-white/40">SLA</div>
+            <div className="mt-2 flex items-center gap-2 text-sm text-white/80">
+              <TriangleAlert className={`h-4 w-4 ${slaCount ? 'text-red-300' : 'text-emerald-300'}`} />
+              {slaCount} kaçak • {reopenedCount} tekrar
+            </div>
+          </Link>
           <Link href="/admin/insights" className="admin-surface-muted rounded-2xl px-4 py-3 transition hover:border-amber-400/20">
             <div className="data-label text-white/40">Uyarı</div>
             <div className="mt-2 flex items-center gap-2 text-sm text-white/80">

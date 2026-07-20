@@ -5,6 +5,7 @@ import { AdminFooter } from '@/components/admin/AdminFooter'
 import { AdminSidebarNav } from '@/components/admin/AdminSidebarNav'
 import { AdminTopbar } from '@/components/admin/AdminTopbar'
 import { LogoutButton } from '@/components/admin/LogoutButton'
+import { getAdminIssueAnalytics } from '@/lib/admin-issue-analytics'
 import { getAdminInsightsSummary } from '@/lib/admin-insights'
 import { isAdminAuthenticated } from '@/lib/auth'
 import { listAdminMessages } from '@/lib/message-service'
@@ -23,7 +24,12 @@ export default async function AdminPanelLayout({ children }: Readonly<{ children
     redirect('/admin/login')
   }
 
-  const [settings, messages, insightsSummary] = await Promise.all([getSiteSettings(), listAdminMessages(), getAdminInsightsSummary()])
+  const [settings, messages, insightsSummary, issueAnalytics] = await Promise.all([
+    getSiteSettings(),
+    listAdminMessages(),
+    getAdminInsightsSummary(),
+    getAdminIssueAnalytics(),
+  ])
   const unreadCount = messages.filter((item) => !item.isRead).length
 
   return (
@@ -60,7 +66,14 @@ export default async function AdminPanelLayout({ children }: Readonly<{ children
         </aside>
 
         <main className="flex min-h-screen min-w-0 flex-col p-4 md:p-8">
-          <AdminTopbar settings={settings} unreadCount={unreadCount} alertCount={insightsSummary.total} />
+          <AdminTopbar
+            settings={settings}
+            unreadCount={unreadCount}
+            alertCount={insightsSummary.total}
+            issueHealthScore={issueAnalytics.summary.healthScore}
+            slaCount={issueAnalytics.summary.slaBreaches}
+            reopenedCount={issueAnalytics.summary.reopened}
+          />
           <div className="flex-1 pt-6">
             <div className="admin-surface rounded-[28px] p-4 md:rounded-[34px] md:p-7">
               {children}
