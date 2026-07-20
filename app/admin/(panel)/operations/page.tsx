@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { AlertTriangle, FolderKanban, Mail, ShieldAlert, Truck } from 'lucide-react'
-import { getAdminOperationsSnapshot } from '@/lib/admin-operations'
+import { AdminOperationsBoard } from '@/components/admin/AdminOperationsBoard'
+import { getAdminOperationsCenter } from '@/lib/admin-operations'
 
 function formatDate(value: string) {
   const date = new Date(value)
@@ -9,8 +10,14 @@ function formatDate(value: string) {
     : date.toLocaleString('tr-TR', { dateStyle: 'medium', timeStyle: 'short' })
 }
 
+function scoreTone(score: number) {
+  if (score >= 85) return 'text-emerald-300'
+  if (score >= 65) return 'text-amber-300'
+  return 'text-red-300'
+}
+
 export default async function AdminOperationsPage() {
-  const snapshot = await getAdminOperationsSnapshot()
+  const { snapshot, issues, summary } = await getAdminOperationsCenter()
 
   const cards = [
     {
@@ -48,11 +55,12 @@ export default async function AdminOperationsPage() {
         <div className="section-eyebrow mb-4">Operasyon Masası</div>
         <h1 className="font-display text-4xl text-white sm:text-5xl md:text-6xl">Canlı Operasyon Durumu</h1>
         <p className="mt-3 max-w-3xl text-white/60">
-          Projeler, mesaj kuyruğu, filo bütünlüğü ve denetim kayıtları tek bakışta operasyonel müdahale sırasına göre izlenir.
+          Projeler, mesaj kuyruğu, filo bütünlüğü ve denetim kayıtları artık yalnızca sayıyla değil, filtrelenebilir sorun
+          listesi ve operasyon skoru ile izlenir.
         </p>
       </div>
 
-      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-5">
         {cards.map((card) => {
           const Icon = card.icon
           return (
@@ -65,34 +73,63 @@ export default async function AdminOperationsPage() {
             </div>
           )
         })}
+        <div className="admin-kpi rounded-[24px] p-5">
+          <div className="data-label text-white/45">Operasyon Skoru</div>
+          <div className={`mt-3 text-4xl ${scoreTone(summary.score)}`}>{summary.score}</div>
+        </div>
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-2">
+      <div className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
         <section className="admin-surface rounded-[32px] p-6">
           <div className="mb-5 flex items-center justify-between">
-            <h2 className="font-display text-4xl text-white">Proje Aksaklıkları</h2>
-            <Link href="/admin/projects" className="text-amber-300 hover:text-amber-200">Projelere Git</Link>
+            <h2 className="font-display text-4xl text-white">Odak Özeti</h2>
+            <Link href="/admin/insights" className="text-amber-300 hover:text-amber-200">İçgörülere Git</Link>
           </div>
-          <div className="space-y-4">
+          <div className="grid gap-4 md:grid-cols-2">
             <div className="admin-surface-muted rounded-[24px] p-4">
-              <div className="text-lg text-white">Yayında ama medyasız</div>
-              <div className="mt-2 text-sm text-white/45">{snapshot.projectHealth.publishedWithoutMedia.length} proje</div>
+              <div className="data-label text-white/40">Toplam issue</div>
+              <div className="mt-3 text-3xl text-white">{summary.total}</div>
             </div>
             <div className="admin-surface-muted rounded-[24px] p-4">
-              <div className="text-lg text-white">Yayında ama zayıf özetli</div>
-              <div className="mt-2 text-sm text-white/45">{snapshot.projectHealth.publishedWithoutSummary.length} proje</div>
+              <div className="data-label text-white/40">Yüksek öncelik</div>
+              <div className="mt-3 text-3xl text-red-300">{summary.high}</div>
             </div>
             <div className="admin-surface-muted rounded-[24px] p-4">
-              <div className="text-lg text-white">14+ gündür bekleyen taslak</div>
-              <div className="mt-2 text-sm text-white/45">{snapshot.projectHealth.staleDrafts.length} proje</div>
+              <div className="data-label text-white/40">Orta öncelik</div>
+              <div className="mt-3 text-3xl text-amber-300">{summary.medium}</div>
             </div>
             <div className="admin-surface-muted rounded-[24px] p-4">
-              <div className="text-lg text-white">120+ gündür güncellenmeyen yayın</div>
-              <div className="mt-2 text-sm text-white/45">{snapshot.projectHealth.stalePublished.length} proje</div>
+              <div className="data-label text-white/40">Düşük öncelik</div>
+              <div className="mt-3 text-3xl text-sky-300">{summary.low}</div>
             </div>
           </div>
         </section>
 
+        <section className="admin-surface rounded-[32px] p-6">
+          <div className="mb-5 flex items-center gap-3">
+            <AlertTriangle className="h-5 w-5 text-amber-300" />
+            <h2 className="font-display text-4xl text-white">En Acil Sinyal</h2>
+          </div>
+          {issues[0] ? (
+            <div className="rounded-[24px] border border-amber-400/15 bg-amber-400/8 p-5">
+              <div className="text-xl text-white">{issues[0].title}</div>
+              <p className="mt-3 text-sm leading-7 text-amber-100/90">{issues[0].description}</p>
+              <div className="mt-4 text-sm text-amber-100/80">{issues[0].stat}</div>
+              <Link href={issues[0].href} className="mt-4 inline-flex text-sm font-medium text-white transition hover:text-amber-100">
+                Müdahaleye Git
+              </Link>
+            </div>
+          ) : (
+            <div className="rounded-[24px] border border-emerald-400/15 bg-emerald-400/8 p-5 text-sm text-emerald-200">
+              Şu an dikkat gerektiren operasyon sinyali görünmüyor.
+            </div>
+          )}
+        </section>
+      </div>
+
+      <AdminOperationsBoard issues={issues} score={summary.score} />
+
+      <div className="grid gap-6 xl:grid-cols-2">
         <section className="admin-surface rounded-[32px] p-6">
           <div className="mb-5 flex items-center justify-between">
             <h2 className="font-display text-4xl text-white">Mesaj Kuyruğu</h2>
@@ -116,29 +153,6 @@ export default async function AdminOperationsPage() {
                 En eski açık talep: {snapshot.messageQueue.unread24h[0].name} • {formatDate(snapshot.messageQueue.unread24h[0].createdAt)}
               </div>
             ) : null}
-          </div>
-        </section>
-      </div>
-
-      <div className="grid gap-6 xl:grid-cols-2">
-        <section className="admin-surface rounded-[32px] p-6">
-          <div className="mb-5 flex items-center justify-between">
-            <h2 className="font-display text-4xl text-white">Filo Sağlığı</h2>
-            <Link href="/admin/fleet" className="text-amber-300 hover:text-amber-200">Filoya Git</Link>
-          </div>
-          <div className="space-y-4">
-            <div className="admin-surface-muted rounded-[24px] p-4">
-              <div className="text-lg text-white">Adet uyumsuzluğu</div>
-              <div className="mt-2 text-sm text-white/45">{snapshot.fleetHealth.countMismatch.length} kategori</div>
-            </div>
-            <div className="admin-surface-muted rounded-[24px] p-4">
-              <div className="text-lg text-white">Tekrarlanan etiket</div>
-              <div className="mt-2 text-sm text-white/45">{snapshot.fleetHealth.duplicateSpecs.length} kategori</div>
-            </div>
-            <div className="admin-surface-muted rounded-[24px] p-4">
-              <div className="text-lg text-white">Eksik görsel</div>
-              <div className="mt-2 text-sm text-white/45">{snapshot.fleetHealth.missingImages.length} kategori</div>
-            </div>
           </div>
         </section>
 
@@ -167,17 +181,6 @@ export default async function AdminOperationsPage() {
             )}
           </div>
         </section>
-      </div>
-
-      <div className="admin-surface rounded-[32px] p-6">
-        <div className="mb-5 flex items-center gap-3">
-          <AlertTriangle className="h-5 w-5 text-amber-300" />
-          <h2 className="font-display text-4xl text-white">Müdahale Notu</h2>
-        </div>
-        <p className="max-w-4xl text-sm leading-7 text-white/60">
-          Bu ekran, veriyi ham halde listelemek yerine hangi operasyon alanında önce müdahale edilmesi gerektiğini görünür kılar.
-          Sonraki adımda istersen buraya otomatik çözüm araçları, toplu durum değişiklikleri ve bakım aksiyonları da ekleyebilirim.
-        </p>
       </div>
     </div>
   )
