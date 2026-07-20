@@ -57,6 +57,26 @@ export type AdminIssueAnalyticsResult = {
     weeklyDelta: number
     recommendation: string
   }
+  weeklyComparison: {
+    currentOpened: number
+    currentResolved: number
+    previousOpened: number
+    previousResolved: number
+    openedDelta: number
+    resolvedDelta: number
+    netPressureDelta: number
+    momentum: 'accelerating' | 'improving' | 'stable'
+  }
+  playbooks: Array<{
+    domain: OperationDomain | 'insights'
+    label: string
+    priority: 'critical' | 'watch' | 'stable'
+    issueCount: number
+    slaBreaches: number
+    healthScore: number
+    action: string
+    reason: string
+  }>
   watchlist: AdminIssueAnalyticsItem[]
   recentTransitions: Array<{
     issueId: string
@@ -120,6 +140,70 @@ function buildRecommendation(input: { domain: OperationDomain | 'insights'; seve
   if (input.status === 'monitoring') return 'İzleme durumunu kısa aralıkla kontrol edip kalıcı çözüme bağlayın.'
   if (input.severity === 'high') return 'Bu issue için ilk müdahaleyi bugün tamamlayın.'
   return 'Bu kaydı normal operasyon akışında planlı şekilde kapatın.'
+}
+
+function getDomainLabel(domain: OperationDomain | 'insights') {
+  if (domain === 'projects') return 'Projeler'
+  if (domain === 'messages') return 'Mesajlar'
+  if (domain === 'fleet') return 'Filo'
+  if (domain === 'audit') return 'Denetim'
+  return 'İçgörüler'
+}
+
+function buildDomainPlaybook(input: {
+  domain: OperationDomain | 'insights'
+  issueCount: number
+  active: number
+  slaBreaches: number
+  healthScore: number
+  reopened: number
+}) {
+  const label = getDomainLabel(input.domain)
+  if (input.slaBreaches > 0) {
+    return {
+      domain: input.domain,
+      label,
+      priority: 'critical' as const,
+      issueCount: input.issueCount,
+      slaBreaches: input.slaBreaches,
+      healthScore: input.healthScore,
+      action:
+        input.domain === 'messages'
+          ? 'Geri dönüş kuyruğunu bugün temizleyin ve 72 saati aşan mesajları ilk sıraya alın.'
+          : input.domain === 'projects'
+            ? 'Yayındaki içerik eksiklerini aynı oturumda kapatın ve medya/özet kalitesini senkronlayın.'
+            : input.domain === 'fleet'
+              ? 'Filo adet, görsel ve model tutarsızlıklarını tek seferde dengeleyin.'
+              : input.domain === 'audit'
+                ? 'Riskli giriş ve reddedilen işlem akışlarını anlık incelemeye alın.'
+                : 'İçgörüleri doğrudan aksiyona çevirip açık uyarıları aynı gün kapatın.',
+      reason: `${input.slaBreaches} SLA kaçağı var; bu alan ilk müdahale sırasına alınmalı.`,
+    }
+  }
+
+  if (input.active >= 3 || input.reopened > 0) {
+    return {
+      domain: input.domain,
+      label,
+      priority: 'watch' as const,
+      issueCount: input.issueCount,
+      slaBreaches: input.slaBreaches,
+      healthScore: input.healthScore,
+      action: 'Açık kayıtları kısa çevrimlerle takip edin ve tekrar açılanlar için kalıcı çözüm notu oluşturun.',
+      reason: `${input.active} aktif kayıt ve ${input.reopened} tekrar açılma sinyali mevcut.`,
+    }
+  }
+
+  return {
+    domain: input.domain,
+    label,
+    priority: 'stable' as const,
+    issueCount: input.issueCount,
+    slaBreaches: input.slaBreaches,
+    healthScore: input.healthScore,
+    action: 'Mevcut ritmi koruyun ve yeni açık kayıt oluşumunu günlük kontrolle sınırlayın.',
+    reason: 'Alan dengeli görünüyor; yalnızca düzenli bakım ve hızlı kontrol yeterli.',
+  }
 }
 
 function startOfDay(date: Date) {
@@ -227,6 +311,16 @@ export async function getAdminIssueAnalytics(): Promise<AdminIssueAnalyticsResul
   const totalClosed = trend7d.reduce((sum, item) => sum + item.resolved, 0)
   const totalOpened = trend7d.reduce((sum, item) => sum + item.opened, 0)
   const recoveryRate = totalOpened > 0 ? Math.min(100, Math.round((totalClosed / totalOpened) * 100)) : totalClosed > 0 ? 100 : 0
+  const currentWindow = trend7d.slice(-3)
+  const previousWindow = trend7d.slice(0, 3)
+  const currentOpened = currentWindow.reduce((sum, item) => sum + item.opened, 0)
+  const currentResolved = currentWindow.reduce((sum, item) => sum + item.resolved, 0)
+  const previousOpened = previousWindow.reduce((sum, item) => sum + item.opened, 0)
+  const previousResolved = previousWindow.reduce((sum, item) => sum + item.resolved, 0)
+  const openedDelta = currentOpened - previousOpened
+  const resolvedDelta = currentResolved - previousResolved
+  const netPressureDelta = (currentOpened - currentResolved) - (previousOpened - previousResolved)
+  const momentum = netPressureDelta > 1 ? 'accelerating' : netPressureDelta < -1 ? 'improving' : 'stable'
   const focusRecommendation =
     hottestDomainEntry?.slaBreaches
       ? `${hottestDomainEntry.domain === 'insights' ? 'İçgörü' : hottestDomainEntry.domain} alanındaki SLA kaçaklarını ilk öncelik yapın.`
@@ -235,6 +329,23 @@ export async function getAdminIssueAnalytics(): Promise<AdminIssueAnalyticsResul
         : weeklyDirection === 'down'
           ? 'İyileşme eğilimi var; tekrar açılan kayıtları kalıcı çözüme çevirin.'
           : 'Operasyon temposu dengede; yüksek öncelikli kayıtları düzenli takipte tutun.'
+
+  const playbooks = domainSummary
+    .map((domain) =>
+      buildDomainPlaybook({
+        domain: domain.domain,
+        issueCount: domain.tracked,
+        active: domain.active,
+        slaBreaches: domain.slaBreaches,
+        healthScore: domain.healthScore,
+        reopened: domain.reopened,
+      })
+    )
+    .sort((left, right) => {
+      const weight = { critical: 0, watch: 1, stable: 2 }
+      if (weight[left.priority] !== weight[right.priority]) return weight[left.priority] - weight[right.priority]
+      return left.healthScore - right.healthScore
+    })
 
   const watchlist = activeStates
     .map((state) => {
@@ -319,6 +430,17 @@ export async function getAdminIssueAnalytics(): Promise<AdminIssueAnalyticsResul
       weeklyDelta,
       recommendation: focusRecommendation,
     },
+    weeklyComparison: {
+      currentOpened,
+      currentResolved,
+      previousOpened,
+      previousResolved,
+      openedDelta,
+      resolvedDelta,
+      netPressureDelta,
+      momentum,
+    },
+    playbooks,
     watchlist,
     recentTransitions,
   }

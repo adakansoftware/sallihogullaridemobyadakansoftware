@@ -224,6 +224,90 @@ export default async function AdminOperationsPage() {
         </section>
       </div>
 
+      <div className="grid gap-6 xl:grid-cols-[1fr_1fr]">
+        <section className="admin-surface rounded-[32px] p-6">
+          <div className="mb-5 flex items-center justify-between">
+            <h2 className="font-display text-4xl text-white">Haftalık Kıyas</h2>
+            <Link href="/admin" className="text-amber-300 hover:text-amber-200">Genel Özet</Link>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <div className="admin-surface-muted rounded-[24px] p-4">
+              <div className="data-label text-white/40">Yeni Açılan</div>
+              <div className={`mt-3 text-3xl ${issueAnalytics.weeklyComparison.openedDelta > 0 ? 'text-red-300' : 'text-white'}`}>
+                {issueAnalytics.weeklyComparison.currentOpened}
+              </div>
+            </div>
+            <div className="admin-surface-muted rounded-[24px] p-4">
+              <div className="data-label text-white/40">Çözülen</div>
+              <div className={`mt-3 text-3xl ${issueAnalytics.weeklyComparison.resolvedDelta >= 0 ? 'text-emerald-300' : 'text-amber-300'}`}>
+                {issueAnalytics.weeklyComparison.currentResolved}
+              </div>
+            </div>
+            <div className="admin-surface-muted rounded-[24px] p-4">
+              <div className="data-label text-white/40">Açılış Farkı</div>
+              <div className={`mt-3 text-3xl ${issueAnalytics.weeklyComparison.openedDelta > 0 ? 'text-red-300' : 'text-emerald-300'}`}>
+                {issueAnalytics.weeklyComparison.openedDelta > 0 ? '+' : ''}{issueAnalytics.weeklyComparison.openedDelta}
+              </div>
+            </div>
+            <div className="admin-surface-muted rounded-[24px] p-4">
+              <div className="data-label text-white/40">Net Baskı</div>
+              <div className={`mt-3 text-3xl ${
+                issueAnalytics.weeklyComparison.netPressureDelta > 0
+                  ? 'text-red-300'
+                  : issueAnalytics.weeklyComparison.netPressureDelta < 0
+                    ? 'text-emerald-300'
+                    : 'text-white'
+              }`}>
+                {issueAnalytics.weeklyComparison.netPressureDelta > 0 ? '+' : ''}{issueAnalytics.weeklyComparison.netPressureDelta}
+              </div>
+            </div>
+          </div>
+          <div className="mt-5 rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm text-white/60">
+            Önceki 3 gün: {issueAnalytics.weeklyComparison.previousOpened} açılan / {issueAnalytics.weeklyComparison.previousResolved} çözülen.
+            Son 3 gün momentumu {
+              issueAnalytics.weeklyComparison.momentum === 'accelerating'
+                ? ' hızlanıyor'
+                : issueAnalytics.weeklyComparison.momentum === 'improving'
+                  ? ' toparlanıyor'
+                  : ' dengede'
+            }.
+          </div>
+        </section>
+
+        <section className="admin-surface rounded-[32px] p-6">
+          <div className="mb-5 flex items-center justify-between">
+            <h2 className="font-display text-4xl text-white">Alan Playbookları</h2>
+            <Link href="/admin/insights" className="text-amber-300 hover:text-amber-200">İçgörüler</Link>
+          </div>
+          <div className="space-y-4">
+            {issueAnalytics.playbooks.slice(0, 4).map((playbook) => (
+              <div key={playbook.domain} className="admin-surface-muted rounded-[24px] p-4">
+                <div className="flex flex-wrap items-center gap-3">
+                  <div className="text-base font-medium text-white">{playbook.label}</div>
+                  <span className={`rounded-full px-3 py-1 text-xs ${
+                    playbook.priority === 'critical'
+                      ? 'bg-red-400/10 text-red-300'
+                      : playbook.priority === 'watch'
+                        ? 'bg-amber-400/10 text-amber-300'
+                        : 'bg-emerald-400/10 text-emerald-300'
+                  }`}>
+                    {playbook.priority === 'critical' ? 'Kritik' : playbook.priority === 'watch' ? 'İzle' : 'Stabil'}
+                  </span>
+                  <span className={`rounded-full px-3 py-1 text-xs ${scoreTone(playbook.healthScore)}`}>
+                    {playbook.healthScore}/100
+                  </span>
+                </div>
+                <div className="mt-3 text-sm text-white/45">
+                  {playbook.issueCount} takip • {playbook.slaBreaches} SLA kaçağı
+                </div>
+                <p className="mt-3 text-sm leading-7 text-white/60">{playbook.action}</p>
+                <div className="mt-3 text-sm text-white/45">{playbook.reason}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+
       <AdminIssueResolutionBoard
         title="Çözüm Takibi"
         description="Filtrelenmiş sorun listesine ek olarak, her issue için müdahale durumu ve kısa not saklayın."
