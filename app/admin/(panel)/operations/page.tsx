@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { AlertTriangle, FolderKanban, Mail, ShieldAlert, Truck } from 'lucide-react'
+import { AdminIssueResolutionBoard } from '@/components/admin/AdminIssueResolutionBoard'
 import { AdminOperationsBoard } from '@/components/admin/AdminOperationsBoard'
+import { getAdminIssueStateMap } from '@/lib/admin-issue-tracker'
 import { getAdminOperationsCenter } from '@/lib/admin-operations'
 
 function formatDate(value: string) {
@@ -16,8 +18,29 @@ function scoreTone(score: number) {
   return 'text-red-300'
 }
 
+function getDomainLabel(domain: 'projects' | 'messages' | 'fleet' | 'audit') {
+  if (domain === 'projects') return 'Projeler'
+  if (domain === 'messages') return 'Mesajlar'
+  if (domain === 'fleet') return 'Filo'
+  return 'Denetim'
+}
+
 export default async function AdminOperationsPage() {
-  const { snapshot, issues, summary } = await getAdminOperationsCenter()
+  const [{ snapshot, issues, summary }, issueStateMap] = await Promise.all([
+    getAdminOperationsCenter(),
+    getAdminIssueStateMap(),
+  ])
+
+  const trackedIssues = issues.map((issue) => {
+    const state = issueStateMap[issue.id]
+    return {
+      ...issue,
+      domainLabel: getDomainLabel(issue.domain),
+      status: state?.status ?? 'open',
+      note: state?.note ?? '',
+      updatedAt: state?.updatedAt,
+    }
+  })
 
   const cards = [
     {
@@ -128,6 +151,12 @@ export default async function AdminOperationsPage() {
       </div>
 
       <AdminOperationsBoard issues={issues} score={summary.score} />
+
+      <AdminIssueResolutionBoard
+        title="Çözüm Takibi"
+        description="Filtrelenmiş sorun listesine ek olarak, her issue için müdahale durumu ve kısa not saklayın."
+        issues={trackedIssues}
+      />
 
       <div className="grid gap-6 xl:grid-cols-2">
         <section className="admin-surface rounded-[32px] p-6">

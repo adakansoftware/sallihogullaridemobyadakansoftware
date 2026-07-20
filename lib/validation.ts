@@ -119,6 +119,13 @@ export const messageStateSchema = z.object({
   isRead: z.boolean(),
 })
 
+export const adminIssueStatusSchema = z.enum(['open', 'monitoring', 'resolved'])
+
+export const adminIssueUpdateSchema = z.object({
+  status: adminIssueStatusSchema,
+  note: z.string().trim().max(500, 'Not en fazla 500 karakter olabilir.').transform(normalizeString).default(''),
+})
+
 export const mediaInputSchema = z
   .object({
     title: z.string().trim().max(120, 'Medya başlığı çok uzun.').transform(normalizeString).default(''),
@@ -196,6 +203,13 @@ export const storedAdminMessageSchema = z.object({
 
 export const storedMessagesSchema = z.array(storedAdminMessageSchema)
 export const storedSettingsSchema = settingsSchema
+export const storedAdminIssueStateSchema = z.object({
+  id: z.string().min(1),
+  status: adminIssueStatusSchema,
+  note: z.string().max(500).catch(''),
+  updatedAt: z.string().min(1),
+})
+export const storedAdminIssueStatesSchema = z.array(storedAdminIssueStateSchema)
 
 const fleetText = (min: number, max: number) =>
   z.string().trim().min(min).max(max).refine((value) => !/[<>]/.test(value), 'Güvenli olmayan karakterler kullanılamaz.').transform(normalizeString)

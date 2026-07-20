@@ -1,21 +1,30 @@
-import Link from 'next/link'
-import { AlertTriangle, ArrowRight, ShieldAlert, Sparkles } from 'lucide-react'
+import { AlertTriangle, ShieldAlert } from 'lucide-react'
+import { AdminIssueResolutionBoard } from '@/components/admin/AdminIssueResolutionBoard'
+import { getAdminIssueStateMap } from '@/lib/admin-issue-tracker'
 import { getAdminInsights, getAdminInsightsSummary } from '@/lib/admin-insights'
 
-const severityClasses = {
-  high: 'border-red-400/20 bg-red-400/8 text-red-200',
-  medium: 'border-amber-400/20 bg-amber-400/8 text-amber-200',
-  low: 'border-sky-400/20 bg-sky-400/8 text-sky-200',
-}
-
-const severityLabels = {
-  high: 'Yüksek',
-  medium: 'Orta',
-  low: 'Düşük',
-}
-
 export default async function AdminInsightsPage() {
-  const [insights, summary] = await Promise.all([getAdminInsights(), getAdminInsightsSummary()])
+  const [insights, summary, issueStateMap] = await Promise.all([
+    getAdminInsights(),
+    getAdminInsightsSummary(),
+    getAdminIssueStateMap(),
+  ])
+
+  const issueItems = insights.map((insight) => {
+    const state = issueStateMap[insight.id]
+    return {
+      ...insight,
+      status: state?.status ?? 'open',
+      note: state?.note ?? '',
+      updatedAt: state?.updatedAt,
+    }
+  })
+
+  const resolutionSummary = {
+    open: issueItems.filter((item) => item.status === 'open').length,
+    monitoring: issueItems.filter((item) => item.status === 'monitoring').length,
+    resolved: issueItems.filter((item) => item.status === 'resolved').length,
+  }
 
   return (
     <div className="space-y-6">
@@ -46,43 +55,26 @@ export default async function AdminInsightsPage() {
         </div>
       </div>
 
-      <div className="admin-surface rounded-[32px] p-6">
-        <div className="mb-5 flex items-center justify-between">
-          <h2 className="font-display text-4xl text-white">Aksiyon Listesi</h2>
-          <Link href="/admin" className="text-amber-300 hover:text-amber-200">Dashboard&apos;a Dön</Link>
+      <div className="grid gap-5 md:grid-cols-3">
+        <div className="admin-kpi rounded-[24px] p-5">
+          <div className="data-label text-white/45">Açık Takip</div>
+          <div className="mt-3 text-4xl text-red-300">{resolutionSummary.open}</div>
         </div>
-
-        <div className="space-y-4">
-          {insights.map((insight) => (
-            <div key={insight.id} className="admin-surface-muted rounded-[24px] p-5">
-              <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                <div className="min-w-0">
-                  <div className="flex flex-wrap items-center gap-3">
-                    <div className="text-lg font-medium text-white">{insight.title}</div>
-                    <span className={`rounded-full border px-3 py-1 text-xs ${severityClasses[insight.severity]}`}>
-                      {severityLabels[insight.severity]}
-                    </span>
-                  </div>
-                  <p className="mt-3 max-w-3xl text-sm leading-7 text-white/60">{insight.description}</p>
-                  <div className="mt-4 text-sm text-white/45">Gösterge: {insight.stat}</div>
-                </div>
-
-                <Link href={insight.href} className="btn-ghost-premium inline-flex h-11 items-center gap-2 px-5">
-                  İncele
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              </div>
-            </div>
-          ))}
-
-          {insights.length === 0 ? (
-            <div className="rounded-[24px] border border-emerald-400/15 bg-emerald-400/8 p-10 text-center text-emerald-200">
-              <Sparkles className="mx-auto mb-4 h-6 w-6" />
-              Şu an öne çıkan operasyon uyarısı görünmüyor.
-            </div>
-          ) : null}
+        <div className="admin-kpi rounded-[24px] p-5">
+          <div className="data-label text-white/45">İzlemede</div>
+          <div className="mt-3 text-4xl text-amber-300">{resolutionSummary.monitoring}</div>
+        </div>
+        <div className="admin-kpi rounded-[24px] p-5">
+          <div className="data-label text-white/45">Çözüldü</div>
+          <div className="mt-3 text-4xl text-emerald-300">{resolutionSummary.resolved}</div>
         </div>
       </div>
+
+      <AdminIssueResolutionBoard
+        title="Aksiyon Listesi"
+        description="Riskleri yalnızca görmek değil, çözüm durumu ve kısa operasyon notu ile takip etmek için bu alanı kullanın."
+        issues={issueItems}
+      />
 
       <div className="grid gap-6 xl:grid-cols-2">
         <div className="admin-surface rounded-[32px] p-6">
@@ -102,7 +94,7 @@ export default async function AdminInsightsPage() {
             <h2 className="text-2xl text-white">İleri Adım</h2>
           </div>
           <p className="text-sm leading-7 text-white/60">
-            Sonraki aşamada bu içgörüler için filtre, çözüm durumu ve otomatik temizlik aksiyonları da eklenebilir.
+            İçgörüler artık çözüm durumu ve takip notuyla saklanır; sonraki aşamada otomatik temizlik aksiyonları da eklenebilir.
           </p>
         </div>
       </div>
