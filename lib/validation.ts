@@ -208,8 +208,23 @@ export const storedAdminIssueStateSchema = z.object({
   status: adminIssueStatusSchema,
   note: z.string().max(500).catch(''),
   updatedAt: z.string().min(1),
+  firstSeenAt: z.string().min(1),
+  lastSeenAt: z.string().min(1),
+  lastStatusChangeAt: z.string().min(1),
+  resolvedAt: z.string().min(1).optional(),
+  timesUpdated: z.coerce.number().int().min(0).catch(0),
+  reopenCount: z.coerce.number().int().min(0).catch(0),
 })
 export const storedAdminIssueStatesSchema = z.array(storedAdminIssueStateSchema)
+export const storedAdminIssueHistoryEntrySchema = z.object({
+  issueId: z.string().min(1),
+  at: z.string().min(1),
+  fromStatus: adminIssueStatusSchema.optional(),
+  toStatus: adminIssueStatusSchema,
+  note: z.string().max(500).catch(''),
+  source: z.enum(['manual', 'sync']).catch('manual'),
+})
+export const storedAdminIssueHistorySchema = z.array(storedAdminIssueHistoryEntrySchema)
 
 const fleetText = (min: number, max: number) =>
   z.string().trim().min(min).max(max).refine((value) => !/[<>]/.test(value), 'Güvenli olmayan karakterler kullanılamaz.').transform(normalizeString)

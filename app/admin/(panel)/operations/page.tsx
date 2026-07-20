@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { AlertTriangle, FolderKanban, Mail, ShieldAlert, Truck } from 'lucide-react'
 import { AdminIssueResolutionBoard } from '@/components/admin/AdminIssueResolutionBoard'
 import { AdminOperationsBoard } from '@/components/admin/AdminOperationsBoard'
-import { getAdminIssueStateMap } from '@/lib/admin-issue-tracker'
+import { getSyncedAdminIssueStateMap } from '@/lib/admin-issue-tracker'
 import { getAdminOperationsCenter } from '@/lib/admin-operations'
 
 function formatDate(value: string) {
@@ -28,7 +28,7 @@ function getDomainLabel(domain: 'projects' | 'messages' | 'fleet' | 'audit') {
 export default async function AdminOperationsPage() {
   const [{ snapshot, issues, summary }, issueStateMap] = await Promise.all([
     getAdminOperationsCenter(),
-    getAdminIssueStateMap(),
+    getSyncedAdminIssueStateMap(),
   ])
 
   const trackedIssues = issues.map((issue) => {

@@ -1,7 +1,13 @@
 import path from 'path'
 import { z } from 'zod'
 import { readJsonFileWithBackup, restorePrimaryJsonFile, writeJsonFileAtomic } from '@/lib/file-storage'
-import { adminIssueUpdateSchema, adminIssueStatusSchema, storedAdminIssueStatesSchema } from '@/lib/validation'
+import { getAdminIssueCatalog } from '@/lib/admin-issue-catalog'
+import {
+  adminIssueUpdateSchema,
+  adminIssueStatusSchema,
+  storedAdminIssueHistorySchema,
+  storedAdminIssueStatesSchema,
+} from '@/lib/validation'
 
 export type AdminIssueStatus = z.infer<typeof adminIssueStatusSchema>
 export type AdminIssueState = {
@@ -9,10 +15,27 @@ export type AdminIssueState = {
   status: AdminIssueStatus
   note: string
   updatedAt: string
+  firstSeenAt: string
+  lastSeenAt: string
+  lastStatusChangeAt: string
+  resolvedAt?: string
+  timesUpdated: number
+  reopenCount: number
+}
+
+export type AdminIssueHistoryEntry = {
+  issueId: string
+  at: string
+  fromStatus?: AdminIssueStatus
+  toStatus: AdminIssueStatus
+  note: string
+  source: 'manual' | 'sync'
 }
 
 const issueStatusFile = path.join(/*turbopackIgnore: true*/ process.cwd(), 'data', 'admin-issue-status.json')
+const issueHistoryFile = path.join(/*turbopackIgnore: true*/ process.cwd(), 'data', 'admin-issue-history.json')
 const defaultIssueStates: AdminIssueState[] = []
+const defaultIssueHistory: AdminIssueHistoryEntry[] = []
 
 export async function listAdminIssueStates() {
   const parsed = await readJsonFileWithBackup(issueStatusFile, storedAdminIssueStatesSchema, defaultIssueStates)
@@ -24,19 +47,105 @@ export async function listAdminIssueStates() {
   return parsed.data
 }
 
+export async function listAdminIssueHistory(limit?: number) {
+  const parsed = await readJsonFileWithBackup(issueHistoryFile, storedAdminIssueHistorySchema, defaultIssueHistory)
+
+  if (parsed.source === 'backup') {
+    await restorePrimaryJsonFile(issueHistoryFile, parsed.data)
+  }
+
+  return typeof limit === 'number' ? parsed.data.slice(-limit) : parsed.data
+}
+
 export async function getAdminIssueStateMap() {
   const items = await listAdminIssueStates()
   return Object.fromEntries(items.map((item) => [item.id, item])) as Record<string, AdminIssueState>
 }
 
+async function appendAdminIssueHistory(entry: AdminIssueHistoryEntry) {
+  const items = await listAdminIssueHistory()
+  const nextItems = [...items, entry].slice(-500)
+  await writeJsonFileAtomic(issueHistoryFile, storedAdminIssueHistorySchema.parse(nextItems))
+}
+
+function buildNewIssueState(id: string, at: string): AdminIssueState {
+  return {
+    id,
+    status: 'open',
+    note: '',
+    updatedAt: at,
+    firstSeenAt: at,
+    lastSeenAt: at,
+    lastStatusChangeAt: at,
+    resolvedAt: undefined,
+    timesUpdated: 0,
+    reopenCount: 0,
+  }
+}
+
+export async function syncAdminIssueTracker() {
+  const [catalog, items] = await Promise.all([getAdminIssueCatalog(), listAdminIssueStates()])
+  const now = new Date().toISOString()
+  const byId = new Map(items.map((item) => [item.id, item]))
+  let changed = false
+
+  for (const issue of catalog) {
+    const current = byId.get(issue.id)
+    if (!current) {
+      byId.set(issue.id, buildNewIssueState(issue.id, now))
+      changed = true
+      await appendAdminIssueHistory({
+        issueId: issue.id,
+        at: now,
+        toStatus: 'open',
+        note: '',
+        source: 'sync',
+      })
+      continue
+    }
+
+    if (current.lastSeenAt !== now) {
+      byId.set(issue.id, { ...current, lastSeenAt: now })
+      changed = true
+    }
+  }
+
+  if (changed) {
+    await writeJsonFileAtomic(issueStatusFile, storedAdminIssueStatesSchema.parse([...byId.values()]))
+  }
+
+  return [...byId.values()]
+}
+
+export async function getSyncedAdminIssueStateMap() {
+  const items = await syncAdminIssueTracker()
+  return Object.fromEntries(items.map((item) => [item.id, item])) as Record<string, AdminIssueState>
+}
+
 export async function updateAdminIssueState(id: string, input: unknown) {
   const payload = adminIssueUpdateSchema.parse(input)
-  const items = await listAdminIssueStates()
+  const items = await syncAdminIssueTracker()
+  const now = new Date().toISOString()
+  const current = items.find((item) => item.id === id) ?? buildNewIssueState(id, now)
+  const statusChanged = current.status !== payload.status
+  const noteChanged = current.note !== payload.note
+  const resolvedAt =
+    payload.status === 'resolved'
+      ? now
+      : current.status === 'resolved'
+        ? undefined
+        : current.resolvedAt
+
   const nextItem: AdminIssueState = {
-    id,
+    ...current,
     status: payload.status,
     note: payload.note,
-    updatedAt: new Date().toISOString(),
+    updatedAt: now,
+    lastSeenAt: now,
+    lastStatusChangeAt: statusChanged ? now : current.lastStatusChangeAt,
+    resolvedAt,
+    timesUpdated: current.timesUpdated + 1,
+    reopenCount: current.status === 'resolved' && payload.status !== 'resolved' ? current.reopenCount + 1 : current.reopenCount,
   }
 
   const nextItems = items.some((item) => item.id === id)
@@ -44,5 +153,17 @@ export async function updateAdminIssueState(id: string, input: unknown) {
     : [...items, nextItem]
 
   await writeJsonFileAtomic(issueStatusFile, storedAdminIssueStatesSchema.parse(nextItems))
+
+  if (statusChanged || noteChanged) {
+    await appendAdminIssueHistory({
+      issueId: id,
+      at: now,
+      fromStatus: current.status,
+      toStatus: payload.status,
+      note: payload.note,
+      source: 'manual',
+    })
+  }
+
   return nextItem
 }

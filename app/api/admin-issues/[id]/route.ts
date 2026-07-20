@@ -1,3 +1,4 @@
+import { getAdminIssueCatalogMap } from '@/lib/admin-issue-catalog'
 import { updateAdminIssueState } from '@/lib/admin-issue-tracker'
 import { writeAuditLog } from '@/lib/audit'
 import { jsonError, jsonOk, readJson, withErrorHandling } from '@/lib/http'
@@ -22,6 +23,11 @@ export async function PATCH(request: Request, { params }: Params) {
       return jsonError(400, 'Sorun kimliği geçersiz.')
     }
 
+    const catalog = await getAdminIssueCatalogMap()
+    if (!catalog[issueId]) {
+      return jsonError(404, 'Takip edilecek issue bulunamadı.')
+    }
+
     const payload = await readJson(request, adminIssueUpdateSchema, ISSUE_UPDATE_MAX_BYTES)
     const updated = await updateAdminIssueState(issueId, payload)
 
@@ -30,7 +36,7 @@ export async function PATCH(request: Request, { params }: Params) {
       status: 'success',
       ip,
       target: issueId,
-      detail: payload.status,
+      detail: `${catalog[issueId].domain}:${payload.status}`,
     })
 
     return jsonOk(updated)

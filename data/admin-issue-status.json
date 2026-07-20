@@ -1,1 +1,13 @@
-[]
+[
+  {
+    "id": "stale-published",
+    "status": "open",
+    "note": "",
+    "updatedAt": "2026-07-20T16:31:34.169Z",
+    "firstSeenAt": "2026-07-20T16:31:34.169Z",
+    "lastSeenAt": "2026-07-20T16:31:35.078Z",
+    "lastStatusChangeAt": "2026-07-20T16:31:34.169Z",
+    "timesUpdated": 0,
+    "reopenCount": 0
+  }
+]

@@ -1,13 +1,13 @@
 import { AlertTriangle, ShieldAlert } from 'lucide-react'
 import { AdminIssueResolutionBoard } from '@/components/admin/AdminIssueResolutionBoard'
-import { getAdminIssueStateMap } from '@/lib/admin-issue-tracker'
+import { getSyncedAdminIssueStateMap } from '@/lib/admin-issue-tracker'
 import { getAdminInsights, getAdminInsightsSummary } from '@/lib/admin-insights'
 
 export default async function AdminInsightsPage() {
   const [insights, summary, issueStateMap] = await Promise.all([
     getAdminInsights(),
     getAdminInsightsSummary(),
-    getAdminIssueStateMap(),
+    getSyncedAdminIssueStateMap(),
   ])
 
   const issueItems = insights.map((insight) => {
