@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { ArrowRight, FolderKanban, ImageIcon, Mail, Star, Truck } from 'lucide-react'
 import { getSiteAssetHealth } from '@/lib/asset-health'
+import { getAdminIssueAnalytics } from '@/lib/admin-issue-analytics'
 import { getAdminInsights } from '@/lib/admin-insights'
 import { getAuditSummary, listAuditEntries } from '@/lib/audit-service'
 import { getFleetContent } from '@/lib/fleet-service'
@@ -8,8 +9,14 @@ import { listAdminMessages } from '@/lib/message-service'
 import { listAdminProjects } from '@/lib/project-service'
 import { getSiteSettings } from '@/lib/settings-service'
 
+function severityLabel(value: 'high' | 'medium' | 'low') {
+  if (value === 'high') return 'Yüksek'
+  if (value === 'medium') return 'Orta'
+  return 'Düşük'
+}
+
 export default async function AdminDashboardPage() {
-  const [projects, messages, settings, assetHealth, fleetContent, auditSummary, recentAudit, insights] = await Promise.all([
+  const [projects, messages, settings, assetHealth, fleetContent, auditSummary, recentAudit, insights, issueAnalytics] = await Promise.all([
     listAdminProjects(),
     listAdminMessages(),
     getSiteSettings(),
@@ -18,6 +25,7 @@ export default async function AdminDashboardPage() {
     getAuditSummary(),
     listAuditEntries(6),
     getAdminInsights(),
+    getAdminIssueAnalytics(),
   ])
 
   const mediaCount = projects.reduce((sum, project) => sum + project.media.length, 0)
@@ -34,6 +42,7 @@ export default async function AdminDashboardPage() {
     const parsed = Number.parseInt(item.count, 10)
     return sum + (Number.isFinite(parsed) ? parsed : 0)
   }, 0)
+  const issueSummary = issueAnalytics.summary
 
   return (
     <div className="space-y-10">
@@ -223,7 +232,7 @@ export default async function AdminDashboardPage() {
                         : 'bg-sky-400/10 text-sky-300'
                   }`}
                 >
-                  {insight.severity === 'high' ? 'Yüksek' : insight.severity === 'medium' ? 'Orta' : 'Düşük'}
+                  {severityLabel(insight.severity)}
                 </span>
               </div>
               <p className="mt-3 line-clamp-3 text-sm leading-7 text-white/60">{insight.description}</p>
@@ -238,6 +247,78 @@ export default async function AdminDashboardPage() {
               Şu an dikkat gerektiren öncelikli admin aksiyonu görünmüyor.
             </div>
           ) : null}
+        </div>
+      </div>
+
+      <div className="grid gap-6 xl:grid-cols-[1fr_1fr]">
+        <div className="admin-surface rounded-[32px] p-6">
+          <div className="mb-5 flex items-center justify-between">
+            <h2 className="font-display text-4xl text-white">Takip Disiplini</h2>
+            <Link href="/admin/operations" className="text-amber-300 hover:text-amber-200">Operasyon Masası</Link>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <div className="admin-surface-muted rounded-[24px] p-4">
+              <div className="data-label text-white/40">Takipte</div>
+              <div className="mt-3 text-3xl text-white">{issueSummary.open + issueSummary.monitoring}</div>
+            </div>
+            <div className="admin-surface-muted rounded-[24px] p-4">
+              <div className="data-label text-white/40">48+ Saat</div>
+              <div className={`mt-3 text-3xl ${issueSummary.staleOpen48h ? 'text-amber-300' : 'text-emerald-300'}`}>{issueSummary.staleOpen48h}</div>
+            </div>
+            <div className="admin-surface-muted rounded-[24px] p-4">
+              <div className="data-label text-white/40">SLA Kaçağı</div>
+              <div className={`mt-3 text-3xl ${issueSummary.slaBreaches ? 'text-red-300' : 'text-emerald-300'}`}>{issueSummary.slaBreaches}</div>
+            </div>
+            <div className="admin-surface-muted rounded-[24px] p-4">
+              <div className="data-label text-white/40">Yeniden Açılan</div>
+              <div className={`mt-3 text-3xl ${issueSummary.reopened ? 'text-amber-300' : 'text-white'}`}>{issueSummary.reopened}</div>
+            </div>
+          </div>
+          <div className="mt-5 rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm text-white/60">
+            Ortalama çözüm süresi {issueSummary.avgResolveHours > 0 ? `${Math.round(issueSummary.avgResolveHours)} saat` : 'henüz oluşmadı'}.
+            7 günü aşan açık takip sayısı: <span className="text-white">{issueSummary.staleOpen7d}</span>.
+          </div>
+        </div>
+
+        <div className="admin-surface rounded-[32px] p-6">
+          <div className="mb-5 flex items-center justify-between">
+            <h2 className="font-display text-4xl text-white">Yaşlanan Issue Listesi</h2>
+            <Link href="/admin/insights" className="text-amber-300 hover:text-amber-200">İçgörüler</Link>
+          </div>
+          <div className="space-y-4">
+            {issueAnalytics.watchlist.slice(0, 4).map((issue) => (
+              <div key={issue.id} className="admin-surface-muted rounded-[24px] p-4">
+                <div className="flex flex-wrap items-center gap-3">
+                  <div className="text-base font-medium text-white">{issue.title}</div>
+                  <span
+                    className={`rounded-full px-3 py-1 text-xs ${
+                      issue.severity === 'high'
+                        ? 'bg-red-400/10 text-red-300'
+                        : issue.severity === 'medium'
+                          ? 'bg-amber-400/10 text-amber-300'
+                          : 'bg-sky-400/10 text-sky-300'
+                    }`}
+                  >
+                    {severityLabel(issue.severity)}
+                  </span>
+                  {issue.overSla ? <span className="rounded-full border border-red-400/20 bg-red-400/8 px-3 py-1 text-xs text-red-200">SLA Dışı</span> : null}
+                </div>
+                <div className="mt-3 flex flex-wrap gap-4 text-sm text-white/45">
+                  <span>{Math.round(issue.ageHours)} saattir açık</span>
+                  <span>{issue.status === 'monitoring' ? 'İzlemede' : 'Açık'}</span>
+                  <span>Tekrar: {issue.reopenCount}</span>
+                </div>
+                <Link href={issue.href} className="mt-4 inline-flex text-sm font-medium text-amber-300 transition hover:text-amber-200">
+                  Issue&apos;ya Git
+                </Link>
+              </div>
+            ))}
+            {issueAnalytics.watchlist.length === 0 ? (
+              <div className="rounded-[24px] border border-emerald-400/15 bg-emerald-400/8 p-5 text-sm text-emerald-200">
+                Şu an yaşlanan açık issue görünmüyor.
+              </div>
+            ) : null}
+          </div>
         </div>
       </div>
 
