@@ -14,7 +14,7 @@ async function run() {
   const { readJsonFileWithBackup, updateJsonFileAtomic } = await import('../lib/file-storage.ts')
   const { getComparableOrigin, resolveAllowedOrigin } = await import('../lib/origin.ts')
   const { hashPasswordWithScrypt, isValidPasswordHashFormat, verifyPasswordAgainstHash } = await import('../lib/password-hash.ts')
-  const { createSignedAdminSessionToken, isValidSignedAdminSessionToken } = await import('../lib/session-token.ts')
+  const { createSignedAdminSessionToken, isValidSignedAdminSessionToken } = await import('../lib/session-token-core.ts')
   const { createSlug, ensureUniqueSlug } = await import('../lib/slug.ts')
   const {
     isAllowedRequestContentType,
