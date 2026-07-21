@@ -1,5 +1,5 @@
 import { env } from '@/lib/env'
-import { mutateMessages, readMessages, readProjects, readSettings, writeMessages, writeProjects, writeSettings, type AdminMessage, type Project, type SiteSettings } from '@/lib/store'
+import { mutateMessages, mutateProjects, readMessages, readProjects, readSettings, writeMessages, writeProjects, writeSettings, type AdminMessage, type Project, type SiteSettings } from '@/lib/store'
 import {
   PostgresMessageRepository,
   PostgresProjectRepository,
@@ -11,6 +11,7 @@ export interface ProjectRepository {
   save(projects: Project[]): Promise<void>
   findById(id: string): Promise<Project | null>
   findBySlug(slug: string): Promise<Project | null>
+  mutate<T>(updater: (projects: Project[]) => Promise<{ projects: Project[]; result: T }> | { projects: Project[]; result: T }): Promise<T>
 }
 
 export interface MessageRepository {
@@ -41,6 +42,10 @@ class FileProjectRepository implements ProjectRepository {
   async findBySlug(slug: string) {
     const projects = await readProjects()
     return projects.find((project) => project.slug === slug) || null
+  }
+
+  mutate<T>(updater: (projects: Project[]) => Promise<{ projects: Project[]; result: T }> | { projects: Project[]; result: T }) {
+    return mutateProjects(updater)
   }
 }
 

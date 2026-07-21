@@ -149,6 +149,28 @@ export class PostgresProjectRepository implements ProjectRepository {
 
     return result.rows[0] ? mapProjectRow(result.rows[0]) : null
   }
+
+  async mutate<T>(updater: (projects: Project[]) => Promise<{ projects: Project[]; result: T }> | { projects: Project[]; result: T }) {
+    return withDbTransaction(async (client) => {
+      const result = await client.query(
+        `
+          SELECT id, title, slug, summary, description, location, category, cover_image, card_image,
+                 status, featured, tags, media, created_at, updated_at
+          FROM projects
+          ORDER BY created_at DESC, id ASC
+          FOR UPDATE
+        `,
+      )
+
+      const currentProjects = result.rows.map((row) => mapProjectRow(row))
+      const next = await updater(currentProjects)
+      const normalized = storedProjectsSchema.parse(next.projects)
+
+      await client.query('DELETE FROM projects')
+      await insertProjects(client, normalized)
+      return next.result
+    })
+  }
 }
 
 export class PostgresMessageRepository implements MessageRepository {

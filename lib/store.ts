@@ -117,6 +117,18 @@ export async function writeProjects(projects: Project[]) {
   await writeJsonFileAtomic(projectsFile, storedProjectsSchema.parse(projects))
 }
 
+export async function mutateProjects<T>(updater: (projects: Project[]) => Promise<{ projects: Project[]; result: T }> | { projects: Project[]; result: T }) {
+  let result!: T
+
+  await updateJsonFileAtomic(projectsFile, storedProjectsSchema, defaultProjects, async (currentProjects) => {
+    const next = await updater(currentProjects)
+    result = next.result
+    return storedProjectsSchema.parse(next.projects)
+  })
+
+  return result
+}
+
 export async function getProjectById(id: string) {
   const projects = await readProjects()
   return projects.find((project) => project.id === id) || null

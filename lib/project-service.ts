@@ -78,7 +78,9 @@ function normalizeMediaCollection(media: ProjectMedia[]) {
 
 function normalizeProjectMedia(project: Project) {
   const sortedMedia = normalizeMediaCollection(project.media)
-  const coverMedia = sortedMedia.find((item) => item.isCover && item.resourceType === 'image') || sortedMedia.find((item) => item.resourceType === 'image')
+  const coverMedia =
+    sortedMedia.find((item) => item.isCover && item.resourceType === 'image') ||
+    sortedMedia.find((item) => item.resourceType === 'image')
   const coverImage = coverMedia?.fileUrl || project.coverImage || ''
 
   return {
@@ -134,90 +136,104 @@ export async function findPublishedProjectBySlug(slug: string) {
 export async function createProject(input: ProjectInput) {
   const now = new Date().toISOString()
   const repository = getProjectRepository()
-  const projects = await repository.list()
-  const slug = ensureUniqueSlug(createSlug(input.slug || input.title), projects)
+  const id = makeId()
   await validateProjectCoverImage(input.coverImage)
 
-  const project: Project = normalizeProjectMedia({
-    id: makeId(),
-    title: input.title,
-    slug,
-    summary: input.summary,
-    description: input.description,
-    location: input.location,
-    category: input.category,
-    coverImage: input.coverImage,
-    cardImage: input.cardImage || input.coverImage,
-    status: input.status,
-    featured: input.featured,
-    tags: input.tags,
-    createdAt: now,
-    updatedAt: now,
-    media: [],
-  })
+  return repository.mutate((projects) => {
+    const slug = ensureUniqueSlug(createSlug(input.slug || input.title), projects)
+    const project: Project = normalizeProjectMedia({
+      id,
+      title: input.title,
+      slug,
+      summary: input.summary,
+      description: input.description,
+      location: input.location,
+      category: input.category,
+      coverImage: input.coverImage,
+      cardImage: input.cardImage || input.coverImage,
+      status: input.status,
+      featured: input.featured,
+      tags: input.tags,
+      createdAt: now,
+      updatedAt: now,
+      media: [],
+    })
 
-  projects.unshift(project)
-  await repository.save(finalizeProjects(projects))
-  return project
+    return {
+      projects: finalizeProjects([project, ...projects]),
+      result: project,
+    }
+  })
 }
 
 export async function updateProject(id: string, input: ProjectInput) {
   const repository = getProjectRepository()
-  const projects = await repository.list()
-  const index = projects.findIndex((item) => item.id === id)
-  if (index === -1) return null
 
-  const current = normalizeProjectMedia(projects[index])
-  const nextCoverImage = input.coverImage || current.coverImage
-  await validateProjectCoverImage(nextCoverImage)
+  return repository.mutate(async (projects) => {
+    const index = projects.findIndex((item) => item.id === id)
+    if (index === -1) return { projects, result: null }
 
-  const nextProject: Project = normalizeProjectMedia({
-    ...current,
-    title: input.title,
-    slug: ensureUniqueSlug(createSlug(input.slug || input.title), projects, id),
-    summary: input.summary,
-    description: input.description,
-    location: input.location,
-    category: input.category,
-    coverImage: nextCoverImage,
-    cardImage: input.cardImage || current.cardImage || nextCoverImage,
-    status: input.status,
-    featured: input.featured,
-    tags: input.tags,
-    updatedAt: new Date().toISOString(),
+    const current = normalizeProjectMedia(projects[index])
+    const nextCoverImage = input.coverImage || current.coverImage
+    await validateProjectCoverImage(nextCoverImage)
+
+    const nextProject: Project = normalizeProjectMedia({
+      ...current,
+      title: input.title,
+      slug: ensureUniqueSlug(createSlug(input.slug || input.title), projects, id),
+      summary: input.summary,
+      description: input.description,
+      location: input.location,
+      category: input.category,
+      coverImage: nextCoverImage,
+      cardImage: input.cardImage || current.cardImage || nextCoverImage,
+      status: input.status,
+      featured: input.featured,
+      tags: input.tags,
+      updatedAt: new Date().toISOString(),
+    })
+
+    const nextProjects = [...projects]
+    nextProjects[index] = nextProject
+
+    return {
+      projects: finalizeProjects(nextProjects),
+      result: nextProject,
+    }
   })
-
-  projects[index] = nextProject
-  await repository.save(finalizeProjects(projects))
-  return nextProject
 }
 
 export async function deleteProject(id: string) {
   const repository = getProjectRepository()
-  const projects = await repository.list()
-  const project = projects.find((item) => item.id === id)
-  if (!project) return false
+  const deletedProject = await repository.mutate<Project | null>((projects) => {
+    const project = projects.find((item) => item.id === id)
+    if (!project) {
+      return { projects, result: null as Project | null }
+    }
 
-  const nextProjects = finalizeProjects(projects.filter((item) => item.id !== id))
+    return {
+      projects: finalizeProjects(projects.filter((item) => item.id !== id)),
+      result: project,
+    }
+  })
 
-  await repository.save(nextProjects)
+  if (!deletedProject) return false
 
-  for (const media of project.media) {
+  const nextProjects = await repository.list()
+
+  for (const media of deletedProject.media) {
     await safeDeleteManagedUploadIfOrphan(media.fileUrl, nextProjects)
     if (media.thumbnailUrl && media.thumbnailUrl !== media.fileUrl) {
       await safeDeleteManagedUploadIfOrphan(media.thumbnailUrl, nextProjects)
     }
   }
 
-  await safeDeleteManagedUploadIfOrphan(project.coverImage, nextProjects)
+  await safeDeleteManagedUploadIfOrphan(deletedProject.coverImage, nextProjects)
   return true
 }
 
 export async function attachMediaToProject(projectId: string, input: ProjectMediaInput) {
   const repository = getProjectRepository()
-  const projects = await repository.list()
-  const projectIndex = projects.findIndex((item) => item.id === projectId)
-  if (projectIndex === -1) return null
 
   if (input.resourceType === 'image') {
     const fileExists = input.fileUrl.startsWith('/uploads/')
@@ -239,11 +255,6 @@ export async function attachMediaToProject(projectId: string, input: ProjectMedi
     }
   }
 
-  const currentProject = normalizeProjectMedia(projects[projectIndex])
-  if (currentProject.media.some((item) => item.fileUrl === input.fileUrl && item.title === input.title)) {
-    throw new Error('Aynı medya kaydı bu projeye zaten eklenmiş.')
-  }
-
   const media: ProjectMedia = {
     id: makeId(),
     title: input.title,
@@ -256,95 +267,116 @@ export async function attachMediaToProject(projectId: string, input: ProjectMedi
     createdAt: new Date().toISOString(),
   }
 
-  const nextMedia = sortMedia([
-    ...currentProject.media.map((item) => ({ ...item, isCover: input.isCover ? false : item.isCover })),
-    media,
-  ])
+  return repository.mutate<ProjectMedia | null>((projects) => {
+    const projectIndex = projects.findIndex((item) => item.id === projectId)
+    if (projectIndex === -1) return { projects, result: null }
 
-  const nextProject = normalizeProjectMedia({
-    ...currentProject,
-    media: nextMedia,
-    coverImage: input.resourceType === 'image' && (input.isCover || !currentProject.coverImage) ? input.fileUrl : currentProject.coverImage,
-    updatedAt: new Date().toISOString(),
+    const currentProject = normalizeProjectMedia(projects[projectIndex])
+    if (currentProject.media.some((item) => item.fileUrl === input.fileUrl && item.title === input.title)) {
+      throw new Error('Aynı medya kaydı bu projeye zaten eklenmiş.')
+    }
+
+    const nextMedia = sortMedia([
+      ...currentProject.media.map((item) => ({ ...item, isCover: input.isCover ? false : item.isCover })),
+      media,
+    ])
+
+    const nextProject = normalizeProjectMedia({
+      ...currentProject,
+      media: nextMedia,
+      coverImage:
+        input.resourceType === 'image' && (input.isCover || !currentProject.coverImage)
+          ? input.fileUrl
+          : currentProject.coverImage,
+      updatedAt: new Date().toISOString(),
+    })
+
+    const nextProjects = [...projects]
+    nextProjects[projectIndex] = nextProject
+
+    return {
+      projects: finalizeProjects(nextProjects),
+      result: nextProject.media.find((item) => item.id === media.id) || media,
+    }
   })
-
-  projects[projectIndex] = nextProject
-  await repository.save(finalizeProjects(projects))
-  return nextProject.media.find((item) => item.id === media.id) || media
 }
 
 export async function updateProjectMedia(mediaId: string, input: ProjectMediaUpdateInput) {
   const repository = getProjectRepository()
-  const projects = await repository.list()
-  let updatedMedia: ProjectMedia | null = null
 
-  const nextProjects = finalizeProjects(
-    projects.map((project) => {
-      const hasMedia = project.media.some((item) => item.id === mediaId)
-      if (!hasMedia) return project
+  return repository.mutate<ProjectMedia | null>((projects) => {
+    let updatedMedia: ProjectMedia | null = null
 
-      const nextMedia = sortMedia(
-        project.media.map((item) => {
-          if (item.id !== mediaId) {
-            return input.isCover ? { ...item, isCover: false } : item
-          }
+    const nextProjects = finalizeProjects(
+      projects.map((project) => {
+        const hasMedia = project.media.some((item) => item.id === mediaId)
+        if (!hasMedia) return project
 
-          updatedMedia = {
-            ...item,
-            title: input.title ?? item.title,
-            sortOrder: input.sortOrder ?? item.sortOrder,
-            isCover: input.isCover ?? item.isCover,
-          }
+        const nextMedia = sortMedia(
+          project.media.map((item) => {
+            if (item.id !== mediaId) {
+              return input.isCover ? { ...item, isCover: false } : item
+            }
 
-          return updatedMedia
-        }),
-      )
+            updatedMedia = {
+              ...item,
+              title: input.title ?? item.title,
+              sortOrder: input.sortOrder ?? item.sortOrder,
+              isCover: input.isCover ?? item.isCover,
+            }
 
-      return normalizeProjectMedia({
-        ...project,
-        media: nextMedia,
-        updatedAt: new Date().toISOString(),
-      })
-    }),
-  )
+            return updatedMedia
+          }),
+        )
 
-  if (!updatedMedia) return null
+        return normalizeProjectMedia({
+          ...project,
+          media: nextMedia,
+          updatedAt: new Date().toISOString(),
+        })
+      }),
+    )
 
-  await repository.save(nextProjects)
-  return updatedMedia
+    return {
+      projects: nextProjects,
+      result: updatedMedia,
+    }
+  })
 }
 
 export async function deleteProjectMedia(mediaId: string) {
   const repository = getProjectRepository()
-  const projects = await repository.list()
-  let removedFileUrl = ''
-  let removedThumbUrl = ''
-  let deleted = false
+  const removedMedia = await repository.mutate<ProjectMedia | null>((projects) => {
+    let deletedMedia: ProjectMedia | null = null
 
-  const nextProjects = finalizeProjects(
-    projects.map((project) => {
-      const removedMedia = project.media.find((item) => item.id === mediaId)
-      if (!removedMedia) return project
+    const nextProjects = finalizeProjects(
+      projects.map((project) => {
+        const mediaToRemove = project.media.find((item) => item.id === mediaId)
+        if (!mediaToRemove) return project
 
-      deleted = true
-      removedFileUrl = removedMedia.fileUrl
-      removedThumbUrl = removedMedia.thumbnailUrl || ''
+        deletedMedia = mediaToRemove
 
-      return normalizeProjectMedia({
-        ...project,
-        media: project.media.filter((item) => item.id !== mediaId),
-        coverImage: removedMedia.isCover || project.coverImage === removedMedia.fileUrl ? '' : project.coverImage,
-        updatedAt: new Date().toISOString(),
-      })
-    }),
-  )
+        return normalizeProjectMedia({
+          ...project,
+          media: project.media.filter((item) => item.id !== mediaId),
+          coverImage: mediaToRemove.isCover || project.coverImage === mediaToRemove.fileUrl ? '' : project.coverImage,
+          updatedAt: new Date().toISOString(),
+        })
+      }),
+    )
 
-  if (!deleted) return false
+    return {
+      projects: nextProjects,
+      result: deletedMedia,
+    }
+  })
 
-  await repository.save(nextProjects)
-  await safeDeleteManagedUploadIfOrphan(removedFileUrl, nextProjects)
-  if (removedThumbUrl && removedThumbUrl !== removedFileUrl) {
-    await safeDeleteManagedUploadIfOrphan(removedThumbUrl, nextProjects)
+  if (!removedMedia) return false
+
+  const nextProjects = await repository.list()
+  await safeDeleteManagedUploadIfOrphan(removedMedia.fileUrl, nextProjects)
+  if (removedMedia.thumbnailUrl && removedMedia.thumbnailUrl !== removedMedia.fileUrl) {
+    await safeDeleteManagedUploadIfOrphan(removedMedia.thumbnailUrl, nextProjects)
   }
 
   return true
