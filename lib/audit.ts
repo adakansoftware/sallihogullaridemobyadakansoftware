@@ -1,5 +1,6 @@
 import { promises as fs } from 'fs'
 import path from 'path'
+import { appendTextFileSerialized } from '@/lib/file-storage'
 
 type AuditEvent = {
   action: string
@@ -10,7 +11,6 @@ type AuditEvent = {
 }
 
 const auditFile = path.join(/*turbopackIgnore: true*/ process.cwd(), 'data', 'audit.log')
-let auditWriteQueue = Promise.resolve()
 
 function truncate(value: string | undefined, maxLength: number) {
   if (!value) return undefined
@@ -18,27 +18,20 @@ function truncate(value: string | undefined, maxLength: number) {
 }
 
 export async function writeAuditLog(event: AuditEvent) {
-  auditWriteQueue = auditWriteQueue
-    .catch(() => undefined)
-    .then(async () => {
-      try {
-        await fs.mkdir(path.dirname(auditFile), { recursive: true })
-        await fs.appendFile(
-          auditFile,
-          `${JSON.stringify({
-            at: new Date().toISOString(),
-            action: truncate(event.action, 80),
-            status: event.status,
-            ip: truncate(event.ip, 120),
-            target: truncate(event.target, 160),
-            detail: truncate(event.detail, 240),
-          })}\n`,
-          'utf8',
-        )
-      } catch {
-        // Audit logging must never block primary flows.
-      }
-    })
-
-  return auditWriteQueue
+  try {
+    await fs.mkdir(path.dirname(auditFile), { recursive: true })
+    await appendTextFileSerialized(
+      auditFile,
+      `${JSON.stringify({
+        at: new Date().toISOString(),
+        action: truncate(event.action, 80),
+        status: event.status,
+        ip: truncate(event.ip, 120),
+        target: truncate(event.target, 160),
+        detail: truncate(event.detail, 240),
+      })}\n`,
+    )
+  } catch {
+    // Audit logging must never block primary flows.
+  }
 }

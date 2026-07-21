@@ -92,6 +92,13 @@ export async function writeJsonFileAtomic<T>(filePath: string, value: T) {
   await runSerializedFileWrite(filePath, () => writeJsonFileAtomicUnsafe(filePath, value))
 }
 
+export async function appendTextFileSerialized(filePath: string, value: string) {
+  await runSerializedFileWrite(filePath, async () => {
+    await ensureParentDir(filePath)
+    await fs.appendFile(filePath, value, 'utf8')
+  })
+}
+
 export async function updateJsonFileAtomic<T>(
   filePath: string,
   schema: { parse: (value: unknown) => T },
