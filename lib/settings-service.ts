@@ -7,8 +7,11 @@ export async function getSiteSettings() {
 
 export async function updateSiteSettings(input: SiteSettings) {
   const repository = getSettingsRepository()
-  const current = await repository.get()
-  const nextSettings = { ...current, ...input }
-  await repository.save(nextSettings)
-  return nextSettings
+  return repository.mutate((current) => {
+    const nextSettings = { ...current, ...input }
+    return {
+      settings: nextSettings,
+      result: nextSettings,
+    }
+  })
 }

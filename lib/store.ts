@@ -178,6 +178,19 @@ export async function writeSettings(settings: SiteSettings) {
   await writeJsonFileAtomic(settingsFile, storedSettingsSchema.parse(settings))
 }
 
+export async function mutateSettings<T>(updater: (settings: SiteSettings) => Promise<{ settings: SiteSettings; result: T }> | { settings: SiteSettings; result: T }) {
+  let result!: T
+
+  await updateJsonFileAtomic(settingsFile, storedSettingsSchema, defaultSettings, async (currentSettings) => {
+    const normalized = { ...defaultSettings, ...currentSettings }
+    const next = await updater(normalized)
+    result = next.result
+    return storedSettingsSchema.parse(next.settings)
+  })
+
+  return result
+}
+
 export function makeId() {
   return crypto.randomUUID()
 }

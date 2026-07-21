@@ -1,5 +1,5 @@
 import { env } from '@/lib/env'
-import { mutateMessages, mutateProjects, readMessages, readProjects, readSettings, writeMessages, writeProjects, writeSettings, type AdminMessage, type Project, type SiteSettings } from '@/lib/store'
+import { mutateMessages, mutateProjects, mutateSettings, readMessages, readProjects, readSettings, writeMessages, writeProjects, writeSettings, type AdminMessage, type Project, type SiteSettings } from '@/lib/store'
 import {
   PostgresMessageRepository,
   PostgresProjectRepository,
@@ -23,6 +23,7 @@ export interface MessageRepository {
 export interface SettingsRepository {
   get(): Promise<SiteSettings>
   save(settings: SiteSettings): Promise<void>
+  mutate<T>(updater: (settings: SiteSettings) => Promise<{ settings: SiteSettings; result: T }> | { settings: SiteSettings; result: T }): Promise<T>
 }
 
 class FileProjectRepository implements ProjectRepository {
@@ -70,6 +71,10 @@ class FileSettingsRepository implements SettingsRepository {
 
   save(settings: SiteSettings) {
     return writeSettings(settings)
+  }
+
+  mutate<T>(updater: (settings: SiteSettings) => Promise<{ settings: SiteSettings; result: T }> | { settings: SiteSettings; result: T }) {
+    return mutateSettings(updater)
   }
 }
 

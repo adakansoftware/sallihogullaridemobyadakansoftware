@@ -305,4 +305,92 @@ export class PostgresSettingsRepository implements SettingsRepository {
       ],
     )
   }
+
+  async mutate<T>(updater: (settings: SiteSettings) => Promise<{ settings: SiteSettings; result: T }> | { settings: SiteSettings; result: T }) {
+    return withDbTransaction(async (client) => {
+      const result = await client.query(
+        `
+          SELECT company_name, company_short_name, contact_phone, contact_phone_secondary,
+                 contact_email, contact_email_secondary, address, service_area, working_hours,
+                 founded_year, instagram_url, whatsapp_url, hero_title, hero_description, quote_notice
+          FROM site_settings
+          WHERE id = 1
+          FOR UPDATE
+        `,
+      )
+
+      const currentSettings = result.rows[0]
+        ? storedSettingsSchema.parse({
+            companyName: result.rows[0].company_name,
+            companyShortName: result.rows[0].company_short_name,
+            contactPhone: result.rows[0].contact_phone,
+            contactPhoneSecondary: result.rows[0].contact_phone_secondary,
+            contactEmail: result.rows[0].contact_email,
+            contactEmailSecondary: result.rows[0].contact_email_secondary,
+            address: result.rows[0].address,
+            serviceArea: result.rows[0].service_area,
+            workingHours: result.rows[0].working_hours,
+            foundedYear: result.rows[0].founded_year,
+            instagramUrl: result.rows[0].instagram_url,
+            whatsappUrl: result.rows[0].whatsapp_url,
+            heroTitle: result.rows[0].hero_title,
+            heroDescription: result.rows[0].hero_description,
+            quoteNotice: result.rows[0].quote_notice,
+          })
+        : defaultSiteSettings
+
+      const next = await updater(currentSettings)
+      const normalized = storedSettingsSchema.parse(next.settings)
+
+      await client.query(
+        `
+          INSERT INTO site_settings (
+            id, company_name, company_short_name, contact_phone, contact_phone_secondary,
+            contact_email, contact_email_secondary, address, service_area, working_hours,
+            founded_year, instagram_url, whatsapp_url, hero_title, hero_description, quote_notice
+          )
+          VALUES (
+            1, $1, $2, $3, $4,
+            $5, $6, $7, $8, $9,
+            $10, $11, $12, $13, $14, $15
+          )
+          ON CONFLICT (id) DO UPDATE SET
+            company_name = EXCLUDED.company_name,
+            company_short_name = EXCLUDED.company_short_name,
+            contact_phone = EXCLUDED.contact_phone,
+            contact_phone_secondary = EXCLUDED.contact_phone_secondary,
+            contact_email = EXCLUDED.contact_email,
+            contact_email_secondary = EXCLUDED.contact_email_secondary,
+            address = EXCLUDED.address,
+            service_area = EXCLUDED.service_area,
+            working_hours = EXCLUDED.working_hours,
+            founded_year = EXCLUDED.founded_year,
+            instagram_url = EXCLUDED.instagram_url,
+            whatsapp_url = EXCLUDED.whatsapp_url,
+            hero_title = EXCLUDED.hero_title,
+            hero_description = EXCLUDED.hero_description,
+            quote_notice = EXCLUDED.quote_notice
+        `,
+        [
+          normalized.companyName,
+          normalized.companyShortName,
+          normalized.contactPhone,
+          normalized.contactPhoneSecondary,
+          normalized.contactEmail,
+          normalized.contactEmailSecondary,
+          normalized.address,
+          normalized.serviceArea,
+          normalized.workingHours,
+          normalized.foundedYear,
+          normalized.instagramUrl,
+          normalized.whatsappUrl,
+          normalized.heroTitle,
+          normalized.heroDescription,
+          normalized.quoteNotice,
+        ],
+      )
+
+      return next.result
+    })
+  }
 }

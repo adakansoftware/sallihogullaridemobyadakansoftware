@@ -1,6 +1,6 @@
 import path from 'path'
 import { z } from 'zod'
-import { readJsonFileWithBackup, restorePrimaryJsonFile, writeJsonFileAtomic } from '@/lib/file-storage'
+import { readJsonFileWithBackup, restorePrimaryJsonFile, runSerializedFileWrite, writeJsonFileAtomic } from '@/lib/file-storage'
 import { getAdminIssueCatalog } from '@/lib/admin-issue-catalog'
 import {
   adminIssueUpdateSchema,
@@ -34,6 +34,7 @@ export type AdminIssueHistoryEntry = {
 
 const issueStatusFile = path.join(/*turbopackIgnore: true*/ process.cwd(), 'data', 'admin-issue-status.json')
 const issueHistoryFile = path.join(/*turbopackIgnore: true*/ process.cwd(), 'data', 'admin-issue-history.json')
+const issueTrackerLockFile = path.join(/*turbopackIgnore: true*/ process.cwd(), 'data', '.admin-issue-tracker.lock')
 const defaultIssueStates: AdminIssueState[] = []
 const defaultIssueHistory: AdminIssueHistoryEntry[] = []
 
@@ -68,6 +69,58 @@ async function appendAdminIssueHistory(entry: AdminIssueHistoryEntry) {
   await writeJsonFileAtomic(issueHistoryFile, storedAdminIssueHistorySchema.parse(nextItems))
 }
 
+async function readIssueStatesUnsafe() {
+  const parsed = await readJsonFileWithBackup(issueStatusFile, storedAdminIssueStatesSchema, defaultIssueStates)
+
+  if (parsed.source === 'backup') {
+    await restorePrimaryJsonFile(issueStatusFile, parsed.data)
+  }
+
+  return parsed.data
+}
+
+async function readIssueHistoryUnsafe() {
+  const parsed = await readJsonFileWithBackup(issueHistoryFile, storedAdminIssueHistorySchema, defaultIssueHistory)
+
+  if (parsed.source === 'backup') {
+    await restorePrimaryJsonFile(issueHistoryFile, parsed.data)
+  }
+
+  return parsed.data
+}
+
+async function runIssueTrackerMutation<T>(mutator: (input: {
+  states: AdminIssueState[]
+  history: AdminIssueHistoryEntry[]
+}) => Promise<{
+  states?: AdminIssueState[]
+  history?: AdminIssueHistoryEntry[]
+  result: T
+}> | {
+  states?: AdminIssueState[]
+  history?: AdminIssueHistoryEntry[]
+  result: T
+}) {
+  let result!: T
+
+  await runSerializedFileWrite(issueTrackerLockFile, async () => {
+    const [states, history] = await Promise.all([readIssueStatesUnsafe(), readIssueHistoryUnsafe()])
+    const next = await mutator({ states, history })
+
+    if (next.states) {
+      await writeJsonFileAtomic(issueStatusFile, storedAdminIssueStatesSchema.parse(next.states))
+    }
+
+    if (next.history) {
+      await writeJsonFileAtomic(issueHistoryFile, storedAdminIssueHistorySchema.parse(next.history))
+    }
+
+    result = next.result
+  })
+
+  return result
+}
+
 function buildNewIssueState(id: string, at: string): AdminIssueState {
   return {
     id,
@@ -84,37 +137,42 @@ function buildNewIssueState(id: string, at: string): AdminIssueState {
 }
 
 export async function syncAdminIssueTracker() {
-  const [catalog, items] = await Promise.all([getAdminIssueCatalog(), listAdminIssueStates()])
-  const now = new Date().toISOString()
-  const byId = new Map(items.map((item) => [item.id, item]))
-  let changed = false
+  const catalog = await getAdminIssueCatalog()
 
-  for (const issue of catalog) {
-    const current = byId.get(issue.id)
-    if (!current) {
-      byId.set(issue.id, buildNewIssueState(issue.id, now))
-      changed = true
-      await appendAdminIssueHistory({
-        issueId: issue.id,
-        at: now,
-        toStatus: 'open',
-        note: '',
-        source: 'sync',
-      })
-      continue
+  return runIssueTrackerMutation(({ states, history }) => {
+    const now = new Date().toISOString()
+    const byId = new Map(states.map((item) => [item.id, item]))
+    const nextHistory = [...history]
+    let changed = false
+
+    for (const issue of catalog) {
+      const current = byId.get(issue.id)
+      if (!current) {
+        byId.set(issue.id, buildNewIssueState(issue.id, now))
+        nextHistory.push({
+          issueId: issue.id,
+          at: now,
+          toStatus: 'open',
+          note: '',
+          source: 'sync',
+        })
+        changed = true
+        continue
+      }
+
+      if (current.lastSeenAt !== now) {
+        byId.set(issue.id, { ...current, lastSeenAt: now })
+        changed = true
+      }
     }
 
-    if (current.lastSeenAt !== now) {
-      byId.set(issue.id, { ...current, lastSeenAt: now })
-      changed = true
+    const nextStates = [...byId.values()]
+    return {
+      states: changed ? nextStates : undefined,
+      history: changed ? nextHistory.slice(-500) : undefined,
+      result: nextStates,
     }
-  }
-
-  if (changed) {
-    await writeJsonFileAtomic(issueStatusFile, storedAdminIssueStatesSchema.parse([...byId.values()]))
-  }
-
-  return [...byId.values()]
+  })
 }
 
 export async function getSyncedAdminIssueStateMap() {
@@ -124,46 +182,63 @@ export async function getSyncedAdminIssueStateMap() {
 
 export async function updateAdminIssueState(id: string, input: unknown) {
   const payload = adminIssueUpdateSchema.parse(input)
-  const items = await syncAdminIssueTracker()
-  const now = new Date().toISOString()
-  const current = items.find((item) => item.id === id) ?? buildNewIssueState(id, now)
-  const statusChanged = current.status !== payload.status
-  const noteChanged = current.note !== payload.note
-  const resolvedAt =
-    payload.status === 'resolved'
-      ? now
-      : current.status === 'resolved'
-        ? undefined
-        : current.resolvedAt
+  const catalog = await getAdminIssueCatalog()
 
-  const nextItem: AdminIssueState = {
-    ...current,
-    status: payload.status,
-    note: payload.note,
-    updatedAt: now,
-    lastSeenAt: now,
-    lastStatusChangeAt: statusChanged ? now : current.lastStatusChangeAt,
-    resolvedAt,
-    timesUpdated: current.timesUpdated + 1,
-    reopenCount: current.status === 'resolved' && payload.status !== 'resolved' ? current.reopenCount + 1 : current.reopenCount,
-  }
+  return runIssueTrackerMutation(({ states, history }) => {
+    const now = new Date().toISOString()
+    const byId = new Map(states.map((item) => [item.id, item]))
 
-  const nextItems = items.some((item) => item.id === id)
-    ? items.map((item) => (item.id === id ? nextItem : item))
-    : [...items, nextItem]
+    for (const issue of catalog) {
+      const current = byId.get(issue.id)
+      if (!current) {
+        byId.set(issue.id, buildNewIssueState(issue.id, now))
+      } else if (current.lastSeenAt !== now) {
+        byId.set(issue.id, { ...current, lastSeenAt: now })
+      }
+    }
 
-  await writeJsonFileAtomic(issueStatusFile, storedAdminIssueStatesSchema.parse(nextItems))
+    const current = byId.get(id) ?? buildNewIssueState(id, now)
+    const statusChanged = current.status !== payload.status
+    const noteChanged = current.note !== payload.note
+    const resolvedAt =
+      payload.status === 'resolved'
+        ? now
+        : current.status === 'resolved'
+          ? undefined
+          : current.resolvedAt
 
-  if (statusChanged || noteChanged) {
-    await appendAdminIssueHistory({
-      issueId: id,
-      at: now,
-      fromStatus: current.status,
-      toStatus: payload.status,
+    const nextItem: AdminIssueState = {
+      ...current,
+      status: payload.status,
       note: payload.note,
-      source: 'manual',
-    })
-  }
+      updatedAt: now,
+      lastSeenAt: now,
+      lastStatusChangeAt: statusChanged ? now : current.lastStatusChangeAt,
+      resolvedAt,
+      timesUpdated: current.timesUpdated + 1,
+      reopenCount: current.status === 'resolved' && payload.status !== 'resolved' ? current.reopenCount + 1 : current.reopenCount,
+    }
 
-  return nextItem
+    byId.set(id, nextItem)
+    const nextHistory =
+      statusChanged || noteChanged
+        ? [
+            ...history,
+            {
+              issueId: id,
+              at: now,
+              fromStatus: current.status,
+              toStatus: payload.status,
+              note: payload.note,
+              source: 'manual' as const,
+            },
+          ].slice(-500)
+        : history
+
+    return {
+      states: [...byId.values()],
+      history: nextHistory,
+      result: nextItem,
+    }
+  })
 }
