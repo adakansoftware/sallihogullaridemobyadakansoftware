@@ -25,7 +25,6 @@ export async function listAdminMessages() {
 
 export async function submitContactMessage(input: MessageInput) {
   const repository = getMessageRepository()
-  const messages = await repository.list()
   const now = Date.now()
   const duplicateWindowMs = 10 * 60 * 1000
   const fingerprint = [
@@ -35,25 +34,6 @@ export async function submitContactMessage(input: MessageInput) {
     normalizeForSpamCheck(input.subject),
     normalizeForSpamCheck(input.message),
   ].join('|')
-
-  const hasRecentDuplicate = messages.some((item) => {
-    const createdAt = new Date(item.createdAt).getTime()
-    if (!Number.isFinite(createdAt) || now - createdAt > duplicateWindowMs) return false
-
-    const candidate = [
-      normalizeForSpamCheck(item.name),
-      normalizeForSpamCheck(item.phone),
-      normalizeForSpamCheck(item.email),
-      normalizeForSpamCheck(item.subject),
-      normalizeForSpamCheck(item.message),
-    ].join('|')
-
-    return candidate === fingerprint
-  })
-
-  if (hasRecentDuplicate) {
-    throw new ApiError(429, 'Benzer bir talep kısa süre önce alındı. Lütfen biraz sonra tekrar deneyin.')
-  }
 
   const id = makeId()
   const item = {
@@ -68,32 +48,59 @@ export async function submitContactMessage(input: MessageInput) {
     createdAt: new Date(now).toISOString(),
   }
 
-  messages.unshift(item)
-  await repository.save(messages)
-  return item
+  return repository.mutate((messages) => {
+    const hasRecentDuplicate = messages.some((existingMessage) => {
+      const createdAt = new Date(existingMessage.createdAt).getTime()
+      if (!Number.isFinite(createdAt) || now - createdAt > duplicateWindowMs) return false
+
+      const candidate = [
+        normalizeForSpamCheck(existingMessage.name),
+        normalizeForSpamCheck(existingMessage.phone),
+        normalizeForSpamCheck(existingMessage.email),
+        normalizeForSpamCheck(existingMessage.subject),
+        normalizeForSpamCheck(existingMessage.message),
+      ].join('|')
+
+      return candidate === fingerprint
+    })
+
+    if (hasRecentDuplicate) {
+      throw new ApiError(429, 'Benzer bir talep kisa sure once alindi. Lutfen biraz sonra tekrar deneyin.')
+    }
+
+    return {
+      messages: [item, ...messages],
+      result: item,
+    }
+  })
 }
 
 export async function updateMessageReadState(id: string, isRead: boolean) {
   const repository = getMessageRepository()
-  const messages = await repository.list()
-  const index = messages.findIndex((item) => item.id === id)
-  if (index === -1) return null
+  return repository.mutate((messages) => {
+    const index = messages.findIndex((item) => item.id === id)
+    if (index === -1) {
+      return { messages, result: null }
+    }
 
-  messages[index] = {
-    ...messages[index],
-    isRead,
-  }
+    const nextMessage = {
+      ...messages[index],
+      isRead,
+    }
 
-  await repository.save(messages)
-  return messages[index]
+    const nextMessages = [...messages]
+    nextMessages[index] = nextMessage
+    return { messages: nextMessages, result: nextMessage }
+  })
 }
 
 export async function deleteMessage(id: string) {
   const repository = getMessageRepository()
-  const messages = await repository.list()
-  const exists = messages.some((item) => item.id === id)
-  if (!exists) return false
-
-  await repository.save(messages.filter((item) => item.id !== id))
-  return true
+  return repository.mutate((messages) => {
+    const nextMessages = messages.filter((item) => item.id !== id)
+    return {
+      messages: nextMessages,
+      result: nextMessages.length !== messages.length,
+    }
+  })
 }

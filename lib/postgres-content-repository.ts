@@ -172,6 +172,27 @@ export class PostgresMessageRepository implements MessageRepository {
       await insertMessages(client, normalized)
     })
   }
+
+  async mutate<T>(updater: (messages: AdminMessage[]) => Promise<{ messages: AdminMessage[]; result: T }> | { messages: AdminMessage[]; result: T }) {
+    return withDbTransaction(async (client) => {
+      const result = await client.query(
+        `
+          SELECT id, reference, name, phone, email, subject, message, is_read, created_at
+          FROM messages
+          ORDER BY created_at DESC, id ASC
+          FOR UPDATE
+        `,
+      )
+
+      const currentMessages = result.rows.map((row) => mapMessageRow(row))
+      const next = await updater(currentMessages)
+      const normalized = normalizeMessages(next.messages)
+
+      await client.query('DELETE FROM messages')
+      await insertMessages(client, normalized)
+      return next.result
+    })
+  }
 }
 
 export class PostgresSettingsRepository implements SettingsRepository {

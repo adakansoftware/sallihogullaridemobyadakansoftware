@@ -3,7 +3,7 @@ import path from 'path'
 import crypto from 'crypto'
 import { z } from 'zod'
 import { defaultSiteSettings } from '@/lib/file-defaults'
-import { readJsonFileWithBackup, restorePrimaryJsonFile, writeJsonFileAtomic } from '@/lib/file-storage'
+import { readJsonFileWithBackup, restorePrimaryJsonFile, updateJsonFileAtomic, writeJsonFileAtomic } from '@/lib/file-storage'
 import { isCleanPublicPathUrl, isPathInside } from '@/lib/path-security'
 import { storedMessagesSchema, storedProjectsSchema, storedSettingsSchema } from '@/lib/validation'
 
@@ -138,6 +138,19 @@ export async function readMessages(): Promise<AdminMessage[]> {
 
 export async function writeMessages(messages: AdminMessage[]) {
   await writeJsonFileAtomic(messagesFile, storedMessagesSchema.parse(messages))
+}
+
+export async function mutateMessages<T>(updater: (messages: AdminMessage[]) => Promise<{ messages: AdminMessage[]; result: T }> | { messages: AdminMessage[]; result: T }) {
+  let result!: T
+
+  await updateJsonFileAtomic(messagesFile, storedMessagesSchema, [], async (currentMessages) => {
+    const normalized = normalizeMessages(currentMessages)
+    const next = await updater(normalized)
+    result = next.result
+    return storedMessagesSchema.parse(next.messages)
+  })
+
+  return result
 }
 
 export async function readSettings(): Promise<SiteSettings> {

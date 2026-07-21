@@ -11,7 +11,7 @@ async function run() {
   process.env.NEXT_PUBLIC_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com'
 
   const { normalizeAdminNextTarget } = await import('../lib/admin-redirect.ts')
-  const { readJsonFileWithBackup } = await import('../lib/file-storage.ts')
+  const { readJsonFileWithBackup, updateJsonFileAtomic } = await import('../lib/file-storage.ts')
   const { getComparableOrigin, resolveAllowedOrigin } = await import('../lib/origin.ts')
   const { hashPasswordWithScrypt, isValidPasswordHashFormat, verifyPasswordAgainstHash } = await import('../lib/password-hash.ts')
   const { createSignedAdminSessionToken, isValidSignedAdminSessionToken } = await import('../lib/session-token.ts')
@@ -223,6 +223,28 @@ async function run() {
 
   assert.equal(parsed.source, 'backup')
   assert.equal(parsed.data[0]?.id, 'backup-project')
+
+  const queueFile = path.join(tempDir, 'messages.json')
+  const arraySchema = {
+    parse(value: unknown) {
+      assert.ok(Array.isArray(value))
+      return value as string[]
+    },
+  }
+
+  await Promise.all([
+    updateJsonFileAtomic(queueFile, arraySchema, [], async (current) => {
+      await new Promise((resolve) => setTimeout(resolve, 20))
+      return [...current, 'first']
+    }),
+    updateJsonFileAtomic(queueFile, arraySchema, [], async (current) => {
+      await new Promise((resolve) => setTimeout(resolve, 5))
+      return [...current, 'second']
+    }),
+  ])
+
+  const queued = await readJsonFileWithBackup(queueFile, arraySchema, [])
+  assert.deepEqual(queued.data.sort(), ['first', 'second'])
 
   await rm(tempDir, { recursive: true, force: true })
   process.stdout.write('Lightweight verification passed.\n')

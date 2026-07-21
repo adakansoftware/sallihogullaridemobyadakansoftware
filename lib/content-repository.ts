@@ -1,5 +1,5 @@
 import { env } from '@/lib/env'
-import { readMessages, readProjects, readSettings, writeMessages, writeProjects, writeSettings, type AdminMessage, type Project, type SiteSettings } from '@/lib/store'
+import { mutateMessages, readMessages, readProjects, readSettings, writeMessages, writeProjects, writeSettings, type AdminMessage, type Project, type SiteSettings } from '@/lib/store'
 import {
   PostgresMessageRepository,
   PostgresProjectRepository,
@@ -16,6 +16,7 @@ export interface ProjectRepository {
 export interface MessageRepository {
   list(): Promise<AdminMessage[]>
   save(messages: AdminMessage[]): Promise<void>
+  mutate<T>(updater: (messages: AdminMessage[]) => Promise<{ messages: AdminMessage[]; result: T }> | { messages: AdminMessage[]; result: T }): Promise<T>
 }
 
 export interface SettingsRepository {
@@ -50,6 +51,10 @@ class FileMessageRepository implements MessageRepository {
 
   save(messages: AdminMessage[]) {
     return writeMessages(messages)
+  }
+
+  mutate<T>(updater: (messages: AdminMessage[]) => Promise<{ messages: AdminMessage[]; result: T }> | { messages: AdminMessage[]; result: T }) {
+    return mutateMessages(updater)
   }
 }
 

@@ -48,6 +48,31 @@ export async function restorePrimaryJsonFile<T>(filePath: string, value: T) {
   await fs.writeFile(filePath, JSON.stringify(value, null, 2), 'utf8')
 }
 
+async function writeJsonFileAtomicUnsafe<T>(filePath: string, value: T) {
+  await ensureTextFile(filePath, JSON.stringify(value, null, 2))
+
+  const serialized = JSON.stringify(value, null, 2)
+  const tempPath = `${filePath}.${process.pid}.${Date.now()}.tmp`
+  const backupPath = `${filePath}.bak`
+
+  try {
+    await fs.copyFile(filePath, backupPath)
+  } catch {
+    // Backup may not exist on the first write.
+  }
+
+  try {
+    await fs.writeFile(tempPath, serialized, 'utf8')
+    await fs.rename(tempPath, filePath)
+  } finally {
+    try {
+      await fs.unlink(tempPath)
+    } catch {
+      // Temp cleanup is best-effort only.
+    }
+  }
+}
+
 export async function runSerializedFileWrite(filePath: string, writer: () => Promise<void>) {
   const previous = writeQueues.get(filePath) || Promise.resolve()
   const next = previous
@@ -64,28 +89,22 @@ export async function runSerializedFileWrite(filePath: string, writer: () => Pro
 }
 
 export async function writeJsonFileAtomic<T>(filePath: string, value: T) {
+  await runSerializedFileWrite(filePath, () => writeJsonFileAtomicUnsafe(filePath, value))
+}
+
+export async function updateJsonFileAtomic<T>(
+  filePath: string,
+  schema: { parse: (value: unknown) => T },
+  defaultValue: T,
+  updater: (currentValue: T) => Promise<T> | T,
+) {
+  let result: T
+
   await runSerializedFileWrite(filePath, async () => {
-    await ensureTextFile(filePath, JSON.stringify(value, null, 2))
-
-    const serialized = JSON.stringify(value, null, 2)
-    const tempPath = `${filePath}.${process.pid}.${Date.now()}.tmp`
-    const backupPath = `${filePath}.bak`
-
-    try {
-      await fs.copyFile(filePath, backupPath)
-    } catch {
-      // Backup may not exist on the first write.
-    }
-
-    try {
-      await fs.writeFile(tempPath, serialized, 'utf8')
-      await fs.rename(tempPath, filePath)
-    } finally {
-      try {
-        await fs.unlink(tempPath)
-      } catch {
-        // Temp cleanup is best-effort only.
-      }
-    }
+    const parsed = await readJsonFileWithBackup(filePath, schema, defaultValue)
+    result = await updater(parsed.data)
+    await writeJsonFileAtomicUnsafe(filePath, result)
   })
+
+  return result!
 }
