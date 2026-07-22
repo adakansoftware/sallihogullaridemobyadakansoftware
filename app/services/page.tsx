@@ -10,7 +10,9 @@ import { PageHero } from '@/components/page-hero'
 import { ProjectKickoffSection } from '@/components/project-kickoff-section'
 import { ProjectMaturitySection } from '@/components/project-maturity-section'
 import { ProjectReadinessSection } from '@/components/project-readiness-section'
+import { QuoteConfidenceSection } from '@/components/quote-confidence-section'
 import { RapidAssessmentSection } from '@/components/rapid-assessment-section'
+import { RedFlagsSection } from '@/components/red-flags-section'
 import { RiskControlSection } from '@/components/risk-control-section'
 import { ScheduleScenariosSection } from '@/components/schedule-scenarios-section'
 import { ServiceComparisonSection } from '@/components/service-comparison-section'
@@ -54,6 +56,8 @@ export default async function ServicesPage() {
       <ServiceComparisonSection />
       <RapidAssessmentSection />
       <ProjectKickoffSection />
+      <QuoteConfidenceSection />
+      <RedFlagsSection />
       <FalseAssumptionsSection />
       <CostDriversSection />
       <ScheduleScenariosSection />

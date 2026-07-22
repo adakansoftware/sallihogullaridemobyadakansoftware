@@ -497,6 +497,43 @@ export const rapidAssessmentItems = [
   },
 ]
 
+export const quoteConfidenceBands = [
+  {
+    title: 'Yüksek güvenli teklif zemini',
+    signals: ['Erişim net', 'Metraj tahmini var', 'Malzeme tipi belli', 'Takvim paylaşılmış'],
+    result: 'Makine, kamyon ve günlük akış daha gerçekçi kurgulanabilir.',
+  },
+  {
+    title: 'Orta güvenli teklif zemini',
+    signals: ['Hacim yaklaşık', 'Bazı saha detayları açık değil', 'Takvim var ama esnek'],
+    result: 'Başlangıç planı kurulabilir; ancak sahada sınırlı revizyon ihtimali korunur.',
+  },
+  {
+    title: 'Düşük güvenli teklif zemini',
+    signals: ['Erişim belirsiz', 'Metraj yok', 'Malzeme akışı net değil', 'Teslim baskısı sonradan çıkabilir'],
+    result: 'Fiyat ve süre tahmini yüzeyde kalır; önce keşif veya daha net veri gerekir.',
+  },
+]
+
+export const redFlagItems = [
+  {
+    title: 'Dar alanın önemsiz görülmesi',
+    description: 'Giriş-çıkış ve manevra zorluğu küçük bir detay gibi ele alınırsa seçilen ekipman sahada verimsiz kalabilir.',
+  },
+  {
+    title: 'Döküm veya kabul noktasının belirsiz bırakılması',
+    description: 'Malzeme nereye gidecek veya nereden gelecek sorusu netleşmezse planın en kritik ayağı eksik kalır.',
+  },
+  {
+    title: 'Teslim baskısının iş başladıktan sonra ortaya çıkması',
+    description: 'Takvim beklentisi geç paylaşıldığında aynı işi daha sıkı ve daha pahalı yürütme ihtiyacı doğar.',
+  },
+  {
+    title: 'Bağlı ekiplerin etkisinin hesaba katılmaması',
+    description: 'Başka ekipler bu işe bağlıysa sahadaki gecikme zincir etkisi yaratır; bu bilgi baştan planın parçası olmalıdır.',
+  },
+]
+
 export const mediaGalleryItems = [
   {
     type: 'image',
