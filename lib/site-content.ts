@@ -534,6 +534,40 @@ export const redFlagItems = [
   },
 ]
 
+export const mobilizationReadinessSteps = [
+  {
+    title: 'Temel saha netliği',
+    description: 'Konum, erişim, yaklaşık hacim ve malzeme yönü netleşmeden mobilizasyon kararı aceleye getirilmez.',
+  },
+  {
+    title: 'Operasyon eşleşmesi',
+    description: 'Makine tipi, kamyon ihtiyacı ve gerekiyorsa destek araçları işin gerçek temposuna göre eşleştirilir.',
+  },
+  {
+    title: 'Takvim doğrulaması',
+    description: 'Başlangıç günü, günlük hedef ve bağlı ekip etkisi netleşmeden agresif teslim taahhüdü verilmez.',
+  },
+  {
+    title: 'Saha içi karar alanı',
+    description: 'Değişken başlıklar baştan işaretlenir; sahada revizyon gerekecek alanlar sürpriz olmaktan çıkarılır.',
+  },
+]
+
+export const decisionQualityItems = [
+  {
+    title: 'Kararı güçlendiren veri',
+    points: ['Yaklaşık da olsa ölçü veya hacim', 'Net erişim bilgisi', 'Malzeme yönü', 'Takvim baskısı'],
+  },
+  {
+    title: 'Kararı zayıflatan boşluk',
+    points: ['Sahayı sonradan görürüz yaklaşımı', 'Kamyon akışını sonra kurarız düşüncesi', 'Teslim baskısının saklı kalması', 'Bağlı ekiplerin hesaba katılmaması'],
+  },
+  {
+    title: 'Doğru ilk sonuç',
+    points: ['Gerçekçi teklif', 'Daha az revizyon', 'Daha doğru ekipman eşleşmesi', 'Daha kontrollü başlangıç'],
+  },
+]
+
 export const mediaGalleryItems = [
   {
     type: 'image',

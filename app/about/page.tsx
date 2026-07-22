@@ -3,9 +3,11 @@ import { AboutSection } from '@/components/about-section'
 import { CTASection } from '@/components/cta-section'
 import { CriticalDependenciesSection } from '@/components/critical-dependencies-section'
 import { CostDriversSection } from '@/components/cost-drivers-section'
+import { DecisionQualitySection } from '@/components/decision-quality-section'
 import { CoordinationTriggersSection } from '@/components/coordination-triggers-section'
 import { DelayCausesSection } from '@/components/delay-causes-section'
 import { FalseAssumptionsSection } from '@/components/false-assumptions-section'
+import { MobilizationReadinessSection } from '@/components/mobilization-readiness-section'
 import { OperationsModelSection } from '@/components/operations-model-section'
 import { PageHero } from '@/components/page-hero'
 import { ProjectKickoffSection } from '@/components/project-kickoff-section'
@@ -53,6 +55,7 @@ export default async function AboutPage() {
       <StatsSection />
       <AboutSection settings={settings} />
       <RapidAssessmentSection />
+      <DecisionQualitySection />
       <ProjectKickoffSection />
       <QuoteConfidenceSection />
       <RedFlagsSection />
@@ -60,6 +63,7 @@ export default async function AboutPage() {
       <CostDriversSection />
       <ScheduleScenariosSection />
       <SiteComplexitySection />
+      <MobilizationReadinessSection />
       <DelayCausesSection />
       <ScopeBoundarySection />
       <CriticalDependenciesSection />
