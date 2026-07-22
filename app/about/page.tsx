@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { AboutSection } from '@/components/about-section'
 import { CTASection } from '@/components/cta-section'
+import { CriticalDependenciesSection } from '@/components/critical-dependencies-section'
 import { CostDriversSection } from '@/components/cost-drivers-section'
 import { CoordinationTriggersSection } from '@/components/coordination-triggers-section'
 import { DelayCausesSection } from '@/components/delay-causes-section'
@@ -11,6 +12,7 @@ import { ProjectMaturitySection } from '@/components/project-maturity-section'
 import { ProjectReadinessSection } from '@/components/project-readiness-section'
 import { RiskControlSection } from '@/components/risk-control-section'
 import { ScheduleScenariosSection } from '@/components/schedule-scenarios-section'
+import { SiteComplexitySection } from '@/components/site-complexity-section'
 import { SiteFrame } from '@/components/site-frame'
 import { ScopeBoundarySection } from '@/components/scope-boundary-section'
 import { StatsSection } from '@/components/stats-section'
@@ -49,8 +51,10 @@ export default async function AboutPage() {
       <ProjectKickoffSection />
       <CostDriversSection />
       <ScheduleScenariosSection />
+      <SiteComplexitySection />
       <DelayCausesSection />
       <ScopeBoundarySection />
+      <CriticalDependenciesSection />
       <OperationsModelSection />
       <CoordinationTriggersSection />
       <RiskControlSection />

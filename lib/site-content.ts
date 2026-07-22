@@ -426,6 +426,43 @@ export const scopeBoundaryItems = [
   },
 ]
 
+export const siteComplexitySignals = [
+  {
+    title: 'Düşük karmaşıklık',
+    markers: ['Açık erişim', 'Net metraj', 'Tek etap', 'Esnek takvim'],
+    meaning: 'Standart ekipman dengesiyle daha öngörülebilir ve akıcı bir saha başlangıcı kurulabilir.',
+  },
+  {
+    title: 'Orta karmaşıklık',
+    markers: ['Kısmi dar alan', 'Malzeme akışı yoğun', 'Bağlı ekip var', 'Etaplı ilerleme'],
+    meaning: 'Plan doğru kurulursa iş sağlıklı akar; ancak günlük koordinasyon daha dikkatli yönetilmelidir.',
+  },
+  {
+    title: 'Yüksek karmaşıklık',
+    markers: ['Dar giriş', 'Baskılı teslim', 'Belirsiz hacim', 'Değişken kabul/döküm noktası'],
+    meaning: 'İş başlamadan önce daha fazla netlik gerekir; yanlış başlangıç sahada zaman ve maliyet kaybını büyütebilir.',
+  },
+]
+
+export const criticalDependencyItems = [
+  {
+    title: 'Kazı ile nakliyat bağı',
+    description: 'Kazı hızı ile kamyon çevrimi dengelenmezse sahada gerçek darboğaz çoğu zaman makinede değil malzeme akışında oluşur.',
+  },
+  {
+    title: 'Dolgu ile sıkıştırma bağı',
+    description: 'Dolgu yalnızca sahaya gelmekle tamamlanmaz; serim ve sıkıştırma ihtiyacı birlikte düşünülmezse sonraki imalatlar yavaşlar.',
+  },
+  {
+    title: 'Makine sevki ile etap başlangıcı bağı',
+    description: 'Lowbed veya ağır ekipman taşımaları doğru zamana oturmazsa yeni etap açılışı sahada domino etkisi yaratabilir.',
+  },
+  {
+    title: 'Bu iş ile diğer ekipler arasındaki bağ',
+    description: 'Altyapı, beton, kalıp veya üstyapı ekipleri bu işe bağlıysa planı sadece kendi iş akışına göre kurmak yetersiz kalır.',
+  },
+]
+
 export const mediaGalleryItems = [
   {
     type: 'image',

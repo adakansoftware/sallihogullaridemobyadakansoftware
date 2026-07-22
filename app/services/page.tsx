@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { CTASection } from '@/components/cta-section'
+import { CriticalDependenciesSection } from '@/components/critical-dependencies-section'
 import { CostDriversSection } from '@/components/cost-drivers-section'
 import { CoordinationTriggersSection } from '@/components/coordination-triggers-section'
 import { DelayCausesSection } from '@/components/delay-causes-section'
@@ -13,6 +14,7 @@ import { ScheduleScenariosSection } from '@/components/schedule-scenarios-sectio
 import { ServiceComparisonSection } from '@/components/service-comparison-section'
 import { ServiceDecisionGuide } from '@/components/service-decision-guide'
 import { ServicesSection } from '@/components/services-section'
+import { SiteComplexitySection } from '@/components/site-complexity-section'
 import { SiteFrame } from '@/components/site-frame'
 import { ScopeBoundarySection } from '@/components/scope-boundary-section'
 import { WhyUsSection } from '@/components/why-us-section'
@@ -51,8 +53,10 @@ export default async function ServicesPage() {
       <ProjectKickoffSection />
       <CostDriversSection />
       <ScheduleScenariosSection />
+      <SiteComplexitySection />
       <DelayCausesSection />
       <ScopeBoundarySection />
+      <CriticalDependenciesSection />
       <OperationsModelSection />
       <CoordinationTriggersSection />
       <RiskControlSection />
