@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { AboutSection } from '@/components/about-section'
 import { CTASection } from '@/components/cta-section'
+import { OperationsModelSection } from '@/components/operations-model-section'
 import { PageHero } from '@/components/page-hero'
 import { SiteFrame } from '@/components/site-frame'
 import { StatsSection } from '@/components/stats-section'
@@ -36,6 +37,7 @@ export default async function AboutPage() {
       />
       <StatsSection />
       <AboutSection settings={settings} />
+      <OperationsModelSection />
       <TestimonialsSection settings={settings} />
       <CTASection settings={settings} />
     </SiteFrame>

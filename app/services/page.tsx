@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { CTASection } from '@/components/cta-section'
+import { OperationsModelSection } from '@/components/operations-model-section'
 import { PageHero } from '@/components/page-hero'
+import { ServiceDecisionGuide } from '@/components/service-decision-guide'
 import { ServicesSection } from '@/components/services-section'
 import { SiteFrame } from '@/components/site-frame'
 import { WhyUsSection } from '@/components/why-us-section'
@@ -34,6 +36,8 @@ export default async function ServicesPage() {
         primaryCta={{ href: '/projects', label: 'Saha İşlerini İnceleyin' }}
       />
       <ServicesSection />
+      <ServiceDecisionGuide />
+      <OperationsModelSection />
       <WhyUsSection />
       <CTASection settings={settings} />
     </SiteFrame>

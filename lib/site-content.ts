@@ -147,6 +147,71 @@ export const collaborationPrinciples = [
 
 export const partnerSectors = ['Konut Şantiyeleri', 'Sanayi Sahaları', 'Altyapı İşleri', 'Parsel Hazırlığı', 'Yol ve Dolgu Çalışmaları']
 
+export const serviceDecisionGuides = [
+  {
+    title: 'Kazı başlıyor, saha netleşmedi',
+    summary: 'İşin kapsamı belli olsa da makine, kamyon ve günlük ilerleme temposu henüz net değilse önce kazı ve sevkiyat kurgusunu birlikte ele almak gerekir.',
+    recommended: ['Hafriyat ve Kazı İşleri', 'Ekskavatör Çalışmaları', 'Damperli Nakliyat'],
+    focus: 'Kazı sınırı, makine erişimi, yükleme noktası ve günlük kamyon çevrimi',
+  },
+  {
+    title: 'Dar alan ama hızlı ilerleme gerekiyor',
+    summary: 'Alan sınırlıysa ve kısa çevrimli saha müdahaleleri gerekiyorsa ağır kurgu yerine çevik ekipman planı daha verimli olur.',
+    recommended: ['Beko Loder Desteği', 'Damperli Nakliyat', 'Arazöz / Su Tankeri'],
+    focus: 'Manevra alanı, giriş-çıkış kolaylığı, kısa süreli yükleme ve saha düzeni',
+  },
+  {
+    title: 'Malzeme akışı işin hızını belirliyor',
+    summary: 'Sorun kazıda değil; çıkan veya gelen malzemenin ritminde ise işin omurgası nakliye ve saha kabul düzeni olur.',
+    recommended: ['Damperli Nakliyat', 'Dolgu ve Zemin Hazırlığı', 'Arazöz / Su Tankeri'],
+    focus: 'Yükleme ritmi, döküm veya kabul noktası, gün içi sefer dengesi',
+  },
+  {
+    title: 'Makine sahaya taşınacak veya yeni etap açılacak',
+    summary: 'Ekipman transferi, yeni etap başlangıcı veya şantiyeler arası kurulum varsa teslim zamanı ve güzergah uyumu kritik hale gelir.',
+    recommended: ['Lowbed Nakliyat', 'Altyapı Kazıları', 'Ekskavatör Çalışmaları'],
+    focus: 'Makine sevki, etap geçişi, teslim saati ve sahaya hazır başlangıç',
+  },
+]
+
+export const operationsModelSteps = [
+  {
+    step: '01',
+    title: 'Saha okuma',
+    description: 'Konum, erişim, zemin yapısı, yükleme noktası ve çalışma sınırı iş başlamadan önce netleştirilir.',
+  },
+  {
+    step: '02',
+    title: 'Ekipman dengesi',
+    description: 'İşin hacmine göre makine, kamyon ve destek araçları birbiriyle uyumlu olacak şekilde planlanır.',
+  },
+  {
+    step: '03',
+    title: 'Günlük akış',
+    description: 'Kazı, yükleme, sevkiyat, dolgu veya saha desteği tek bir günlük üretim akışına bağlanır.',
+  },
+  {
+    step: '04',
+    title: 'Sahada takip',
+    description: 'Değişen ihtiyaçlar büyümeden ele alınır; program ve saha gerçekliği arasındaki fark yakından takip edilir.',
+  },
+]
+
+export const servicePromises = [
+  {
+    title: 'Sadece araç değil operasyon düzeni',
+    body: 'Ekipman göndermekle yetinmeyip o ekipmanın gün içinde nasıl değer üreteceğini de planlıyoruz.',
+  },
+  {
+    title: 'Tekliften önce doğru çerçeve',
+    body: 'Fiyat konuşulmadan önce işin çerçevesini netleştirmek, sonradan yaşanacak sürprizleri azaltır.',
+  },
+  {
+    title: 'Teslim temposuna uyum',
+    body: 'Özellikle baskılı takvimlerde amaç yalnızca çalışmak değil, işin ilerleme ritmini korumaktır.',
+  },
+]
+
 export const mediaGalleryItems = [
   {
     type: 'image',
