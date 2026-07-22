@@ -212,6 +212,53 @@ export const servicePromises = [
   },
 ]
 
+export const riskControlItems = [
+  {
+    risk: 'Sahaya yanlış ekipman girmesi',
+    effect: 'İş yavaşlar, manevra zorlaşır ve gün içi verim düşer.',
+    control: 'Erişim, zemin yapısı, iş hacmi ve günlük hedefe göre ekipman dengesi iş başlamadan kurulur.',
+  },
+  {
+    risk: 'Kamyon beklemesi veya düzensiz sefer',
+    effect: 'Kazı ve yükleme ritmi bozulur, zaman kaybı artar.',
+    control: 'Yükleme süresi, döküm mesafesi ve saha çıkışı birlikte değerlendirilerek çevrim planı yapılır.',
+  },
+  {
+    risk: 'İş başladıktan sonra kapsamın değişmesi',
+    effect: 'Program sapar, ekip ve araç kullanımı verimsizleşir.',
+    control: 'Başlangıçta kritik saha bilgileri toplanır; değişken alanlar günlük koordinasyonla takip edilir.',
+  },
+  {
+    risk: 'Teslim baskısı altında dağınık ilerleme',
+    effect: 'Birçok ekip çalışsa da işin toplam ilerleme ritmi düşer.',
+    control: 'Günlük üretim akışı tek plana bağlanır ve öncelikler sahadaki sıraya göre netleştirilir.',
+  },
+]
+
+export const quoteReadinessChecklist = [
+  'Konum veya açık saha lokasyonu',
+  'Yaklaşık metraj, kazı derinliği ya da taşınacak hacim',
+  'Malzeme tipi: toprak, moloz, kum, dolgu veya karma içerik',
+  'Sahadan çıkış gerekip gerekmediği',
+  'Başlangıç tarihi ve hedeflenen iş süresi',
+  'Saha erişimi: dar alan, rampa, yoğun trafik veya etaplı çalışma bilgisi',
+]
+
+export const projectReadinessBlocks = [
+  {
+    title: 'İşe başlamadan önce',
+    description: 'Sahaya dair belirsizlikleri azaltmak için erişim, hacim, zemin ve günlük tempo birlikte değerlendirilir.',
+  },
+  {
+    title: 'İş sürerken',
+    description: 'Makine, kamyon ve destek araçları aynı akışa bağlanır; sahadaki değişiklikler büyümeden yönetilir.',
+  },
+  {
+    title: 'Teslime yaklaşırken',
+    description: 'Kalan iş hacmi ve saha öncelikleri yeniden okunarak son aşamadaki yığılma ve bekleme azaltılır.',
+  },
+]
+
 export const mediaGalleryItems = [
   {
     type: 'image',

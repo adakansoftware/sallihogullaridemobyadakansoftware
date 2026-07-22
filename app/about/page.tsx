@@ -3,6 +3,8 @@ import { AboutSection } from '@/components/about-section'
 import { CTASection } from '@/components/cta-section'
 import { OperationsModelSection } from '@/components/operations-model-section'
 import { PageHero } from '@/components/page-hero'
+import { ProjectReadinessSection } from '@/components/project-readiness-section'
+import { RiskControlSection } from '@/components/risk-control-section'
 import { SiteFrame } from '@/components/site-frame'
 import { StatsSection } from '@/components/stats-section'
 import { TestimonialsSection } from '@/components/testimonials-section'
@@ -38,6 +40,8 @@ export default async function AboutPage() {
       <StatsSection />
       <AboutSection settings={settings} />
       <OperationsModelSection />
+      <RiskControlSection />
+      <ProjectReadinessSection />
       <TestimonialsSection settings={settings} />
       <CTASection settings={settings} />
     </SiteFrame>
