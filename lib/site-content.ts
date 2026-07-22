@@ -463,6 +463,40 @@ export const criticalDependencyItems = [
   },
 ]
 
+export const falseAssumptionItems = [
+  {
+    title: '“Makine varsa iş akar” varsayımı',
+    description: 'Doğru tonaj ve doğru erişim olmadan tek başına güçlü makine seçimi verim getirmez; hatta sahayı yavaşlatabilir.',
+  },
+  {
+    title: '“Kamyon sonradan ayarlanır” varsayımı',
+    description: 'Nakliye akışı işin sonuna bırakıldığında asıl darboğaz kazıda değil bekleyen malzemede ortaya çıkar.',
+  },
+  {
+    title: '“Metrajı sahada netleştiririz” varsayımı',
+    description: 'Kabaca bile hacim tahmini yapılmadığında ekipman ve süre planı sürekli revizyona ihtiyaç duyar.',
+  },
+  {
+    title: '“Takvim baskısı sonra konuşulur” varsayımı',
+    description: 'Teslim baskısı geç paylaşıldığında planı sıkılaştırmak daha pahalı ve daha zor hale gelir.',
+  },
+]
+
+export const rapidAssessmentItems = [
+  {
+    title: 'İlk 3 dakikada bakılanlar',
+    points: ['Saha erişimi açık mı?', 'İş hacmi tahmini var mı?', 'Malzeme çıkacak mı gelecek mi?', 'Takvim baskısı var mı?'],
+  },
+  {
+    title: 'İlk 10 dakikada netleşmesi gerekenler',
+    points: ['Makine tipi', 'Kamyon ihtiyacı', 'Etap sırası', 'Bağlı ekiplerin etkisi'],
+  },
+  {
+    title: 'Netleşmezse risk büyüten alanlar',
+    points: ['Döküm/kabul noktası', 'Dar alan manevrası', 'Günlük hedef', 'Teslim önceliği'],
+  },
+]
+
 export const mediaGalleryItems = [
   {
     type: 'image',

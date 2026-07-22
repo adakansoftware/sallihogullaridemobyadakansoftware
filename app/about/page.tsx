@@ -5,11 +5,13 @@ import { CriticalDependenciesSection } from '@/components/critical-dependencies-
 import { CostDriversSection } from '@/components/cost-drivers-section'
 import { CoordinationTriggersSection } from '@/components/coordination-triggers-section'
 import { DelayCausesSection } from '@/components/delay-causes-section'
+import { FalseAssumptionsSection } from '@/components/false-assumptions-section'
 import { OperationsModelSection } from '@/components/operations-model-section'
 import { PageHero } from '@/components/page-hero'
 import { ProjectKickoffSection } from '@/components/project-kickoff-section'
 import { ProjectMaturitySection } from '@/components/project-maturity-section'
 import { ProjectReadinessSection } from '@/components/project-readiness-section'
+import { RapidAssessmentSection } from '@/components/rapid-assessment-section'
 import { RiskControlSection } from '@/components/risk-control-section'
 import { ScheduleScenariosSection } from '@/components/schedule-scenarios-section'
 import { SiteComplexitySection } from '@/components/site-complexity-section'
@@ -48,7 +50,9 @@ export default async function AboutPage() {
       />
       <StatsSection />
       <AboutSection settings={settings} />
+      <RapidAssessmentSection />
       <ProjectKickoffSection />
+      <FalseAssumptionsSection />
       <CostDriversSection />
       <ScheduleScenariosSection />
       <SiteComplexitySection />
