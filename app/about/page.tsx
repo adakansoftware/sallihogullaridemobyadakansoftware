@@ -1,12 +1,14 @@
 import type { Metadata } from 'next'
 import { AboutSection } from '@/components/about-section'
 import { CTASection } from '@/components/cta-section'
+import { ControlSignalsSection } from '@/components/control-signals-section'
 import { CriticalDependenciesSection } from '@/components/critical-dependencies-section'
 import { CostDriversSection } from '@/components/cost-drivers-section'
 import { DecisionQualitySection } from '@/components/decision-quality-section'
 import { CoordinationTriggersSection } from '@/components/coordination-triggers-section'
 import { DelayCausesSection } from '@/components/delay-causes-section'
 import { EarlyFailureSignalsSection } from '@/components/early-failure-signals-section'
+import { EndOfDayReviewSection } from '@/components/end-of-day-review-section'
 import { FalseAssumptionsSection } from '@/components/false-assumptions-section'
 import { FieldPriorityMatrixSection } from '@/components/field-priority-matrix-section'
 import { FirstDaySuccessSection } from '@/components/first-day-success-section'
@@ -74,8 +76,10 @@ export default async function AboutPage() {
       <FieldPriorityMatrixSection />
       <MobilizationReadinessSection />
       <FirstDaySuccessSection />
+      <ControlSignalsSection />
       <EarlyFailureSignalsSection />
       <RecoveryPlaybookSection />
+      <EndOfDayReviewSection />
       <DelayCausesSection />
       <ScopeBoundarySection />
       <CriticalDependenciesSection />

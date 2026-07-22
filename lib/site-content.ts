@@ -676,6 +676,40 @@ export const recoveryPlaybookItems = [
   },
 ]
 
+export const controlSignalItems = [
+  {
+    title: 'Akış sağlıklıysa',
+    points: ['Makine beklemiyor', 'Kamyon çevrimi düzenli', 'İlk öncelik net ilerliyor', 'Saha içi kararlar sade kalıyor'],
+  },
+  {
+    title: 'Akış zorlanıyorsa',
+    points: ['Araçlar sıraya giriyor', 'Günlük hedef sürekli değişiyor', 'Döküm veya kabul akışı kesiliyor', 'Bağlı ekipler beklemeye başlıyor'],
+  },
+  {
+    title: 'Anında müdahale gerektiriyorsa',
+    points: ['Darboğaz tek noktada toplanıyor', 'Yanlış araç dağılımı belirginleşiyor', 'Öncelik sırası karışıyor', 'Teslim baskısı büyüyor'],
+  },
+]
+
+export const endOfDayReviewItems = [
+  {
+    title: 'Üretim gerçekçi miydi?',
+    description: 'Gün başında hedeflenen hacim ile fiili üretim karşılaştırılır; sorun kaynakta mı tempoda mı anlaşılır.',
+  },
+  {
+    title: 'Darboğaz nerede oluştu?',
+    description: 'Makinede, kamyon çevriminde, saha erişiminde ya da kabul noktasında oluşan ana gecikme tespit edilir.',
+  },
+  {
+    title: 'Yarın aynı plan mı sürmeli?',
+    description: 'Bir sonraki gün aynı kurgu ile devam edilip edilmeyeceği, günün verisine göre yeniden değerlendirilir.',
+  },
+  {
+    title: 'Hangi karar sabitlenmeli?',
+    description: 'Saha içinde tekrar tartışılmaması gereken öncelikler, rota ve ekipman dağılımı netleştirilir.',
+  },
+]
+
 export const mediaGalleryItems = [
   {
     type: 'image',
