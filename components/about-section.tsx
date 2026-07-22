@@ -24,6 +24,23 @@ export function AboutSection({ settings }: { settings: SiteSettings }) {
               <p>
                 Müteahhitler, sanayi sahaları, parsel hazırlıkları, altyapı ekipleri ve özel şantiye ihtiyaçları için yalnızca araç gönderen değil; işin sahada düzenli ilerlemesini takip eden güvenilir bir saha çözüm ortağı olarak çalışıyoruz.
               </p>
+              <p>
+                Özellikle hafriyat ve nakliyat işlerinde yaşanan gecikmelerin büyük kısmı, iş başlamadan önce yeterince netleştirilmeyen saha detaylarından kaynaklanır.
+                Bu nedenle teklif aşamasından itibaren işin gerçek ihtiyacını anlamaya, doğru ekipman dengesini kurmaya ve uygulama sırasında iletişimi açık tutmaya odaklanıyoruz.
+              </p>
+            </div>
+
+            <div className="mt-8 grid gap-3 sm:grid-cols-2">
+              {[
+                'Temel kazısı ve parsel hazırlığı',
+                'Dolgu, tesviye ve zemin düzenleme',
+                'Damperli nakliyat ve kontrollü sevkiyat',
+                'Lowbed, arazöz ve saha destek hizmetleri',
+              ].map((item) => (
+                <div key={item} className="border border-border/40 bg-card/60 px-4 py-3 text-sm font-medium text-foreground">
+                  {item}
+                </div>
+              ))}
             </div>
 
             <div className="mt-10 grid gap-6 border-t border-border/30 pt-10 sm:grid-cols-3">

@@ -45,6 +45,9 @@ export function WhyUsSection() {
             <p className="mb-10 max-w-xl text-lg leading-relaxed text-muted-foreground">
               Kazı, dolgu ve nakliyat işlerinde makine, kamyon ve saha ekibini aynı plan içinde tutarak bekleme, karışıklık ve gereksiz sefer riskini azaltıyoruz.
             </p>
+            <p className="mb-10 max-w-2xl text-base leading-7 text-muted-foreground">
+              Sahadaki verim çoğu zaman yalnızca güçlü ekipmandan değil, doğru sırayla ilerleyen operasyondan gelir. Bu yüzden işin başlangıcında kapsamı netleştiriyor, gün içinde değişen ihtiyaçlara hızlı cevap veriyor ve işi teslim temposunu bozmayacak şekilde takip ediyoruz.
+            </p>
 
             <div className="grid gap-5 sm:grid-cols-2">
               {whyChooseUsReasons.map((reason, index) => {

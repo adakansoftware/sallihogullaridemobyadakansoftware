@@ -15,6 +15,10 @@ export function ServicesSection() {
             <h2 className="text-3xl leading-tight font-black text-foreground sm:text-4xl lg:text-5xl">
               Kazıdan sevkiyata <span className="text-primary">kontrollü saha akışı</span>
             </h2>
+            <p className="mt-6 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
+              Her iş aynı ekipmanla ve aynı tempoyla ilerlemez. Bu yüzden hizmetlerimizi sadece araç listesi olarak değil;
+              saha erişimi, zemin yapısı, günlük iş hedefi ve sevkiyat ritmine göre şekillenen operasyon başlıkları olarak ele alıyoruz.
+            </p>
           </div>
           <p className="max-w-md text-muted-foreground lg:text-right">
             Hafriyat, dolgu, damperli nakliyat, lowbed ve arazöz desteğini işin kapsamına göre planlıyor; makine, kamyon ve sevkiyat akışını sahadaki tempoya göre yönetiyoruz.

@@ -7,6 +7,9 @@ export type ServiceDetail = {
   metaDescription: string
   image: string
   highlights: string[]
+  scope: string
+  useCases: string[]
+  process: string[]
 }
 
 export const serviceDetails = services as ServiceDetail[]
