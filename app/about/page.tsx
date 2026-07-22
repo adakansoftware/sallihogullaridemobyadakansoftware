@@ -6,6 +6,7 @@ import { CostDriversSection } from '@/components/cost-drivers-section'
 import { DecisionQualitySection } from '@/components/decision-quality-section'
 import { CoordinationTriggersSection } from '@/components/coordination-triggers-section'
 import { DelayCausesSection } from '@/components/delay-causes-section'
+import { EarlyFailureSignalsSection } from '@/components/early-failure-signals-section'
 import { FalseAssumptionsSection } from '@/components/false-assumptions-section'
 import { FieldPriorityMatrixSection } from '@/components/field-priority-matrix-section'
 import { FirstDaySuccessSection } from '@/components/first-day-success-section'
@@ -19,6 +20,7 @@ import { ProjectReadinessSection } from '@/components/project-readiness-section'
 import { QuoteConfidenceSection } from '@/components/quote-confidence-section'
 import { RapidAssessmentSection } from '@/components/rapid-assessment-section'
 import { RedFlagsSection } from '@/components/red-flags-section'
+import { RecoveryPlaybookSection } from '@/components/recovery-playbook-section'
 import { RiskControlSection } from '@/components/risk-control-section'
 import { ScenarioBreakdownSection } from '@/components/scenario-breakdown-section'
 import { ScheduleScenariosSection } from '@/components/schedule-scenarios-section'
@@ -72,6 +74,8 @@ export default async function AboutPage() {
       <FieldPriorityMatrixSection />
       <MobilizationReadinessSection />
       <FirstDaySuccessSection />
+      <EarlyFailureSignalsSection />
+      <RecoveryPlaybookSection />
       <DelayCausesSection />
       <ScopeBoundarySection />
       <CriticalDependenciesSection />

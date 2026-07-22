@@ -642,6 +642,40 @@ export const scenarioBreakdownItems = [
   },
 ]
 
+export const earlyFailureSignals = [
+  {
+    title: 'İlk çevrim beklemeye düşüyorsa',
+    description: 'Makine hazır olsa bile ilk yükleme veya ilk sevkiyat akmıyorsa sorun çoğu zaman saha yerleşimi ya da akış kurgusundadır.',
+  },
+  {
+    title: 'Ekipman sahada birbirini bekliyorsa',
+    description: 'Kamyon, makine veya destek araçları aynı anda değer üretmek yerine sıraya giriyorsa plan kağıtta kalmış demektir.',
+  },
+  {
+    title: 'İlk saatlerde sürekli yön değişiyorsa',
+    description: 'Gün erken saatlerde sık sık karar değiştiriyorsa başlangıç verisi yeterince net değildir ve saha düzeltme moduna girmiştir.',
+  },
+  {
+    title: 'Öncelik sırası sahada tartışılıyorsa',
+    description: 'Hangi alanın önce biteceği sahaya bırakılmışsa bağlı ekipler ve teslim planı risk altına girer.',
+  },
+]
+
+export const recoveryPlaybookItems = [
+  {
+    title: 'Akışı yeniden merkezle',
+    steps: ['Darboğazın makinede mi nakliyede mi olduğunu ayır', 'Günlük hedefi tek hatta indir', 'İlk kritik alanı netleştir'],
+  },
+  {
+    title: 'Kaynağı yeniden dengele',
+    steps: ['Kamyon adedini veya çevrim ritmini güncelle', 'Makine sırasını saha erişimine göre revize et', 'Destek ekipmanı gerektiği yere çek'],
+  },
+  {
+    title: 'Kararı tekrar sabitle',
+    steps: ['Saha sorumlusu ile tek karar hattı kur', 'Bağlı ekip etkisini yeniden değerlendir', 'Kalan gün için sadeleştirilmiş planı sabitle'],
+  },
+]
+
 export const mediaGalleryItems = [
   {
     type: 'image',
