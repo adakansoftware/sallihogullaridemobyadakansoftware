@@ -568,6 +568,38 @@ export const decisionQualityItems = [
   },
 ]
 
+export const goNoGoSignals = [
+  {
+    title: 'Başlamaya yakın işaretler',
+    signals: ['Erişim net', 'Hacim yaklaşık belli', 'Malzeme yönü belli', 'Takvim paylaşılmış'],
+    decision: 'Mobilizasyon planı daha güvenli kurulabilir.',
+  },
+  {
+    title: 'Önce netlik isteyen işaretler',
+    signals: ['Dar alan belirsiz', 'Döküm/kabul noktası yok', 'Bağlı ekip takvimi bilinmiyor', 'Teslim baskısı muğlak'],
+    decision: 'Önce keşif veya detay netleştirme daha sağlıklı olur.',
+  },
+]
+
+export const fieldPriorityMatrix = [
+  {
+    title: 'Önce erişim',
+    reason: 'Araç ve makine sahaya doğru giremiyorsa diğer planların tamamı kağıt üzerinde kalır.',
+  },
+  {
+    title: 'Sonra hacim',
+    reason: 'Yaklaşık iş miktarı netleşmeden ekipman ve kamyon dengesi güvenli kurulamaz.',
+  },
+  {
+    title: 'Ardından akış',
+    reason: 'Malzeme çıkışı, kabulü veya etap sırası okunmadan günlük ritim doğru kurulmaz.',
+  },
+  {
+    title: 'En son sıkılaştırma',
+    reason: 'Takvim baskısı ve bağlı ekip etkisi bu temel yapı oturduktan sonra gerçekçi şekilde optimize edilir.',
+  },
+]
+
 export const mediaGalleryItems = [
   {
     type: 'image',

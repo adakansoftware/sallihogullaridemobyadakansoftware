@@ -7,6 +7,8 @@ import { DecisionQualitySection } from '@/components/decision-quality-section'
 import { CoordinationTriggersSection } from '@/components/coordination-triggers-section'
 import { DelayCausesSection } from '@/components/delay-causes-section'
 import { FalseAssumptionsSection } from '@/components/false-assumptions-section'
+import { FieldPriorityMatrixSection } from '@/components/field-priority-matrix-section'
+import { GoNoGoSection } from '@/components/go-no-go-section'
 import { MobilizationReadinessSection } from '@/components/mobilization-readiness-section'
 import { OperationsModelSection } from '@/components/operations-model-section'
 import { PageHero } from '@/components/page-hero'
@@ -56,6 +58,7 @@ export default async function AboutPage() {
       <AboutSection settings={settings} />
       <RapidAssessmentSection />
       <DecisionQualitySection />
+      <GoNoGoSection />
       <ProjectKickoffSection />
       <QuoteConfidenceSection />
       <RedFlagsSection />
@@ -63,6 +66,7 @@ export default async function AboutPage() {
       <CostDriversSection />
       <ScheduleScenariosSection />
       <SiteComplexitySection />
+      <FieldPriorityMatrixSection />
       <MobilizationReadinessSection />
       <DelayCausesSection />
       <ScopeBoundarySection />
