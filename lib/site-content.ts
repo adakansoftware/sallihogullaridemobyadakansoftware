@@ -316,6 +316,40 @@ export const projectMaturitySignals = [
   },
 ]
 
+export const kickoffQuestionGroups = [
+  {
+    title: 'Saha tanımı',
+    questions: ['İş tam olarak nerede yapılacak?', 'Giriş-çıkış genişliği nasıl?', 'Aynı anda kaç araç sahada çalışabilir?'],
+  },
+  {
+    title: 'İş hacmi',
+    questions: ['Yaklaşık metraj veya kazı hacmi nedir?', 'Çıkan ya da gelen malzeme türü nedir?', 'İş tek seferde mi etap etap mı ilerleyecek?'],
+  },
+  {
+    title: 'Takvim baskısı',
+    questions: ['Başlangıç tarihi kesin mi?', 'Günlük hedef üretim var mı?', 'Başka ekiplerin çalışması bu işe bağlı mı?'],
+  },
+]
+
+export const coordinationTriggers = [
+  {
+    trigger: 'Kazı hacmi beklenenden yüksek çıkarsa',
+    response: 'Kamyon çevrimi ve çalışma süresi yeniden dengelenir; işin ritmi bozulmadan yeni yük dağılımı kurulur.',
+  },
+  {
+    trigger: 'Saha erişimi gün içinde daralırsa',
+    response: 'Makine sırası, yükleme yönü veya daha çevik ekipman kullanımı yeniden değerlendirilir.',
+  },
+  {
+    trigger: 'Teslim tarihi öne çekilirse',
+    response: 'Öncelikli alanlar ayrıştırılır ve günlük üretim hedefi buna göre sıkılaştırılır.',
+  },
+  {
+    trigger: 'Malzeme kabul veya döküm noktası değişirse',
+    response: 'Sefer süresi, kamyon adedi ve gün içi yükleme temposu yeni rotaya göre güncellenir.',
+  },
+]
+
 export const mediaGalleryItems = [
   {
     type: 'image',
