@@ -392,6 +392,40 @@ export const scheduleScenarioItems = [
   },
 ]
 
+export const delayCauseItems = [
+  {
+    title: 'Saha erişiminin geç netleşmesi',
+    description: 'İş başlayana kadar giriş-çıkış, dönüş alanı veya araç yerleşimi düşünülmezse ilk gün verimi ciddi şekilde düşebilir.',
+  },
+  {
+    title: 'Kazı veya taşıma hacminin kabaca bile tahmin edilmemesi',
+    description: 'Metraj belirsiz kaldığında ekipman ve kamyon dengesi yüzeysel kurulur; bu da sahada sürekli düzeltme ihtiyacı doğurur.',
+  },
+  {
+    title: 'Malzeme akışının ikincil görülmesi',
+    description: 'Çıkan malzemenin nereye gideceği veya gelen malzemenin nasıl kabul edileceği net değilse asıl kayıp sevkiyatta yaşanır.',
+  },
+  {
+    title: 'Takvim baskısının geç paylaşılması',
+    description: 'Teslim tarihi baştan netleşmediğinde son aşamada gereksiz sıkışma oluşur ve operasyon daha pahalı hale gelebilir.',
+  },
+]
+
+export const scopeBoundaryItems = [
+  {
+    title: 'Planı etkileyen veri',
+    items: ['Erişim koşulu', 'Yaklaşık hacim', 'Malzeme türü', 'Başlangıç ve teslim beklentisi'],
+  },
+  {
+    title: 'Sahada yönetilen kararlar',
+    items: ['Makine-kamyon dengesi', 'Günlük üretim ritmi', 'Etap önceliği', 'Değişen saha koşuluna yanıt'],
+  },
+  {
+    title: 'Gecikmeyi büyüten eksikler',
+    items: ['Belirsiz metraj', 'Net olmayan döküm/kabul noktası', 'Dar alanın geç fark edilmesi', 'Bağlı ekip takviminin paylaşılmaması'],
+  },
+]
+
 export const mediaGalleryItems = [
   {
     type: 'image',
