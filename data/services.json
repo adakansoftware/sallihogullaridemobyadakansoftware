@@ -8,7 +8,19 @@
     "highlights": ["Temel kazısı", "Kanal açma", "Parsel temizliği", "Kontrollü sevkiyat"],
     "scope": "Kazının yalnızca çıkarılması değil, çalışma alanının hazırlanması, erişim hattının açılması, malzemenin doğru şekilde yüklenmesi ve sahadan kontrollü çıkarılması birlikte ele alınır. İşin büyüklüğüne göre ekskavatör, kamyon ve saha yönlendirmesi aynı plan içinde kurulur.",
     "useCases": ["Temel ve perde kazıları", "Parsel açma ve şantiye hazırlığı", "Kanal ve hat güzergahı kazıları"],
-    "process": ["Saha ölçüsü, kazı sınırı ve erişim değerlendirilir.", "Uygun makine ve kamyon akışı belirlenir.", "Kazı ve sevkiyat günlük iş programına göre yürütülür."]
+    "process": ["Saha ölçüsü, kazı sınırı ve erişim değerlendirilir.", "Uygun makine ve kamyon akışı belirlenir.", "Kazı ve sevkiyat günlük iş programına göre yürütülür."],
+    "planningPoints": ["Kazı derinliği ve çalışma sınırı", "Makine giriş-çıkış ve manevra alanı", "Hafriyat yükleme noktası ve kamyon çevrimi", "Döküm sahası, sevkiyat yönü ve günlük tempo"],
+    "deliverables": ["Kazı sınırının sahaya uygun netleştirilmesi", "İş hacmine göre ekskavatör ve kamyon dengesi", "Kazı ile nakliyatın aynı programa bağlanması", "Sahada bekleme ve tekrar iş riskinin azaltılması"],
+    "faq": [
+      {
+        "question": "Kazı işinde teklif için hangi bilgiler gerekir?",
+        "answer": "Konum, yaklaşık metraj, kazı derinliği, zemin tipi ve hafriyatın sahadan çıkıp çıkmayacağı gibi bilgiler başlangıç planını netleştirmek için yeterlidir."
+      },
+      {
+        "question": "Hafriyat sahadan aynı gün çıkarılabilir mi?",
+        "answer": "Bu durum döküm sahası, kamyon çevrimi ve günlük iş temposuna bağlıdır. Uygun plan kurulduğunda kazı ile sevkiyat eş zamanlı ilerletilebilir."
+      }
+    ]
   },
   {
     "slug": "ekskavator-calismalari",
@@ -19,7 +31,19 @@
     "highlights": ["Kazı ve yükleme", "Tesviye", "Zemin hazırlığı", "Saha programına uyum"],
     "scope": "Ekskavatör desteği; yalnızca makine temininden ibaret değil, yapılacak işin türüne göre bom erişimi, kova ihtiyacı, alan manevrası ve yükleme temposunun birlikte değerlendirilmesiyle planlanır. Böylece küçük alan çalışmalarından yoğun hafriyat sahalarına kadar daha verimli ilerleme sağlanır.",
     "useCases": ["Derin veya geniş hacimli kazılar", "Şantiye içi yükleme operasyonları", "Tesviye ve zemin hazırlık işleri"],
-    "process": ["İşin zemini, derinliği ve alan yapısı analiz edilir.", "Uygun tonaj ve makine tipi seçilir.", "Makine çalışması saha akışı ve sevkiyatla eş zamanlı yürütülür."]
+    "process": ["İşin zemini, derinliği ve alan yapısı analiz edilir.", "Uygun tonaj ve makine tipi seçilir.", "Makine çalışması saha akışı ve sevkiyatla eş zamanlı yürütülür."],
+    "planningPoints": ["Zemine göre tonaj ve erişim ihtiyacı", "Bom menzili ve kova kullanım tipi", "Yükleme yapılacak alanın düzeni", "Makinenin günlük çalışma ritmi ve yakıt planı"],
+    "deliverables": ["İşe uygun ekskavatör seçimi", "Dar alan veya yoğun saha için verimli kullanım planı", "Kazı, yükleme ve tesviyenin tek operasyonda ilerlemesi", "Makine verimsizliğini azaltan saha organizasyonu"],
+    "faq": [
+      {
+        "question": "Hangi ekskavatörün uygun olduğuna nasıl karar verilir?",
+        "answer": "Karar; işin derinliği, çalışma alanı, malzemenin sertliği ve yükleme temposuna göre verilir. Her sahaya aynı tonaj uygun olmaz."
+      },
+      {
+        "question": "Ekskavatör sadece kazı için mi kullanılır?",
+        "answer": "Hayır. Uygun saha koşullarında yükleme, tesviye, zemin hazırlığı ve belirli düzenleme işlerinde de kullanılabilir."
+      }
+    ]
   },
   {
     "slug": "beko-loder-destegi",
@@ -30,7 +54,19 @@
     "highlights": ["Dar alan kazıları", "Geri dolgu", "Malzeme toparlama", "Saha içi düzenleme"],
     "scope": "Beko loder hizmeti, özellikle manevra alanı sınırlı sahalarda hızlı müdahale ve çok yönlü çalışma imkanı sunar. Kazı, taşıma, düzeltme ve toparlama gibi kısa çevrimli işler tek makineyle daha pratik şekilde yürütülebilir.",
     "useCases": ["Dar sokak veya kapalı saha çalışmaları", "Geri dolgu ve çevre düzenleme", "Küçük hacimli kazı ve yükleme işleri"],
-    "process": ["Çalışma alanının giriş-çıkışı ve manevra alanı kontrol edilir.", "İşin hacmine göre günlük kullanım planı oluşturulur.", "Kazı, yükleme ve saha düzenleme aynı akışta tamamlanır."]
+    "process": ["Çalışma alanının giriş-çıkışı ve manevra alanı kontrol edilir.", "İşin hacmine göre günlük kullanım planı oluşturulur.", "Kazı, yükleme ve saha düzenleme aynı akışta tamamlanır."],
+    "planningPoints": ["Manevra alanı ve dönüş yarıçapı", "Kazı ve yükleme noktasının yakınlığı", "Gün içi çoklu görev ihtiyacı", "Hızlı giriş-çıkış gereken saha yapısı"],
+    "deliverables": ["Dar sahalarda uygulanabilir iş akışı", "Tek makineyle çok yönlü saha desteği", "Geri dolgu ve toparlama işlerinin hızlanması", "Küçük hacimli işler için kontrollü operasyon"],
+    "faq": [
+      {
+        "question": "Beko loder hangi işlerde daha avantajlıdır?",
+        "answer": "Dar alan, kısa süreli saha müdahalesi, küçük hacimli kazı ve hızlı toparlama gereken işlerde oldukça avantajlıdır."
+      },
+      {
+        "question": "Beko loder ekskavatörün yerine geçer mi?",
+        "answer": "Her zaman değil. İşin hacmi ve erişim ihtiyacı büyüdüğünde ekskavatör daha doğru çözüm olabilir; dar ve pratik işlerde beko loder öne çıkar."
+      }
+    ]
   },
   {
     "slug": "damperli-nakliyat",
@@ -41,7 +77,19 @@
     "highlights": ["Toprak ve moloz sevkiyatı", "Kum ve mıcır taşıma", "Döküm planı", "Günlük kamyon akışı"],
     "scope": "Damperli nakliyatta asıl verim; kamyon sayısı, yükleme süresi, saha çıkışı ve döküm dönüşünün dengeli kurulmasıyla sağlanır. Bu nedenle sadece araç tahsisi değil, sahadaki yükleme düzeni ve gün içi sefer temposu da birlikte yönetilir.",
     "useCases": ["Hafriyat toprağı ve moloz tahliyesi", "Dolgu malzemesi sevkiyatı", "Şantiye içi veya şantiye dışı düzenli taşıma işleri"],
-    "process": ["Yükleme noktası ve döküm güzergahı netleştirilir.", "Kamyon adedi iş hacmine göre planlanır.", "Seferler gün içi beklemeyi azaltacak ritimde yönetilir."]
+    "process": ["Yükleme noktası ve döküm güzergahı netleştirilir.", "Kamyon adedi iş hacmine göre planlanır.", "Seferler gün içi beklemeyi azaltacak ritimde yönetilir."],
+    "planningPoints": ["Malzeme tipi ve yükleme hızı", "Döküm sahasına gidiş-dönüş süresi", "Kamyon adedi ile kazı/yükleme dengesi", "Günlük iş temposuna göre sefer planı"],
+    "deliverables": ["Düzenli kamyon çevrimi", "Yükleme alanında bekleme riskinin azaltılması", "Malzeme akışının kesintisiz ilerlemesi", "İşin hacmine göre esnek nakliye kurgusu"],
+    "faq": [
+      {
+        "question": "Kamyon sayısı nasıl belirlenir?",
+        "answer": "Yükleme hızına, taşıma mesafesine, malzeme tipine ve gün içindeki hedef iş hacmine göre belirlenir."
+      },
+      {
+        "question": "Nakliyat sadece döküm için mi kullanılır?",
+        "answer": "Hayır. Hafriyat toprağı tahliyesi yanında dolgu, kum, mıcır ve farklı malzeme sevkiyatlarında da planlı damperli nakliye kullanılabilir."
+      }
+    ]
   },
   {
     "slug": "lowbed-nakliyat",
@@ -52,7 +100,19 @@
     "highlights": ["Ağır ekipman taşıma", "Güvenli yükleme", "Güzergah planı", "Zamanında teslim"],
     "scope": "Lowbed taşımacılıkta ekipmanın ağırlığı, ölçüsü, yükleme biçimi ve gideceği güzergah birlikte değerlendirilir. Amaç, iş makinesini sahaya zarar vermeden, zaman kaybı oluşturmadan ve operasyonu aksatmadan sevk etmektir.",
     "useCases": ["İş makinelerinin şantiyeler arası taşınması", "Yeni sahaya ekipman sevki", "Ağır ekipmanın planlı teslim gerektiren nakliyesi"],
-    "process": ["Makine tipi, ölçü ve sevk noktaları belirlenir.", "Yükleme güvenliği ve güzergah uygunluğu planlanır.", "Teslim saati ve saha kabulüne göre sevkiyat tamamlanır."]
+    "process": ["Makine tipi, ölçü ve sevk noktaları belirlenir.", "Yükleme güvenliği ve güzergah uygunluğu planlanır.", "Teslim saati ve saha kabulüne göre sevkiyat tamamlanır."],
+    "planningPoints": ["Makinenin ağırlığı ve ölçüsü", "Yükleme-boşaltma zemininin uygunluğu", "Güzergah üzerindeki erişim koşulları", "Teslim noktasındaki kabul zamanı"],
+    "deliverables": ["Güvenli yükleme ve sabitleme planı", "Güzergaha uygun taşıma organizasyonu", "Sahaya zamanında ve kontrollü teslim", "Makine sevkinde operasyon kaybının azaltılması"],
+    "faq": [
+      {
+        "question": "Lowbed taşımada en kritik konu nedir?",
+        "answer": "Yükleme güvenliği ile güzergah uygunluğunun birlikte değerlendirilmesidir. Sadece araç ayarlamak yeterli olmaz."
+      },
+      {
+        "question": "İş makinesi yeni sahaya tam saatinde ulaştırılabilir mi?",
+        "answer": "Teslim zamanı, güzergah ve saha kabul bilgileri baştan netleştiğinde sevkiyat buna göre programlanabilir."
+      }
+    ]
   },
   {
     "slug": "dolgu-zemin-hazirligi",
@@ -63,7 +123,19 @@
     "highlights": ["Dolgu sevkiyatı", "Serim düzeni", "Tesviye", "Sıkıştırma planı"],
     "scope": "Zemin hazırlığında sadece malzemenin sahaya gelmesi yeterli değildir; hangi noktaya ne kadar malzeme serileceği, tesviyenin nasıl yapılacağı ve sıkıştırma ihtiyacının nasıl karşılanacağı da aynı anda planlanmalıdır. Bu yaklaşım sonraki imalatların daha sağlıklı başlamasına destek olur.",
     "useCases": ["Yol alt yapısı ve platform hazırlığı", "Parsel ve saha kot düzenleme", "Şantiye başlangıç zemin iyileştirmeleri"],
-    "process": ["Zemin durumu ve ihtiyaç duyulan dolgu tipi belirlenir.", "Malzeme sevki ve serim sırası planlanır.", "Tesviye ve sıkıştırma ihtiyacına göre uygulama tamamlanır."]
+    "process": ["Zemin durumu ve ihtiyaç duyulan dolgu tipi belirlenir.", "Malzeme sevki ve serim sırası planlanır.", "Tesviye ve sıkıştırma ihtiyacına göre uygulama tamamlanır."],
+    "planningPoints": ["Dolgu malzemesinin tipi ve hacmi", "Serim yapılacak alanların öncelik sırası", "Tesviye ekipmanı ve sıkıştırma ihtiyacı", "Sonraki imalatlara uygun kot düzeni"],
+    "deliverables": ["Dengeli malzeme sevki ve serim planı", "Zemin hazırlığını geciktirmeyen saha akışı", "Kot ve tesviye düzeninin netleştirilmesi", "Sonraki iş kalemleri için daha hazır saha"],
+    "faq": [
+      {
+        "question": "Dolgu işinde sadece nakliye yeterli olur mu?",
+        "answer": "Çoğu zaman hayır. Serim sırası, tesviye ve sıkıştırma ihtiyacı da birlikte planlanmazsa saha istediğiniz hıza ulaşmaz."
+      },
+      {
+        "question": "Zemin hazırlığı hangi aşamada önem kazanır?",
+        "answer": "Yol, altyapı, platform ve parsel düzenleme gibi işlerde sonraki imalatların sağlıklı başlaması için en kritik başlangıç adımlarından biridir."
+      }
+    ]
   },
   {
     "slug": "arazoz-su-tankeri",
@@ -74,7 +146,19 @@
     "highlights": ["Şantiye içi sulama", "Toz kontrolü", "Yol temizliği", "Saha desteği"],
     "scope": "Arazöz desteği, özellikle yoğun araç trafiği olan sahalarda toz kontrolü, zemin nemlendirme ve yol temizliğini düzenli hale getirir. Gün içindeki saha temposuna göre periyotlu veya ihtiyaç bazlı kullanım planı oluşturulabilir.",
     "useCases": ["Toz bastırma gereken şantiyeler", "Saha içi yol temizliği", "Geçici sulama ve günlük destek işleri"],
-    "process": ["Sahanın sulama veya temizlik ihtiyacı netleştirilir.", "Günlük kullanım sıklığı ve rota planlanır.", "Arazöz desteği iş güvenliği ve saha düzenine uygun yürütülür."]
+    "process": ["Sahanın sulama veya temizlik ihtiyacı netleştirilir.", "Günlük kullanım sıklığı ve rota planlanır.", "Arazöz desteği iş güvenliği ve saha düzenine uygun yürütülür."],
+    "planningPoints": ["Sulama veya temizlik ihtiyacının yoğunluğu", "Günlük saha trafiği ve toz seviyesi", "Rota, periyot ve zamanlama planı", "Diğer saha operasyonlarıyla çakışmayan kullanım düzeni"],
+    "deliverables": ["Toz kontrolünü destekleyen düzenli kullanım", "Saha içi yol ve çalışma alanı temizliği", "Günlük tempoya uyumlu destek hizmeti", "Şantiye düzenini koruyan uygulama planı"],
+    "faq": [
+      {
+        "question": "Arazöz hizmeti sürekli mi, ihtiyaca göre mi verilir?",
+        "answer": "Sahanın yoğunluğuna göre her iki şekilde de planlanabilir. Bazı alanlarda periyotlu, bazı işlerde ise ihtiyaç bazlı kullanım daha doğru olur."
+      },
+      {
+        "question": "Arazöz sadece sulama için mi kullanılır?",
+        "answer": "Hayır. Toz bastırma, yol temizliği ve saha düzenine destek sağlayan farklı kullanım senaryoları vardır."
+      }
+    ]
   },
   {
     "slug": "altyapi-kazilari",
@@ -85,6 +169,18 @@
     "highlights": ["Hat ve kanal kazıları", "Altyapı geçişleri", "Zemin değerlendirmesi", "Günlük saha koordinasyonu"],
     "scope": "Altyapı kazılarında düzenli ilerleme için kazı hattı, çalışma genişliği, geçiş noktaları ve günlük ilerleme temposu baştan tanımlanır. Özellikle hat, boru ve kanal çalışmalarında doğru makine seçimi ile sevkiyatın uyumlu kurulması işin sürekliliğini güçlendirir.",
     "useCases": ["Boru ve hat açma çalışmaları", "Kanal ve geçiş altyapı kazıları", "Şantiye içi düzenli etap kazıları"],
-    "process": ["Hat güzergahı ve kazı derinliği değerlendirilir.", "Makine erişimi ve günlük ilerleme planı oluşturulur.", "Kazı, yükleme ve saha güvenliği eş zamanlı takip edilir."]
+    "process": ["Hat güzergahı ve kazı derinliği değerlendirilir.", "Makine erişimi ve günlük ilerleme planı oluşturulur.", "Kazı, yükleme ve saha güvenliği eş zamanlı takip edilir."],
+    "planningPoints": ["Hat güzergahının saha erişimine etkisi", "Kazı derinliği ve genişlik ihtiyacı", "Aşamalı ilerleme gereken etap planı", "Çıkan malzemenin sevki veya stok düzeni"],
+    "deliverables": ["Düzenli etap ilerleyişi", "Makine ve nakliyat uyumunun kurulması", "Geçiş noktalarında kontrollü çalışma", "Altyapı işlerinde günlük üretimi destekleyen plan"],
+    "faq": [
+      {
+        "question": "Altyapı kazılarında neden etap planı önemlidir?",
+        "answer": "Hat boyunca düzensiz ilerleme hem makine verimini düşürür hem de saha akışını bozar. Etap planı işleri daha kontrollü hale getirir."
+      },
+      {
+        "question": "Kazı ile malzeme sevki aynı anda yönetilebilir mi?",
+        "answer": "Evet. Çalışma alanı ve günlük tempo uygunsa, kazı ve sevkiyat aynı plan içinde birlikte yürütülebilir."
+      }
+    ]
   }
 ]

@@ -10,6 +10,12 @@ export type ServiceDetail = {
   scope: string
   useCases: string[]
   process: string[]
+  planningPoints: string[]
+  deliverables: string[]
+  faq: Array<{
+    question: string
+    answer: string
+  }>
 }
 
 export const serviceDetails = services as ServiceDetail[]
