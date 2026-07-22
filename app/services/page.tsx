@@ -2,8 +2,10 @@ import type { Metadata } from 'next'
 import { CTASection } from '@/components/cta-section'
 import { OperationsModelSection } from '@/components/operations-model-section'
 import { PageHero } from '@/components/page-hero'
+import { ProjectMaturitySection } from '@/components/project-maturity-section'
 import { ProjectReadinessSection } from '@/components/project-readiness-section'
 import { RiskControlSection } from '@/components/risk-control-section'
+import { ServiceComparisonSection } from '@/components/service-comparison-section'
 import { ServiceDecisionGuide } from '@/components/service-decision-guide'
 import { ServicesSection } from '@/components/services-section'
 import { SiteFrame } from '@/components/site-frame'
@@ -39,9 +41,11 @@ export default async function ServicesPage() {
       />
       <ServicesSection />
       <ServiceDecisionGuide />
+      <ServiceComparisonSection />
       <OperationsModelSection />
       <RiskControlSection />
       <ProjectReadinessSection />
+      <ProjectMaturitySection />
       <WhyUsSection />
       <CTASection settings={settings} />
     </SiteFrame>

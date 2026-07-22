@@ -259,6 +259,63 @@ export const projectReadinessBlocks = [
   },
 ]
 
+export const serviceComparisonRows = [
+  {
+    service: 'Hafriyat ve Kazı İşleri',
+    bestFor: 'Temel başlangıcı, saha açılışı ve hacimli kazı düzeni',
+    siteNeed: 'Kazı sınırı ve sevkiyat birlikte yönetilecekse',
+    planningWeight: 'Yüksek',
+  },
+  {
+    service: 'Ekskavatör Çalışmaları',
+    bestFor: 'Derinlik, erişim ve yükleme gücünün kritik olduğu işler',
+    siteNeed: 'Makine gücü ve tonaj seçimi belirleyiciyse',
+    planningWeight: 'Yüksek',
+  },
+  {
+    service: 'Beko Loder Desteği',
+    bestFor: 'Dar alan, kısa çevrim ve pratik saha müdahaleleri',
+    siteNeed: 'Manevra kolaylığı ağır güçten daha önemliyse',
+    planningWeight: 'Orta',
+  },
+  {
+    service: 'Damperli Nakliyat',
+    bestFor: 'Malzeme çıkışı veya kabul temposu işin hızını belirliyorsa',
+    siteNeed: 'Günlük sefer ritmi ve saha çevrimi kritikse',
+    planningWeight: 'Yüksek',
+  },
+  {
+    service: 'Lowbed Nakliyat',
+    bestFor: 'Makine transferi ve etap geçişi gereken sahalar',
+    siteNeed: 'Teslim saati ve güzergah uyumu önemliyse',
+    planningWeight: 'Orta',
+  },
+  {
+    service: 'Dolgu ve Zemin Hazırlığı',
+    bestFor: 'Sonraki imalatların başlaması için saha kotu hazırlanacaksa',
+    siteNeed: 'Serim, tesviye ve sıkıştırma birlikte düşünülüyorsa',
+    planningWeight: 'Yüksek',
+  },
+]
+
+export const projectMaturitySignals = [
+  {
+    title: 'Hazır olmayan proje sinyali',
+    indicators: ['Metraj belirsiz', 'Saha erişimi konuşulmamış', 'Malzeme tipi net değil'],
+    outcome: 'Teklif yüzeyde kalır ve iş başladıktan sonra kapsam kayması yaşanabilir.',
+  },
+  {
+    title: 'Hazırlanan proje sinyali',
+    indicators: ['Kazı veya taşıma hacmi tahmin edilmiş', 'Başlangıç takvimi belirlenmiş', 'Saha giriş-çıkışı düşünülmüş'],
+    outcome: 'Doğru ekipman eşleşmesi ve daha gerçekçi çalışma planı kurulabilir.',
+  },
+  {
+    title: 'Olgun proje sinyali',
+    indicators: ['Günlük hedef tanımlı', 'Sevkiyat veya kabul noktası belli', 'Etap sırası net'],
+    outcome: 'İşin toplam ritmi korunur, saha değişse bile plan daha kontrollü güncellenir.',
+  },
+]
+
 export const mediaGalleryItems = [
   {
     type: 'image',
