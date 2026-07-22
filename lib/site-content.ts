@@ -350,6 +350,48 @@ export const coordinationTriggers = [
   },
 ]
 
+export const costDriverItems = [
+  {
+    title: 'Saha erişimi ve manevra alanı',
+    detail: 'Dar giriş, rampa, yoğun trafik veya kısıtlı dönüş alanı; ekipman seçimini ve günlük üretim hızını doğrudan etkiler.',
+  },
+  {
+    title: 'Kazı veya taşıma hacmi',
+    detail: 'Toplam iş miktarı yalnızca süreyi değil, makine-kamyon dengesini ve gün içi kaynak dağılımını da belirler.',
+  },
+  {
+    title: 'Malzeme tipi ve işleme biçimi',
+    detail: 'Toprak, moloz, dolgu veya karma içerik; yükleme hızını, sevkiyat tipini ve saha akışını farklılaştırır.',
+  },
+  {
+    title: 'Sevkiyat mesafesi ve kabul noktası',
+    detail: 'Döküm veya malzeme kabul alanının konumu, kamyon çevrim süresini ve toplam operasyon ritmini belirler.',
+  },
+  {
+    title: 'Takvim baskısı ve etap sırası',
+    detail: 'Hızlı başlangıç, kısa teslim süresi veya diğer ekiplerin bu işe bağlı olması; planın daha sıkı kurulmasını gerektirir.',
+  },
+]
+
+export const scheduleScenarioItems = [
+  {
+    title: 'Rahat takvimli iş',
+    description: 'İşin süresi daha esnekse ekipman dengesi verim odaklı kurulur; maliyet ve ritim birlikte optimize edilir.',
+  },
+  {
+    title: 'Baskılı teslim takvimi',
+    description: 'Teslim tarihi net ve yakınsa günlük hedefler sertleşir; öncelikli alanlar ayrıştırılarak daha disiplinli saha akışı kurulur.',
+  },
+  {
+    title: 'Etaplı ilerleyen proje',
+    description: 'Birden çok bölüm halinde ilerleyen işlerde her etap için ayrı erişim, sevkiyat ve ekipman planı tanımlanır.',
+  },
+  {
+    title: 'Diğer ekiplerle bağlı çalışan saha',
+    description: 'Altyapı, beton, kalıp veya üstyapı ekipleri bu işe bağlıysa plan yalnızca kendi işimize göre değil toplam zincire göre yapılır.',
+  },
+]
+
 export const mediaGalleryItems = [
   {
     type: 'image',
