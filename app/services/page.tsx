@@ -7,6 +7,7 @@ import { CoordinationTriggersSection } from '@/components/coordination-triggers-
 import { DelayCausesSection } from '@/components/delay-causes-section'
 import { FalseAssumptionsSection } from '@/components/false-assumptions-section'
 import { FieldPriorityMatrixSection } from '@/components/field-priority-matrix-section'
+import { FirstDaySuccessSection } from '@/components/first-day-success-section'
 import { GoNoGoSection } from '@/components/go-no-go-section'
 import { MobilizationReadinessSection } from '@/components/mobilization-readiness-section'
 import { OperationsModelSection } from '@/components/operations-model-section'
@@ -18,6 +19,7 @@ import { QuoteConfidenceSection } from '@/components/quote-confidence-section'
 import { RapidAssessmentSection } from '@/components/rapid-assessment-section'
 import { RedFlagsSection } from '@/components/red-flags-section'
 import { RiskControlSection } from '@/components/risk-control-section'
+import { ScenarioBreakdownSection } from '@/components/scenario-breakdown-section'
 import { ScheduleScenariosSection } from '@/components/schedule-scenarios-section'
 import { ServiceComparisonSection } from '@/components/service-comparison-section'
 import { ServiceDecisionGuide } from '@/components/service-decision-guide'
@@ -65,11 +67,13 @@ export default async function ServicesPage() {
       <QuoteConfidenceSection />
       <RedFlagsSection />
       <FalseAssumptionsSection />
+      <ScenarioBreakdownSection />
       <CostDriversSection />
       <ScheduleScenariosSection />
       <SiteComplexitySection />
       <FieldPriorityMatrixSection />
       <MobilizationReadinessSection />
+      <FirstDaySuccessSection />
       <DelayCausesSection />
       <ScopeBoundarySection />
       <CriticalDependenciesSection />

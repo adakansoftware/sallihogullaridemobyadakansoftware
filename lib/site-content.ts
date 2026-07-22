@@ -600,6 +600,48 @@ export const fieldPriorityMatrix = [
   },
 ]
 
+export const firstDaySuccessItems = [
+  {
+    title: 'Doğru giriş ve yerleşim',
+    description: 'Makine, kamyon ve destek araçları sahaya doğru sırayla ve doğru konumda girmezse günün ilk saatleri kayıp üretir.',
+  },
+  {
+    title: 'Beklemesiz ilk çevrim',
+    description: 'İlk kazı, ilk yükleme ve ilk sevkiyat çevrimi akıcı kurulursa günün geri kalan temposu daha sağlıklı oturur.',
+  },
+  {
+    title: 'İlk saatlerde net iletişim',
+    description: 'Saha sorumlusu, makine operatörü ve sevkiyat yönü aynı hatta buluşmazsa küçük aksaklıklar gün içine yayılır.',
+  },
+  {
+    title: 'Değişken alanların erken teşhisi',
+    description: 'Dar alan, zayıf zemin, kabul gecikmesi veya beklenmeyen hacim gibi başlıklar ilk günün başında fark edilirse etkisi küçülür.',
+  },
+]
+
+export const scenarioBreakdownItems = [
+  {
+    title: 'Kazı ağırlıklı senaryo',
+    summary: 'Makine gücü ve yükleme temposu öne çıkar.',
+    focus: ['Makine erişimi', 'Kamyon çevrimi', 'Kazı sınırı', 'Günlük hacim'],
+  },
+  {
+    title: 'Nakliyat ağırlıklı senaryo',
+    summary: 'Asıl kritik nokta malzeme akışının kesintisiz işlemesidir.',
+    focus: ['Döküm/kabul noktası', 'Sefer süresi', 'Kamyon adedi', 'Yükleme ritmi'],
+  },
+  {
+    title: 'Hazırlık ve dolgu senaryosu',
+    summary: 'Serim, tesviye ve sonraki imalatlara zemin hazırlığı belirleyici olur.',
+    focus: ['Dolgu tipi', 'Serim sırası', 'Tesviye', 'Sıkıştırma ihtiyacı'],
+  },
+  {
+    title: 'Etap geçişli senaryo',
+    summary: 'Bir alanın bitişi diğer alanın başlangıcını doğrudan etkiler.',
+    focus: ['Etap sırası', 'Makine sevki', 'Bağlı ekipler', 'Teslim önceliği'],
+  },
+]
+
 export const mediaGalleryItems = [
   {
     type: 'image',
