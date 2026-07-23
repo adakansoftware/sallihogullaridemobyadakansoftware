@@ -24,6 +24,18 @@ async function run() {
   const { getClientIp } = await import('../lib/client-ip.ts')
   const { isCleanPublicPathUrl, isPathInside } = await import('../lib/path-security.ts')
 
+  const nextConfig = await import('../next.config.mjs')
+  const configuredHeaders = await nextConfig.default.headers()
+  const globalSecurityHeaders = configuredHeaders.find((entry) => entry.source === '/:path*')?.headers || []
+  const adminSecurityHeaders = configuredHeaders.find((entry) => entry.source === '/admin/:path*')?.headers || []
+  const apiSecurityHeaders = configuredHeaders.find((entry) => entry.source === '/api/:path*')?.headers || []
+  const csp = globalSecurityHeaders.find((entry) => entry.key === 'Content-Security-Policy')?.value || ''
+
+  assert.match(csp, /script-src-attr 'none'/)
+  assert.equal(adminSecurityHeaders.find((entry) => entry.key === 'Cache-Control')?.value, 'private, no-store, max-age=0')
+  assert.equal(adminSecurityHeaders.find((entry) => entry.key === 'X-Robots-Tag')?.value, 'noindex, nofollow, noarchive')
+  assert.equal(apiSecurityHeaders.find((entry) => entry.key === 'Cache-Control')?.value, 'no-store, max-age=0')
+
   assert.equal(createSlug('Demo Metro Projesi'), 'demo-metro-projesi')
   assert.equal(createSlug('  test   proje ###  '), 'test-proje')
 
