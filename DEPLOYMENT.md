@@ -14,6 +14,7 @@
 - Stable origin configuration through `APP_ORIGIN` and `NEXT_PUBLIC_SITE_URL`
 - If you use hashed admin credentials, provide `ADMIN_PASSWORD_HASH`; otherwise provide `ADMIN_PASSWORD`
 - The current defaults are `CONTENT_STORE=file` and `RATE_LIMIT_STORE=memory`
+- For multi-instance PostgreSQL deployments, set both `CONTENT_STORE=postgres` and `RATE_LIMIT_STORE=postgres`
 
 ## Recommended Release Flow
 
@@ -21,13 +22,14 @@
 2. If using file mode, restore or attach persisted `data/` and any curated `public/images/` assets.
 3. If using Postgres mode, run `npm run db:init` once against the target database.
 4. If migrating existing JSON content, run `npm run db:import:file-data` before switching production traffic.
-5. Run `npm run test`.
-6. Run `npm run lint`.
-7. Run `npm run build`.
-8. Deploy the application.
-9. Verify `/api/health`.
-10. Verify admin login and one sample content update.
-11. Confirm contact form submission and one admin-side project/media update.
+5. For shared rate limiting, set `RATE_LIMIT_STORE=postgres` after `npm run db:init` has created `rate_limit_buckets`.
+6. Run `npm run test`.
+7. Run `npm run lint`.
+8. Run `npm run build`.
+9. Deploy the application.
+10. Verify `/api/health`.
+11. Verify admin login and one sample content update.
+12. Confirm contact form submission and one admin-side project/media update.
 
 ## Backup Guidance
 

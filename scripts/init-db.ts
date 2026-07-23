@@ -61,10 +61,20 @@ async function main() {
         )
       `)
 
+      await client.query(`
+        CREATE TABLE IF NOT EXISTS rate_limit_buckets (
+          bucket_key TEXT PRIMARY KEY,
+          count INTEGER NOT NULL CHECK (count >= 0),
+          reset_at TIMESTAMPTZ NOT NULL,
+          updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        )
+      `)
+
       await client.query(`CREATE INDEX IF NOT EXISTS projects_status_idx ON projects(status)`)
       await client.query(`CREATE INDEX IF NOT EXISTS projects_featured_idx ON projects(featured)`)
       await client.query(`CREATE INDEX IF NOT EXISTS messages_created_at_idx ON messages(created_at DESC)`)
       await client.query(`CREATE INDEX IF NOT EXISTS messages_is_read_idx ON messages(is_read)`)
+      await client.query(`CREATE INDEX IF NOT EXISTS rate_limit_buckets_reset_at_idx ON rate_limit_buckets(reset_at)`)
     })
 
     console.log('PostgreSQL schema is ready.')

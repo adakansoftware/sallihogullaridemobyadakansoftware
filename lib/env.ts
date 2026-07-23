@@ -6,7 +6,7 @@ const envSchema = z
   .object({
     NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
     CONTENT_STORE: z.enum(['file', 'postgres']).default('file'),
-    RATE_LIMIT_STORE: z.enum(['memory']).default('memory'),
+    RATE_LIMIT_STORE: z.enum(['memory', 'postgres']).default('memory'),
     DATABASE_URL: z.string().trim().url('DATABASE_URL geçerli bir PostgreSQL bağlantı adresi olmalıdır.').optional(),
     ADMIN_EMAIL: z.string().trim().email('ADMIN_EMAIL geçerli bir e-posta olmalıdır.'),
     ADMIN_PASSWORD: z.string().min(12, 'ADMIN_PASSWORD en az 12 karakter olmalıdır.').optional(),
@@ -51,6 +51,14 @@ const envSchema = z
         code: z.ZodIssueCode.custom,
         message: 'CONTENT_STORE=postgres için DATABASE_URL ayarlanmalıdır.',
         path: ['DATABASE_URL'],
+      })
+    }
+
+    if (value.RATE_LIMIT_STORE === 'postgres' && value.CONTENT_STORE !== 'postgres') {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'RATE_LIMIT_STORE=postgres requires CONTENT_STORE=postgres.',
+        path: ['RATE_LIMIT_STORE'],
       })
     }
   })

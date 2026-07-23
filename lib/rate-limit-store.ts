@@ -1,3 +1,5 @@
+import { env } from '@/lib/env'
+
 type Bucket = {
   count: number
   resetAt: number
@@ -30,8 +32,6 @@ class MemoryRateLimitStore implements RateLimitStore {
   }
 }
 
-const rateLimitStoreDriver = 'memory' as const
-
 declare global {
   var __saliRateLimitStore: RateLimitStore | undefined
 }
@@ -45,5 +45,5 @@ export function getRateLimitStore() {
 }
 
 export function getRateLimitStoreDriver() {
-  return rateLimitStoreDriver
+  return env.RATE_LIMIT_STORE
 }

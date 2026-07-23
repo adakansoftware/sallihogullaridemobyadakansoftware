@@ -49,20 +49,13 @@ This keeps the current application model simple and avoids over-engineering for 
 
 ### Phase 3: Shared Rate Limiting
 
-Replace the in-memory rate limit store with a shared backend.
+PostgreSQL deployments can use the built-in shared rate limiter now:
 
-Recommended options:
+1. Set `CONTENT_STORE=postgres`
+2. Set `RATE_LIMIT_STORE=postgres`
+3. Run `npm run db:init` to create `rate_limit_buckets`
 
-- Upstash Redis
-- Redis Cloud
-- another low-latency shared KV or Redis-compatible service
-
-Implementation steps:
-
-1. Keep `lib/rate-limit-store.ts` as the boundary
-2. Add a Redis-backed store implementation
-3. Switch store selection by `RATE_LIMIT_STORE`
-4. Preserve existing limit keys and windows to avoid behavior drift
+The database upsert is atomic, so login and contact limits are shared across application instances. Redis/KV remains a suitable future option for much higher request volumes.
 
 ### Phase 4: Managed Media Uploads
 
@@ -90,6 +83,6 @@ Before scaling out, also add:
 ### Current Honest Limitations
 
 - File mode is not safe for horizontally scaled production by itself
-- Memory rate limiting is not shared across instances
+- Memory rate limiting is not shared across instances; use `RATE_LIMIT_STORE=postgres` with PostgreSQL deployments
 - Upload API is intentionally disabled
 - Health output warns when production still uses file mode or memory-only rate limiting
