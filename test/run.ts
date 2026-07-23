@@ -11,6 +11,7 @@ async function run() {
   process.env.NEXT_PUBLIC_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com'
 
   const { normalizeAdminNextTarget } = await import('../lib/admin-redirect.ts')
+  const { getAdminCookieName } = await import('../lib/auth-shared.ts')
   const { readJsonFileWithBackup, updateJsonFileAtomic } = await import('../lib/file-storage.ts')
   const { getComparableOrigin, resolveAllowedOrigin } = await import('../lib/origin.ts')
   const { hashPasswordWithScrypt, isValidPasswordHashFormat, verifyPasswordAgainstHash } = await import('../lib/password-hash.ts')
@@ -58,6 +59,8 @@ async function run() {
   assert.equal(normalizeAdminNextTarget('//evil.example.com/admin'), '/admin')
   assert.equal(normalizeAdminNextTarget('/admin/%2f%2fevil.example.com'), '/admin')
   assert.equal(normalizeAdminNextTarget('/admin\r\nLocation: https://evil.example.com'), '/admin')
+  assert.equal(getAdminCookieName('production'), '__Host-admin_session')
+  assert.equal(getAdminCookieName('development'), 'admin_session')
   assert.equal(isValidSignedAdminSessionToken(undefined, process.env.ADMIN_SESSION_SECRET), false)
   assert.equal(isValidSignedAdminSessionToken('invalid.token.extra', process.env.ADMIN_SESSION_SECRET), false)
   assert.equal(isValidSignedAdminSessionToken('eyJmb28iOiJiYXIifQ.invalid', process.env.ADMIN_SESSION_SECRET), false)
