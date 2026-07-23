@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { ZodError } from 'zod'
 import { ApiError } from '@/lib/api-error'
+import { readRequestTextWithinLimit } from '@/lib/request-body-core'
+
 export { getClientIp } from '@/lib/client-ip'
 
 export function jsonOk<T>(data: T, init?: ResponseInit) {
@@ -26,15 +28,17 @@ export function jsonError(status: number, message: string, init?: ResponseInit) 
 export async function readJson<T>(request: Request, parser: { parse: (value: unknown) => T }, maxBytes?: number): Promise<T> {
   const contentType = request.headers.get('content-type') || ''
   if (!contentType.toLowerCase().includes('application/json')) {
-    throw new ApiError(415, 'İstek içeriği JSON olmalıdır.')
+    throw new ApiError(415, 'Istek icerigi JSON olmali.')
   }
 
-  const rawBody = await request.text().catch(() => {
-    throw new ApiError(400, 'Geçersiz istek verisi.')
-  })
-
-  if (typeof maxBytes === 'number' && Buffer.byteLength(rawBody, 'utf8') > maxBytes) {
-    throw new ApiError(413, 'İstek boyutu sınırı aşıldı.')
+  let rawBody: string
+  try {
+    rawBody = await readRequestTextWithinLimit(request, maxBytes)
+  } catch (error) {
+    if (error instanceof RangeError) {
+      throw new ApiError(413, 'Istek boyutu siniri asildi.')
+    }
+    throw new ApiError(400, 'Gecersiz istek verisi.')
   }
 
   const body = JSON.parse(rawBody || 'null')
@@ -43,10 +47,10 @@ export async function readJson<T>(request: Request, parser: { parse: (value: unk
     return parser.parse(body)
   } catch (error) {
     if (error instanceof SyntaxError) {
-      throw new ApiError(400, 'Geçersiz istek verisi.')
+      throw new ApiError(400, 'Gecersiz istek verisi.')
     }
     if (error instanceof ZodError) {
-      throw new ApiError(400, error.issues[0]?.message || 'Girilen veriler geçersiz.')
+      throw new ApiError(400, error.issues[0]?.message || 'Girilen veriler gecersiz.')
     }
     throw error
   }
@@ -58,7 +62,7 @@ export function withErrorHandling(handler: () => Promise<NextResponse>) {
       return jsonError(error.status, error.exposeMessage)
     }
 
-    return jsonError(500, 'İşlem şu anda tamamlanamadı.')
+    return jsonError(500, 'Islem su anda tamamlanamadi.')
   })
 }
 

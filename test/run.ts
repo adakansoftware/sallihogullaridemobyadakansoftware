@@ -23,6 +23,7 @@ async function run() {
   } = await import('../lib/request-guards-core.ts')
   const { getClientIp } = await import('../lib/client-ip.ts')
   const { anonymizeAuditIp } = await import('../lib/audit-core.ts')
+  const { readRequestTextWithinLimit } = await import('../lib/request-body-core.ts')
   const { isCleanPublicPathUrl, isPathInside } = await import('../lib/path-security.ts')
 
   const nextConfig = await import('../next.config.mjs')
@@ -181,6 +182,31 @@ async function run() {
   assert.equal(anonymizeAuditIp('203.0.113.24', process.env.ADMIN_SESSION_SECRET).length, 20)
   assert.notEqual(anonymizeAuditIp('203.0.113.24', process.env.ADMIN_SESSION_SECRET), '203.0.113.24')
   assert.equal(anonymizeAuditIp('unknown', process.env.ADMIN_SESSION_SECRET), undefined)
+  const chunkedBody = new ReadableStream<Uint8Array>({
+    start(controller) {
+      controller.enqueue(new TextEncoder().encode('{"name":"'))
+      controller.enqueue(new TextEncoder().encode('example"}'))
+      controller.close()
+    },
+  })
+  const chunkedRequest = new Request('https://example.com/api/contact', {
+    method: 'POST',
+    body: chunkedBody,
+    duplex: 'half',
+  })
+  assert.equal(await readRequestTextWithinLimit(chunkedRequest, 64), '{"name":"example"}')
+
+  const oversizedRequest = new Request('https://example.com/api/contact', {
+    method: 'POST',
+    body: new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode('x'.repeat(65)))
+        controller.close()
+      },
+    }),
+    duplex: 'half',
+  })
+  await assert.rejects(() => readRequestTextWithinLimit(oversizedRequest, 64), RangeError)
   assert.equal(
     isRequestBodyWithinLimit(
       new Request('https://example.com/api/messages', {
