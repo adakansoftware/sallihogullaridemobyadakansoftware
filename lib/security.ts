@@ -1,7 +1,7 @@
 import { createHash } from 'crypto'
 import { isAdminAuthenticated } from '@/lib/auth'
 import { ApiError } from '@/lib/api-error'
-import { getClientIp } from '@/lib/http'
+import { getClientIp } from '@/lib/client-ip'
 import { env } from '@/lib/env'
 import { resolveAllowedOrigin } from '@/lib/origin'
 import { assertTrustedOriginHeaders } from '@/lib/request-guards'
@@ -18,10 +18,10 @@ function getAllowedOrigin(request: Request) {
 
 function buildRateLimitIdentity(request: Request) {
   const ip = getClientIp(request)
-  const userAgent = request.headers.get('user-agent')?.slice(0, 160) || 'unknown'
   return {
     ip,
-    key: `${ip}:${createHash('sha256').update(userAgent).digest('hex').slice(0, 16)}`,
+    // User-Agent is attacker-controlled and rotating it must not reset a limit.
+    key: ip,
   }
 }
 

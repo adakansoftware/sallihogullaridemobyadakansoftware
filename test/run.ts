@@ -21,6 +21,7 @@ async function run() {
     isRequestBodyWithinLimit,
     isTrustedOriginRequest,
   } = await import('../lib/request-guards-core.ts')
+  const { getClientIp } = await import('../lib/client-ip.ts')
   const { isCleanPublicPathUrl, isPathInside } = await import('../lib/path-security.ts')
 
   assert.equal(createSlug('Demo Metro Projesi'), 'demo-metro-projesi')
@@ -143,6 +144,27 @@ async function run() {
     ),
     false,
   )
+
+  assert.equal(
+    getClientIp(
+      new Request('https://example.com/api/contact', {
+        headers: {
+          'x-vercel-forwarded-for': '203.0.113.24',
+          'x-forwarded-for': '198.51.100.12',
+        },
+      }),
+    ),
+    '203.0.113.24',
+  )
+  assert.equal(
+    getClientIp(
+      new Request('https://example.com/api/contact', {
+        headers: { 'x-forwarded-for': '198.51.100.12, 10.0.0.1' },
+      }),
+    ),
+    '198.51.100.12',
+  )
+  assert.equal(getClientIp(new Request('https://example.com/api/contact')), 'unknown')
   assert.equal(
     isRequestBodyWithinLimit(
       new Request('https://example.com/api/messages', {

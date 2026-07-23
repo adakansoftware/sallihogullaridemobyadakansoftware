@@ -1,9 +1,14 @@
 import { NextResponse } from 'next/server'
 import { ZodError } from 'zod'
 import { ApiError } from '@/lib/api-error'
+export { getClientIp } from '@/lib/client-ip'
 
 export function jsonOk<T>(data: T, init?: ResponseInit) {
-  return NextResponse.json(data, init)
+  const headers = new Headers(init?.headers)
+  // API responses can contain account- or workflow-specific state. Never allow an
+  // intermediary cache to serve one request's response to another visitor.
+  headers.set('Cache-Control', 'no-store, max-age=0')
+  return NextResponse.json(data, { ...init, headers })
 }
 
 export function jsonNoStore<T>(data: T, init?: ResponseInit) {
@@ -13,27 +18,9 @@ export function jsonNoStore<T>(data: T, init?: ResponseInit) {
 }
 
 export function jsonError(status: number, message: string, init?: ResponseInit) {
-  return NextResponse.json({ message }, { status, ...init })
-}
-
-function normalizeIpCandidate(value: string) {
-  const normalized = value.trim().replace(/^\[|\]$/g, '')
-  if (!normalized) return null
-  if (normalized.length > 120) return null
-  if (!/^[a-fA-F0-9:.\-]+$/.test(normalized)) return null
-  return normalized
-}
-
-export function getClientIp(request: Request) {
-  const forwardedFor = request.headers.get('x-forwarded-for')
-  if (forwardedFor) {
-    const candidate = normalizeIpCandidate(forwardedFor.split(',')[0] || '')
-    if (candidate) return candidate
-  }
-
-  const realIp = request.headers.get('x-real-ip')
-  const normalizedRealIp = realIp ? normalizeIpCandidate(realIp) : null
-  return normalizedRealIp || 'unknown'
+  const headers = new Headers(init?.headers)
+  headers.set('Cache-Control', 'no-store, max-age=0')
+  return NextResponse.json({ message }, { status, ...init, headers })
 }
 
 export async function readJson<T>(request: Request, parser: { parse: (value: unknown) => T }, maxBytes?: number): Promise<T> {
