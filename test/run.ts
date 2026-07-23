@@ -22,6 +22,7 @@ async function run() {
     isTrustedOriginRequest,
   } = await import('../lib/request-guards-core.ts')
   const { getClientIp } = await import('../lib/client-ip.ts')
+  const { anonymizeAuditIp } = await import('../lib/audit-core.ts')
   const { isCleanPublicPathUrl, isPathInside } = await import('../lib/path-security.ts')
 
   const nextConfig = await import('../next.config.mjs')
@@ -177,6 +178,9 @@ async function run() {
     '198.51.100.12',
   )
   assert.equal(getClientIp(new Request('https://example.com/api/contact')), 'unknown')
+  assert.equal(anonymizeAuditIp('203.0.113.24', process.env.ADMIN_SESSION_SECRET).length, 20)
+  assert.notEqual(anonymizeAuditIp('203.0.113.24', process.env.ADMIN_SESSION_SECRET), '203.0.113.24')
+  assert.equal(anonymizeAuditIp('unknown', process.env.ADMIN_SESSION_SECRET), undefined)
   assert.equal(
     isRequestBodyWithinLimit(
       new Request('https://example.com/api/messages', {
