@@ -23,6 +23,7 @@ async function run() {
   } = await import('../lib/request-guards-core.ts')
   const { getClientIp } = await import('../lib/client-ip.ts')
   const { anonymizeAuditIp } = await import('../lib/audit-core.ts')
+  const { serializeJsonForScript } = await import('../lib/json-script-core.ts')
   const { readRequestTextWithinLimit } = await import('../lib/request-body-core.ts')
   const { isCleanPublicPathUrl, isPathInside } = await import('../lib/path-security.ts')
 
@@ -182,6 +183,9 @@ async function run() {
   assert.equal(anonymizeAuditIp('203.0.113.24', process.env.ADMIN_SESSION_SECRET).length, 20)
   assert.notEqual(anonymizeAuditIp('203.0.113.24', process.env.ADMIN_SESSION_SECRET), '203.0.113.24')
   assert.equal(anonymizeAuditIp('unknown', process.env.ADMIN_SESSION_SECRET), undefined)
+  const escapedJsonLd = serializeJsonForScript({ label: '</script><script>alert(1)</script>' })
+  assert.ok(!escapedJsonLd.includes('</script>'))
+  assert.ok(escapedJsonLd.includes('\\u003c/script\\u003e'))
   const chunkedBody = new ReadableStream<Uint8Array>({
     start(controller) {
       controller.enqueue(new TextEncoder().encode('{"name":"'))
