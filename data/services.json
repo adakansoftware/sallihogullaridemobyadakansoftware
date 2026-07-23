@@ -19,6 +19,10 @@
       {
         "question": "Hafriyat sahadan aynı gün çıkarılabilir mi?",
         "answer": "Bu durum döküm sahası, kamyon çevrimi ve günlük iş temposuna bağlıdır. Uygun plan kurulduğunda kazı ile sevkiyat eş zamanlı ilerletilebilir."
+      },
+      {
+        "question": "Kazı başlamadan önce sahada hangi noktalar kontrol edilmelidir?",
+        "answer": "Makine giriş-çıkışı, kazı sınırı, yükleme alanı, kamyon dönüş yolu ve döküm planı netleştiğinde ilk gün yaşanabilecek bekleme ve yön değişiklikleri önemli ölçüde azalır."
       }
     ]
   },
@@ -42,6 +46,10 @@
       {
         "question": "Ekskavatör sadece kazı için mi kullanılır?",
         "answer": "Hayır. Uygun saha koşullarında yükleme, tesviye, zemin hazırlığı ve belirli düzenleme işlerinde de kullanılabilir."
+      },
+      {
+        "question": "Makine sahaya gelmeden önce hangi bilgi paylaşılmalıdır?",
+        "answer": "Çalışma alanının fotoğrafı veya konumu, beklenen derinlik, malzeme türü, manevra alanı ve yükleme ihtiyacı doğru tonaj ile ataşman seçimini hızlandırır."
       }
     ]
   },
@@ -65,6 +73,10 @@
       {
         "question": "Beko loder ekskavatörün yerine geçer mi?",
         "answer": "Her zaman değil. İşin hacmi ve erişim ihtiyacı büyüdüğünde ekskavatör daha doğru çözüm olabilir; dar ve pratik işlerde beko loder öne çıkar."
+      },
+      {
+        "question": "Beko loder için saha erişiminde nelere dikkat edilir?",
+        "answer": "Giriş genişliği, dönüş noktaları, çalışma alanındaki engeller ve aynı anda sahada bulunacak araç sayısı değerlendirilir; böylece makinenin avantajı olan çeviklik korunur."
       }
     ]
   },
@@ -88,6 +100,10 @@
       {
         "question": "Nakliyat sadece döküm için mi kullanılır?",
         "answer": "Hayır. Hafriyat toprağı tahliyesi yanında dolgu, kum, mıcır ve farklı malzeme sevkiyatlarında da planlı damperli nakliye kullanılabilir."
+      },
+      {
+        "question": "Nakliyatta zaman kaybını en çok ne artırır?",
+        "answer": "Yükleme hızına uymayan kamyon sayısı, belirsiz döküm noktası ve sahada net olmayan araç yönlendirmesi çevrim süresini uzatır. Plan bu başlıklar birlikte okunarak kurulmalıdır."
       }
     ]
   },
@@ -111,6 +127,10 @@
       {
         "question": "İş makinesi yeni sahaya tam saatinde ulaştırılabilir mi?",
         "answer": "Teslim zamanı, güzergah ve saha kabul bilgileri baştan netleştiğinde sevkiyat buna göre programlanabilir."
+      },
+      {
+        "question": "Lowbed sevkinden önce sahada ne hazır olmalıdır?",
+        "answer": "Boşaltma alanı, makinenin sahaya giriş rotası, kabul saati ve gerekirse ilk çalışma noktası önceden netleşmelidir. Böylece taşıma sonrası bekleme azalır."
       }
     ]
   },
@@ -134,6 +154,10 @@
       {
         "question": "Zemin hazırlığı hangi aşamada önem kazanır?",
         "answer": "Yol, altyapı, platform ve parsel düzenleme gibi işlerde sonraki imalatların sağlıklı başlaması için en kritik başlangıç adımlarından biridir."
+      },
+      {
+        "question": "Dolgu uygulamasında ilk öncelik nedir?",
+        "answer": "Malzemenin yalnızca sahaya gelmesi değil, doğru noktaya doğru sırayla serilmesi önceliklidir. Tesviye ve sıkıştırma ihtiyacı da aynı plan içinde ele alınmalıdır."
       }
     ]
   },
@@ -157,6 +181,10 @@
       {
         "question": "Arazöz sadece sulama için mi kullanılır?",
         "answer": "Hayır. Toz bastırma, yol temizliği ve saha düzenine destek sağlayan farklı kullanım senaryoları vardır."
+      },
+      {
+        "question": "Arazöz kullanım sıklığı nasıl belirlenir?",
+        "answer": "Saha trafiği, hava koşulları, toz yoğunluğu ve diğer ekiplerin çalışma temposu birlikte değerlendirilir; periyotlu veya ihtiyaç bazlı rota buna göre kurulur."
       }
     ]
   },
@@ -180,6 +208,10 @@
       {
         "question": "Kazı ile malzeme sevki aynı anda yönetilebilir mi?",
         "answer": "Evet. Çalışma alanı ve günlük tempo uygunsa, kazı ve sevkiyat aynı plan içinde birlikte yürütülebilir."
+      },
+      {
+        "question": "Altyapı kazısında en sık karşılaşılan planlama riski nedir?",
+        "answer": "Hat boyunca etap sırasının, çıkan malzemenin yönünün ve makine erişiminin birlikte düşünülmemesidir. Bu üç başlık erken netleştiğinde günlük ilerleme daha kontrollü olur."
       }
     ]
   }
