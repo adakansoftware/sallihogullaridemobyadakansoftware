@@ -42,7 +42,12 @@ export async function enforceRateLimit(request: Request, keyPrefix: string, limi
   const rate = await checkRateLimit(`${keyPrefix}:${identity.key}`, { limit, windowMs })
 
   if (!rate.allowed) {
-    throw new ApiError(429, 'Cok fazla istek algilandi. Lutfen biraz sonra tekrar deneyin.')
+    const retryAfterSeconds = Math.max(1, Math.ceil((rate.resetAt - Date.now()) / 1000))
+    throw new ApiError(
+      429,
+      'Cok fazla istek algilandi. Lutfen biraz sonra tekrar deneyin.',
+      { 'Retry-After': String(retryAfterSeconds) },
+    )
   }
 
   return identity.ip
@@ -54,7 +59,12 @@ export async function enforceIdentifierRateLimit(identifier: string, keyPrefix: 
   const rate = await checkRateLimit(`${keyPrefix}:${identifierFingerprint}`, { limit, windowMs })
 
   if (!rate.allowed) {
-    throw new ApiError(429, 'Bu islem icin deneme siniri asildi. Lutfen daha sonra tekrar deneyin.')
+    const retryAfterSeconds = Math.max(1, Math.ceil((rate.resetAt - Date.now()) / 1000))
+    throw new ApiError(
+      429,
+      'Bu islem icin deneme siniri asildi. Lutfen daha sonra tekrar deneyin.',
+      { 'Retry-After': String(retryAfterSeconds) },
+    )
   }
 }
 

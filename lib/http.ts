@@ -64,7 +64,7 @@ export async function readJson<T>(request: Request, parser: { parse: (value: unk
 export function withErrorHandling(handler: () => Promise<NextResponse>) {
   return handler().catch((error) => {
     if (error instanceof ApiError) {
-      return jsonError(error.status, error.exposeMessage)
+      return jsonError(error.status, error.exposeMessage, { headers: error.headers })
     }
 
     return jsonError(500, 'Islem su anda tamamlanamadi.')
