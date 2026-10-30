@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { isCleanPublicPathUrl } from '@/lib/path-security'
 import { isYouTubeUrl } from '@/lib/youtube'
+import { containsUnsafeTextControl } from '@/lib/text-security-core'
 
 const MAX_PROJECT_TAGS = 12
 
@@ -15,6 +16,7 @@ function safeText(min: number, max: number, requiredMessage: string) {
     .min(min, requiredMessage)
     .max(max, `Metin en fazla ${max} karakter olabilir.`)
     .refine((value) => !/[<>]/.test(value), 'Güvenli olmayan karakterler kullanılamaz.')
+    .refine((value) => !containsUnsafeTextControl(value), 'Guvenli olmayan kontrol karakterleri kullanilamaz.')
     .transform(normalizeString)
 }
 

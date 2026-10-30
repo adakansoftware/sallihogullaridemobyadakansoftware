@@ -6,7 +6,7 @@ import { isRealPhoneValue } from '@/lib/contact-utils'
 import type { SiteSettings } from '@/lib/store'
 
 const heroStats = [
-  { value: '25+', label: 'Saha Tecrübesi' },
+  { value: '10+', label: 'Saha Tecrübesi' },
   { value: '7/24', label: 'Saha Takibi' },
   { value: '30+', label: 'Makine ve Kamyon' },
 ]

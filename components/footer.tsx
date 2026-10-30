@@ -132,7 +132,7 @@ export function Footer({ settings }: { settings: SiteSettings }) {
           <div className="break-words text-xs text-muted-foreground">
             Design by{' '}
             <a
-              href="https://www.instagram.com/adakansoftware"
+              href="https://www.adakansoftware.com"
               target="_blank"
               rel="noopener noreferrer"
               className="font-medium text-foreground transition-colors hover:text-primary"
