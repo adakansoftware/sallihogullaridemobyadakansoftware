@@ -28,6 +28,7 @@ async function run() {
   const { readRequestTextWithinLimit } = await import('../lib/request-body-core.ts')
   const { isValidUuidRouteParam } = await import('../lib/route-params-core.ts')
   const { containsUnsafeTextControl } = await import('../lib/text-security-core.ts')
+  const { isAllowedSocialUrl } = await import('../lib/external-url-security-core.ts')
   const { isCleanPublicPathUrl, isPathInside } = await import('../lib/path-security.ts')
 
   const nextConfig = await import('../next.config.mjs')
@@ -200,6 +201,8 @@ async function run() {
   assert.equal(isValidUuidRouteParam('x'.repeat(65)), false)
   assert.equal(containsUnsafeTextControl('normal content'), false)
   assert.equal(containsUnsafeTextControl('safe\u202E.txt'), true)
+  assert.equal(isAllowedSocialUrl('https://www.instagram.com/example', ['instagram.com']), true)
+  assert.equal(isAllowedSocialUrl('https://instagram.com.evil.example/example', ['instagram.com']), false)
   const escapedJsonLd = serializeJsonForScript({ label: '</script><script>alert(1)</script>' })
   assert.ok(!escapedJsonLd.includes('</script>'))
   assert.ok(escapedJsonLd.includes('\\u003c/script\\u003e'))

@@ -2,6 +2,7 @@ import { z } from 'zod'
 import { isCleanPublicPathUrl } from '@/lib/path-security'
 import { isYouTubeUrl } from '@/lib/youtube'
 import { containsUnsafeTextControl } from '@/lib/text-security-core'
+import { isAllowedSocialUrl } from '@/lib/external-url-security-core'
 
 const MAX_PROJECT_TAGS = 12
 
@@ -110,8 +111,8 @@ export const settingsSchema = z.object({
   serviceArea: safeText(3, 120, 'Hizmet bölgesi zorunludur.'),
   workingHours: safeText(3, 120, 'Çalışma saatleri zorunludur.'),
   foundedYear: z.string().trim().regex(/^\d{4}$/, 'Kuruluş yılı 4 haneli olmalıdır.').transform(normalizeString),
-  instagramUrl: z.string().trim().refine(isSafeExternalUrl, 'Geçerli bir HTTPS Instagram bağlantısı girin.'),
-  whatsappUrl: z.string().trim().refine(isSafeExternalUrl, 'Geçerli bir HTTPS WhatsApp bağlantısı girin.'),
+  instagramUrl: z.string().trim().refine((value) => isAllowedSocialUrl(value, ['instagram.com']), 'Geçerli bir HTTPS Instagram bağlantısı girin.'),
+  whatsappUrl: z.string().trim().refine((value) => isAllowedSocialUrl(value, ['wa.me', 'whatsapp.com']), 'Geçerli bir HTTPS WhatsApp bağlantısı girin.'),
   heroTitle: safeText(8, 160, 'Hero başlığı zorunludur.'),
   heroDescription: safeText(12, 320, 'Hero açıklaması zorunludur.'),
   quoteNotice: safeText(8, 220, 'Teklif notu zorunludur.'),
