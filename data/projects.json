@@ -8,6 +8,7 @@
     "location": "Hatay",
     "category": "Yol Telasman ve Saha Hazırlığı",
     "coverImage": "/images/hero-main.jpg",
+    "cardImage": "/images/hero-main.jpg",
     "status": "Yayında",
     "featured": true,
     "tags": [
@@ -97,8 +98,8 @@
     "description": "Hatay yıkım çalışmasında yapı sökümü, moloz ayrıştırma ve damperli kamyona yükleme süreci aynı saha planı içinde yönetildi. Ekskavatör pozisyonu, kamyon yaklaşımı ve güvenli çalışma alanı günlük operasyon akışına göre koordine edildi.",
     "location": "Hatay",
     "category": "Yıkım",
-    "coverImage": "/images/project-hika-demolition-1.png",
-    "cardImage": "/images/project-hika-demolition-1.png",
+    "coverImage": "/images/project-hika-demolition-1.webp",
+    "cardImage": "/images/project-hika-demolition-1.webp",
     "status": "Yayında",
     "featured": false,
     "tags": [
@@ -114,10 +115,10 @@
       {
         "id": "media-hatay-yikim-1",
         "title": "Yıkım sahasında çift ekskavatör çalışması",
-        "fileUrl": "/images/project-hika-demolition-1.png",
-        "fileType": "image/png",
+        "fileUrl": "/images/project-hika-demolition-1.webp",
+        "fileType": "image/webp",
         "resourceType": "image",
-        "thumbnailUrl": "/images/project-hika-demolition-1.png",
+        "thumbnailUrl": "/images/project-hika-demolition-1.webp",
         "isCover": true,
         "sortOrder": 0,
         "createdAt": "2026-05-16T15:53:00.000Z"
@@ -125,10 +126,10 @@
       {
         "id": "media-hatay-yikim-2",
         "title": "Ekskavatör ve damperli kamyon yükleme aksı",
-        "fileUrl": "/images/project-hika-demolition-2.png",
-        "fileType": "image/png",
+        "fileUrl": "/images/project-hika-demolition-2.webp",
+        "fileType": "image/webp",
         "resourceType": "image",
-        "thumbnailUrl": "/images/project-hika-demolition-2.png",
+        "thumbnailUrl": "/images/project-hika-demolition-2.webp",
         "isCover": false,
         "sortOrder": 1,
         "createdAt": "2026-05-16T15:54:00.000Z"
@@ -144,6 +145,7 @@
     "location": "Adana",
     "category": "Hafriyat ve Nakliyat",
     "coverImage": "/images/project-1.jpg",
+    "cardImage": "/images/project-1.jpg",
     "status": "Yayında",
     "featured": false,
     "tags": [
@@ -208,7 +210,7 @@
     "description": "Hatay OGD Özpolatlar Adi Ortaklığı işinde bypass hattı düzeni, saha içi kamyon sirkülasyonu ve kum nakliyesi aynı operasyon planı içinde yönetildi. Zemin hazırlığı ve sevkiyat akışı; günlük iş programı, saha erişimi ve güvenli çalışma düzeni dikkate alınarak sürdürüldü.",
     "location": "Hatay",
     "category": "Bypass ve Kum Nakliyesi",
-    "coverImage": "/images/project-2.jpg",
+    "coverImage": "/images/dump-truck.jpg",
     "cardImage": "/images/gallery-4.jpg",
     "status": "Yayında",
     "featured": false,
@@ -224,10 +226,10 @@
       {
         "id": "media-organize-1",
         "title": "Hazırlık sahası genel görünümü",
-        "fileUrl": "/images/project-2.jpg",
+        "fileUrl": "/images/dump-truck.jpg",
         "fileType": "image/jpeg",
         "resourceType": "image",
-        "thumbnailUrl": "/images/project-2.jpg",
+        "thumbnailUrl": "/images/dump-truck.jpg",
         "isCover": true,
         "sortOrder": 0,
         "createdAt": "2026-01-08T09:00:00.000Z"
@@ -275,7 +277,8 @@
     "description": "Temel kazısı sürecinde kazı derinliği, çalışma alanı erişimi ve hafriyat çıkış güzergahı birlikte değerlendirildi. Amaç, sahadaki diğer imalatları aksatmadan düzenli kazı, yükleme ve sevkiyat akışı oluşturmaktı.",
     "location": "Adana",
     "category": "Temel Kazısı",
-    "coverImage": "/images/project-3.jpg",
+    "coverImage": "/images/excavator.jpg",
+    "cardImage": "/images/excavator.jpg",
     "status": "Yayında",
     "featured": false,
     "tags": [
@@ -289,10 +292,10 @@
       {
         "id": "media-lojistik-1",
         "title": "Temel kazısı çalışma alanı",
-        "fileUrl": "/images/project-3.jpg",
+        "fileUrl": "/images/excavator.jpg",
         "fileType": "image/jpeg",
         "resourceType": "image",
-        "thumbnailUrl": "/images/project-3.jpg",
+        "thumbnailUrl": "/images/excavator.jpg",
         "isCover": true,
         "sortOrder": 0,
         "createdAt": "2026-01-06T09:00:00.000Z"
@@ -341,6 +344,7 @@
     "location": "Adana ve çevresi",
     "category": "Dolgu ve Yol Hazırlığı",
     "coverImage": "/images/project-4.jpg",
+    "cardImage": "/images/project-4.jpg",
     "status": "Yayında",
     "featured": false,
     "tags": [

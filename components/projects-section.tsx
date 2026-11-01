@@ -92,7 +92,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                   <div className="flex h-full flex-col border border-border/30 bg-card sm:flex-row">
                     <div className="relative h-48 w-full shrink-0 overflow-hidden sm:h-auto sm:w-44 lg:w-48">
                       <Image
-                        src={project.cardImage || project.coverImage || '/images/project-2.jpg'}
+                        src={project.cardImage || project.coverImage || '/images/dump-truck.jpg'}
                         alt={`${project.title} - Sallıhoğulları Hafriyat saha çalışması`}
                         fill
                         className="object-cover transition-transform duration-700 group-hover:scale-110"

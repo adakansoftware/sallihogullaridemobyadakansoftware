@@ -13,7 +13,7 @@ const PROJECT_MUTATION_MAX_BYTES = 32 * 1024
 export async function GET(_: Request, { params }: Params) {
   return withErrorHandling(async () => {
     const { id } = await params
-    if (!isValidUuidRouteParam(id)) return jsonError(400, 'Gecersiz proje kimligi.')
+    if (!isValidUuidRouteParam(id)) return jsonError(400, 'Geçersiz proje kimliği.')
     const project = await findAdminProjectById(id)
     if (!project) return jsonError(404, 'Proje bulunamadı.')
 
@@ -33,7 +33,7 @@ export async function PATCH(request: Request, { params }: Params) {
     assertRequestBodySize(request, PROJECT_MUTATION_MAX_BYTES)
 
     const { id } = await params
-    if (!isValidUuidRouteParam(id)) return jsonError(400, 'Gecersiz proje kimligi.')
+    if (!isValidUuidRouteParam(id)) return jsonError(400, 'Geçersiz proje kimliği.')
     const payload = await readJson(request, projectInputSchema, PROJECT_MUTATION_MAX_BYTES)
     const project = await updateProject(id, payload)
     if (!project) return jsonError(404, 'Proje bulunamadı.')
@@ -49,7 +49,7 @@ export async function DELETE(request: Request, { params }: Params) {
     await assertAdminRequest(request)
 
     const { id } = await params
-    if (!isValidUuidRouteParam(id)) return jsonError(400, 'Gecersiz proje kimligi.')
+    if (!isValidUuidRouteParam(id)) return jsonError(400, 'Geçersiz proje kimliği.')
     const deleted = await deleteProject(id)
 
     if (!deleted) {

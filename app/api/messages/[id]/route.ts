@@ -17,7 +17,7 @@ export async function PATCH(request: Request, { params }: Params) {
     assertRequestBodySize(request, MESSAGE_UPDATE_MAX_BYTES)
 
     const { id } = await params
-    if (!isValidUuidRouteParam(id)) return jsonError(400, 'Gecersiz mesaj kimligi.')
+    if (!isValidUuidRouteParam(id)) return jsonError(400, 'Geçersiz mesaj kimliği.')
     const payload = await readJson(request, messageStateSchema, MESSAGE_UPDATE_MAX_BYTES)
     const message = await updateMessageReadState(id, payload.isRead)
 
@@ -36,7 +36,7 @@ export async function DELETE(request: Request, { params }: Params) {
     await assertAdminRequest(request)
 
     const { id } = await params
-    if (!isValidUuidRouteParam(id)) return jsonError(400, 'Gecersiz mesaj kimligi.')
+    if (!isValidUuidRouteParam(id)) return jsonError(400, 'Geçersiz mesaj kimliği.')
     const deleted = await deleteMessage(id)
 
     if (!deleted) {

@@ -28,7 +28,7 @@ export function jsonError(status: number, message: string, init?: ResponseInit) 
 export async function readJson<T>(request: Request, parser: { parse: (value: unknown) => T }, maxBytes?: number): Promise<T> {
   const contentType = request.headers.get('content-type') || ''
   if (!contentType.toLowerCase().includes('application/json')) {
-    throw new ApiError(415, 'Istek icerigi JSON olmali.')
+    throw new ApiError(415, 'İstek içeriği JSON olmalı.')
   }
 
   let rawBody: string
@@ -36,26 +36,26 @@ export async function readJson<T>(request: Request, parser: { parse: (value: unk
     rawBody = await readRequestTextWithinLimit(request, maxBytes)
   } catch (error) {
     if (error instanceof RangeError) {
-      throw new ApiError(413, 'Istek boyutu siniri asildi.')
+      throw new ApiError(413, 'İstek boyutu sınırı aşıldı.')
     }
-    throw new ApiError(400, 'Gecersiz istek verisi.')
+    throw new ApiError(400, 'Geçersiz istek verisi.')
   }
 
   let body: unknown
   try {
     body = JSON.parse(rawBody || 'null')
   } catch {
-    throw new ApiError(400, 'Gecersiz istek verisi.')
+    throw new ApiError(400, 'Geçersiz istek verisi.')
   }
 
   try {
     return parser.parse(body)
   } catch (error) {
     if (error instanceof SyntaxError) {
-      throw new ApiError(400, 'Gecersiz istek verisi.')
+      throw new ApiError(400, 'Geçersiz istek verisi.')
     }
     if (error instanceof ZodError) {
-      throw new ApiError(400, error.issues[0]?.message || 'Girilen veriler gecersiz.')
+      throw new ApiError(400, error.issues[0]?.message || 'Girilen veriler geçersiz.')
     }
     throw error
   }
@@ -67,7 +67,7 @@ export function withErrorHandling(handler: () => Promise<NextResponse>) {
       return jsonError(error.status, error.exposeMessage, { headers: error.headers })
     }
 
-    return jsonError(500, 'Islem su anda tamamlanamadi.')
+    return jsonError(500, 'İşlem şu anda tamamlanamadı.')
   })
 }
 

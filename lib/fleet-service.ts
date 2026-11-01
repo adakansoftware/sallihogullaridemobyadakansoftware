@@ -1,3 +1,4 @@
+import { cache } from 'react'
 import path from 'path'
 import { readJsonFileWithBackup, restorePrimaryJsonFile, writeJsonFileAtomic } from '@/lib/file-storage'
 import { fleetContentSchema } from '@/lib/validation'
@@ -43,7 +44,10 @@ function assertModelCounts(items: FleetItem[]) {
   }
 }
 
-export async function getFleetContent() {
+// Request-scoped cache: fleet list, stats and detail pages share one storage
+// read per request. Admin fleet updates write through updateFleetContent and
+// are unaffected.
+export const getFleetContent = cache(async () => {
   const parsed = await readJsonFileWithBackup(fleetFile, fleetContentSchema, defaultFleetContent)
   const content = parsed.data
 
@@ -56,7 +60,7 @@ export async function getFleetContent() {
   }
 
   return content
-}
+})
 
 export async function updateFleetContent(input: unknown) {
   const content = fleetContentSchema.parse(input)

@@ -12,7 +12,7 @@ export function CTASection({ settings }: { settings: SiteSettings }) {
     <section className="relative overflow-hidden py-24 lg:py-32">
       <div className="absolute inset-0">
         <Image
-          src="/images/cta-bg.jpg"
+          src="/images/gallery-3.jpg"
           alt="Hafriyat operasyonu"
           fill
           className="object-cover"

@@ -14,7 +14,7 @@ export function WhyUsSection() {
           <div className="relative lg:col-span-2">
             <div className="relative aspect-[4/5] overflow-hidden">
               <Image
-                src="/images/about.jpg"
+                src="/images/excavator.jpg"
                 alt="Sallıhoğulları Hafriyat ekibi"
                 fill
                 className="object-cover"

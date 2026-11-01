@@ -65,7 +65,7 @@ export async function submitContactMessage(input: MessageInput) {
     })
 
     if (hasRecentDuplicate) {
-      throw new ApiError(429, 'Benzer bir talep kisa sure once alindi. Lutfen biraz sonra tekrar deneyin.')
+      throw new ApiError(429, 'Benzer bir talep kısa süre önce alındı. Lütfen biraz sonra tekrar deneyin.')
     }
 
     return {

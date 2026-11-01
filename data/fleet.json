@@ -112,7 +112,7 @@
       "capacity": "Damperli Dorse / Lowbed",
       "description": "Malzeme sevkiyatı, ekipman taşıma ve lowbed nakliyat işlerinde güzergah, yükleme güvenliği ve teslim planına göre kullanılan Axor 1840 çekici, damperli dorse ve lowbed altyapısı.",
       "specs": ["Axor 1840 x2", "Damperli Dorse x2", "Lowbed x1"],
-      "image": "/images/fleet-tir-damper.png",
+      "image": "/images/fleet-tir-damper.webp",
       "detailTitle": "Çekici ve dorse altyapısının taşıma kalemleri",
       "detailDescription": "Ağır ekipman nakli, uzun mesafe malzeme sevkiyatı ve yük güvenliği gerektiren işlerde farklı taşıma ekipmanlarını birlikte kullanıyoruz.",
       "models": [
@@ -121,14 +121,14 @@
           "quantity": "2 Adet",
           "role": "Çekici ana gücü",
           "details": "Damperli dorse ve lowbed taşımalarında rota planına uygun çekiş gücünü ve operasyon devamlılığını sağlar.",
-          "image": "/images/fleet-tir-damper.png"
+          "image": "/images/fleet-tir-damper.webp"
         },
         {
           "name": "Damperli Dorse",
           "quantity": "2 Adet",
           "role": "Malzeme sevkiyatı",
           "details": "Toplu malzeme taşıma, kontrollü boşaltım ve düzenli sevkiyat akışı gereken operasyonlarda kullanılır.",
-          "image": "/images/fleet-tir-damper.png"
+          "image": "/images/fleet-tir-damper.webp"
         },
         {
           "name": "Lowbed",
@@ -147,7 +147,7 @@
       "capacity": "Su Tankeri / Arazöz",
       "description": "Şantiye içi sulama, yol temizliği, toz kontrolü ve saha destek ihtiyaçları için kullanılan Ford 2524 su tankeri / arazöz.",
       "specs": ["Ford 2524 x1", "Su Tankeri / Arazöz", "Toz Kontrolü"],
-      "image": "/images/fleet-arazoz-truck.png",
+      "image": "/images/fleet-arazoz-truck.webp",
       "detailTitle": "Arazöz aracının kullanım kapsamı",
       "detailDescription": "Şantiye içi toz kontrolü, yol sulama ve temizlik ihtiyaçlarında tek araçla birden fazla saha destek görevini karşılıyoruz.",
       "models": [
@@ -156,7 +156,7 @@
           "quantity": "1 Adet",
           "role": "Su tankeri platformu",
           "details": "Saha içi sulama, servis yolu ıslatma ve şantiyede operasyonu destekleyen temel arazöz aracıdır.",
-          "image": "/images/fleet-arazoz-truck.png"
+          "image": "/images/fleet-arazoz-truck.webp"
         }
       ]
     },

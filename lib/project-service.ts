@@ -1,3 +1,4 @@
+import { cache } from 'react'
 import {
   assertManagedUploadExists,
   assertPublicAssetExists as assertAnyPublicAssetExists,
@@ -107,15 +108,18 @@ async function validateProjectCoverImage(coverImage: string) {
   }
 }
 
-export async function listAdminProjects() {
+// Request-scoped cache: pages, layout and admin boards frequently list the
+// projects together; this keeps the storage read to one hit per request while
+// mutations still go through the repository's own read-modify-write path.
+export const listAdminProjects = cache(async () => {
   const projects = await getProjectRepository().list()
   return projects.map(normalizeProjectMedia)
-}
+})
 
-export async function listPublishedProjects() {
+export const listPublishedProjects = cache(async () => {
   const projects = await listAdminProjects()
   return projects.filter((project) => project.status === 'Yayında')
-}
+})
 
 export async function findAdminProjectById(id: string) {
   const project = await getProjectRepository().findById(id)

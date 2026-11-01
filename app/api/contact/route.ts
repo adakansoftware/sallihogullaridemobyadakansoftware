@@ -104,7 +104,16 @@ export async function POST(request: Request) {
       console.error('[contact-storage-warning]', error)
     }
 
-    await sendContactMail(payload, reference)
+    try {
+      await sendContactMail(payload, reference)
+    } catch (error) {
+      // The submission is already persisted and visible under /admin/messages.
+      // Email delivery is a best-effort notification, so a missing key or a
+      // provider outage must not turn a stored submission into a user-facing
+      // failure.
+      console.error('[contact-email-warning]', error)
+    }
+
     await writeAuditLog({ action: 'contact.submit', status: 'success', ip, target })
 
     return jsonOk(

@@ -7,22 +7,22 @@ import {
 
 export function assertTrustedOriginHeaders(request: Request, allowedOrigin: string | null) {
   if (!allowedOrigin) {
-    throw new ApiError(403, 'Guvenilir site origin ayari eksik.')
+    throw new ApiError(403, 'Güvenilir site origin ayarı eksik.')
   }
 
   if (!isTrustedOriginRequest(request, allowedOrigin)) {
-    throw new ApiError(403, 'Istek kaynagi dogrulanamadi.')
+    throw new ApiError(403, 'İstek kaynağı doğrulanamadı.')
   }
 }
 
 export function assertRequestContentType(request: Request, allowedContentTypes: string[]) {
   if (!isAllowedRequestContentType(request, allowedContentTypes)) {
-    throw new ApiError(415, 'Istek icerigi beklenen formatta degil.')
+    throw new ApiError(415, 'İstek içeriği beklenen formatta değil.')
   }
 }
 
 export function assertRequestBodySize(request: Request, maxBytes: number) {
   if (!isRequestBodyWithinLimit(request, maxBytes)) {
-    throw new ApiError(413, 'Istek boyutu siniri asildi.')
+    throw new ApiError(413, 'İstek boyutu sınırı aşıldı.')
   }
 }

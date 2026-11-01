@@ -57,7 +57,7 @@ export default async function AboutPage() {
       <PageHero
         title={`${settings.companyName} saha çalışma disiplini`}
         description="Hafriyat, temel kazısı, dolgu ve damperli nakliyat işlerinde sahayı önceden okuyup makine, kamyon ve sevkiyat planını aynı iş akışında yöneten çalışma düzenimizi inceleyin."
-        image="/images/project-2.jpg"
+        image="/images/dump-truck.jpg"
         primaryCta={{ href: '/contact', label: 'Saha İhtiyacını Görüşelim' }}
       />
       <StatsSection />

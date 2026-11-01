@@ -66,7 +66,7 @@ export const fleetItems = [
     description:
       'Malzeme sevkiyatı, ekipman taşıma ve lowbed nakliyat işlerinde güzergah, yükleme güvenliği ve teslim planına göre kullanılan Axor 1840 çekici, damperli dorse ve lowbed altyapısı.',
     specs: ['Axor 1840 x2', 'Damperli Dorse x2', 'Lowbed x1'],
-    image: '/images/fleet-tir-damper.png',
+    image: '/images/fleet-tir-damper.webp',
   },
   {
     name: 'Arazöz',
@@ -74,7 +74,7 @@ export const fleetItems = [
     capacity: 'Su Tankeri / Arazöz',
     description: 'Şantiye içi sulama, yol temizliği, toz kontrolü ve saha destek ihtiyaçları için kullanılan Ford 2524 su tankeri / arazöz.',
     specs: ['Ford 2524 x1', 'Su Tankeri / Arazöz', 'Toz Kontrolü'],
-    image: '/images/fleet-arazoz-truck.png',
+    image: '/images/fleet-arazoz-truck.webp',
   },
   {
     name: 'Toprak Silindiri',

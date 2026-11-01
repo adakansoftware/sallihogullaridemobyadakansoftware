@@ -8,7 +8,8 @@ const isProduction = process.env.NODE_ENV === 'production'
 const nextConfig = {
   poweredByHeader: false,
   images: {
-    unoptimized: true,
+    // sharp ships as a dependency of next, so the Node and Vercel runtimes can
+    // serve right-sized AVIF/WebP variants instead of the original files.
     qualities: [75, 82, 95],
   },
   turbopack: {
