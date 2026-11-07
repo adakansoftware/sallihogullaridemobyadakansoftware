@@ -1,5 +1,7 @@
 import { promises as fs } from 'fs'
 import path from 'path'
+import { env } from '@/lib/env'
+import { runQuery } from '@/lib/db'
 
 export type AuditEntry = {
   at: string
@@ -28,6 +30,22 @@ function safeDate(value: string) {
 }
 
 export async function listAuditEntries(limit = 50) {
+  if (env.CONTENT_STORE === 'postgres') {
+    const result = await runQuery(
+      'SELECT at, action, status, ip, target, detail FROM audit_log ORDER BY at DESC, id DESC LIMIT $1',
+      [Math.max(0, limit)],
+    )
+
+    return result.rows.map((row): AuditEntry => ({
+      at: new Date(String(row.at)).toISOString(),
+      action: String(row.action),
+      status: row.status,
+      ip: row.ip ?? undefined,
+      target: row.target ?? undefined,
+      detail: row.detail ?? undefined,
+    }))
+  }
+
   try {
     const raw = await fs.readFile(auditFile, 'utf8')
     const entries = raw

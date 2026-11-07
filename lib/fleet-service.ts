@@ -1,15 +1,11 @@
 import { cache } from 'react'
-import path from 'path'
-import { readJsonFileWithBackup, restorePrimaryJsonFile, writeJsonFileAtomic } from '@/lib/file-storage'
 import { fleetContentSchema } from '@/lib/validation'
+import { getFleetRepository, type FleetContent } from '@/lib/content-repository'
 
-export type FleetContent = Awaited<ReturnType<typeof getFleetContent>>
+export type { FleetContent }
 export type FleetItem = FleetContent['items'][number]
 export type FleetModel = FleetItem['models'][number]
 export type FleetStat = FleetContent['stats'][number]
-
-const fleetFile = path.join(/*turbopackIgnore: true*/ process.cwd(), 'data', 'fleet.json')
-const defaultFleetContent = { stats: [], items: [] }
 
 function assertUniqueSlugs(items: FleetItem[]) {
   const seen = new Set<string>()
@@ -44,32 +40,27 @@ function assertModelCounts(items: FleetItem[]) {
   }
 }
 
+function assertFleetInvariants(content: FleetContent) {
+  assertUniqueSlugs(content.items)
+  assertNonEmptyModels(content.items)
+  assertModelCounts(content.items)
+}
+
 // Request-scoped cache: fleet list, stats and detail pages share one storage
 // read per request. Admin fleet updates write through updateFleetContent and
 // are unaffected.
 export const getFleetContent = cache(async () => {
-  const parsed = await readJsonFileWithBackup(fleetFile, fleetContentSchema, defaultFleetContent)
-  const content = parsed.data
-
-  assertUniqueSlugs(content.items)
-  assertNonEmptyModels(content.items)
-  assertModelCounts(content.items)
-
-  if (parsed.source !== 'primary') {
-    await restorePrimaryJsonFile(fleetFile, content)
-  }
-
+  const content = await getFleetRepository().get()
+  assertFleetInvariants(content)
   return content
 })
 
 export async function updateFleetContent(input: unknown) {
   const content = fleetContentSchema.parse(input)
 
-  assertUniqueSlugs(content.items)
-  assertNonEmptyModels(content.items)
-  assertModelCounts(content.items)
+  assertFleetInvariants(content)
 
-  await writeJsonFileAtomic(fleetFile, content)
+  await getFleetRepository().save(content)
   return content
 }
 

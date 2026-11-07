@@ -11,13 +11,13 @@ export async function GET(request: Request) {
   return withErrorHandling(async () => {
     await assertAdminRequest(request)
     return jsonNoStore(await getSiteSettings())
-  })
+  }, 'settings.get')
 }
 
 export async function PATCH(request: Request) {
   return withErrorHandling(async () => {
-    const ip = await enforceRateLimit(request, 'admin:settings:update', 20, 10 * 60 * 1000)
     await assertAdminRequest(request)
+    const ip = await enforceRateLimit(request, 'admin:settings:update', 20, 10 * 60 * 1000)
     assertRequestContentType(request, ['application/json'])
     assertRequestBodySize(request, SETTINGS_MUTATION_MAX_BYTES)
 
@@ -26,5 +26,5 @@ export async function PATCH(request: Request) {
 
     await writeAuditLog({ action: 'settings.update', status: 'success', ip })
     return jsonOk(nextSettings)
-  })
+  }, 'settings.patch')
 }

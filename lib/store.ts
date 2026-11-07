@@ -2,10 +2,10 @@ import { promises as fs } from 'fs'
 import path from 'path'
 import crypto from 'crypto'
 import { z } from 'zod'
-import { defaultSiteSettings } from '@/lib/file-defaults'
-import { readJsonFileWithBackup, restorePrimaryJsonFile, updateJsonFileAtomic, writeJsonFileAtomic } from '@/lib/file-storage'
-import { isCleanPublicPathUrl, isPathInside } from '@/lib/path-security'
-import { storedMessagesSchema, storedProjectsSchema, storedSettingsSchema } from '@/lib/validation'
+import { defaultSiteSettings } from './file-defaults.ts'
+import { readJsonFileWithBackup, restorePrimaryJsonFile, updateJsonFileAtomic, writeJsonFileAtomic } from './file-storage.ts'
+import { isCleanPublicPathUrl, isPathInside } from './path-security.ts'
+import { storedMessagesSchema, storedProjectsSchema, storedSettingsSchema } from './validation.ts'
 
 export type ProjectMedia = {
   id: string

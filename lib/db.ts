@@ -1,5 +1,5 @@
 import { Pool, type PoolClient, type QueryResultRow } from 'pg'
-import { env } from '@/lib/env'
+import { env } from './env.ts'
 
 declare global {
   var __saliPgPool: Pool | undefined

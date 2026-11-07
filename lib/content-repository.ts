@@ -1,10 +1,22 @@
-import { env } from '@/lib/env'
-import { mutateMessages, mutateProjects, mutateSettings, readMessages, readProjects, readSettings, writeMessages, writeProjects, writeSettings, type AdminMessage, type Project, type SiteSettings } from '@/lib/store'
+import path from 'path'
+import type { z } from 'zod'
+import { env } from './env.ts'
+import { mutateMessages, mutateProjects, mutateSettings, readMessages, readProjects, readSettings, writeMessages, writeProjects, writeSettings, type AdminMessage, type Project, type SiteSettings } from './store.ts'
 import {
+  PostgresFleetRepository,
   PostgresMessageRepository,
   PostgresProjectRepository,
   PostgresSettingsRepository,
-} from '@/lib/postgres-content-repository'
+} from './postgres-content-repository.ts'
+import { readJsonFileWithBackup, restorePrimaryJsonFile, writeJsonFileAtomic } from './file-storage.ts'
+import { fleetContentSchema } from './validation.ts'
+
+export type FleetContent = z.infer<typeof fleetContentSchema>
+
+export interface FleetRepository {
+  get(): Promise<FleetContent>
+  save(content: FleetContent): Promise<void>
+}
 
 export interface ProjectRepository {
   list(): Promise<Project[]>
@@ -78,13 +90,34 @@ class FileSettingsRepository implements SettingsRepository {
   }
 }
 
+const fleetFile = path.join(/*turbopackIgnore: true*/ process.cwd(), 'data', 'fleet.json')
+const defaultFleetContent: FleetContent = { stats: [], items: [] }
+
+class FileFleetRepository implements FleetRepository {
+  async get() {
+    const parsed = await readJsonFileWithBackup(fleetFile, fleetContentSchema, defaultFleetContent)
+
+    if (parsed.source !== 'primary') {
+      await restorePrimaryJsonFile(fleetFile, parsed.data)
+    }
+
+    return parsed.data
+  }
+
+  async save(content: FleetContent) {
+    await writeJsonFileAtomic(fleetFile, fleetContentSchema.parse(content))
+  }
+}
+
 const fileProjectRepository: ProjectRepository = new FileProjectRepository()
 const fileMessageRepository: MessageRepository = new FileMessageRepository()
 const fileSettingsRepository: SettingsRepository = new FileSettingsRepository()
+const fileFleetRepository: FleetRepository = new FileFleetRepository()
 
 const postgresProjectRepository: ProjectRepository = new PostgresProjectRepository()
 const postgresMessageRepository: MessageRepository = new PostgresMessageRepository()
 const postgresSettingsRepository: SettingsRepository = new PostgresSettingsRepository()
+const postgresFleetRepository: FleetRepository = new PostgresFleetRepository()
 
 export function getProjectRepository() {
   return env.CONTENT_STORE === 'postgres' ? postgresProjectRepository : fileProjectRepository
@@ -96,6 +129,10 @@ export function getMessageRepository() {
 
 export function getSettingsRepository() {
   return env.CONTENT_STORE === 'postgres' ? postgresSettingsRepository : fileSettingsRepository
+}
+
+export function getFleetRepository() {
+  return env.CONTENT_STORE === 'postgres' ? postgresFleetRepository : fileFleetRepository
 }
 
 export function getContentStoreDriver() {

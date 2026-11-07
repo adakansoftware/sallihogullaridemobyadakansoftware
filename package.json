@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
     "test": "node --no-warnings --experimental-strip-types test/run.ts",
     "test:e2e": "node --no-warnings --experimental-strip-types test/e2e.ts",
     "db:init": "node --no-warnings --experimental-strip-types scripts/init-db.ts",

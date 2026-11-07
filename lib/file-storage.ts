@@ -92,9 +92,23 @@ export async function writeJsonFileAtomic<T>(filePath: string, value: T) {
   await runSerializedFileWrite(filePath, () => writeJsonFileAtomicUnsafe(filePath, value))
 }
 
-export async function appendTextFileSerialized(filePath: string, value: string) {
+// Appends one line-oriented text entry. When the file would grow past
+// `maxBytes`, older entries are dropped (keeping roughly `retainBytes` of the
+// newest complete lines) before the new entry is written. Writes for the same
+// file are serialized.
+export async function appendCappedTextFile(filePath: string, value: string, maxBytes: number, retainBytes: number) {
   await runSerializedFileWrite(filePath, async () => {
     await ensureParentDir(filePath)
+    const stat = await fs.stat(filePath).catch(() => null)
+
+    if (stat && stat.size + Buffer.byteLength(value, 'utf8') > maxBytes) {
+      const existing = await fs.readFile(filePath, 'utf8').catch(() => '')
+      const retainedStart = Math.max(0, existing.length - retainBytes)
+      const firstCompleteEntry = existing.indexOf('\n', retainedStart)
+      const retained = firstCompleteEntry === -1 ? '' : existing.slice(firstCompleteEntry + 1)
+      await fs.writeFile(filePath, retained, 'utf8')
+    }
+
     await fs.appendFile(filePath, value, 'utf8')
   })
 }

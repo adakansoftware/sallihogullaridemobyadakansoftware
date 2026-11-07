@@ -70,11 +70,32 @@ async function main() {
         )
       `)
 
+      await client.query(`
+        CREATE TABLE IF NOT EXISTS fleet_content (
+          id INTEGER PRIMARY KEY,
+          content JSONB NOT NULL,
+          updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        )
+      `)
+
+      await client.query(`
+        CREATE TABLE IF NOT EXISTS audit_log (
+          id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+          at TIMESTAMPTZ NOT NULL,
+          action TEXT NOT NULL,
+          status TEXT NOT NULL CHECK (status IN ('success','failure','rejected')),
+          ip TEXT,
+          target TEXT,
+          detail TEXT
+        )
+      `)
+
       await client.query(`CREATE INDEX IF NOT EXISTS projects_status_idx ON projects(status)`)
       await client.query(`CREATE INDEX IF NOT EXISTS projects_featured_idx ON projects(featured)`)
       await client.query(`CREATE INDEX IF NOT EXISTS messages_created_at_idx ON messages(created_at DESC)`)
       await client.query(`CREATE INDEX IF NOT EXISTS messages_is_read_idx ON messages(is_read)`)
       await client.query(`CREATE INDEX IF NOT EXISTS rate_limit_buckets_reset_at_idx ON rate_limit_buckets(reset_at)`)
+      await client.query(`CREATE INDEX IF NOT EXISTS audit_log_at_idx ON audit_log (at DESC)`)
     })
 
     console.log('PostgreSQL schema is ready.')

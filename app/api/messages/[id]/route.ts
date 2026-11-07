@@ -11,8 +11,8 @@ const MESSAGE_UPDATE_MAX_BYTES = 1024
 
 export async function PATCH(request: Request, { params }: Params) {
   return withErrorHandling(async () => {
-    const ip = await enforceRateLimit(request, 'admin:messages:update', 50, 10 * 60 * 1000)
     await assertAdminRequest(request)
+    const ip = await enforceRateLimit(request, 'admin:messages:update', 50, 10 * 60 * 1000)
     assertRequestContentType(request, ['application/json'])
     assertRequestBodySize(request, MESSAGE_UPDATE_MAX_BYTES)
 
@@ -27,13 +27,13 @@ export async function PATCH(request: Request, { params }: Params) {
 
     await writeAuditLog({ action: 'message.update', status: 'success', ip, target: id })
     return jsonOk(message)
-  })
+  }, 'messages.update-by-id')
 }
 
 export async function DELETE(request: Request, { params }: Params) {
   return withErrorHandling(async () => {
-    const ip = await enforceRateLimit(request, 'admin:messages:delete', 30, 10 * 60 * 1000)
     await assertAdminRequest(request)
+    const ip = await enforceRateLimit(request, 'admin:messages:delete', 30, 10 * 60 * 1000)
 
     const { id } = await params
     if (!isValidUuidRouteParam(id)) return jsonError(400, 'Geçersiz mesaj kimliği.')
@@ -45,5 +45,5 @@ export async function DELETE(request: Request, { params }: Params) {
 
     await writeAuditLog({ action: 'message.delete', status: 'success', ip, target: id })
     return jsonOk({ success: true })
-  })
+  }, 'messages.delete-by-id')
 }

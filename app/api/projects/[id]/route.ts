@@ -22,13 +22,13 @@ export async function GET(_: Request, { params }: Params) {
     }
 
     return jsonNoStore(project)
-  })
+  }, 'projects.get-by-id')
 }
 
 export async function PATCH(request: Request, { params }: Params) {
   return withErrorHandling(async () => {
-    const ip = await enforceRateLimit(request, 'admin:projects:update', 40, 10 * 60 * 1000)
     await assertAdminRequest(request)
+    const ip = await enforceRateLimit(request, 'admin:projects:update', 40, 10 * 60 * 1000)
     assertRequestContentType(request, ['application/json'])
     assertRequestBodySize(request, PROJECT_MUTATION_MAX_BYTES)
 
@@ -40,13 +40,13 @@ export async function PATCH(request: Request, { params }: Params) {
 
     await writeAuditLog({ action: 'project.update', status: 'success', ip, target: id })
     return jsonOk(project)
-  })
+  }, 'projects.update-by-id')
 }
 
 export async function DELETE(request: Request, { params }: Params) {
   return withErrorHandling(async () => {
-    const ip = await enforceRateLimit(request, 'admin:projects:delete', 15, 10 * 60 * 1000)
     await assertAdminRequest(request)
+    const ip = await enforceRateLimit(request, 'admin:projects:delete', 15, 10 * 60 * 1000)
 
     const { id } = await params
     if (!isValidUuidRouteParam(id)) return jsonError(400, 'Geçersiz proje kimliği.')
@@ -58,5 +58,5 @@ export async function DELETE(request: Request, { params }: Params) {
 
     await writeAuditLog({ action: 'project.delete', status: 'success', ip, target: id })
     return jsonOk({ success: true })
-  })
+  }, 'projects.delete-by-id')
 }

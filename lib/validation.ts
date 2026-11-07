@@ -1,8 +1,8 @@
 import { z } from 'zod'
-import { isCleanPublicPathUrl } from '@/lib/path-security'
-import { isYouTubeUrl } from '@/lib/youtube'
-import { containsUnsafeTextControl } from '@/lib/text-security-core'
-import { isAllowedSocialUrl } from '@/lib/external-url-security-core'
+import { isCleanPublicPathUrl } from './path-security.ts'
+import { isYouTubeUrl } from './youtube.ts'
+import { containsUnsafeTextControl } from './text-security-core.ts'
+import { isAllowedSocialUrl } from './external-url-security-core.ts'
 
 const MAX_PROJECT_TAGS = 12
 
@@ -199,6 +199,23 @@ export const storedAdminMessageSchema = z.object({
 
 export const storedMessagesSchema = z.array(storedAdminMessageSchema)
 export const storedSettingsSchema = settingsSchema
+
+export const storedEmailOutboxEntrySchema = z.object({
+  reference: z.string().min(1),
+  payload: z.object({
+    name: z.string(),
+    phone: z.string(),
+    email: z.string(),
+    subject: z.string(),
+    message: z.string(),
+  }),
+  error: z.string().max(500),
+  attempts: z.number().int().min(0),
+  lastAttemptAt: z.string().min(1).optional(),
+  createdAt: z.string().min(1),
+})
+
+export const storedEmailOutboxSchema = z.array(storedEmailOutboxEntrySchema)
 
 const fleetText = (min: number, max: number) =>
   z.string().trim().min(min).max(max).refine((value) => !/[<>]/.test(value), 'Güvenli olmayan karakterler kullanılamaz.').transform(normalizeString)

@@ -1,56 +1,125 @@
 import type { PoolClient } from 'pg'
-import { withDbTransaction, runQuery } from '@/lib/db'
-import { defaultSiteSettings } from '@/lib/file-defaults'
-import type { MessageRepository, ProjectRepository, SettingsRepository } from '@/lib/content-repository'
-import { storedMessagesSchema, storedProjectsSchema, storedSettingsSchema } from '@/lib/validation'
-import type { AdminMessage, Project, SiteSettings } from '@/lib/store'
+import { withDbTransaction, runQuery } from './db.ts'
+import { defaultSiteSettings } from './file-defaults.ts'
+import type { FleetRepository, MessageRepository, ProjectRepository, SettingsRepository, FleetContent } from './content-repository.ts'
+import { fleetContentSchema, storedMessagesSchema, storedProjectsSchema, storedSettingsSchema } from './validation.ts'
+import type { AdminMessage, Project, SiteSettings } from './store.ts'
 
-async function insertProjects(client: PoolClient, projects: Project[]) {
-  for (const project of projects) {
+const UPSERT_CHUNK_SIZE = 50
+
+function buildProjectValues(project: Project, values: unknown[], base: number) {
+  values.push(
+    project.id,
+    project.title,
+    project.slug,
+    project.summary,
+    project.description,
+    project.location,
+    project.category,
+    project.coverImage,
+    project.cardImage || null,
+    project.status,
+    project.featured,
+    JSON.stringify(project.tags),
+    JSON.stringify(project.media),
+    project.createdAt,
+    project.updatedAt,
+  )
+
+  return `($${base + 1}, $${base + 2}, $${base + 3}, $${base + 4}, $${base + 5}, $${base + 6}, $${base + 7}, $${base + 8}, $${base + 9}, $${base + 10}, $${base + 11}, $${base + 12}::jsonb, $${base + 13}::jsonb, $${base + 14}::timestamptz, $${base + 15}::timestamptz)`
+}
+
+// Chunked multi-row upsert. Chunks keep the generated SQL and parameter count
+// bounded for large project lists.
+async function upsertProjects(client: PoolClient, projects: Project[]) {
+  for (let offset = 0; offset < projects.length; offset += UPSERT_CHUNK_SIZE) {
+    const chunk = projects.slice(offset, offset + UPSERT_CHUNK_SIZE)
+    const values: unknown[] = []
+    const rows = chunk.map((project, index) => buildProjectValues(project, values, index * 15))
+
     await client.query(
       `
         INSERT INTO projects (
           id, title, slug, summary, description, location, category, cover_image, card_image,
           status, featured, tags, media, created_at, updated_at
         )
-        VALUES (
-          $1, $2, $3, $4, $5, $6, $7, $8, $9,
-          $10, $11, $12::jsonb, $13::jsonb, $14::timestamptz, $15::timestamptz
-        )
+        VALUES ${rows.join(', ')}
+        ON CONFLICT (id) DO UPDATE SET
+          title = EXCLUDED.title,
+          slug = EXCLUDED.slug,
+          summary = EXCLUDED.summary,
+          description = EXCLUDED.description,
+          location = EXCLUDED.location,
+          category = EXCLUDED.category,
+          cover_image = EXCLUDED.cover_image,
+          card_image = EXCLUDED.card_image,
+          status = EXCLUDED.status,
+          featured = EXCLUDED.featured,
+          tags = EXCLUDED.tags,
+          media = EXCLUDED.media,
+          created_at = EXCLUDED.created_at,
+          updated_at = EXCLUDED.updated_at
       `,
-      [
-        project.id,
-        project.title,
-        project.slug,
-        project.summary,
-        project.description,
-        project.location,
-        project.category,
-        project.coverImage,
-        project.cardImage || null,
-        project.status,
-        project.featured,
-        JSON.stringify(project.tags),
-        JSON.stringify(project.media),
-        project.createdAt,
-        project.updatedAt,
-      ],
+      values,
     )
   }
 }
 
-async function insertMessages(client: PoolClient, messages: AdminMessage[]) {
-  for (const message of messages) {
+function buildMessageValues(message: AdminMessage, values: unknown[], base: number) {
+  values.push(
+    message.id,
+    message.reference,
+    message.name,
+    message.phone,
+    message.email,
+    message.subject,
+    message.message,
+    message.isRead,
+    message.createdAt,
+  )
+
+  return `($${base + 1}, $${base + 2}, $${base + 3}, $${base + 4}, $${base + 5}, $${base + 6}, $${base + 7}, $${base + 8}, $${base + 9}::timestamptz)`
+}
+
+async function upsertMessages(client: PoolClient, messages: AdminMessage[]) {
+  for (let offset = 0; offset < messages.length; offset += UPSERT_CHUNK_SIZE) {
+    const chunk = messages.slice(offset, offset + UPSERT_CHUNK_SIZE)
+    const values: unknown[] = []
+    const rows = chunk.map((message, index) => buildMessageValues(message, values, index * 9))
+
     await client.query(
       `
         INSERT INTO messages (
           id, reference, name, phone, email, subject, message, is_read, created_at
         )
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9::timestamptz)
+        VALUES ${rows.join(', ')}
+        ON CONFLICT (id) DO UPDATE SET
+          reference = EXCLUDED.reference,
+          name = EXCLUDED.name,
+          phone = EXCLUDED.phone,
+          email = EXCLUDED.email,
+          subject = EXCLUDED.subject,
+          message = EXCLUDED.message,
+          is_read = EXCLUDED.is_read,
+          created_at = EXCLUDED.created_at
       `,
-      [message.id, message.reference, message.name, message.phone, message.email, message.subject, message.message, message.isRead, message.createdAt],
+      values,
     )
   }
+}
+
+// Removes rows whose id is no longer present in the normalized next state.
+// Runs before the upsert inside the same transaction, so the whole save is
+// atomic. Known theoretical limitation: a slug moved from a deleted row to a
+// different row can still collide with the UNIQUE constraint mid-rewrite;
+// services never generate slug swaps, so this is accepted and documented.
+async function deleteMissingRows(client: PoolClient, table: 'projects' | 'messages', keepIds: string[]) {
+  if (keepIds.length === 0) {
+    await client.query(`DELETE FROM ${table}`)
+    return
+  }
+
+  await client.query(`DELETE FROM ${table} WHERE id <> ALL($1::text[])`, [keepIds])
 }
 
 function mapProjectRow(row: Record<string, unknown>): Project {
@@ -99,6 +168,35 @@ function normalizeMessages(messages: AdminMessage[]) {
   }))
 }
 
+const defaultFleetContent: FleetContent = { stats: [], items: [] }
+
+export class PostgresFleetRepository implements FleetRepository {
+  async get() {
+    const result = await runQuery('SELECT content FROM fleet_content WHERE id = 1')
+
+    if (!result.rows[0]) {
+      return defaultFleetContent
+    }
+
+    return fleetContentSchema.parse(result.rows[0].content)
+  }
+
+  async save(content: FleetContent) {
+    const normalized = fleetContentSchema.parse(content)
+
+    await runQuery(
+      `
+        INSERT INTO fleet_content (id, content, updated_at)
+        VALUES (1, $1::jsonb, NOW())
+        ON CONFLICT (id) DO UPDATE SET
+          content = EXCLUDED.content,
+          updated_at = NOW()
+      `,
+      [JSON.stringify(normalized)],
+    )
+  }
+}
+
 export class PostgresProjectRepository implements ProjectRepository {
   async list() {
     const result = await runQuery(
@@ -117,8 +215,8 @@ export class PostgresProjectRepository implements ProjectRepository {
     const normalized = storedProjectsSchema.parse(projects)
 
     await withDbTransaction(async (client) => {
-      await client.query('DELETE FROM projects')
-      await insertProjects(client, normalized)
+      await deleteMissingRows(client, 'projects', normalized.map((project) => project.id))
+      await upsertProjects(client, normalized)
     })
   }
 
@@ -166,8 +264,8 @@ export class PostgresProjectRepository implements ProjectRepository {
       const next = await updater(currentProjects)
       const normalized = storedProjectsSchema.parse(next.projects)
 
-      await client.query('DELETE FROM projects')
-      await insertProjects(client, normalized)
+      await deleteMissingRows(client, 'projects', normalized.map((project) => project.id))
+      await upsertProjects(client, normalized)
       return next.result
     })
   }
@@ -190,8 +288,8 @@ export class PostgresMessageRepository implements MessageRepository {
     const normalized = normalizeMessages(messages)
 
     await withDbTransaction(async (client) => {
-      await client.query('DELETE FROM messages')
-      await insertMessages(client, normalized)
+      await deleteMissingRows(client, 'messages', normalized.map((message) => message.id))
+      await upsertMessages(client, normalized)
     })
   }
 
@@ -210,8 +308,8 @@ export class PostgresMessageRepository implements MessageRepository {
       const next = await updater(currentMessages)
       const normalized = normalizeMessages(next.messages)
 
-      await client.query('DELETE FROM messages')
-      await insertMessages(client, normalized)
+      await deleteMissingRows(client, 'messages', normalized.map((message) => message.id))
+      await upsertMessages(client, normalized)
       return next.result
     })
   }

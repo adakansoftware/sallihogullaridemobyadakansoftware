@@ -9,6 +9,8 @@ async function run() {
   process.env.ADMIN_SESSION_SECRET = process.env.ADMIN_SESSION_SECRET || '12345678901234567890123456789012'
   process.env.APP_ORIGIN = process.env.APP_ORIGIN || 'https://example.com'
   process.env.NEXT_PUBLIC_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com'
+  process.env.RESEND_API_KEY = process.env.RESEND_API_KEY || 're_dummy_api_key_0123456789abcdef'
+  process.env.RESEND_FROM = process.env.RESEND_FROM || 'onboarding@resend.dev'
 
   const { normalizeAdminNextTarget } = await import('../lib/admin-redirect.ts')
   const { getAdminCookieName } = await import('../lib/auth-shared.ts')
@@ -31,6 +33,12 @@ async function run() {
   const { isAllowedSocialUrl } = await import('../lib/external-url-security-core.ts')
   const { ApiError } = await import('../lib/api-error.ts')
   const { isCleanPublicPathUrl, isPathInside } = await import('../lib/path-security.ts')
+  const { serializeError } = await import('../lib/logger.ts')
+  const { env } = await import('../lib/env.ts')
+  const emailOutboxModule = await import('../lib/email-outbox.ts')
+  type EmailOutboxEntry = import('../lib/email-outbox.ts').EmailOutboxEntry
+  const { selectPendingOutboxEntries, MAX_OUTBOX_ATTEMPTS, OUTBOX_FLUSH_BATCH, OUTBOX_RETRY_AFTER_MS } = emailOutboxModule
+  const { getFleetRepository, getContentStoreDriver } = await import('../lib/content-repository.ts')
 
   const nextConfig = await import('../next.config.mjs')
   const configuredHeaders = await nextConfig.default.headers()
@@ -305,6 +313,50 @@ async function run() {
     ),
     false,
   )
+
+  const serializedError = serializeError(new Error('boom'))
+  assert.equal(serializedError.name, 'Error')
+  assert.equal(serializedError.message, 'boom')
+  assert.ok(typeof serializedError.stack === 'string')
+  const serializedNonError = serializeError('plain failure')
+  assert.equal(serializedNonError.name, 'NonError')
+  assert.equal(serializedNonError.message, 'plain failure')
+
+  assert.equal(env.RESEND_API_KEY, 're_dummy_api_key_0123456789abcdef')
+  assert.equal(env.RESEND_FROM, 'onboarding@resend.dev')
+
+  function outboxEntry(overrides: Partial<EmailOutboxEntry> = {}): EmailOutboxEntry {
+    return {
+      reference: 'TESTREF',
+      payload: { name: 'Test', phone: '', email: '', subject: 'Konu', message: 'Mesaj icerigi' },
+      error: 'delivery failed',
+      attempts: 0,
+      createdAt: new Date().toISOString(),
+      ...overrides,
+    }
+  }
+
+  const outboxNow = Date.now()
+  assert.deepEqual(
+    selectPendingOutboxEntries([outboxEntry()], outboxNow).map((entry) => entry.reference),
+    ['TESTREF'],
+  )
+  assert.equal(selectPendingOutboxEntries([outboxEntry({ attempts: 1, lastAttemptAt: new Date(outboxNow - 60 * 1000).toISOString() })], outboxNow).length, 0)
+  assert.equal(
+    selectPendingOutboxEntries([outboxEntry({ attempts: 1, lastAttemptAt: new Date(outboxNow - OUTBOX_RETRY_AFTER_MS - 60 * 1000).toISOString() })], outboxNow).length,
+    1,
+  )
+  assert.equal(selectPendingOutboxEntries([outboxEntry({ attempts: MAX_OUTBOX_ATTEMPTS })], outboxNow).length, 0)
+  assert.equal(
+    selectPendingOutboxEntries(
+      Array.from({ length: OUTBOX_FLUSH_BATCH + 2 }, (_, index) => outboxEntry({ reference: `REF${index}` })),
+      outboxNow,
+    ).length,
+    OUTBOX_FLUSH_BATCH,
+  )
+
+  assert.equal(getContentStoreDriver(), 'file')
+  assert.equal(getFleetRepository().constructor.name, 'FileFleetRepository')
 
   const tempDir = await mkdtemp(path.join(os.tmpdir(), 'sali-storage-test-'))
   const primaryFile = path.join(tempDir, 'projects.json')

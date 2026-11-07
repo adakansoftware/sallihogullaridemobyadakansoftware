@@ -11,8 +11,8 @@ const MEDIA_MUTATION_MAX_BYTES = 8 * 1024
 
 export async function POST(request: Request, { params }: Params) {
   return withErrorHandling(async () => {
-    const ip = await enforceRateLimit(request, 'admin:media:create', 30, 10 * 60 * 1000)
     await assertAdminRequest(request)
+    const ip = await enforceRateLimit(request, 'admin:media:create', 30, 10 * 60 * 1000)
     assertRequestContentType(request, ['application/json'])
     assertRequestBodySize(request, MEDIA_MUTATION_MAX_BYTES)
 
@@ -24,5 +24,5 @@ export async function POST(request: Request, { params }: Params) {
 
     await writeAuditLog({ action: 'media.attach', status: 'success', ip, target: id, detail: media.id })
     return jsonOk(media, { status: 201 })
-  })
+  }, 'projects.attach-media')
 }

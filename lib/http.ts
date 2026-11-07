@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { ZodError } from 'zod'
 import { ApiError } from '@/lib/api-error'
+import { logError } from '@/lib/logger'
 import { readRequestTextWithinLimit } from '@/lib/request-body-core'
 
 export { getClientIp } from '@/lib/client-ip'
@@ -61,12 +62,13 @@ export async function readJson<T>(request: Request, parser: { parse: (value: unk
   }
 }
 
-export function withErrorHandling(handler: () => Promise<NextResponse>) {
+export function withErrorHandling(handler: () => Promise<NextResponse>, routeContext?: string) {
   return handler().catch((error) => {
     if (error instanceof ApiError) {
       return jsonError(error.status, error.exposeMessage, { headers: error.headers })
     }
 
+    logError('unhandled-route-error', { route: routeContext, error })
     return jsonError(500, 'İşlem şu anda tamamlanamadı.')
   })
 }

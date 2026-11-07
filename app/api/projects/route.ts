@@ -15,13 +15,13 @@ export async function GET() {
     }
 
     return jsonNoStore(await listPublishedProjects())
-  })
+  }, 'projects.get')
 }
 
 export async function POST(request: Request) {
   return withErrorHandling(async () => {
-    const ip = await enforceRateLimit(request, 'admin:projects:create', 20, 10 * 60 * 1000)
     await assertAdminRequest(request)
+    const ip = await enforceRateLimit(request, 'admin:projects:create', 20, 10 * 60 * 1000)
     assertRequestContentType(request, ['application/json'])
     assertRequestBodySize(request, PROJECT_MUTATION_MAX_BYTES)
 
@@ -30,5 +30,5 @@ export async function POST(request: Request) {
 
     await writeAuditLog({ action: 'project.create', status: 'success', ip, target: project.id })
     return jsonOk(project, { status: 201 })
-  })
+  }, 'projects.post')
 }

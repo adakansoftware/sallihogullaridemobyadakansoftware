@@ -1,76 +1,18 @@
 import crypto from 'node:crypto'
-import { Resend } from 'resend'
 import { jsonOk, readJson, withErrorHandling, ApiError } from '@/lib/http'
 import { messageInputSchema } from '@/lib/validation'
 import { assertTrustedMutationRequest, enforceIdentifierRateLimit, enforceRateLimit } from '@/lib/security'
 import { assertRequestBodySize, assertRequestContentType } from '@/lib/request-guards'
 import { writeAuditLog } from '@/lib/audit'
 import { submitContactMessage } from '@/lib/message-service'
+import { logError } from '@/lib/logger'
+import { sendContactMail } from '@/lib/email'
+import { flushContactMailOutbox, queueContactMailFailure } from '@/lib/email-outbox'
 
 const CONTACT_REQUEST_MAX_BYTES = 8 * 1024
 
-function escapeHtml(value: string) {
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;')
-}
-
 function buildReference() {
   return crypto.randomUUID().split('-')[0]?.toUpperCase() || 'TLP'
-}
-
-function buildMailHtml(payload: { name: string; phone: string; email: string; subject: string; message: string }, reference: string) {
-  return `
-    <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #111827;">
-      <h2 style="margin-bottom: 16px;">Yeni Teklif / İletişim Talebi</h2>
-      <p><strong>Talep Referansı:</strong> ${escapeHtml(reference)}</p>
-      <p><strong>Ad Soyad:</strong> ${escapeHtml(payload.name)}</p>
-      <p><strong>Telefon:</strong> ${escapeHtml(payload.phone || '-')}</p>
-      <p><strong>E-posta:</strong> ${escapeHtml(payload.email || '-')}</p>
-      <p><strong>İş Kapsamı:</strong> ${escapeHtml(payload.subject)}</p>
-      <p><strong>Saha Bilgisi:</strong></p>
-      <div style="white-space: pre-wrap; border: 1px solid #e5e7eb; padding: 12px; border-radius: 8px;">${escapeHtml(payload.message)}</div>
-    </div>
-  `
-}
-
-function buildMailText(payload: { name: string; phone: string; email: string; subject: string; message: string }, reference: string) {
-  return [
-    'Yeni Teklif / İletişim Talebi',
-    `Talep Referansı: ${reference}`,
-    `Ad Soyad: ${payload.name}`,
-    `Telefon: ${payload.phone || '-'}`,
-    `E-posta: ${payload.email || '-'}`,
-    `İş Kapsamı: ${payload.subject}`,
-    'Saha Bilgisi:',
-    payload.message,
-  ].join('\n')
-}
-
-async function sendContactMail(payload: { name: string; phone: string; email: string; subject: string; message: string }, reference: string) {
-  const apiKey = process.env.RESEND_API_KEY?.trim()
-
-  if (!apiKey) {
-    if (process.env.NODE_ENV !== 'production') {
-      console.log('[mock-contact-email]', { to: 'teklif@salihogullari.com', reference, payload })
-      return
-    }
-
-    throw new ApiError(500, 'E-posta servisi şu anda yapılandırılmamış.')
-  }
-
-  const resend = new Resend(apiKey)
-  await resend.emails.send({
-    from: process.env.RESEND_FROM?.trim() || 'onboarding@resend.dev',
-    to: ['teklif@salihogullari.com'],
-    subject: `Yeni Talep: ${payload.subject}`,
-    html: buildMailHtml(payload, reference),
-    text: buildMailText(payload, reference),
-    replyTo: payload.email || undefined,
-  })
 }
 
 export async function POST(request: Request) {
@@ -101,7 +43,7 @@ export async function POST(request: Request) {
         throw error
       }
 
-      console.error('[contact-storage-warning]', error)
+      logError('contact-storage-failed', { error })
     }
 
     try {
@@ -110,8 +52,15 @@ export async function POST(request: Request) {
       // The submission is already persisted and visible under /admin/messages.
       // Email delivery is a best-effort notification, so a missing key or a
       // provider outage must not turn a stored submission into a user-facing
-      // failure.
-      console.error('[contact-email-warning]', error)
+      // failure. Queue it for retry instead of losing it.
+      logError('contact-email-failed', { error, reference })
+
+      try {
+        await queueContactMailFailure(payload, reference, error)
+        await flushContactMailOutbox()
+      } catch (outboxError) {
+        logError('contact-email-outbox-failed', { error: outboxError, reference })
+      }
     }
 
     await writeAuditLog({ action: 'contact.submit', status: 'success', ip, target })
@@ -124,5 +73,5 @@ export async function POST(request: Request) {
       },
       { status: 201 },
     )
-  })
+  }, 'contact.post')
 }

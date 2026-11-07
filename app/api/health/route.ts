@@ -69,5 +69,5 @@ export async function GET() {
       },
       { status: ready ? 200 : 503 },
     )
-  })
+  }, 'health.get')
 }

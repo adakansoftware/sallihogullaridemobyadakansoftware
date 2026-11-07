@@ -1,3 +1,15 @@
+// Imports file-mode runtime data into PostgreSQL.
+//
+// Default run: projects, messages, site settings and fleet content are
+// upserted (idempotent). The audit log is NOT touched.
+//
+// `--with-audit`: DESTRUCTIVE for audit_log — the table is emptied and
+// replaced with the contents of data/audit.log. Existing database audit
+// entries are lost. Use only for the initial file-to-db migration.
+
+import { promises as fs } from 'node:fs'
+import path from 'node:path'
+import type { Pool } from 'pg'
 import { createPool, loadLocalEnv, readJsonFile, withTransaction } from './helpers.ts'
 
 type Project = {
@@ -52,15 +64,84 @@ function ensureReference(message: Message) {
   return message.reference || message.id.slice(0, 8).toUpperCase()
 }
 
+type FleetContent = {
+  stats: unknown[]
+  items: unknown[]
+}
+
+type AuditEntry = {
+  at: string
+  action: string
+  status: 'success' | 'failure' | 'rejected'
+  ip?: string
+  target?: string
+  detail?: string
+}
+
+function isAuditEntry(value: unknown): value is AuditEntry {
+  if (!value || typeof value !== 'object') return false
+  const candidate = value as Record<string, unknown>
+  return (
+    typeof candidate.at === 'string' &&
+    typeof candidate.action === 'string' &&
+    (candidate.status === 'success' || candidate.status === 'failure' || candidate.status === 'rejected')
+  )
+}
+
+async function importAuditLog(pool: Pool) {
+  const auditFile = path.join(process.cwd(), 'data', 'audit.log')
+  const raw = await fs.readFile(auditFile, 'utf8').catch(() => '')
+
+  const entries = raw
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      try {
+        return JSON.parse(line)
+      } catch {
+        return null
+      }
+    })
+    .filter(isAuditEntry)
+
+  if (entries.length === 0) {
+    console.log('No audit entries found in data/audit.log; audit_log left untouched.')
+    return
+  }
+
+  await withTransaction(pool, async (client) => {
+    await client.query('DELETE FROM audit_log')
+
+    for (let offset = 0; offset < entries.length; offset += 200) {
+      const chunk = entries.slice(offset, offset + 200)
+      const values: unknown[] = []
+      const rows = chunk.map((entry, index) => {
+        const base = index * 6
+        values.push(entry.at, entry.action, entry.status, entry.ip || null, entry.target || null, entry.detail || null)
+        return `($${base + 1}::timestamptz, $${base + 2}, $${base + 3}, $${base + 4}, $${base + 5}, $${base + 6})`
+      })
+
+      await client.query(
+        `INSERT INTO audit_log (at, action, status, ip, target, detail) VALUES ${rows.join(', ')}`,
+        values,
+      )
+    }
+  })
+
+  console.log(`Imported ${entries.length} audit entries into audit_log (--with-audit; previous rows were deleted).`)
+}
+
 async function main() {
   await loadLocalEnv()
   const pool = createPool()
 
   try {
-    const [projects, messages, settings] = await Promise.all([
+    const [projects, messages, settings, fleet] = await Promise.all([
       readJsonFile<Project[]>('data/projects.json'),
       readJsonFile<Message[]>('data/messages.json'),
       readJsonFile<SiteSettings>('data/settings.json'),
+      readJsonFile<FleetContent>('data/fleet.json'),
     ])
 
     await withTransaction(pool, async (client) => {
@@ -158,9 +239,24 @@ async function main() {
           settings.quoteNotice,
         ],
       )
+
+      await client.query(
+        `
+          INSERT INTO fleet_content (id, content, updated_at)
+          VALUES (1, $1::jsonb, NOW())
+          ON CONFLICT (id) DO UPDATE SET
+            content = EXCLUDED.content,
+            updated_at = NOW()
+        `,
+        [JSON.stringify(fleet)],
+      )
     })
 
-    console.log(`Imported ${projects.length} projects, ${messages.length} messages, and site settings into PostgreSQL.`)
+    if (process.argv.includes('--with-audit')) {
+      await importAuditLog(pool)
+    }
+
+    console.log(`Imported ${projects.length} projects, ${messages.length} messages, site settings, and fleet content into PostgreSQL.`)
   } finally {
     await pool.end()
   }

@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import { getComparableOrigin } from '@/lib/origin'
-import { isValidPasswordHashFormat } from '@/lib/password-hash'
+import { getComparableOrigin } from './origin.ts'
+import { isValidPasswordHashFormat } from './password-hash.ts'
 
 const envSchema = z
   .object({
@@ -15,6 +15,8 @@ const envSchema = z
     APP_ORIGIN: z.string().trim().url('APP_ORIGIN geçerli bir URL olmalıdır.').optional(),
     NEXT_PUBLIC_SITE_URL: z.string().trim().url('NEXT_PUBLIC_SITE_URL geçerli bir URL olmalıdır.').optional(),
     GOOGLE_SITE_VERIFICATION: z.string().trim().optional(),
+    RESEND_API_KEY: z.string().trim().min(20, 'RESEND_API_KEY çok kısa görünüyor.').optional(),
+    RESEND_FROM: z.string().trim().email('RESEND_FROM geçerli bir e-posta olmalıdır.').optional(),
   })
   .superRefine((value, ctx) => {
     if (!value.ADMIN_PASSWORD && !value.ADMIN_PASSWORD_HASH) {
@@ -75,6 +77,8 @@ const parsedEnv = envSchema.safeParse({
   APP_ORIGIN: process.env.APP_ORIGIN,
   NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
   GOOGLE_SITE_VERIFICATION: process.env.GOOGLE_SITE_VERIFICATION,
+  RESEND_API_KEY: process.env.RESEND_API_KEY,
+  RESEND_FROM: process.env.RESEND_FROM,
 })
 
 if (!parsedEnv.success) {

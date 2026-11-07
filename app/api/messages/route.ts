@@ -11,7 +11,7 @@ export async function GET(request: Request) {
   return withErrorHandling(async () => {
     await assertAdminRequest(request)
     return jsonNoStore(await listAdminMessages())
-  })
+  }, 'messages.get')
 }
 
 export async function POST(request: Request) {
@@ -37,5 +37,5 @@ export async function POST(request: Request) {
 
     await writeAuditLog({ action: 'contact.submit', status: 'success', ip, target: item.id })
     return jsonOk({ success: true, message: 'Talebiniz başarıyla alındı.', reference: item.reference }, { status: 201 })
-  })
+  }, 'messages.post')
 }

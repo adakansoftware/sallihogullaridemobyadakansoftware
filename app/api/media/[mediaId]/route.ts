@@ -11,8 +11,8 @@ const MEDIA_UPDATE_MAX_BYTES = 4 * 1024
 
 export async function DELETE(request: Request, { params }: Params) {
   return withErrorHandling(async () => {
-    const ip = await enforceRateLimit(request, 'admin:media:delete', 30, 10 * 60 * 1000)
     await assertAdminRequest(request)
+    const ip = await enforceRateLimit(request, 'admin:media:delete', 30, 10 * 60 * 1000)
 
     const { mediaId } = await params
     if (!isValidUuidRouteParam(mediaId)) return jsonError(400, 'Geçersiz medya kimliği.')
@@ -24,13 +24,13 @@ export async function DELETE(request: Request, { params }: Params) {
 
     await writeAuditLog({ action: 'media.delete', status: 'success', ip, target: mediaId })
     return jsonOk({ success: true })
-  })
+  }, 'media.delete')
 }
 
 export async function PATCH(request: Request, { params }: Params) {
   return withErrorHandling(async () => {
-    const ip = await enforceRateLimit(request, 'admin:media:update', 40, 10 * 60 * 1000)
     await assertAdminRequest(request)
+    const ip = await enforceRateLimit(request, 'admin:media:update', 40, 10 * 60 * 1000)
     assertRequestContentType(request, ['application/json'])
     assertRequestBodySize(request, MEDIA_UPDATE_MAX_BYTES)
 
@@ -45,5 +45,5 @@ export async function PATCH(request: Request, { params }: Params) {
 
     await writeAuditLog({ action: 'media.update', status: 'success', ip, target: mediaId })
     return jsonOk(updated)
-  })
+  }, 'media.update')
 }

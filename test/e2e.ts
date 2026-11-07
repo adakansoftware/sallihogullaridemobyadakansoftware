@@ -8,6 +8,7 @@
 
 import { spawn } from 'node:child_process'
 import { existsSync } from 'node:fs'
+import { readFile, writeFile } from 'node:fs/promises'
 import assert from 'node:assert/strict'
 import path from 'node:path'
 import process from 'node:process'
@@ -192,6 +193,28 @@ async function deleteMessageByReference(reference?: string) {
   if (deleted.ok) step(`cleanup: test message removed (${match.id})`)
 }
 
+async function cleanupContactOutbox(reference?: string) {
+  if (!reference) return
+
+  const outboxPath = path.join(process.cwd(), 'data', 'email-outbox.json')
+  let entries: unknown
+  try {
+    entries = JSON.parse(await readFile(outboxPath, 'utf8'))
+  } catch {
+    return
+  }
+
+  if (!Array.isArray(entries)) return
+  const next = entries.filter((entry) => {
+    if (!entry || typeof entry !== 'object') return false
+    return (entry as { reference?: string }).reference !== reference
+  })
+
+  if (next.length === entries.length) return
+  await writeFile(outboxPath, JSON.stringify(next, null, 2), 'utf8')
+  step(`cleanup: outbox entry removed (${reference})`)
+}
+
 async function verifyPublicPages() {
   const home = await request('/')
   assert.equal(home.status, 200)
@@ -299,6 +322,17 @@ async function verifyContactFlow() {
   contactReference = result.reference
   step('contact submission accepted')
 
+  // The E2E server runs in production mode without a RESEND_API_KEY, so the
+  // notification fails and must land in the persistent outbox instead of
+  // being lost.
+  const outboxPath = path.join(process.cwd(), 'data', 'email-outbox.json')
+  const outboxEntries = JSON.parse(await readFile(outboxPath, 'utf8')) as Array<{ reference: string }>
+  assert.ok(
+    outboxEntries.some((entry) => entry.reference === result.reference),
+    'failed contact mail should be queued in the email outbox',
+  )
+  step('contact email failure queued in outbox')
+
   const duplicate = await postJson('/api/contact', CONTACT_PAYLOAD)
   assert.equal(duplicate.status, 429)
   step('duplicate contact submission rate limited')
@@ -319,6 +353,36 @@ async function verifyMessageLifecycle(reference: string) {
   const read = await patchJson(`/api/messages/${match.id}`, { isRead: true }, { cookie: adminCookie })
   assert.equal(read.status, 200)
   step('message read state updated')
+}
+
+async function verifyFleetApi() {
+  const fetched = await request('/api/fleet', { headers: { cookie: adminCookie, origin: ORIGIN } })
+  assert.equal(fetched.status, 200)
+  const content = (await fetched.json()) as { stats: unknown[]; items: unknown[] }
+  assert.ok(Array.isArray(content.items))
+  step('fleet content fetched by admin')
+
+  const updated = await patchJson('/api/fleet', content, { cookie: adminCookie })
+  assert.equal(updated.status, 200)
+  step('fleet content round-trip update accepted')
+}
+
+async function verifyAdminRateLimitIsolation() {
+  // Anonymous mutations must be rejected by the admin check before the
+  // shared rate-limit bucket is touched, so an anonymous flood cannot lock
+  // the admin out of their own budget.
+  for (let attempt = 0; attempt < 25; attempt += 1) {
+    const response = await patchJson('/api/settings', { companyName: 'nope' })
+    assert.equal(response.status, 401)
+  }
+  step('anonymous settings mutations rejected without consuming admin rate budget')
+
+  const current = await request('/api/settings', { headers: { cookie: adminCookie, origin: ORIGIN } })
+  assert.equal(current.status, 200)
+  const settings = await current.json()
+  const updated = await patchJson('/api/settings', settings, { cookie: adminCookie })
+  assert.equal(updated.status, 200)
+  step('authenticated settings mutation still allowed after anonymous flood')
 }
 
 async function verifyLoginRateLimit() {
@@ -350,6 +414,9 @@ async function run() {
       await verifyMessageLifecycle(contactReference)
     }
 
+    await verifyFleetApi()
+    await verifyAdminRateLimitIsolation()
+
     await verifyLoginRateLimit()
 
     const health = await request('/api/health')
@@ -360,6 +427,7 @@ async function run() {
   } finally {
     await deleteProjectIfExists(createdProjectId)
     await deleteMessageByReference(contactReference)
+    await cleanupContactOutbox(contactReference)
     await stopServer()
   }
 }

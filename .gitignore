@@ -25,4 +25,5 @@ tsconfig.tsbuildinfo
 data/audit.log
 data/messages.json
 data/rate-limit.json
+data/email-outbox.json
 data/*.bak

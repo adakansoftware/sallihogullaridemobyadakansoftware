@@ -40,5 +40,5 @@ export async function POST(request: Request) {
     })
 
     return jsonNoStore({ success: true })
-  })
+  }, 'auth.login.post')
 }
